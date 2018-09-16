@@ -1,3 +1,12 @@
+/**
+*    @file tensorcomponentindexpredicates.hpp
+*    @brief boolean functions that take a TensorRankNComponentIndex<N> that
+* can be used in assertions or control program flow
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef MPC_TENSORCOMPONENTINDEXPREDICATES_H
 #define MPC_TENSORCOMPONENTINDEXPREDICATES_H
 
@@ -8,7 +17,7 @@
 
 namespace mpc {
 namespace core {
-    
+
 //==============================================================================
 // COMPILE TIME EQUIVALENTS
 // tensor rank 2
@@ -36,7 +45,7 @@ constexpr inline bool CComponentIndexIsAlias() {
 }
 
 //==============================================================================
-// tensor rank 4 : TRICLINIC ONLY, not very useful really... 
+// tensor rank 4 : TRICLINIC ONLY, not very useful really...
 template <int I, int J, int K, int L>
 constexpr inline bool CComponentIndexHasAlias(const mpc::core::CTensorRank4ComponentIndex<I,J,K,L>& indexn) {
     //return (mpc::core::CTensorRank4IndexNumberOfAliases<I,J,K,L>() > 1) ? true : false;
@@ -85,15 +94,15 @@ constexpr inline bool CComponentIndexIsAlias() {
     bool b7 = (I==S && J==R && K==Q && L==P) ? true : false;
 
     return (b0 || b1 || b2 || b3 || b4 || b5 || b6 || b7) ? true : false;
-    
+
     // this is dumb.  only (0,0,0,0), (1,1,1,1), and (2,2,2,2) do not have an alias. Do we really need to test this?
 }
 
 // ====================================================================================
 // ====================================================================================
 // ====================================================================================
-    
-    
+
+
 // tensor rank 2
 constexpr inline bool TensorRank2ComponentIndexHasAlias(const mpc::core::TensorRank2ComponentIndex& indexn) {
     //
@@ -108,10 +117,10 @@ constexpr inline bool TensorRank2ComponentIndexIsAlias(const mpc::core::TensorRa
 
 // ====================================================================================
 // tensor rank 4
-//     unlike the C* version above that is really pretty useless, these predicates take symmetry into account 
+//     unlike the C* version above that is really pretty useless, these predicates take symmetry into account
 
 template <typename S=mpc::core::NoneSymmetryGroupType>
-inline bool TensorRank4ComponentIndexHasAlias(const mpc::core::TensorRank4ComponentIndex& indexn) { 
+inline bool TensorRank4ComponentIndexHasAlias(const mpc::core::TensorRank4ComponentIndex& indexn) {
     static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
     // if there is no symmetry, there are no aliased components
     return false;
@@ -191,18 +200,18 @@ inline bool TensorRank4ComponentIndexIsAlias(const mpc::core::TensorRank4Compone
              const mpc::core::TensorRank4ComponentIndex& indexb) {
     static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
     // determines if indexa is an alias of indexb
-    
-    // by convention, mpc chooses to label an two indices that are equivalent as NOT being aliases.  This follows the convention of "HasAlias"; if a 
-    //     component index of a tensor is only represented once, it does not have an alias.  For example 
+
+    // by convention, mpc chooses to label an two indices that are equivalent as NOT being aliases.  This follows the convention of "HasAlias"; if a
+    //     component index of a tensor is only represented once, it does not have an alias.  For example
     //     TensorRank4ComponentIndex(0,0,0,0) for TriclinicSymmetryGroupType does not have an alias and therefore it cannot be an alias of itself.
     if (indexa == indexb) { return false; }
-    
+
     // if neither index has an alias, they cannot be aliases of each other.
     const bool indexa_has_alias = mpc::core::TensorRank4ComponentIndexHasAlias<S>(indexa);
     const bool indexb_has_alias = mpc::core::TensorRank4ComponentIndexHasAlias<S>(indexb);
     if (!indexa_has_alias || !indexb_has_alias) { return false; }
-    
-    
+
+
     mpc::core::TensorRank4ComponentIndex a_reduced = mpc::core::ReducedTensorRank4ComponentIndex<S>(indexa);
     mpc::core::TensorRank4ComponentIndex b_reduced = mpc::core::ReducedTensorRank4ComponentIndex<S>(indexb);
     // FOR DEBUG std::cout << "    a_reduced : " << a_reduced << ", b_reduced : " << b_reduced << std::endl;

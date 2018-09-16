@@ -1,7 +1,11 @@
 /**
- *  mpc - mechanical properties of crystals
- *  Description ...
- */
+*    @file transformerhelperproduct.hpp
+*    @brief specialized function objects that calculate the product
+* of the transformation tensors in the transformer function object
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
 
 #ifndef MPC_TRANSFORMER_HELPER_PRODUCT_H
 #define MPC_TRANSFORMER_HELPER_PRODUCT_H

@@ -1,3 +1,12 @@
+/**
+*    @file magnitude.hpp
+*    @brief simple function for claculating the magnitude, i.e. the
+* square root of the sum of the squares, of a one-dimensional array
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef MPC_MAGNITUDE_H
 #define MPC_MAGNITUDE_H
 
@@ -5,10 +14,10 @@
 #include <blitz/array.h>
 
 // mpc
-#include "../util/accumulator.hpp"
+#include "accumulator.hpp"
 
 namespace mpc {
-namespace linsys {
+namespace util {
 
 template <typename T>
 static T Magnitude(blitz::Array<T,1>& input_array) {
@@ -26,7 +35,7 @@ static T Magnitude(blitz::Array<T,1>& input_array) {
 
 }
 
-} // namespace linsys
+} // namespace util
 } // namespace mpc
 
 #endif // MPC_MAGNITUDE_H

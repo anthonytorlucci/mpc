@@ -1,3 +1,13 @@
+/**
+*    @file symmetrygrouptypes.hpp
+*    @brief classes that describe the different symmetry groups supported
+* by mpc as types used for template specializations
+*    
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef MPC_SYMMETRYENUMERATION_H
 #define MPC_SYMMETRYENUMERATION_H
 
@@ -63,7 +73,7 @@ struct SymmetryGroupEnumerationInterface {
 //        default:
 //            return "unknown";
         }
-    
+
         return std::string();
     }
 };

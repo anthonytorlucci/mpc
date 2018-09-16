@@ -1,3 +1,12 @@
+/**
+*    @file mineraldatatensors.hpp
+*    @brief functions that return stiffness tensor objects from the
+* mineral data properties 
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef MINERALDATATENSORSANDMATRICES_H
 #define MINERALDATATENSORSANDMATRICES_H
 
@@ -67,7 +76,7 @@ mpc::core::StiffnessTensor<T> AlbiteStiffnessTensor() {
     };
     stiffness_tensor.template SetComponentsWithSymmetry<mpc::core::MonoclinicX2SymmetryGroupType>(tmp_set);  //https://stackoverflow.com/questions/3786360/confusing-template-error
     return stiffness_tensor;
-   
+
 }
 
 // Anorthite

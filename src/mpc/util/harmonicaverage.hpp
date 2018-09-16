@@ -1,7 +1,13 @@
 /**
- *  mpc - mechanical properties of crystals
- * Description ...
- */
+*    @file harmonicaverage.hpp
+*    @brief function object for calculating the weighted harmonic
+* (non-linear) average of two std::std::vector's; the "values" can be
+* blitz arrays or plain numeric values while the second argument "weights" is
+* a vector of numeric values.
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
 
 #ifndef MPC_HARMONIC_AVERAGE_H
 #define MPC_HARMONIC_AVERAGE_H
@@ -11,10 +17,6 @@
 
 // blitz++
 #include <blitz/array.h>
-
-// TODO: This file provides a template function object for calculating the weighted harmonic (non-linear)
-// TODO: average of two std::vectors; the "values" can be blitz arrays or plain numeric values while
-// TODO: the second argument "weights" is a vector of numeric values.
 
 namespace mpc {
 namespace util {

@@ -1,3 +1,13 @@
+/**
+*    @file tensorinvariants.hpp
+*    @brief tensor invariants - reduction in tensor rank by contraction,
+* usually to a rank zero tensor or scalar; for stiffness and compliance
+* tensors, the bulk and shear modulii can be derived from the invariants 
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef MPC_TENSORINVARIANTS_H
 #define MPC_TENSORINVARIANTS_H
 
@@ -14,7 +24,7 @@
 
 namespace mpc {
 namespace core {
-    
+
 // based on DeWit (2008)
 template <typename T>
 std::pair<T,T> GetVoigtBulkAndShearModulusFromStiffnessTensor(mpc::core::StiffnessTensor<T>& c) {
@@ -47,10 +57,10 @@ std::pair<T,T> GetRuessBulkAndShearModulusFromCompliance(mpc::core::ComplianceTe
             mu_r += two_fifths * (s.tensor(i,j,i,j) - (one_third * s.tensor(i,i,j,j)));
         }
     }
-        
+
     return std::pair<T,T>{T(1.0 / k_r),T(1.0 / mu_r)};
 }
-    
+
 template <typename T>
 void MakeIsotropicStiffnessTensor(T kappa, T mu, mpc::core::StiffnessTensor<T>& c) {
     static_assert(std::is_arithmetic<T>::value, "Type T must be arithmetic");
@@ -98,11 +108,10 @@ void MakeIsotropicComplianceTensor(T kappa, T mu, mpc::core::ComplianceTensor<T>
         }
     }
 }
-    
+
 // based on Helbig (1994)
 
 }  // namespace core
 }  // namespace mpc
 
 #endif // MPC_TENSORINVARIANTS_H
-

@@ -1,3 +1,12 @@
+/**
+*    @file tensorcomponent.hpp
+*    @brief structure that defines a tensor component
+*    
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef MPC_TENSORCOMPONENT_H
 #define MPC_TENSORCOMPONENT_H
 
@@ -19,7 +28,7 @@ namespace core {
 template <typename T, int N>
 class TensorRankNComponent {
     using type = T;
-    
+
     T value_;                             // NOTE: the api has changed.  this is no longer const
     TensorRankNComponentIndex<N> index_;  // NOTE: the api has changed.  this is no longer const
 
@@ -31,7 +40,7 @@ public:
     // accessor
     constexpr T Value() const { return value_; }
     constexpr TensorRankNComponentIndex<N> Index() const { return index_; }
-    
+
     // mutator
     inline void Value(T val) { value_ = val; }
     inline void Index(mpc::core::TensorRank4ComponentIndex index) { index_ = index; }
@@ -56,17 +65,17 @@ public:
         if (this->index_ == rhs.index_ || this->value_ == rhs.value_) { return false; }
         return true;
     }
-    
+
     inline bool operator<=(const TensorRankNComponent<T,N>& rhs) const {
         if(this->index_ <= rhs.Index()) { return true; }
         return false;
     }
-    
+
     inline bool operator>=(const TensorRankNComponent<T,N>& rhs) const {
         if(this->index_ >= rhs.Index()) { return true; }
         return false;
     }
-    
+
 
     friend std::ostream& operator<<( std::ostream& os, const TensorRankNComponent& t ) {
         // can access the enclosing Test. If T is int, it cannot access Test<double>

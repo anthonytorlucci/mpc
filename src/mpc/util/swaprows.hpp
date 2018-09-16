@@ -1,3 +1,11 @@
+/**
+*    @file swaprows.hpp
+*    @brief utility function to swap rows of a two-dimensional blitz array
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef MPC_SWAPROWS_H
 #define MPC_SWAPROWS_H
 
@@ -5,7 +13,7 @@
 #include <blitz/array.h>
 
 namespace mpc {
-namespace linsys {
+namespace util {
 
 template <typename T>
 void SwapRows(blitz::Array<T,2>& a, int r1, int r2)
@@ -17,7 +25,7 @@ void SwapRows(blitz::Array<T,2>& a, int r1, int r2)
     for (int c=0; c<ncols; ++c) { std::swap<T>(a(r1,c), a(r2,c)); }
 }
 
-} // namespace linsys
+} // namespace util
 } // namespace mpc
 
 #endif // MPC_SWAPROWS_H

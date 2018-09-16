@@ -1,3 +1,13 @@
+/**
+*    @file greenchristoffel.hpp
+*    @brief class used for calculating the velocities using the
+* Green-Christoffel equation; currently only phase velocities are generated
+* and particle dispalcement is not yet implemented
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef MPC_GREENCHRISTOFFEL_H
 #define MPC_GREENCHRISTOFFEL_H
 
@@ -41,7 +51,7 @@ struct GreenChristoffel {
         tensor = T(0.0);
     }
 
-   
+
     void SetComponents(const mpc::core::StiffnessTensor<T>& cijkl, blitz::Array<T,1>& n) {
         // gamma_ik = cijkl * nj * nl
         // TODO: assert shape(n)  = 3
@@ -61,7 +71,7 @@ struct GreenChristoffel {
 
     std::array<T,3> PhaseVelocities(T density) {
         // TODO: assert tensor is not all zero components
-        
+
         Eigen::Matrix<T,3,3> gctensor = mpc::util::Blitz2Eigen<T,3,3,2>(tensor);
         //std::cout << gctensor << std::endl;
         //Eigen::SelfAdjointEigenSolver< Eigen::Matrix<T,3,3> > eigensolver(gctensor);
@@ -70,10 +80,10 @@ struct GreenChristoffel {
         //std::cout << vels << std::endl;
         T pvel0 = std::sqrt(rho_vel_squared(0).real()) / density;
         T pvel1 = std::sqrt(rho_vel_squared(1).real()) / density;
-        T pvel2 = std::sqrt(rho_vel_squared(2).real()) / density;        
+        T pvel2 = std::sqrt(rho_vel_squared(2).real()) / density;
         std::array<T,3> pvels{pvel0, pvel1, pvel2};
         return pvels;
-        
+
     }
 
 };

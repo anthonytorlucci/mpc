@@ -1,3 +1,12 @@
+/**
+*    @file matrixnotation.hpp
+*    @brief helper functions for working with voigt matrix notation rather
+* than the complete tensor  
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef MPC_MATRIXNOTATION_H
 #define MPC_MATRIXNOTATION_H
 
@@ -60,35 +69,35 @@ constexpr inline int CGetVoigtMatrixIndex<2,2>() { return 2; }
 // //// 0,0
 // template <int P=0, int Q=0>
 // static constexpr int CVoigtMatrixIndex = 0;
-// 
+//
 // //// 0,1
 // template <>
 // static constexpr int CVoigtMatrixIndex<0,1> = 5;
-// 
+//
 // //// 0,2
 // template <>
 // static constexpr int CVoigtMatrixIndex<0,2> = 4;
-// 
+//
 // //// 1,0
 // template <>
 // static constexpr int CVoigtMatrixIndex<1,0> = 5;
-// 
+//
 // //// 1,1
 // template <>
 // static constexpr int CVoigtMatrixIndex<1,1> = 1;
-// 
+//
 // //// 1,2
 // template <>
 // static constexpr int CVoigtMatrixIndex<1,2> = 3;
-// 
+//
 // //// 2,0
 // template <>
 // static constexpr int CVoigtMatrixIndex<2,0>= 4;
-// 
+//
 // //// 2,1
 // template <>
 // static constexpr int CVoigtMatrixIndex<2,1> = 3;
-// 
+//
 // //// 2,2
 // template <>
 // static constexpr int CVoigtMatrixIndex<2,2> = 2;
@@ -148,11 +157,11 @@ constexpr inline int CGetSecondIndexFromVoigtMatrix<5>() { return 1; }
 
 // as a constexpr value
 
-    
+
 // =============================================================================
 // =============================================================================
 // =============================================================================
-    
+
 // Tsvankin, 2001
 inline
 int GetVoigtMatrixIndex(int ibase0, int jbase0) {

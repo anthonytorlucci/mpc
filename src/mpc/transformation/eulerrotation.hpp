@@ -1,7 +1,11 @@
 /**
- *  mpc - mechanical properties of crystals
- *  Description ...
- */
+*    @file eulerrotation.hpp
+*    @brief function object that outputs a transformation tensor based on 3
+* input Euler angles
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
 
 #ifndef MPC_EULERROTATION_H
 #define MPC_EULERROTATION_H
@@ -11,13 +15,8 @@
 // blitz
 #include <blitz/array.h>
 
-// TODO: This file implements a template function object that outputs a rotation tensor
-// TODO: based on 3 Euler angles (Bunge, 1982)
-
 namespace mpc {
 namespace transformation {
-
-
 
 template <typename T>
 struct EulerRotationX3X1X3 {

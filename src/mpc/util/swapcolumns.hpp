@@ -1,3 +1,11 @@
+/**
+*    @file swapcolumns.hpp
+*    @brief utility function to swap columns of a two-dimensional blitz array
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef MPC_SWAPCOLUMNS_H
 #define MPC_SWAPCOLUMNS_H
 

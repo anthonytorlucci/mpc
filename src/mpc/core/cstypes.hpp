@@ -1,3 +1,12 @@
+/**
+*    @file cstypes.hpp
+*    @brief stiffness and compliance sructs used as types for template specializations
+*    
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef MPC_CSENUMERATION_H
 #define MPC_CSENUMERATION_H
 
@@ -27,7 +36,7 @@ struct CSEnumerationInterface {
         case CSEnumeration::COMPLIANCE:
             return "compliance";
         }
-    
+
         return std::string();
     }
 };

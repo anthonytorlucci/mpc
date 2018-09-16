@@ -1,7 +1,11 @@
 /**
- *  mpc - mechanical properties of crystals
- * Description ...
- */
+*    @file innerproductor.hpp
+*    @brief function object for calculating the inner product of two
+* blitz arrays
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
 
 #ifndef MPC_INNERPRODUCTOR_H
 #define MPC_INNERPRODUCTOR_H
@@ -14,8 +18,6 @@
 
 // mpc
 #include "constants.hpp"
-
-// TODO: This file provides a template function object for calculating the inner product of two arrays
 
 namespace mpc {
 namespace util {

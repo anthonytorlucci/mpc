@@ -1,3 +1,12 @@
+/**
+*    @file hookeslaw.hpp
+*    @brief functions and corresponding functions objects for getting the
+* stress or strain tensor from the linear form of Hooke's Law
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef HOOKESLAW_H
 #define HOOKESLAW_H
 
@@ -15,7 +24,7 @@ namespace mech {
 // polymorphic template function object to calculate stress, strain, stiffness, or compliance
 // based on the linear form of Hooke's Law for infintesimal strain
 template <typename T, typename CS>
-struct HookesLawFunctionObject { /* specialized for stiffness and compliance types*/ 
+struct HookesLawFunctionObject { /* specialized for stiffness and compliance types*/
     static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
     //--static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
     static_assert(std::is_base_of<mpc::core::CSBase,CS>::value, "CS must be derived from mpc::core::CSBase.");
@@ -26,7 +35,7 @@ struct HookesLawFunctionObject<T,mpc::core::StiffnessType> {
     static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
     //--static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
     //static_assert(std::is_base_of<mpc::core::CSBase,CS>::value, "CS must be derived from mpc::core::CSBase.");
-    
+
     mpc::core::StressTensor<T> operator()(
         mpc::core::StiffnessTensor<T>& stiffness,
         mpc::core::StrainTensor<T>& strain) {
@@ -54,7 +63,7 @@ struct HookesLawFunctionObject<T,mpc::core::ComplianceType> {
     static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
     //--static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
     //static_assert(std::is_base_of<mpc::core::CSBase,CS>::value, "CS must be derived from mpc::core::CSBase.");
-    
+
     mpc::core::StrainTensor<T> operator ()(
            mpc::core::ComplianceTensor<T>& compliance,
            mpc::core::StressTensor<T>& stress) {

@@ -1,3 +1,13 @@
+/**
+*    @file stiffnesscompliance.hpp
+*    @brief stiffness and compliance tensor classes; part of the core
+* data structures
+*    
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef MPC_STIFFNESSCOMPLIANCE_H
 #define MPC_STIFFNESSCOMPLIANCE_H
 
@@ -41,7 +51,7 @@ struct StiffnessTensor : TensorRank4Base<T> {
         static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
         // TODO: assert IsComponentSetSymmetryCompliant<>()...
         mpc::core::TensorRank4SymmetryComponents<T,mpc::core::StiffnessType,S>(components);
-        
+
         // if S is NoneSymmetryType, assign components to tensor
         if (S::SymmetryGroupEnum() == mpc::core::SymmetryGroupEnumeration::NONE) {
             for (auto c : components) {
@@ -53,19 +63,19 @@ struct StiffnessTensor : TensorRank4Base<T> {
         // else, the type is one of symmetry, thus use matrix notation
         else {
             blitz::Array<T,2> mat = blitz::Array<T,2>(6,6,blitz::ColumnMajorArray<2>());
-            
+
             for (auto c : components) {
                 mpc::core::TensorRank4ComponentIndex c_index = c.Index();
                 int p = mpc::util::GetVoigtMatrixIndex(c_index.FirstIndex(), c_index.SecondIndex());
                 int q = mpc::util::GetVoigtMatrixIndex(c_index.ThirdIndex(), c_index.FourthIndex());
-                
+
                 mat(p,q) = c.Value();
                 mat(q,p) = c.Value();  // voigt matrix is symmetrical
             }
-            // matrix to tensor 
+            // matrix to tensor
             mpc::util::VoigtMatrixToStiffnessTensor(mat, tensor);
         }
-        
+
     }
 
 };
@@ -81,7 +91,7 @@ struct ComplianceTensor : TensorRank4Base<T> {
         static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
         // TODO: assert IsComponentSetSymmetryCompliant<>()...
         mpc::core::TensorRank4SymmetryComponents<T,mpc::core::ComplianceType,S>(components);
-        
+
         // if S is NoneSymmetryType, assign components to tensor
         if (S::SymmetryGroupEnum() == mpc::core::SymmetryGroupEnumeration::NONE) {
             for (auto c : components) {
@@ -93,22 +103,22 @@ struct ComplianceTensor : TensorRank4Base<T> {
         // else, the type is one of symmetry, thus use matrix notation
         else {
             blitz::Array<T,2> mat = blitz::Array<T,2>(6,6,blitz::ColumnMajorArray<2>());
-            
+
             for (auto c : components) {
                 mpc::core::TensorRank4ComponentIndex c_index = c.Index();
                 int p = mpc::util::GetVoigtMatrixIndex(c_index.FirstIndex(), c_index.SecondIndex());
                 int q = mpc::util::GetVoigtMatrixIndex(c_index.ThirdIndex(), c_index.FourthIndex());
-                
+
                 mat(p,q) = c.Value();
                 mat(q,p) = c.Value();  // voigt matrix is symmetrical
             }
-            // matrix to tensor 
+            // matrix to tensor
             mpc::util::VoigtMatrixToStiffnessTensor(mat, tensor);
         }
-        
+
     }
 };
-// 
+//
 }  // namespace core
 }  // namespace mpc
 

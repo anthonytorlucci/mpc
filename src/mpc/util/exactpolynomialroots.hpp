@@ -1,7 +1,11 @@
 /**
- *  mpc - mechanical properties of crystals
- * Description ...
- */
+*    @file exactpolynomialroots.hpp
+*    @brief funcions for determining the exact roots of quadratic and
+* cubic polynomials analytically
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
 
 #ifndef MPC_CUBICSOLVER_H
 #define MPC_CUBICSOLVER_H
@@ -15,9 +19,6 @@
 
 // mpc
 #include "constants.hpp"
-
-// exact solvers for real coefficients
-
 
 namespace mpc {
 namespace util {

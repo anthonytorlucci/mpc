@@ -1,3 +1,11 @@
+/**
+*    @file norm.hpp
+*    @brief Lp norms
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef MPC_NORMAL_H
 #define MPC_NORMAL_H
 
@@ -5,15 +13,10 @@
 #include <blitz/array.h>
 
 //mpc
-#include "../linsys/magnitude.hpp"
-
-/**
- * norm.h
- *   Lp norms
- */
+#include "magnitude.hpp"
 
 namespace mpc {
-namespace linsys {
+namespace util {
 
 template <typename T>
 static blitz::Array<T,1> Normal(blitz::Array<T,1>& input_array) {
@@ -43,7 +46,7 @@ static void Normalize(blitz::Array<T,1>& input_array) {
     input_array /= mag;
 }
 
-} // namespace linsys
+} // namespace util
 } // namespace mpc
 
 #endif // MPC_NORMAL_H

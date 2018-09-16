@@ -1,3 +1,13 @@
+/**
+*    @file symmetrypredicates.hpp
+*    @brief boolean functions related to symmetry groups or sets of
+* tensor components used for assertions or control flow
+*
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef MPC_SYMMETRYPREDICATES_H
 #define MPC_SYMMETRYPREDICATES_H
 
@@ -209,10 +219,10 @@ constexpr inline bool SymmetryGroupEnumerationHas2IndependentComponents() {
 //                equivalent values have been removed (unless they have the same value in which only one is kept)
 //         >> the number of indices matches the number of independent
 //                components in the symmetry class after all reductions mentioned above;
-//                
+//
 // Each specialization of the function  must determine if the given component
 //     is found in the set of possible permutations of TensorRank4ComponentIndex
-//     for the given symmetry...  Since the number of permutations is quite high, MPC has fabricated a concept not found in the literature : "Reduced" component index.  
+//     for the given symmetry...  Since the number of permutations is quite high, MPC has fabricated a concept not found in the literature : "Reduced" component index.
 //     This concept simplifies the search (assertions) to a much smaller set of expected indices...
 //
 //     For example, cubic symmetry has 3 non-zero components.  The indices could be {0000, 0011, 1212}, {0000, 0011, 0202}, {0000, 0011, 0101}, {0000, 0022, 1212}, {0000, 0022, 0202}, etc.
@@ -223,7 +233,7 @@ struct IsComponentSetSymmetryCompliantFunctionObject {
     static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
     static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
     static_assert(std::is_base_of<mpc::core::CSBase,CS>::value, "CS must be derived from mpc::core::CSBase.");
-    
+
     bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) { return true; }
     //NoneSyymetryGroupType has no symmetry and thus any set can have none symmetry
     // TODO: assertions such as size() <=81
@@ -242,9 +252,9 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Triclinic
      *  | 04  14  24  34  44  45 |
      *  | 05  15  25  35  45  55 |
      */
-    
+
     // To be compliant:
-    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) { 
+    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) {
         std::set<mpc::core::TensorRank4ComponentIndex> nonzero_indices_set{
             //mpc::core::TensorRank4ComponentIndex(0,0,0,0)
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,0)),
@@ -269,11 +279,11 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Triclinic
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,2,0,1)),
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1))
         };
-        
+
         // if any reduced component index is not in the set of non-zero valued component indices AND the value is non-zero, the set is not symmetry compliant.
         //     If the value is zero and not in the set of non-zero indices, discard by not inserting it into the analysis set...
         std::vector<mpc::core::TensorRankNComponent<T,4>> component_vector{};  // ??? not sure, but have to be careful when using aliases like TensorRank4Component<T>
-        
+
         mpc::core::TensorRank4ComponentIndex tmp_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);  // initialize a temporary variable of type...
         bool is_in_set_nonzero = false;  // agian, just initializing before the loop
         for (auto s : component_set) {
@@ -285,10 +295,10 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Triclinic
             }
         }
         // all the components in component_vector belong to the set of non-zero valued indices and have a non-zero value...
-        
+
         // sort the components (i.e. the component indices which are used of operators <,>)
         std::sort(component_vector.begin(), component_vector.end());
-        
+
         // test if any two components that now have the same reduced indices also have the same value; if they do not, the set is not symmetry compliant
         //std::vector<mpc::core::TensorRank4Component<T>>::iterator it;
         //mpc::core::TensorRank4Component<T> tmp = mpc::core::TensorRank4Component<T>(0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
@@ -299,14 +309,14 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Triclinic
             if (tmp.Index() == tmp2.Index() && tmp.Value() != tmp2.Value()) { return false; }
             tmp = *it;
         }
-        
-        // the reduced container could be obtained here; for a vector use std::unique; better still, just use a set.  That set should have only 3 components 
+
+        // the reduced container could be obtained here; for a vector use std::unique; better still, just use a set.  That set should have only 3 components
         //     corresponding to the nonzero_indices_set
 //         for (auto v : component_vector) {
 //             std::cout << "symmetry compliant v : " << v << std::endl;
 //         }
-        
-        return true;  
+
+        return true;
     }
 };
 
@@ -322,9 +332,9 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Monoclini
      *  | 04  14  24  --  44  -- |
      *  | --  --  --  35  --  55 |
      */
-    
+
     // To be compliant:
-    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) { 
+    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) {
         std::set<mpc::core::TensorRank4ComponentIndex> nonzero_indices_set{
             //mpc::core::TensorRank4ComponentIndex(0,0,0,0)
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX2SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,0)),
@@ -341,11 +351,11 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Monoclini
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX2SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,2,0,2)),
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX2SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1))
         };
-        
+
         // if any reduced component index is not in the set of non-zero valued component indices AND the value is non-zero, the set is not symmetry compliant.
         //     If the value is zero and not in the set of non-zero indices, discard by not inserting it into the analysis set...
         std::vector<mpc::core::TensorRankNComponent<T,4>> component_vector{};  // ??? not sure, but have to be careful when using aliases like TensorRank4Component<T>
-        
+
         mpc::core::TensorRank4ComponentIndex tmp_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);  // initialize a temporary variable of type...
         bool is_in_set_nonzero = false;  // agian, just initializing before the loop
         for (auto s : component_set) {
@@ -357,10 +367,10 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Monoclini
             }
         }
         // all the components in component_vector belong to the set of non-zero valued indices and have a non-zero value...
-        
+
         // sort the components (i.e. the component indices which are used of operators <,>)
         std::sort(component_vector.begin(), component_vector.end());
-        
+
         // test if any two components that now have the same reduced indices also have the same value; if they do not, the set is not symmetry compliant
         //std::vector<mpc::core::TensorRank4Component<T>>::iterator it;
         //mpc::core::TensorRank4Component<T> tmp = mpc::core::TensorRank4Component<T>(0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
@@ -371,14 +381,14 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Monoclini
             if (tmp.Index() == tmp2.Index() && tmp.Value() != tmp2.Value()) { return false; }
             tmp = *it;
         }
-        
-        // the reduced container could be obtained here; for a vector use std::unique; better still, just use a set.  That set should have only 3 components 
+
+        // the reduced container could be obtained here; for a vector use std::unique; better still, just use a set.  That set should have only 3 components
         //     corresponding to the nonzero_indices_set
 //         for (auto v : component_vector) {
 //             std::cout << "symmetry compliant v : " << v << std::endl;
 //         }
-        
-        return true;  
+
+        return true;
     }
 };
 
@@ -394,9 +404,9 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Monoclini
      *  | --  --  --  34  44  -- |
      *  | 05  15  25  --  --  55 |
      */
-    
+
     // To be compliant:
-    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) { 
+    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) {
         std::set<mpc::core::TensorRank4ComponentIndex> nonzero_indices_set{
             //mpc::core::TensorRank4ComponentIndex(0,0,0,0)
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX3SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,0)),
@@ -413,11 +423,11 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Monoclini
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX3SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,2,0,2)),
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX3SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1))
         };
-        
+
         // if any reduced component index is not in the set of non-zero valued component indices AND the value is non-zero, the set is not symmetry compliant.
         //     If the value is zero and not in the set of non-zero indices, discard by not inserting it into the analysis set...
         std::vector<mpc::core::TensorRankNComponent<T,4>> component_vector{};  // ??? not sure, but have to be careful when using aliases like TensorRank4Component<T>
-        
+
         mpc::core::TensorRank4ComponentIndex tmp_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);  // initialize a temporary variable of type...
         bool is_in_set_nonzero = false;  // agian, just initializing before the loop
         for (auto s : component_set) {
@@ -429,10 +439,10 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Monoclini
             }
         }
         // all the components in component_vector belong to the set of non-zero valued indices and have a non-zero value...
-        
+
         // sort the components (i.e. the component indices which are used of operators <,>)
         std::sort(component_vector.begin(), component_vector.end());
-        
+
         // test if any two components that now have the same reduced indices also have the same value; if they do not, the set is not symmetry compliant
         //std::vector<mpc::core::TensorRank4Component<T>>::iterator it;
         //mpc::core::TensorRank4Component<T> tmp = mpc::core::TensorRank4Component<T>(0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
@@ -443,14 +453,14 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Monoclini
             if (tmp.Index() == tmp2.Index() && tmp.Value() != tmp2.Value()) { return false; }
             tmp = *it;
         }
-        
-        // the reduced container could be obtained here; for a vector use std::unique; better still, just use a set.  That set should have only 3 components 
+
+        // the reduced container could be obtained here; for a vector use std::unique; better still, just use a set.  That set should have only 3 components
         //     corresponding to the nonzero_indices_set
 //         for (auto v : component_vector) {
 //             std::cout << "symmetry compliant v : " << v << std::endl;
 //         }
-        
-        return true; 
+
+        return true;
     }
 };
 
@@ -466,9 +476,9 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Orthorhom
      *  | --  --  --  --  44  -- |
      *  | --  --  --  --  --  55 |
      */
-    
+
     // To be compliant:
-    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) { 
+    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) {
         std::set<mpc::core::TensorRank4ComponentIndex> nonzero_indices_set{
             //mpc::core::TensorRank4ComponentIndex(0,0,0,0)
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::OrthorhombicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,0)),
@@ -481,11 +491,11 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Orthorhom
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::OrthorhombicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,2,0,2)),
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::OrthorhombicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1))
         };
-        
+
         // if any reduced component index is not in the set of non-zero valued component indices AND the value is non-zero, the set is not symmetry compliant.
         //     If the value is zero and not in the set of non-zero indices, discard by not inserting it into the analysis set...
         std::vector<mpc::core::TensorRankNComponent<T,4>> component_vector{};  // ??? not sure, but have to be careful when using aliases like TensorRank4Component<T>
-        
+
         mpc::core::TensorRank4ComponentIndex tmp_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);  // initialize a temporary variable of type...
         bool is_in_set_nonzero = false;  // agian, just initializing before the loop
         for (auto s : component_set) {
@@ -497,10 +507,10 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Orthorhom
             }
         }
         // all the components in component_vector belong to the set of non-zero valued indices and have a non-zero value...
-        
+
         // sort the components (i.e. the component indices which are used of operators <,>)
         std::sort(component_vector.begin(), component_vector.end());
-        
+
         // test if any two components that now have the same reduced indices also have the same value; if they do not, the set is not symmetry compliant
         //std::vector<mpc::core::TensorRank4Component<T>>::iterator it;
         //mpc::core::TensorRank4Component<T> tmp = mpc::core::TensorRank4Component<T>(0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
@@ -511,14 +521,14 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Orthorhom
             if (tmp.Index() == tmp2.Index() && tmp.Value() != tmp2.Value()) { return false; }
             tmp = *it;
         }
-        
-        // the reduced container could be obtained here; for a vector use std::unique; better still, just use a set.  That set should have only 3 components 
+
+        // the reduced container could be obtained here; for a vector use std::unique; better still, just use a set.  That set should have only 3 components
         //     corresponding to the nonzero_indices_set
 //         for (auto v : component_vector) {
 //             std::cout << "symmetry compliant v : " << v << std::endl;
 //         }
-        
-        return true; 
+
+        return true;
     }
 };
 
@@ -533,13 +543,13 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::StiffnessType
      *  | --  --  --  33  --  -- |
      *  | --  --  --  --  33  -- |
      *  | --  --  --  --  --  XX |
-     * 
+     *
      * For C, XX = 0.5 * [C(0,0) - C(0,1)]
      * For S, XX =   2 * [S(0,0) - S(0,1)]
      */
-    
+
     // To be compliant:
-    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) { 
+    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) {
         std::set<mpc::core::TensorRank4ComponentIndex> nonzero_indices_set{
             //mpc::core::TensorRank4ComponentIndex(0,0,0,0)
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::HexagonalSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,0)),  // a little verbose, but illustrates the point
@@ -549,11 +559,11 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::StiffnessType
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::HexagonalSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2)),
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::HexagonalSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1))
         };
-        
+
         // if any reduced component index is not in the set of non-zero valued component indices AND the value is non-zero, the set is not symmetry compliant.
         //     If the value is zero and not in the set of non-zero indices, discard by not inserting it into the analysis set...
         std::vector<mpc::core::TensorRankNComponent<T,4>> component_vector{};  // ??? not sure, but have to be careful when using aliases like TensorRank4Component<T>
-        
+
         mpc::core::TensorRank4ComponentIndex tmp_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);  // initialize a temporary variable of type...
         bool is_in_set_nonzero = false;  // agian, just initializing before the loop
         for (auto s : component_set) {
@@ -565,10 +575,10 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::StiffnessType
             }
         }
         // all the components in component_vector belong to the set of non-zero valued indices and have a non-zero value...
-        
+
         // sort the components (i.e. the component indices which are used of operators <,>)
         std::sort(component_vector.begin(), component_vector.end());
-        
+
         // test if any two components that now have the same reduced indices also have the same value; if they do not, the set is not symmetry compliant
         //std::vector<mpc::core::TensorRank4Component<T>>::iterator it;
         //mpc::core::TensorRank4Component<T> tmp = mpc::core::TensorRank4Component<T>(0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
@@ -579,9 +589,9 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::StiffnessType
             if (tmp.Index() == tmp2.Index() && tmp.Value() != tmp2.Value()) { return false; }
             tmp = *it;
         }
-        
+
         // the reduced container could be obtained here; there should be at most 6 components
-        // the reduced container for size 6 will have component indices {0000, 0011, 0022, 0101, 0202, 2222}; 
+        // the reduced container for size 6 will have component indices {0000, 0011, 0022, 0101, 0202, 2222};
         // if the component vector has 6 components, assert the values satisfy the constraint: For C, XX = 0.5 * [C(0,0) - C(0,1)]
         if (component_vector.size() > 5) {
             //T value_check  = 0.5 * (component_vector[0].Value() - component_vector[1].Value());
@@ -590,8 +600,8 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::StiffnessType
 //         for (auto v : component_vector) {
 //             std::cout << "symmetry compliant v : " << v << std::endl;
 //         }
-        
-        return true;  
+
+        return true;
     }
 };
 
@@ -606,13 +616,13 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
      *  | --  --  --  33  --  -- |
      *  | --  --  --  --  33  -- |
      *  | --  --  --  --  --  XX |
-     * 
+     *
      * For C, XX = 0.5 * [C(0,0) - C(0,1)]
      * For S, XX =   2 * [S(0,0) - S(0,1)]
      */
-    
+
     // To be compliant:
-    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) { 
+    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) {
         std::set<mpc::core::TensorRank4ComponentIndex> nonzero_indices_set{
             //mpc::core::TensorRank4ComponentIndex(0,0,0,0)
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::HexagonalSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,0)),  // a little verbose, but illustrates the point
@@ -622,11 +632,11 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::HexagonalSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2)),
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::HexagonalSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1))
         };
-        
+
         // if any reduced component index is not in the set of non-zero valued component indices AND the value is non-zero, the set is not symmetry compliant.
         //     If the value is zero and not in the set of non-zero indices, discard by not inserting it into the analysis set...
         std::vector<mpc::core::TensorRankNComponent<T,4>> component_vector{};  // ??? not sure, but have to be careful when using aliases like TensorRank4Component<T>
-        
+
         mpc::core::TensorRank4ComponentIndex tmp_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);  // initialize a temporary variable of type...
         bool is_in_set_nonzero = false;  // agian, just initializing before the loop
         for (auto s : component_set) {
@@ -638,10 +648,10 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
             }
         }
         // all the components in component_vector belong to the set of non-zero valued indices and have a non-zero value...
-        
+
         // sort the components (i.e. the component indices which are used of operators <,>)
         std::sort(component_vector.begin(), component_vector.end());
-        
+
         // test if any two components that now have the same reduced indices also have the same value; if they do not, the set is not symmetry compliant
         //std::vector<mpc::core::TensorRank4Component<T>>::iterator it;
         //mpc::core::TensorRank4Component<T> tmp = mpc::core::TensorRank4Component<T>(0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
@@ -652,9 +662,9 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
             if (tmp.Index() == tmp2.Index() && tmp.Value() != tmp2.Value()) { return false; }
             tmp = *it;
         }
-        
+
         // the reduced container could be obtained here; there should be at most 6 components
-        // the reduced container for size 6 will have component indices {0000, 0011, 0022, 0101, 0202, 2222}; 
+        // the reduced container for size 6 will have component indices {0000, 0011, 0022, 0101, 0202, 2222};
         // if the component vector has 6 components, assert the values satisfy the constraint: For S, XX = 2 * [C(0,0) - C(0,1)]
         if (component_vector.size() > 5) {
             //T value_check  = 0.5 * (component_vector[0].Value() - component_vector[1].Value());
@@ -663,8 +673,8 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
 //         for (auto v : component_vector) {
 //             std::cout << "symmetry compliant v : " << v << std::endl;
 //         }
-        
-        return true; 
+
+        return true;
     }
 };
 
@@ -680,9 +690,9 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Tetragona
      *  | --  --  --  --  33  -- |
      *  | 05 -05  --  --  --  55 |
      */
-    
+
     // To be compliant:
-    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) { 
+    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) {
         std::set<mpc::core::TensorRank4ComponentIndex> nonzero_indices_set{
             //mpc::core::TensorRank4ComponentIndex(0,0,0,0)
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,0)),
@@ -693,11 +703,11 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Tetragona
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2)),
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1))
         };
-        
+
         // if any reduced component index is not in the set of non-zero valued component indices AND the value is non-zero, the set is not symmetry compliant.
         //     If the value is zero and not in the set of non-zero indices, discard by not inserting it into the analysis set...
         std::vector<mpc::core::TensorRankNComponent<T,4>> component_vector{};  // ??? not sure, but have to be careful when using aliases like TensorRank4Component<T>
-        
+
         mpc::core::TensorRank4ComponentIndex tmp_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);  // initialize a temporary variable of type...
         bool is_in_set_nonzero = false;  // agian, just initializing before the loop
         for (auto s : component_set) {
@@ -710,10 +720,10 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Tetragona
             }
         }
         // all the components in component_vector belong to the set of non-zero valued indices and have a non-zero value...
-        
+
         // sort the components (i.e. the component indices which are used of operators <,>)
         std::sort(component_vector.begin(), component_vector.end());
-        
+
         // test if any two components that now have the same reduced indices also have the same value; if they do not, the set is not symmetry compliant
         //std::vector<mpc::core::TensorRank4Component<T>>::iterator it;
         //mpc::core::TensorRank4Component<T> tmp = mpc::core::TensorRank4Component<T>(0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
@@ -724,13 +734,13 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Tetragona
             if (tmp.Index() == tmp2.Index() && tmp.Value() != tmp2.Value()) { return false; }
             tmp = *it;
         }
-        
+
         // the reduced container could be obtained here; there should be a maximum of 6 components
 //         for (auto v : component_vector) {
 //             std::cout << "symmetry compliant v : " << v << std::endl;
 //         }
-        
-        return true; 
+
+        return true;
     }
 };
 
@@ -746,9 +756,9 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Tetragona
      *  | --  --  --  --  33  -- |
      *  | --  --  --  --  --  55 |
      */
-    
+
     // To be compliant:
-    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) { 
+    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) {
         std::set<mpc::core::TensorRank4ComponentIndex> nonzero_indices_set{
             //mpc::core::TensorRank4ComponentIndex(0,0,0,0)
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,0)),
@@ -758,11 +768,11 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Tetragona
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2)),
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1))
         };
-        
+
         // if any reduced component index is not in the set of non-zero valued component indices AND the value is non-zero, the set is not symmetry compliant.
         //     If the value is zero and not in the set of non-zero indices, discard by not inserting it into the analysis set...
         std::vector<mpc::core::TensorRankNComponent<T,4>> component_vector{};  // ??? not sure, but have to be careful when using aliases like TensorRank4Component<T>
-        
+
         mpc::core::TensorRank4ComponentIndex tmp_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);  // initialize a temporary variable of type...
         bool is_in_set_nonzero = false;  // agian, just initializing before the loop
         for (auto s : component_set) {
@@ -774,10 +784,10 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Tetragona
             }
         }
         // all the components in component_vector belong to the set of non-zero valued indices and have a non-zero value...
-        
+
         // sort the components (i.e. the component indices which are used of operators <,>)
         std::sort(component_vector.begin(), component_vector.end());
-        
+
         // test if any two components that now have the same reduced indices also have the same value; if they do not, the set is not symmetry compliant
         //std::vector<mpc::core::TensorRank4Component<T>>::iterator it;
         //mpc::core::TensorRank4Component<T> tmp = mpc::core::TensorRank4Component<T>(0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
@@ -788,13 +798,13 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::Tetragona
             if (tmp.Index() == tmp2.Index() && tmp.Value() != tmp2.Value()) { return false; }
             tmp = *it;
         }
-        
+
         // the reduced container could be obtained here; there should be a maximum of 6 components
 //         for (auto v : component_vector) {
 //             std::cout << "symmetry compliant v : " << v << std::endl;
 //         }
-        
-        return true; 
+
+        return true;
     }
 };
 
@@ -809,15 +819,15 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::StiffnessType
      *  | 03 -03  --  33  -- *04 |
      *  | 04  14  --  --  33 *03 |
      *  | --  --  -- *04 *03  XX |
-     * 
+     *
      * where *NN is the numerical equal for C and twice the numerical equal for S; and
      * For C, XX = 0.5 * [C(0,0) - C(0,1)]
      * For S, XX =   2 * [S(0,0) - S(0,1)]
-     * 
+     *
      */
-    
+
     // To be compliant
-    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) { 
+    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) {
         std::set<mpc::core::TensorRank4ComponentIndex> nonzero_indices_set{
             //mpc::core::TensorRank4ComponentIndex(0,0,0,0)
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,0)),  // a little verbose, but illustrates the point
@@ -829,28 +839,28 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::StiffnessType
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2)),
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1))
         };
-        
+
         // if any reduced component index is not in the set of non-zero valued component indices AND the value is non-zero, the set is not symmetry compliant.
         //     If the value is zero and not in the set of non-zero indices, discard by not inserting it into the analysis set...
         std::vector<mpc::core::TensorRankNComponent<T,4>> component_vector{};  // ??? not sure, but have to be careful when using aliases like TensorRank4Component<T>
-        
+
         mpc::core::TensorRank4ComponentIndex tmp_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);  // initialize a temporary variable of type...
         bool is_in_set_nonzero = false;  // agian, just initializing before the loop
         for (auto s : component_set) {
             tmp_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(s.Index());
             is_in_set_nonzero = nonzero_indices_set.find(tmp_reduced) != nonzero_indices_set.end();
             if (!is_in_set_nonzero && s.Value() != 0) { return false; }
-            // TODO: if 03, 13, and 35 are present, assert that the value of 03 == -13 and 35 == 03 for C, 2*35 == 03 for S 
+            // TODO: if 03, 13, and 35 are present, assert that the value of 03 == -13 and 35 == 03 for C, 2*35 == 03 for S
             // TODO: if 04, 14, and 45 are present, assert that the value of 04 == -14 and 45 == 04 for C, 2*45 == 04 for S
             if (is_in_set_nonzero && s.Value() !=0) {
                 component_vector.push_back(mpc::core::TensorRank4Component<T>(s.Value(), tmp_reduced));  // add component with same value but reduced index to the analysis vector
             }
         }
         // all the components in component_vector belong to the set of non-zero valued indices and have a non-zero value...
-        
+
         // sort the components (i.e. the component indices which are used of operators <,>)
         std::sort(component_vector.begin(), component_vector.end());
-        
+
         // test if any two components that now have the same reduced indices also have the same value; if they do not, the set is not symmetry compliant
         //std::vector<mpc::core::TensorRank4Component<T>>::iterator it;
         //mpc::core::TensorRank4Component<T> tmp = mpc::core::TensorRank4Component<T>(0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
@@ -861,9 +871,9 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::StiffnessType
             if (tmp.Index() == tmp2.Index() && tmp.Value() != tmp2.Value()) { return false; }
             tmp = *it;
         }
-        
+
         // the reduced container could be obtained here; there should be at most 8 components
-        // the reduced container for size 8 will have component indices {0000, 0002, 0011, 0012, 0022, 0101, 0202, 2222}; 
+        // the reduced container for size 8 will have component indices {0000, 0002, 0011, 0012, 0022, 0101, 0202, 2222};
         // if the component vector has 8 components, assert the values satisfy the constraint: For C, XX = 0.5 * [C(0,0) - C(0,1)]
         if (component_vector.size() > 7) {
             //T value_check  = 0.5 * (component_vector[0].Value() - component_vector[1].Value());
@@ -872,8 +882,8 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::StiffnessType
 //         for (auto v : component_vector) {
 //             std::cout << "symmetry compliant v : " << v << std::endl;
 //         }
-        
-        return true;  
+
+        return true;
     }
 };
 
@@ -888,15 +898,15 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
      *  | 03 -03  --  33  -- *04 |
      *  | 04  14  --  --  33 *03 |
      *  | --  --  -- *04 *03  XX |
-     * 
+     *
      * where *NN is the numerical equal for C and twice the numerical equal for S; and
      * For C, XX = 0.5 * [C(0,0) - C(0,1)]
      * For S, XX =   2 * [S(0,0) - S(0,1)]
-     * 
+     *
      */
-    
+
     // To be compliant
-    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) { 
+    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) {
         std::set<mpc::core::TensorRank4ComponentIndex> nonzero_indices_set{
             //mpc::core::TensorRank4ComponentIndex(0,0,0,0)
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,0)),  // a little verbose, but illustrates the point
@@ -908,28 +918,28 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2)),
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1))
         };
-        
+
         // if any reduced component index is not in the set of non-zero valued component indices AND the value is non-zero, the set is not symmetry compliant.
         //     If the value is zero and not in the set of non-zero indices, discard by not inserting it into the analysis set...
         std::vector<mpc::core::TensorRankNComponent<T,4>> component_vector{};  // ??? not sure, but have to be careful when using aliases like TensorRank4Component<T>
-        
+
         mpc::core::TensorRank4ComponentIndex tmp_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);  // initialize a temporary variable of type...
         bool is_in_set_nonzero = false;  // agian, just initializing before the loop
         for (auto s : component_set) {
             tmp_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(s.Index());
             is_in_set_nonzero = nonzero_indices_set.find(tmp_reduced) != nonzero_indices_set.end();
             if (!is_in_set_nonzero && s.Value() != 0) { return false; }
-            // TODO: if 03, 13, and 35 are present, assert that the value of 03 == -13 and 35 == 03 for C, 2*35 == 03 for S 
+            // TODO: if 03, 13, and 35 are present, assert that the value of 03 == -13 and 35 == 03 for C, 2*35 == 03 for S
             // TODO: if 04, 14, and 45 are present, assert that the value of 04 == -14 and 45 == 04 for C, 2*45 == 04 for S
             if (is_in_set_nonzero && s.Value() !=0) {
                 component_vector.push_back(mpc::core::TensorRank4Component<T>(s.Value(), tmp_reduced));  // add component with same value but reduced index to the analysis vector
             }
         }
         // all the components in component_vector belong to the set of non-zero valued indices and have a non-zero value...
-        
+
         // sort the components (i.e. the component indices which are used of operators <,>)
         std::sort(component_vector.begin(), component_vector.end());
-        
+
         // test if any two components that now have the same reduced indices also have the same value; if they do not, the set is not symmetry compliant
         //std::vector<mpc::core::TensorRank4Component<T>>::iterator it;
         //mpc::core::TensorRank4Component<T> tmp = mpc::core::TensorRank4Component<T>(0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
@@ -940,9 +950,9 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
             if (tmp.Index() == tmp2.Index() && tmp.Value() != tmp2.Value()) { return false; }
             tmp = *it;
         }
-        
+
         // the reduced container could be obtained here; there should be at most 8 components
-        // the reduced container for size 8 will have component indices {0000, 0002, 0011, 0012, 0022, 0101, 0202, 2222}; 
+        // the reduced container for size 8 will have component indices {0000, 0002, 0011, 0012, 0022, 0101, 0202, 2222};
         // if the component vector has 8 components, assert the values satisfy the constraint: For S, XX = 2 * [C(0,0) - C(0,1)]
         if (component_vector.size() > 7) {
             //T value_check  = 0.5 * (component_vector[0].Value() - component_vector[1].Value());
@@ -951,8 +961,8 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
 //         for (auto v : component_vector) {
 //             std::cout << "symmetry compliant v : " << v << std::endl;
 //         }
-        
-        return true; 
+
+        return true;
     }
 };
 
@@ -967,13 +977,13 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::StiffnessType
      *  | 03 -03  --  33  --  -- |
      *  | --  --  --  --  33 *03 |
      *  | --  --  --  -- *03  XX |
-     * 
+     *
      * For C, XX = 0.5 * [C(0,0) - C(0,1)]
      * For S, XX =   2 * [S(0,0) - S(0,1)]
      */
-    
+
     // To be compliant
-    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) { 
+    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) {
         std::set<mpc::core::TensorRank4ComponentIndex> nonzero_indices_set{
             //mpc::core::TensorRank4ComponentIndex(0,0,0,0)
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,0)),  // a little verbose, but illustrates the point
@@ -984,27 +994,27 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::StiffnessType
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2)),
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1))
         };
-        
+
         // if any reduced component index is not in the set of non-zero valued component indices AND the value is non-zero, the set is not symmetry compliant.
         //     If the value is zero and not in the set of non-zero indices, discard by not inserting it into the analysis set...
         std::vector<mpc::core::TensorRankNComponent<T,4>> component_vector{};  // ??? not sure, but have to be careful when using aliases like TensorRank4Component<T>
-        
+
         mpc::core::TensorRank4ComponentIndex tmp_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);  // initialize a temporary variable of type...
         bool is_in_set_nonzero = false;  // agian, just initializing before the loop
         for (auto s : component_set) {
             tmp_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal6SymmetryGroupType>(s.Index());
             is_in_set_nonzero = nonzero_indices_set.find(tmp_reduced) != nonzero_indices_set.end();
             if (!is_in_set_nonzero && s.Value() != 0) { return false; }
-            // TODO: if 03, 13, and 35 are present, assert that the value of 03 == -13 and 35 == 03 for C, 2*35 == 03 for S 
+            // TODO: if 03, 13, and 35 are present, assert that the value of 03 == -13 and 35 == 03 for C, 2*35 == 03 for S
             if (is_in_set_nonzero && s.Value() !=0) {
                 component_vector.push_back(mpc::core::TensorRank4Component<T>(s.Value(), tmp_reduced));  // add component with same value but reduced index to the analysis vector
             }
         }
         // all the components in component_vector belong to the set of non-zero valued indices and have a non-zero value...
-        
+
         // sort the components (i.e. the component indices which are used of operators <,>)
         std::sort(component_vector.begin(), component_vector.end());
-        
+
         // test if any two components that now have the same reduced indices also have the same value; if they do not, the set is not symmetry compliant
         //std::vector<mpc::core::TensorRank4Component<T>>::iterator it;
         //mpc::core::TensorRank4Component<T> tmp = mpc::core::TensorRank4Component<T>(0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
@@ -1015,9 +1025,9 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::StiffnessType
             if (tmp.Index() == tmp2.Index() && tmp.Value() != tmp2.Value()) { return false; }
             tmp = *it;
         }
-        
+
         // the reduced container could be obtained here; there should be at most 7 components
-        // the reduced container for size 7 will have component indices {0000, 0011, 0012, 0022, 0101, 0202, 2222}; 
+        // the reduced container for size 7 will have component indices {0000, 0011, 0012, 0022, 0101, 0202, 2222};
         // if the component vector has 7 components, assert the values satisfy the constraint: For C, XX = 0.5 * [C(0,0) - C(0,1)]
         if (component_vector.size() > 6) {
             //T value_check  = 0.5 * (component_vector[0].Value() - component_vector[1].Value());
@@ -1026,8 +1036,8 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::StiffnessType
 //         for (auto v : component_vector) {
 //             std::cout << "symmetry compliant v : " << v << std::endl;
 //         }
-        
-        return true; 
+
+        return true;
     }
 };
 
@@ -1042,13 +1052,13 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
      *  | 03 -03  --  33  --  -- |
      *  | --  --  --  --  33 *03 |
      *  | --  --  --  -- *03  XX |
-     * 
+     *
      * For C, XX = 0.5 * [C(0,0) - C(0,1)]
      * For S, XX =   2 * [S(0,0) - S(0,1)]
      */
-    
+
     // To be compliant
-    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) { 
+    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) {
         std::set<mpc::core::TensorRank4ComponentIndex> nonzero_indices_set{
             //mpc::core::TensorRank4ComponentIndex(0,0,0,0)
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,0)),  // a little verbose, but illustrates the point
@@ -1059,11 +1069,11 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2)),
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1))
         };
-        
+
         // if any reduced component index is not in the set of non-zero valued component indices AND the value is non-zero, the set is not symmetry compliant.
         //     If the value is zero and not in the set of non-zero indices, discard by not inserting it into the analysis set...
         std::vector<mpc::core::TensorRankNComponent<T,4>> component_vector{};  // ??? not sure, but have to be careful when using aliases like TensorRank4Component<T>
-        
+
         mpc::core::TensorRank4ComponentIndex tmp_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);  // initialize a temporary variable of type...
         bool is_in_set_nonzero = false;  // agian, just initializing before the loop
         for (auto s : component_set) {
@@ -1076,10 +1086,10 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
             }
         }
         // all the components in component_vector belong to the set of non-zero valued indices and have a non-zero value...
-        
+
         // sort the components (i.e. the component indices which are used of operators <,>)
         std::sort(component_vector.begin(), component_vector.end());
-        
+
         // test if any two components that now have the same reduced indices also have the same value; if they do not, the set is not symmetry compliant
         //std::vector<mpc::core::TensorRank4Component<T>>::iterator it;
         //mpc::core::TensorRank4Component<T> tmp = mpc::core::TensorRank4Component<T>(0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
@@ -1090,9 +1100,9 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
             if (tmp.Index() == tmp2.Index() && tmp.Value() != tmp2.Value()) { return false; }
             tmp = *it;
         }
-        
+
         // the reduced container could be obtained here; there should be at most 7 components
-        // the reduced container for size 7 will have component indices {0000, 0011, 0012, 0022, 0101, 0202, 2222}; 
+        // the reduced container for size 7 will have component indices {0000, 0011, 0012, 0022, 0101, 0202, 2222};
         // if the component vector has 7 components, assert the values satisfy the constraint: For S, XX =   2 * [S(0,0) - S(0,1)]
         if (component_vector.size() > 6) {
             //T value_check  = 0.5 * (component_vector[0].Value() - component_vector[1].Value());
@@ -1101,8 +1111,8 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
 //         for (auto v : component_vector) {
 //             std::cout << "symmetry compliant v : " << v << std::endl;
 //         }
-        
-        return true; 
+
+        return true;
     }
 };
 
@@ -1118,22 +1128,22 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::CubicSymm
      *  | --  --  --  --  33  -- |
      *  | --  --  --  --  --  33 |
      */
-    
+
     // To be compliant:
     //     >> the reduced set can have no more than 3 non-zero valued components and those components must belong to the set of non-zero values (in matrix notation) {00, 01, 33}
-    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) { 
-        
+    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) {
+
         std::set<mpc::core::TensorRank4ComponentIndex> nonzero_indices_set{
             //mpc::core::TensorRank4ComponentIndex(0,0,0,0)
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::CubicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,0)),  // a little verbose, but illustrates the point
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::CubicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1)),
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::CubicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2))
         };
-        
+
         // if any reduced component index is not in the set of non-zero valued component indices AND the value is non-zero, the set is not symmetry compliant.
         //     If the value is zero and not in the set of non-zero indices, discard by not inserting it into the analysis set...
         std::vector<mpc::core::TensorRankNComponent<T,4>> component_vector{};  // ??? not sure, but have to be careful when using aliases like TensorRank4Component<T>
-        
+
         mpc::core::TensorRank4ComponentIndex tmp_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);  // initialize a temporary variable of type...
         bool is_in_set_nonzero = false;  // agian, just initializing before the loop
         for (auto s : component_set) {
@@ -1145,10 +1155,10 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::CubicSymm
             }
         }
         // all the components in component_vector belong to the set of non-zero valued indices and have a non-zero value...
-        
+
         // sort the components (i.e. the component indices which are used of operators <,>)
         std::sort(component_vector.begin(), component_vector.end());
-        
+
         // test if any two components that now have the same reduced indices also have the same value; if they do not, the set is not symmetry compliant
         //std::vector<mpc::core::TensorRank4Component<T>>::iterator it;
         //mpc::core::TensorRank4Component<T> tmp = mpc::core::TensorRank4Component<T>(0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
@@ -1159,14 +1169,14 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::CubicSymm
             if (tmp.Index() == tmp2.Index() && tmp.Value() != tmp2.Value()) { return false; }
             tmp = *it;
         }
-        
-        // the reduced container could be obtained here; for a vector use std::unique; better still, just use a set.  That set should have only 3 components 
+
+        // the reduced container could be obtained here; for a vector use std::unique; better still, just use a set.  That set should have only 3 components
         //     corresponding to the nonzero_indices_set
 //         for (auto v : component_vector) {
 //             std::cout << "symmetry compliant v : " << v << std::endl;
 //         }
-        
-        return true; 
+
+        return true;
     }
 };
 
@@ -1181,25 +1191,25 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::StiffnessType
      *  | --  --  --  XX  --  -- |
      *  | --  --  --  --  XX  -- |
      *  | --  --  --  --  --  XX |
-     * 
+     *
      * For C, XX = 0.5 * [C(0,0) - C(0,1)]
      * For S, XX =   2 * [S(0,0) - S(0,1)]
      */
-    
-    // same as cubic with additional constraint that 
-    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) { 
-        
+
+    // same as cubic with additional constraint that
+    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) {
+
         std::set<mpc::core::TensorRank4ComponentIndex> nonzero_indices_set{
             //mpc::core::TensorRank4ComponentIndex(0,0,0,0)
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::IsotropicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,0)),  // a little verbose, but illustrates the point
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::IsotropicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1)),
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::IsotropicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2))
         };
-        
+
         // if any reduced component index is not in the set of non-zero valued component indices AND the value is non-zero, the set is not symmetry compliant.
         //     If the value is zero and not in the set of non-zero indices, discard by not inserting it into the analysis set...
         std::vector<mpc::core::TensorRankNComponent<T,4>> component_vector{};  // ??? not sure, but have to be careful when using aliases like TensorRank4Component<T>
-        
+
         mpc::core::TensorRank4ComponentIndex tmp_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);  // initialize a temporary variable of type...
         bool is_in_set_nonzero = false;  // agian, just initializing before the loop
         for (auto s : component_set) {
@@ -1211,10 +1221,10 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::StiffnessType
             }
         }
         // all the components in component_vector belong to the set of non-zero valued indices and have a non-zero value...
-        
+
         // sort the components (i.e. the component indices which are used of operators <,>)
         std::sort(component_vector.begin(), component_vector.end());
-        
+
         // test if any two components that now have the same reduced indices also have the same value; if they do not, the set is not symmetry compliant
         //std::vector<mpc::core::TensorRank4Component<T>>::iterator it;
         //mpc::core::TensorRank4Component<T> tmp = mpc::core::TensorRank4Component<T>(0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
@@ -1225,7 +1235,7 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::StiffnessType
             if (tmp.Index() == tmp2.Index() && tmp.Value() != tmp2.Value()) { return false; }
             tmp = *it;
         }
-        
+
         // the vector should now have at maximum 3 components with their index reduced; the next step is assert that the values match the constraint: For C, XX = 0.5 * [C(0,0) - C(0,1)]
         //     if they do not, the set is not isotropic symmetry compliant and has cubic symmetry
         if (component_vector.size() > 2) {
@@ -1235,7 +1245,7 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::StiffnessType
 //         for (auto v : component_vector) {
 //             std::cout << "symmetry compliant v : " << v << std::endl;
 //         }
-        
+
         return true;
     }
 };
@@ -1251,24 +1261,24 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
      *  | --  --  --  XX  --  -- |
      *  | --  --  --  --  XX  -- |
      *  | --  --  --  --  --  XX |
-     * 
+     *
      * For C, XX = 0.5 * [C(0,0) - C(0,1)]
      * For S, XX =   2 * [S(0,0) - S(0,1)]
      */
-    
-    // same as cubic with additional constraint that 
-    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) { 
+
+    // same as cubic with additional constraint that
+    bool operator()(const std::set<mpc::core::TensorRank4Component<T>>& component_set) {
         std::set<mpc::core::TensorRank4ComponentIndex> nonzero_indices_set{
             //mpc::core::TensorRank4ComponentIndex(0,0,0,0)
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::IsotropicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,0)),  // a little verbose, but illustrates the point
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::IsotropicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1)),
             mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::IsotropicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2))
         };
-        
+
         // if any reduced component index is not in the set of non-zero valued component indices AND the value is non-zero, the set is not symmetry compliant.
         //     If the value is zero and not in the set of non-zero indices, discard by not inserting it into the analysis set...
         std::vector<mpc::core::TensorRankNComponent<T,4>> component_vector{};  // ??? not sure, but have to be careful when using aliases like TensorRank4Component<T>
-        
+
         mpc::core::TensorRank4ComponentIndex tmp_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);  // initialize a temporary variable of type...
         bool is_in_set_nonzero = false;  // agian, just initializing before the loop
         for (auto s : component_set) {
@@ -1280,10 +1290,10 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
             }
         }
         // all the components in component_vector belong to the set of non-zero valued indices and have a non-zero value...
-        
+
         // sort the components (i.e. the component indices which are used of operators <,>)
         std::sort(component_vector.begin(), component_vector.end());
-        
+
         // test if any two components that now have the same reduced indices also have the same value; if they do not, the set is not symmetry compliant
         //std::vector<mpc::core::TensorRank4Component<T>>::iterator it;
         //mpc::core::TensorRank4Component<T> tmp = mpc::core::TensorRank4Component<T>(0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
@@ -1294,7 +1304,7 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
             if (tmp.Index() == tmp2.Index() && tmp.Value() != tmp2.Value()) { return false; }
             tmp = *it;
         }
-        
+
         // the vector should now have at maximum 3 components with their index reduced; the next step is assert that the values match the constraint: For S, XX =   2 * [S(0,0) - S(0,1)]
         //     if they do not, the set is not isotropic symmetry compliant and has cubic symmetry
         if (component_vector.size() > 2) {
@@ -1304,7 +1314,7 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
 //         for (auto v : component_vector) {
 //             std::cout << "symmetry compliant v : " << v << std::endl;
 //         }
-        
+
         return true;
     }
 };

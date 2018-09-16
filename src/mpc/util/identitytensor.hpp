@@ -1,3 +1,12 @@
+/**
+*    @file identitytensor.hpp
+*    @brief function for returning the fourth rank identity tensor
+* in 3-dimensional space 
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef MPC_IDENTITY43_H
 #define MPC_IDENTITY43_H
 

@@ -1,3 +1,12 @@
+/**
+*    @file stressstrain.hpp
+*    @brief stress and strain tensor classes; part of the core data structures
+*    
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef STRESSSTRAIN_H
 #define STRESSSTRAIN_H
 
@@ -19,7 +28,7 @@ namespace core {
 template <typename T>
 struct TensorRank2Interface {
     static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
-    virtual void SetComponents(std::set< mpc::core::TensorRank2Component<T> >& components, bool ApplySymmetry) = 0;  
+    virtual void SetComponents(std::set< mpc::core::TensorRank2Component<T> >& components, bool ApplySymmetry) = 0;
     // NOTE: the ApplySymmetry parameter here is used when you know that the tensor should be symmetrical, e.g. the Stress and Strain tensors.  However, the stress and strain tensors can be broken into symmetrical and asymetrical parts; for this reason, this parameter is provided so that the same class can be used for both parts and this parameter will determine if the symmetrical components need to be generated.
 };
 

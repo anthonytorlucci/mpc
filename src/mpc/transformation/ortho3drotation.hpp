@@ -1,16 +1,17 @@
 /**
- *  mpc - mechanical properties of crystals
- *  Description ...
- */
+*    @file ortho3drotation.hpp
+*    @brief functions that ouput a transformation tensor to rotate another
+* tensor about one of the 3 Cartesian axes given an argument in radians
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
 
 #ifndef MPC_ORTHO3DROTATION_H
 #define MPC_ORTHO3DROTATION_H
 
 #include <cmath>
 #include <blitz/array.h>
-
-// TODO: add summary of this header file including its purpose and what it was designed for
-// TODO: make const expr so that these evaluate at compile time
 
 namespace mpc {
 namespace transformation {

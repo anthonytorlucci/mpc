@@ -1,19 +1,21 @@
 /**
- *  mpc - mechanical properties of crystals
- *  Description ...
- */
+*    @file accumulator.hpp
+*    @brief function object for accumulating blitz arrays; two methods
+* are summation and multiplication
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
 
 #ifndef MPC_ACCUMULATOR_H
 #define MPC_ACCUMULATOR_H
 
 #include <functional>
 
+// blitz
 #include <blitz/array.h>
 #include <blitz/tinyvec2.h>
 #include <blitz/indexexpr.h>
-
-// TODO: This file provides template function objects for accumulating blitz arrays;
-// TODO: two methods are summation and multiplication
 
 namespace mpc {
 namespace util {

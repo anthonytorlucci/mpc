@@ -1,3 +1,12 @@
+/**
+*    @file mineraldataproperties.hpp
+*    @brief functions that return mineral data property values from
+* the literature
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef MINERALDATAPROPERTIES_H
 #define MINERALDATAPROPERTIES_H
 
@@ -5,7 +14,7 @@
 
 namespace mpc {
 namespace data {
-    
+
 // Augite
 static inline mpc::core::SymmetryGroupEnumeration AugiteSymmetryClass() { return mpc::core::SymmetryGroupEnumeration::MONOCLINIC_X2; }
 

@@ -1,3 +1,13 @@
+/**
+*    @file tensorcomponentindexaliases.hpp
+*    @brief tensor components aliased by symmetry; different symmetry group
+* types will have different relationships among tensor components for which
+* mpc defines them as "aliases"; this concept is still a work in progress...
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef MPC_TENSORCOMPONENTINDEXALIASES_H
 #define MPC_TENSORCOMPONENTINDEXALIASES_H
 
@@ -9,16 +19,16 @@
 #include "symmetrygrouptypes.hpp"
 
 
-// NOTE: why the TensorRankNComponentIndex<N> form and not TensorRank2ComponentIndex?  Because the 
-//     latter looks like a regular non-template class; we must remember that it is a specialized 
+// NOTE: why the TensorRankNComponentIndex<N> form and not TensorRank2ComponentIndex?  Because the
+//     latter looks like a regular non-template class; we must remember that it is a specialized
 //     alias of the more general TensorRankNComponentIndex<N>()...
 
 namespace mpc {
 namespace core {
-    
+
 // =======================================================================================================
 // =======================================================================================================
-// ======================================================================================================= 
+// =======================================================================================================
 
 inline mpc::core::TensorRank2ComponentIndex ReducedTensorRank2ComponentIndex(const mpc::core::TensorRank2ComponentIndex& indexn) {
     const int i = indexn.FirstIndex();
@@ -47,7 +57,7 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
      */
     // "reduced" component index is always the "least valued" index, e.g. the first in a sorted container like set
     //if (indexn == mpc::core::TensorRank4ComponentIndex(0,0,0,0)) { out = mpc::core::TensorRank4ComponentIndex(0,0,0,0); }
-    
+
     const int integer_representation = (indexn.FirstIndex()*1000) + (indexn.SecondIndex()*100) + (indexn.ThirdIndex()*10) + indexn.FourthIndex();
     //std::cout << "integer_representation : " << integer_representation << std::endl;
     switch (integer_representation) {
@@ -60,7 +70,7 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
         case 20: { return mpc::core::TensorRank4ComponentIndex(0,0,0,2);  }  // [0,0,2,0] triclinic symmetry reduced : [0,0,0,2]
         case 21: { return mpc::core::TensorRank4ComponentIndex(0,0,1,2);  }  // [0,0,2,1] triclinic symmetry reduced : [0,0,1,2]
         case 22: { return mpc::core::TensorRank4ComponentIndex(0,0,2,2);  }  // [0,0,2,2] triclinic symmetry reduced : [0,0,2,2]
-        case 100: { return mpc::core::TensorRank4ComponentIndex(0,0,0,1);  }  // [0,1,0,0] triclinic symmetry reduced : [0,0,0,1]  
+        case 100: { return mpc::core::TensorRank4ComponentIndex(0,0,0,1);  }  // [0,1,0,0] triclinic symmetry reduced : [0,0,0,1]
         case 101: { return mpc::core::TensorRank4ComponentIndex(0,1,0,1);  }  // [0,1,0,1] triclinic symmetry reduced : [0,1,0,1]
         case 102: { return mpc::core::TensorRank4ComponentIndex(0,1,0,2);  }  // [0,1,0,2] triclinic symmetry reduced : [0,1,0,2]
         case 110: { return mpc::core::TensorRank4ComponentIndex(0,1,0,1);  }  // [0,1,1,0] triclinic symmetry reduced : [0,1,0,1]
@@ -69,13 +79,13 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
         case 120: { return mpc::core::TensorRank4ComponentIndex(0,1,0,2);  }  // [0,1,2,0] triclinic symmetry reduced : [0,1,0,2]
         case 121: { return mpc::core::TensorRank4ComponentIndex(0,1,1,2);  }  // [0,1,2,1] triclinic symmetry reduced : [0,1,1,2]
         case 122: { return mpc::core::TensorRank4ComponentIndex(0,1,2,2);  }  // [0,1,2,2] triclinic symmetry reduced : [0,1,2,2]
-        case 200: { return mpc::core::TensorRank4ComponentIndex(0,0,0,2);  }  // [0,2,0,0] triclinic symmetry reduced : [0,0,0,2]  
+        case 200: { return mpc::core::TensorRank4ComponentIndex(0,0,0,2);  }  // [0,2,0,0] triclinic symmetry reduced : [0,0,0,2]
         case 201: { return mpc::core::TensorRank4ComponentIndex(0,1,0,2);  }  // [0,2,0,1] triclinic symmetry reduced : [0,1,0,2]
         case 202: { return mpc::core::TensorRank4ComponentIndex(0,2,0,2);  }  // [0,2,0,2] triclinic symmetry reduced : [0,2,0,2]
-        case 210: { return mpc::core::TensorRank4ComponentIndex(0,1,0,2);  }  // [0,2,1,0] triclinic symmetry reduced : [0,1,0,2]  
+        case 210: { return mpc::core::TensorRank4ComponentIndex(0,1,0,2);  }  // [0,2,1,0] triclinic symmetry reduced : [0,1,0,2]
         case 211: { return mpc::core::TensorRank4ComponentIndex(0,2,1,1);  }  // [0,2,1,1] triclinic symmetry reduced : [0,2,1,1]
         case 212: { return mpc::core::TensorRank4ComponentIndex(0,2,1,2);  }  // [0,2,1,2] triclinic symmetry reduced : [0,2,1,2]
-        case 220: { return mpc::core::TensorRank4ComponentIndex(0,2,0,2);  }  // [0,2,2,0] triclinic symmetry reduced : [0,2,0,2]  
+        case 220: { return mpc::core::TensorRank4ComponentIndex(0,2,0,2);  }  // [0,2,2,0] triclinic symmetry reduced : [0,2,0,2]
         case 221: { return mpc::core::TensorRank4ComponentIndex(0,2,1,2);  }  // [0,2,2,1] triclinic symmetry reduced : [0,2,1,2]
         case 222: { return mpc::core::TensorRank4ComponentIndex(0,2,2,2);  }  // [0,2,2,2] triclinic symmetry reduced : [0,2,2,2]
         case 1000: { return mpc::core::TensorRank4ComponentIndex(0,0,0,1);  }  // [1,0,0,0] triclinic symmetry reduced : [0,0,0,1]
@@ -84,7 +94,7 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
         case 1010: { return mpc::core::TensorRank4ComponentIndex(0,1,0,1);  }  // [1,0,1,0] triclinic symmetry reduced : [0,1,0,1]
         case 1011: { return mpc::core::TensorRank4ComponentIndex(0,1,1,1);  }  // [1,0,1,1] triclinic symmetry reduced : [0,1,1,1]
         case 1012: { return mpc::core::TensorRank4ComponentIndex(0,1,1,2);  }  // [1,0,1,2] triclinic symmetry reduced : [0,1,1,2]
-        case 1020: { return mpc::core::TensorRank4ComponentIndex(0,1,0,2);  }  // [1,0,2,0] triclinic symmetry reduced : [0,1,0,2]  
+        case 1020: { return mpc::core::TensorRank4ComponentIndex(0,1,0,2);  }  // [1,0,2,0] triclinic symmetry reduced : [0,1,0,2]
         case 1021: { return mpc::core::TensorRank4ComponentIndex(0,1,1,2);  }  // [1,0,2,1] triclinic symmetry reduced : [0,1,1,2]
         case 1022: { return mpc::core::TensorRank4ComponentIndex(0,1,2,2);  }  // [1,0,2,2] triclinic symmetry reduced : [0,1,2,2]
         case 1100: { return mpc::core::TensorRank4ComponentIndex(0,0,1,1);  }  // [1,1,0,0] triclinic symmetry reduced : [0,0,1,1]
@@ -96,7 +106,7 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
         case 1120: { return mpc::core::TensorRank4ComponentIndex(0,2,1,1);  }  // [1,1,2,0] triclinic symmetry reduced : [0,2,1,1]
         case 1121: { return mpc::core::TensorRank4ComponentIndex(1,1,1,2);  }  // [1,1,2,1] triclinic symmetry reduced : [1,1,1,2]
         case 1122: { return mpc::core::TensorRank4ComponentIndex(1,1,2,2);  }  // [1,1,2,2] triclinic symmetry reduced : [1,1,2,2]
-        case 1200: { return mpc::core::TensorRank4ComponentIndex(0,0,1,2);  }  // [1,2,0,0] triclinic symmetry reduced : [0,0,1,2]  
+        case 1200: { return mpc::core::TensorRank4ComponentIndex(0,0,1,2);  }  // [1,2,0,0] triclinic symmetry reduced : [0,0,1,2]
         case 1201: { return mpc::core::TensorRank4ComponentIndex(0,1,1,2);  }  // [1,2,0,1] triclinic symmetry reduced : [0,1,1,2]
         case 1202: { return mpc::core::TensorRank4ComponentIndex(0,2,1,2);  }  // [1,2,0,2] triclinic symmetry reduced : [0,2,1,2]
         case 1210: { return mpc::core::TensorRank4ComponentIndex(0,1,1,2);  }  // [1,2,1,0] triclinic symmetry reduced : [0,1,1,2]
@@ -117,10 +127,10 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
         case 2100: { return mpc::core::TensorRank4ComponentIndex(0,0,1,2);  }  // [2,1,0,0] triclinic symmetry reduced : [0,0,1,2]
         case 2101: { return mpc::core::TensorRank4ComponentIndex(0,1,1,2);  }  // [2,1,0,1] triclinic symmetry reduced : [0,1,1,2]
         case 2102: { return mpc::core::TensorRank4ComponentIndex(0,2,1,2);  }  // [2,1,0,2] triclinic symmetry reduced : [0,2,1,2]
-        case 2110: { return mpc::core::TensorRank4ComponentIndex(0,1,1,2);  }  // [2,1,1,0] triclinic symmetry reduced : [0,1,1,2]  
+        case 2110: { return mpc::core::TensorRank4ComponentIndex(0,1,1,2);  }  // [2,1,1,0] triclinic symmetry reduced : [0,1,1,2]
         case 2111: { return mpc::core::TensorRank4ComponentIndex(1,1,1,2);  }  // [2,1,1,1] triclinic symmetry reduced : [1,1,1,2]
         case 2112: { return mpc::core::TensorRank4ComponentIndex(1,2,1,2);  }  // [2,1,1,2] triclinic symmetry reduced : [1,2,1,2]
-        case 2120: { return mpc::core::TensorRank4ComponentIndex(0,2,1,2);  }  // [2,1,2,0] triclinic symmetry reduced : [0,2,1,2] 
+        case 2120: { return mpc::core::TensorRank4ComponentIndex(0,2,1,2);  }  // [2,1,2,0] triclinic symmetry reduced : [0,2,1,2]
         case 2121: { return mpc::core::TensorRank4ComponentIndex(1,2,1,2);  }  // [2,1,2,1] triclinic symmetry reduced : [1,2,1,2]
         case 2122: { return mpc::core::TensorRank4ComponentIndex(1,2,2,2);  }  // [2,1,2,2] triclinic symmetry reduced : [1,2,2,2]
         case 2200: { return mpc::core::TensorRank4ComponentIndex(0,0,2,2);  }  // [2,2,0,0] triclinic symmetry reduced : [0,0,2,2]
@@ -133,7 +143,7 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
         case 2221: { return mpc::core::TensorRank4ComponentIndex(1,2,2,2);  }  // [2,2,2,1] triclinic symmetry reduced : [1,2,2,2]
         case 2222: { return mpc::core::TensorRank4ComponentIndex(2,2,2,2);  }  // [2,2,2,2] triclinic symmetry reduced : [2,2,2,2]
     }
-    
+
     return mpc::core::TensorRank4ComponentIndex(indexn);
 }
 
@@ -440,7 +450,7 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
     }
     return mpc::core::TensorRank4ComponentIndex(indexn);
 }
- 
+
 template <>
 inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc::core::HexagonalSymmetryGroupType>(const mpc::core::TensorRank4ComponentIndex& indexn) {
     /*
@@ -450,7 +460,7 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
      *  | --  --  --  33  --  -- |
      *  | --  --  --  --  33  -- |
      *  | --  --  --  --  --  XX |
-     * 
+     *
      * For C, XX = 0.5 * [C(0,0) - C(0,1)]
      * For S, XX =   2 * [S(0,0) - S(0,1)]
      */
@@ -545,7 +555,7 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
     }
     return mpc::core::TensorRank4ComponentIndex(indexn);
 }
- 
+
 template <>
 inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal7SymmetryGroupType>(const mpc::core::TensorRank4ComponentIndex& indexn) {
     /*
@@ -647,7 +657,7 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
     }
     return mpc::core::TensorRank4ComponentIndex(indexn);
 }
- 
+
 template <>
 inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal6SymmetryGroupType>(const mpc::core::TensorRank4ComponentIndex& indexn) {
     /*
@@ -750,7 +760,7 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
     }
     return mpc::core::TensorRank4ComponentIndex(indexn);
 }
- 
+
 template <>
 inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(const mpc::core::TensorRank4ComponentIndex& indexn) {
     /*
@@ -760,11 +770,11 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
      *  | 03 -03  --  33  -- *04 |
      *  | 04  14  --  --  33 *03 |
      *  | --  --  -- *04 *03  XX |
-     * 
+     *
      * where *NN is the numerical equal for C and twice the numerical equal for S; and
      * For C, XX = 0.5 * [C(0,0) - C(0,1)]
      * For S, XX =   2 * [S(0,0) - S(0,1)]
-     * 
+     *
      */
     //
     // "reduced" component index is always the "least valued" index, e.g. the first in a sorted container like set
@@ -856,7 +866,7 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
     }
     return mpc::core::TensorRank4ComponentIndex(indexn);
 }
- 
+
 template <>
 inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc::core::Trigonal6SymmetryGroupType>(const mpc::core::TensorRank4ComponentIndex& indexn) {
     /*
@@ -866,7 +876,7 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
      *  | 03 -03  --  33  --  -- |
      *  | --  --  --  --  33 *03 |
      *  | --  --  --  -- *03  XX |
-     * 
+     *
      * For C, XX = 0.5 * [C(0,0) - C(0,1)]
      * For S, XX =   2 * [S(0,0) - S(0,1)]
      */
@@ -960,7 +970,7 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
     }
     return mpc::core::TensorRank4ComponentIndex(indexn);
 }
- 
+
 template <>
 inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc::core::CubicSymmetryGroupType>(const mpc::core::TensorRank4ComponentIndex& indexn) {
     /*
@@ -1061,7 +1071,7 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
     }
     return mpc::core::TensorRank4ComponentIndex(indexn);
 }
- 
+
 template <>
 inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc::core::IsotropicSymmetryGroupType>(const mpc::core::TensorRank4ComponentIndex& indexn) {
     /*
@@ -1071,7 +1081,7 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
      *  | --  --  --  XX  --  -- |
      *  | --  --  --  --  XX  -- |
      *  | --  --  --  --  --  XX |
-     * 
+     *
      * For C, XX = 0.5 * [C(0,0) - C(0,1)]
      * For S, XX =   2 * [S(0,0) - S(0,1)]
      */
@@ -1165,10 +1175,10 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex<mpc
     }
     return mpc::core::TensorRank4ComponentIndex(indexn);
 }
- 
- 
- 
- 
+
+
+
+
 // poymorphic version for matrix notation
 template <typename S=NoneSymmetryGroupType>
 inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex(const mpc::core::TensorRank2ComponentIndex& indexn) {
@@ -1176,13 +1186,13 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex(con
     // get the indices for the fourth rank tensor from the matrix notation; note this makes no sense if the tensor is of none symmetry group type; matrix notation implies symmetry
     const int index_p = indexn.FirstIndex();
     const int index_q = indexn.SecondIndex();
-    
+
     std::pair<int,int> p_indices = mpc::util::GetIndexFromVoigtMatrix(index_p);
     std::pair<int,int> q_indices = mpc::util::GetIndexFromVoigtMatrix(index_q);
-    
+
     // call the specialized ReducedTensorRank4ComponentIndex<S>(..) function for rank 4 component index; no need to repeat specialization for polymorhic function
     mpc::core::TensorRank4ComponentIndex tmp = ReducedTensorRank4ComponentIndex<S>(mpc::core::TensorRank4ComponentIndex(p_indices.first, p_indices.second, q_indices.first, q_indices.second));
-    
+
     return tmp;
 }
 
@@ -1202,9 +1212,9 @@ constexpr inline int TensorRank2IndexNumberOfAliases(const mpc::core::TensorRank
 
 /* tensor rank 4 */
 template <typename S=mpc::core::NoneSymmetryGroupType>
-inline int TensorRank4IndexNumberOfAliases(const mpc::core::TensorRankNComponentIndex<4>& indexn) { 
+inline int TensorRank4IndexNumberOfAliases(const mpc::core::TensorRankNComponentIndex<4>& indexn) {
     static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
-    return 1; 
+    return 1;
 }
 
 template <>
@@ -1228,13 +1238,13 @@ inline int TensorRank4IndexNumberOfAliases<mpc::core::TriclinicSymmetryGroupType
     if (p_is_in_012 && q_is_in_012 && p==q) { return 1; }                            // (0,0) (1,1) (2,2)
     if (p_is_in_345 && q_is_in_345 && p==q) { return 4; }                            // (3,3) (4,4) (5,5)
     if (p_is_in_012 && q_is_in_012) { return 2; }                              // p!=q  (0,1) (1,0) (0,2) (2,0) (1,2) (2,1)
-    if ((p_is_in_345 && q_is_in_012) || (q_is_in_345 && p_is_in_012)) { return 4; }  // (3,0) (4,0) (5,0) (3,1) (4,1) (5,1) (3,2) (4,2) (5,2) 
-    return 8; 
+    if ((p_is_in_345 && q_is_in_012) || (q_is_in_345 && p_is_in_012)) { return 4; }  // (3,0) (4,0) (5,0) (3,1) (4,1) (5,1) (3,2) (4,2) (5,2)
+    return 8;
 }
 
 
 template <>
-inline int TensorRank4IndexNumberOfAliases<mpc::core::MonoclinicX2SymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) { 
+inline int TensorRank4IndexNumberOfAliases<mpc::core::MonoclinicX2SymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) {
     // === monoclinicx2 aliases a.k.a. reduced set
     const int integer_representation = (indexn.FirstIndex()*1000) + (indexn.SecondIndex()*100) + (indexn.ThirdIndex()*10) + indexn.FourthIndex();
     //std::cout << "integer_representation : " << integer_representation << std::endl;
@@ -1321,11 +1331,11 @@ inline int TensorRank4IndexNumberOfAliases<mpc::core::MonoclinicX2SymmetryGroupT
         case 2221: { return 1;  }  // [2,2,2,1] alias_counter : 1
         case 2222: { return 1;  }  // [2,2,2,2] alias_counter : 1
     }
-    return 1; 
+    return 1;
 }
 
 template <>
-inline int TensorRank4IndexNumberOfAliases<mpc::core::MonoclinicX3SymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) { 
+inline int TensorRank4IndexNumberOfAliases<mpc::core::MonoclinicX3SymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) {
     // === monoclinicx3 aliases a.k.a. reduced set
     const int integer_representation = (indexn.FirstIndex()*1000) + (indexn.SecondIndex()*100) + (indexn.ThirdIndex()*10) + indexn.FourthIndex();
     //std::cout << "integer_representation : " << integer_representation << std::endl;
@@ -1412,11 +1422,11 @@ inline int TensorRank4IndexNumberOfAliases<mpc::core::MonoclinicX3SymmetryGroupT
         case 2221: { return 1;  }  // [2,2,2,1] alias_counter : 1
         case 2222: { return 1;  }  // [2,2,2,2] alias_counter : 1
     }
-    return 1; 
+    return 1;
 }
 
 template <>
-inline int TensorRank4IndexNumberOfAliases<mpc::core::OrthorhombicSymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) { 
+inline int TensorRank4IndexNumberOfAliases<mpc::core::OrthorhombicSymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) {
 // === orthorhombic aliases a.k.a. reduced set
     const int integer_representation = (indexn.FirstIndex()*1000) + (indexn.SecondIndex()*100) + (indexn.ThirdIndex()*10) + indexn.FourthIndex();
     //std::cout << "integer_representation : " << integer_representation << std::endl;
@@ -1503,11 +1513,11 @@ inline int TensorRank4IndexNumberOfAliases<mpc::core::OrthorhombicSymmetryGroupT
         case 2221: { return 1;  }  // [2,2,2,1] alias_counter : 1
         case 2222: { return 1;  }  // [2,2,2,2] alias_counter : 1
     }
-    return 1; 
+    return 1;
 }
 
 template <>
-inline int TensorRank4IndexNumberOfAliases<mpc::core::HexagonalSymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) { 
+inline int TensorRank4IndexNumberOfAliases<mpc::core::HexagonalSymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) {
 // === hexagonal aliases a.k.a. reduced set
     const int integer_representation = (indexn.FirstIndex()*1000) + (indexn.SecondIndex()*100) + (indexn.ThirdIndex()*10) + indexn.FourthIndex();
     //std::cout << "integer_representation : " << integer_representation << std::endl;
@@ -1594,11 +1604,11 @@ inline int TensorRank4IndexNumberOfAliases<mpc::core::HexagonalSymmetryGroupType
         case 2221: { return 1;  }  // [2,2,2,1] alias_counter : 1
         case 2222: { return 1;  }  // [2,2,2,2] alias_counter : 1
     }
-    return 1; 
+    return 1;
 }
 
 template <>
-inline int TensorRank4IndexNumberOfAliases<mpc::core::Tetragonal7SymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) { 
+inline int TensorRank4IndexNumberOfAliases<mpc::core::Tetragonal7SymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) {
 // === tetragonal7 aliases a.k.a. reduced set
     const int integer_representation = (indexn.FirstIndex()*1000) + (indexn.SecondIndex()*100) + (indexn.ThirdIndex()*10) + indexn.FourthIndex();
     //std::cout << "integer_representation : " << integer_representation << std::endl;
@@ -1685,11 +1695,11 @@ inline int TensorRank4IndexNumberOfAliases<mpc::core::Tetragonal7SymmetryGroupTy
         case 2221: { return 1;  }  // [2,2,2,1] alias_counter : 1
         case 2222: { return 1;  }  // [2,2,2,2] alias_counter : 1
     }
-    return 1; 
+    return 1;
 }
 
 template <>
-inline int TensorRank4IndexNumberOfAliases<mpc::core::Tetragonal6SymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) { 
+inline int TensorRank4IndexNumberOfAliases<mpc::core::Tetragonal6SymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) {
 // === tetragonal6 aliases a.k.a. reduced set
     const int integer_representation = (indexn.FirstIndex()*1000) + (indexn.SecondIndex()*100) + (indexn.ThirdIndex()*10) + indexn.FourthIndex();
     //std::cout << "integer_representation : " << integer_representation << std::endl;
@@ -1776,11 +1786,11 @@ inline int TensorRank4IndexNumberOfAliases<mpc::core::Tetragonal6SymmetryGroupTy
         case 2221: { return 1;  }  // [2,2,2,1] alias_counter : 1
         case 2222: { return 1;  }  // [2,2,2,2] alias_counter : 1
     }
-    return 1; 
+    return 1;
 }
 
 template <>
-inline int TensorRank4IndexNumberOfAliases<mpc::core::Trigonal7SymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) { 
+inline int TensorRank4IndexNumberOfAliases<mpc::core::Trigonal7SymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) {
 // === trigonal7 aliases a.k.a. reduced set
     const int integer_representation = (indexn.FirstIndex()*1000) + (indexn.SecondIndex()*100) + (indexn.ThirdIndex()*10) + indexn.FourthIndex();
     //std::cout << "integer_representation : " << integer_representation << std::endl;
@@ -1867,11 +1877,11 @@ inline int TensorRank4IndexNumberOfAliases<mpc::core::Trigonal7SymmetryGroupType
         case 2221: { return 1;  }  // [2,2,2,1] alias_counter : 1
         case 2222: { return 1;  }  // [2,2,2,2] alias_counter : 1
     }
-    return 1; 
+    return 1;
 }
 
 template <>
-inline int TensorRank4IndexNumberOfAliases<mpc::core::Trigonal6SymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) { 
+inline int TensorRank4IndexNumberOfAliases<mpc::core::Trigonal6SymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) {
 // === trigonal6 aliases a.k.a. reduced set
     const int integer_representation = (indexn.FirstIndex()*1000) + (indexn.SecondIndex()*100) + (indexn.ThirdIndex()*10) + indexn.FourthIndex();
     //std::cout << "integer_representation : " << integer_representation << std::endl;
@@ -1958,11 +1968,11 @@ inline int TensorRank4IndexNumberOfAliases<mpc::core::Trigonal6SymmetryGroupType
         case 2221: { return 1;  }  // [2,2,2,1] alias_counter : 1
         case 2222: { return 1;  }  // [2,2,2,2] alias_counter : 1
     }
-    return 1; 
+    return 1;
 }
 
 template <>
-inline int TensorRank4IndexNumberOfAliases<mpc::core::CubicSymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) { 
+inline int TensorRank4IndexNumberOfAliases<mpc::core::CubicSymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) {
 // === cubic aliases a.k.a. reduced set
     const int integer_representation = (indexn.FirstIndex()*1000) + (indexn.SecondIndex()*100) + (indexn.ThirdIndex()*10) + indexn.FourthIndex();
     //std::cout << "integer_representation : " << integer_representation << std::endl;
@@ -2049,11 +2059,11 @@ inline int TensorRank4IndexNumberOfAliases<mpc::core::CubicSymmetryGroupType>(co
         case 2221: { return 1;  }  // [2,2,2,1] alias_counter : 1
         case 2222: { return 3;  }  // [2,2,2,2] alias_counter : 3
     }
-    return 1; 
+    return 1;
 }
 
 template <>
-inline int TensorRank4IndexNumberOfAliases<mpc::core::IsotropicSymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) { 
+inline int TensorRank4IndexNumberOfAliases<mpc::core::IsotropicSymmetryGroupType>(const mpc::core::TensorRankNComponentIndex<4>& indexn) {
 // === isotropic aliases a.k.a. reduced set
     const int integer_representation = (indexn.FirstIndex()*1000) + (indexn.SecondIndex()*100) + (indexn.ThirdIndex()*10) + indexn.FourthIndex();
     //std::cout << "integer_representation : " << integer_representation << std::endl;
@@ -2140,9 +2150,9 @@ inline int TensorRank4IndexNumberOfAliases<mpc::core::IsotropicSymmetryGroupType
         case 2221: { return 1;  }  // [2,2,2,1] alias_counter : 1
         case 2222: { return 3;  }  // [2,2,2,2] alias_counter : 3
     }
-    return 1; 
+    return 1;
 }
-    
+
 
 
 
@@ -2229,7 +2239,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
     // no "groupings", e.g. no equivalent components beyond triclinic symmetry
     mpc::core::TensorRank4ComponentIndex indexn_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX2SymmetryGroupType>(indexn);
     std::set<mpc::core::TensorRank4ComponentIndex> iset{};
-    
+
     // deterimine if the index belongs to the set of non-zero values...
     // 00, 11, and 22 are easy because they do not have aliases
     if (indexn == mpc::core::TensorRank4ComponentIndex(0,0,0,0)) {
@@ -2244,71 +2254,71 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(mpc::core::TensorRank4ComponentIndex(2,2,2,2));
         return iset;
     }
-    
+
     mpc::core::TensorRank4ComponentIndex indexXX_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX2SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1));  // 01
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX2SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));  // 02
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX2SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,2));  // 04
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX2SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,1,2,2));  // 12
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX2SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,1,0,2));  // 14
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX2SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(2,2,0,2));  // 24
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX2SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));  // 33
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX2SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,0,1));  // 35
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX2SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,2,0,2));  // 44
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX2SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1));  // 55
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     // the index must be a zero-valued index; return a set with a copy of the index
-    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));    
+    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));
     return iset;
 }
 
@@ -2327,7 +2337,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
     // no "groupings", e.g. no equivalent components beyond triclinic symmetry
     mpc::core::TensorRank4ComponentIndex indexn_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX3SymmetryGroupType>(indexn);
     std::set<mpc::core::TensorRank4ComponentIndex> iset{};
-    
+
     // deterimine if the index belongs to the set of non-zero values...
     // 00, 11, and 22 are easy because they do not have aliases
     if (indexn == mpc::core::TensorRank4ComponentIndex(0,0,0,0)) {
@@ -2342,73 +2352,73 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(mpc::core::TensorRank4ComponentIndex(2,2,2,2));
         return iset;
     }
-    
+
     mpc::core::TensorRank4ComponentIndex indexXX_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX3SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1));  // 01
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX3SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));  // 02
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX3SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,1));  // 05
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX3SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,1,2,2));  // 12
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX3SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,1,0,1));  // 15
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX3SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(2,2,0,1));  // 25
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX3SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));  // 33
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX3SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,0,2));  // 34
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX3SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,2,0,2));  // 44
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::MonoclinicX3SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1));  // 55
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     // the index must be a zero-valued index; return a set with a copy of the index
-    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));    
+    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));
     return iset;
-    
+
 }
 
 template <>
@@ -2426,7 +2436,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
     // no "groupings", e.g. no equivalent components beyond triclinic symmetry
     mpc::core::TensorRank4ComponentIndex indexn_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::OrthorhombicSymmetryGroupType>(indexn);
     std::set<mpc::core::TensorRank4ComponentIndex> iset{};
-    
+
     // deterimine if the index belongs to the set of non-zero values...
     // 00, 11, and 22 are easy because they do not have aliases
     if (indexn == mpc::core::TensorRank4ComponentIndex(0,0,0,0)) {
@@ -2441,47 +2451,47 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(mpc::core::TensorRank4ComponentIndex(2,2,2,2));
         return iset;
     }
-    
+
     mpc::core::TensorRank4ComponentIndex indexXX_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::OrthorhombicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1));  // 01
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::OrthorhombicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));  // 02
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::OrthorhombicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,1,2,2));  // 12
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::OrthorhombicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));  // 33
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::OrthorhombicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,2,0,2));  // 44
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::OrthorhombicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1));  // 55
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     // the index must be a zero-valued index; return a set with a copy of the index
-    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));    
+    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));
     return iset;
 }
 
@@ -2494,7 +2504,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
      *  | --  --  --  33  --  -- |
      *  | --  --  --  --  33  -- |
      *  | --  --  --  --  --  XX |
-     * 
+     *
      * For C, XX = 0.5 * [C(0,0) - C(0,1)]
      * For S, XX =   2 * [S(0,0) - S(0,1)]
      */
@@ -2504,7 +2514,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
     // Groupings: {00,11}, {02,12}, {33,44}
     mpc::core::TensorRank4ComponentIndex indexn_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::HexagonalSymmetryGroupType>(indexn);
     std::set<mpc::core::TensorRank4ComponentIndex> iset{};
-    
+
     // deterimine if the index belongs to the set of non-zero values...
     // 00, 11, and 22 are easy because they do not have aliases
     if (indexn == mpc::core::TensorRank4ComponentIndex(0,0,0,0)) {
@@ -2521,15 +2531,15 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(mpc::core::TensorRank4ComponentIndex(2,2,2,2));
         return iset;
     }
-    
+
     mpc::core::TensorRank4ComponentIndex indexXX_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::HexagonalSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1));  // 01
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::HexagonalSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));  // 02
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));
@@ -2537,7 +2547,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 02 and 12
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::HexagonalSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,1,2,2));  // 12
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));
@@ -2545,7 +2555,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 02 and 12
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::HexagonalSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));  // 33
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));
@@ -2553,7 +2563,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 33 and 44
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::HexagonalSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,2,0,2));  // 44
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));
@@ -2561,15 +2571,15 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 33 and 44
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::HexagonalSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1));  // 55
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     // the index must be a zero-valued index; return a set with a copy of the index
-    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));    
+    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));
     return iset;
 }
 
@@ -2588,7 +2598,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
     // Groupings: {00,11}, {02,12}, {33,44}, {05,15}
     mpc::core::TensorRank4ComponentIndex indexn_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal7SymmetryGroupType>(indexn);
     std::set<mpc::core::TensorRank4ComponentIndex> iset{};
-    
+
     // deterimine if the index belongs to the set of non-zero values...
     // 00, 11, and 22 are easy because they do not have aliases
     if (indexn == mpc::core::TensorRank4ComponentIndex(0,0,0,0)) {
@@ -2605,15 +2615,15 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(mpc::core::TensorRank4ComponentIndex(2,2,2,2));
         return iset;
     }
-    
+
     mpc::core::TensorRank4ComponentIndex indexXX_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1));  // 01
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));  // 02
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));
@@ -2621,7 +2631,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 02 and 12
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,1,2,2));  // 12
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));
@@ -2629,7 +2639,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 02 and 12
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,1));  // 05
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,1));
@@ -2637,7 +2647,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 05 and 15
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,1,0,1));  // 15
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,1));
@@ -2645,7 +2655,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 05 and 15
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));  // 33
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));
@@ -2653,7 +2663,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 33 and 44
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,2,0,2));  // 44
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));
@@ -2661,15 +2671,15 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 33 and 44
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1));  // 55
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     // the index must be a zero-valued index; return a set with a copy of the index
-    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));    
+    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));
     return iset;
 }
 
@@ -2685,10 +2695,10 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
      */
     //
     // "reduced" component index is always the "least valued" index, e.g. the first in a sorted container like set
-    // Groupings: {00,11}, {02,12}, {33,44}    
+    // Groupings: {00,11}, {02,12}, {33,44}
     mpc::core::TensorRank4ComponentIndex indexn_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal6SymmetryGroupType>(indexn);
     std::set<mpc::core::TensorRank4ComponentIndex> iset{};
-    
+
     // deterimine if the index belongs to the set of non-zero values...
     // 00, 11, and 22 are easy because they do not have aliases
     if (indexn == mpc::core::TensorRank4ComponentIndex(0,0,0,0)) {
@@ -2705,15 +2715,15 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(mpc::core::TensorRank4ComponentIndex(2,2,2,2));
         return iset;
     }
-    
+
     mpc::core::TensorRank4ComponentIndex indexXX_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1));  // 01
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));  // 02
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));
@@ -2721,7 +2731,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 02 and 12
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,1,2,2));  // 12
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));
@@ -2729,7 +2739,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 02 and 12
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));  // 33
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));
@@ -2737,7 +2747,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 33 and 44
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,2,0,2));  // 44
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));
@@ -2745,15 +2755,15 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 33 and 44
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Tetragonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1));  // 55
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     // the index must be a zero-valued index; return a set with a copy of the index
-    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));    
+    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));
     return iset;
 }
 
@@ -2766,18 +2776,18 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
      *  | 03 -03  --  33  -- *04 |
      *  | 04  14  --  --  33 *03 |
      *  | --  --  -- *04 *03  XX |
-     * 
+     *
      * where *NN is the numerical equal for C and twice the numerical equal for S; and
      * For C, XX = 0.5 * [C(0,0) - C(0,1)]
      * For S, XX =   2 * [S(0,0) - S(0,1)]
-     * 
+     *
      */
     //
     // "reduced" component index is always the "least valued" index, e.g. the first in a sorted container like set
-    // Groupings: {00,11}, {02,12}, {03,13,45}, {04,14,35}, {33,44}    
+    // Groupings: {00,11}, {02,12}, {03,13,45}, {04,14,35}, {33,44}
     mpc::core::TensorRank4ComponentIndex indexn_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(indexn);
     std::set<mpc::core::TensorRank4ComponentIndex> iset{};
-    
+
     // deterimine if the index belongs to the set of non-zero values...
     // 00, 11, and 22 are easy because they do not have aliases
     if (indexn == mpc::core::TensorRank4ComponentIndex(0,0,0,0)) {
@@ -2794,15 +2804,15 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(mpc::core::TensorRank4ComponentIndex(2,2,2,2));
         return iset;
     }
-    
+
     mpc::core::TensorRank4ComponentIndex indexXX_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1));  // 01
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));  // 02
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));
@@ -2810,7 +2820,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 02 and 12
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,1,2,2));  // 12
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));
@@ -2818,7 +2828,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 02 and 12
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));  // 33
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));
@@ -2826,7 +2836,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 33 and 44
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,2,0,2));  // 44
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));
@@ -2834,13 +2844,13 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 33 and 44
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1));  // 55
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,2));  // 03
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,2));
@@ -2850,7 +2860,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {03,13,45}
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,1,1,2));  // 13
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,2));
@@ -2860,7 +2870,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {03,13,45}
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,2,0,1));  // 45
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,2));
@@ -2870,7 +2880,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {03,13,45}
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,2));  // 04
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,2));
@@ -2880,7 +2890,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {04,14,35}
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,1,0,2));  // 14
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,2));
@@ -2890,7 +2900,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {04,14,35}
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal7SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,0,1));  // 35
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,0,2));
@@ -2900,9 +2910,9 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {04,14,35}
         return iset;
     }
-    
+
     // the index must be a zero-valued index; return a set with a copy of the index
-    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));    
+    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));
     return iset;
 }
 
@@ -2915,16 +2925,16 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
      *  | 03 -03  --  33  --  -- |
      *  | --  --  --  --  33 *03 |
      *  | --  --  --  -- *03  XX |
-     * 
+     *
      * For C, XX = 0.5 * [C(0,0) - C(0,1)]
      * For S, XX =   2 * [S(0,0) - S(0,1)]
      */
     //
     // "reduced" component index is always the "least valued" index, e.g. the first in a sorted container like set
-    // Groupings: {00,11}, {02,12}, {03,13,45}, {33,44}    
+    // Groupings: {00,11}, {02,12}, {03,13,45}, {33,44}
     mpc::core::TensorRank4ComponentIndex indexn_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal6SymmetryGroupType>(indexn);
     std::set<mpc::core::TensorRank4ComponentIndex> iset{};
-    
+
     // deterimine if the index belongs to the set of non-zero values...
     // 00, 11, and 22 are easy because they do not have aliases
     if (indexn == mpc::core::TensorRank4ComponentIndex(0,0,0,0)) {
@@ -2941,15 +2951,15 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(mpc::core::TensorRank4ComponentIndex(2,2,2,2));
         return iset;
     }
-    
+
     mpc::core::TensorRank4ComponentIndex indexXX_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1));  // 01
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));  // 02
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));
@@ -2957,7 +2967,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 02 and 12
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,1,2,2));  // 12
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));
@@ -2965,7 +2975,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 02 and 12
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));  // 33
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));
@@ -2973,7 +2983,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 33 and 44
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,2,0,2));  // 44
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));
@@ -2981,13 +2991,13 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices 33 and 44
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1));  // 55
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(indexn);
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,2));  // 03
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,2));
@@ -2997,7 +3007,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {03,13,45}
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,1,1,2));  // 13
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,2));
@@ -3007,7 +3017,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {03,13,45}
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::Trigonal6SymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,2,0,1));  // 45
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,2));
@@ -3017,9 +3027,9 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {03,13,45}
         return iset;
     }
-    
+
     // the index must be a zero-valued index; return a set with a copy of the index
-    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));    
+    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));
     return iset;
 }
 
@@ -3035,11 +3045,11 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
      */
     //
     // "reduced" component index is always the "least valued" index, e.g. the first in a sorted container like set
-    // Groupings: {00,11,22}, {01,02,12}, {33,44,55}    
+    // Groupings: {00,11,22}, {01,02,12}, {33,44,55}
     mpc::core::TensorRank4ComponentIndex indexn_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::CubicSymmetryGroupType>(indexn);
     std::set<mpc::core::TensorRank4ComponentIndex> iset{};
     std::set<mpc::core::TensorRank4ComponentIndex> iset_tmp{};
-    
+
     // deterimine if the index belongs to the set of non-zero values...
     // 00, 11, and 22 are easy because they do not have aliases
     if (indexn == mpc::core::TensorRank4ComponentIndex(0,0,0,0)) {
@@ -3060,9 +3070,9 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(mpc::core::TensorRank4ComponentIndex(2,2,2,2));
         return iset;
     }
-    
+
     mpc::core::TensorRank4ComponentIndex indexXX_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::CubicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1));  // 01
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1));
@@ -3072,7 +3082,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {01,02,12}
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::CubicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));  // 02
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1));
@@ -3082,7 +3092,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {01,02,12}
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::CubicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,1,2,2));  // 12
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1));
@@ -3092,7 +3102,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {01,02,12}
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::CubicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));  // 33
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));
@@ -3102,7 +3112,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {33,44,55}
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::CubicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,2,0,2));  // 44
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));
@@ -3112,7 +3122,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {33,44,55}
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::CubicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1));  // 55
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));
@@ -3122,9 +3132,9 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {33,44,55}
         return iset;
     }
-    
+
     // the index must be a zero-valued index; return a set with a copy of the index
-    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));    
+    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));
     return iset;
 }
 
@@ -3137,18 +3147,18 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
      *  | --  --  --  XX  --  -- |
      *  | --  --  --  --  XX  -- |
      *  | --  --  --  --  --  XX |
-     * 
+     *
      * For C, XX = 0.5 * [C(0,0) - C(0,1)]
      * For S, XX =   2 * [S(0,0) - S(0,1)]
      */
     //
     // "reduced" component index is always the "least valued" index, e.g. the first in a sorted container like set
     // NOTE: isotropic is identical to cubic in terms of component groupings; the difference comes from the relationship of the values between component indices
-    // Groupings: {00,11,22}, {01,02,12}, {33,44,55}    
+    // Groupings: {00,11,22}, {01,02,12}, {33,44,55}
     mpc::core::TensorRank4ComponentIndex indexn_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::IsotropicSymmetryGroupType>(indexn);
     std::set<mpc::core::TensorRank4ComponentIndex> iset{};
     std::set<mpc::core::TensorRank4ComponentIndex> iset_tmp{};
-    
+
     // deterimine if the index belongs to the set of non-zero values...
     // 00, 11, and 22 are easy because they do not have aliases
     if (indexn == mpc::core::TensorRank4ComponentIndex(0,0,0,0)) {
@@ -3169,9 +3179,9 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(mpc::core::TensorRank4ComponentIndex(2,2,2,2));
         return iset;
     }
-    
+
     mpc::core::TensorRank4ComponentIndex indexXX_reduced = mpc::core::TensorRank4ComponentIndex(0,0,0,0);
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::IsotropicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1));  // 01
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1));
@@ -3181,7 +3191,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {01,02,12}
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::IsotropicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,2,2));  // 02
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1));
@@ -3191,7 +3201,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {01,02,12}
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::IsotropicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,1,2,2));  // 12
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,0,1,1));
@@ -3201,7 +3211,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {01,02,12}
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::IsotropicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));  // 33
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));
@@ -3211,7 +3221,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {33,44,55}
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::IsotropicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,2,0,2));  // 44
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));
@@ -3221,7 +3231,7 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {33,44,55}
         return iset;
     }
-    
+
     indexXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex<mpc::core::IsotropicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(0,1,0,1));  // 55
     if (indexn_reduced == indexXX_reduced) {
         iset = mpc::core::TensorRank4IndexAliases<mpc::core::TriclinicSymmetryGroupType>(mpc::core::TensorRank4ComponentIndex(1,2,1,2));
@@ -3231,9 +3241,9 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         iset.insert(iset_tmp.begin(), iset_tmp.end());  // merge the set for indices {33,44,55}
         return iset;
     }
-    
+
     // the index must be a zero-valued index; return a set with a copy of the index
-    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));    
+    iset.insert(mpc::core::TensorRank4ComponentIndex(indexn));
     return iset;
 }
 

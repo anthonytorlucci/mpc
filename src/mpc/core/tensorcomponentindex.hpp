@@ -1,3 +1,13 @@
+/**
+*    @file tensorcomponentindex.hpp
+*    @brief structure that defines a tensor component index, i.e. the
+* indices (i,j) or (i,j,k,l) of a tensor
+*    
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
+
 #ifndef MPC_TENSORCOMPONENTINDEX_H
 #define MPC_TENSORCOMPONENTINDEX_H
 
@@ -16,7 +26,7 @@
 
 namespace mpc {
 namespace core {
-    
+
 //==============================================================================
 // COMPILE-TIME COMPUTATION AND SPCIALIZATION AS TEMPLATE PARAMETER VALUE ARGUMENTS
 /**
@@ -31,11 +41,11 @@ public:
     constexpr CTensorRank2ComponentIndex() {}
     constexpr inline int FirstIndex() const { return M; }  // no implicit this*
     constexpr inline int SecondIndex() const { return N; }  // no implicit this*
-    
-    
+
+
     template <int P, int Q>
     constexpr CTensorRank2ComponentIndex(const CTensorRank2ComponentIndex<P,Q>& rhs) {}  // copy constructor
-    
+
     // no assignment, M,N are fixed
     //template <int P, int Q>
     //inline CTensorRank2ComponentIndex& operator= (const CTensorRank2ComponentIndex& rhs) {
@@ -70,17 +80,17 @@ public:
     inline bool operator!=(const CTensorRank2ComponentIndex<P,Q>& rhs) {
         return (M==P && N==Q) ? false : true;
     }
-    
+
     template <int P, int Q>
     inline bool operator<=( const CTensorRank2ComponentIndex<P,Q>& rhs ) const
     {
         // the convention mpc uses:
         return ((M*10 + N) <= (P*10 + Q)) ? true : false;
     }
-    
+
     template <int P, int Q>
     inline bool operator>=( const CTensorRank2ComponentIndex<P,Q>& rhs ) const
-    {        
+    {
         // the convention mpc uses:
         return ((M*10 + N) >= (P*10 + Q)) ? true : false;
     }
@@ -128,7 +138,7 @@ public:
 //    return true;
 //}
 
-// TODO: define the comparison operators outside the class, make friend, and constexpr; if constexpr, can they be used as a predicate in another template paramter value or static_assert() 
+// TODO: define the comparison operators outside the class, make friend, and constexpr; if constexpr, can they be used as a predicate in another template paramter value or static_assert()
 
 
 //==============================================================================
@@ -150,18 +160,18 @@ public:
     constexpr inline int ThirdIndex() const { return K; } // no implicit this*
     constexpr inline int FourthIndex() const { return L; } // no implicit this*
 
-    
+
     template <int P, int Q, int R, int S>
     constexpr CTensorRank4ComponentIndex(const CTensorRank4ComponentIndex<P,Q,R,S>& rhs) {}  // copy constructor
-    
+
     // no assignment operator; I,J,K,L are fixed????
 //     template <int P, int Q, int R, int S>
 //     inline CTensorRank4ComponentIndex<I,J,K,L>& operator=(CTensorRank4ComponentIndex<P,Q,R,S>& c) {
-//         
-//         
+//
+//
 //         return *this;
 //     }
-    
+
     inline int operator[](int i) {
         switch (i) {
         case 0: return I;
@@ -219,14 +229,14 @@ public:
         if (I == rhs.FirstIndex() && J == rhs.SecondIndex() && K == rhs.ThirdIndex() && L == rhs.FourthIndex()) { return false; }
         return true;
     }
-    
+
     template <int P, int Q, int R, int S>
     inline bool operator<=( const CTensorRank4ComponentIndex<P,Q,R,S>& rhs ) const
     {
         // the convention mpc uses:
         return ((I*1000 + J*100 + K*10 + L) <= (P*1000 + Q*100 + R*10 + S)) ? true : false;
     }
-    
+
     template <int P, int Q, int R, int S>
     inline bool operator>=( const CTensorRank4ComponentIndex<P,Q,R,S>& rhs ) const
     {
@@ -250,7 +260,7 @@ public:
     }
 };
 
-// TODO: define the comparison operators outside the class, make friend, and constexpr; if constexpr, can they be used as a predicate in another template paramter value or static_assert() 
+// TODO: define the comparison operators outside the class, make friend, and constexpr; if constexpr, can they be used as a predicate in another template paramter value or static_assert()
 
 
 
@@ -282,7 +292,7 @@ public:
     explicit TensorRankNComponentIndex(const CTensorRank2ComponentIndex<M,N>& cindex) : m_(M), n_(N) {}
 
     inline int operator[](int i) {
-        
+
         if(i==0) { return m_; }
         if(i==1) { return n_; }
         if(i>1 || i<0) { throw std::range_error("i must be less than or equal to one and greater than zero"); }
@@ -308,7 +318,7 @@ public:
     {
         return ((m_*10 + n_) != (rhs.FirstIndex()*10 + rhs.SecondIndex())) ? true : false;
     }
-    
+
     inline bool operator<=( const TensorRankNComponentIndex& rhs ) const
     {
         return ((m_*10 + n_) <= (rhs.FirstIndex()*10 + rhs.SecondIndex())) ? true : false;
@@ -373,7 +383,7 @@ public:
         i_(I), j_(J), k_(K), l_(L) {}
 
     inline int operator[](int i) {
-        
+
         switch (i) {
         case 0: return i_;
         case 1: return j_;
@@ -381,7 +391,7 @@ public:
         case 3: return l_;
         default: throw std::range_error("i must be less than or equal to three");
         }
-        
+
     }
 
     // needed for set, although one index is not really greater than or less than another...
@@ -403,7 +413,7 @@ public:
     {
         return ((i_*1000 + j_*100 + k_*10 + l_) != (rhs.FirstIndex()*1000 + rhs.SecondIndex()*100 + rhs.ThirdIndex()*10 + rhs.FourthIndex())) ? true : false;
     }
-    
+
     inline bool operator<=( const TensorRankNComponentIndex& rhs ) const
     {
         return ((i_*1000 + j_*100 + k_*10 + l_) <= (rhs.FirstIndex()*1000 + rhs.SecondIndex()*100 + rhs.ThirdIndex()*10 + rhs.FourthIndex())) ? true : false;

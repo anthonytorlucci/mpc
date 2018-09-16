@@ -1,7 +1,11 @@
 /**
- *  mpc - mechanical properties of crystals
- *  Description ...
- */
+*    @file unwrapper.hpp
+*    @brief function object that "unwraps" a multi-dimenional array into
+* a single one-dimensional array; used by transformer function object
+*
+*    @author Anthony Torlucci
+*    @date 9/16/2018
+*/
 
 #ifndef MPC_UNWRAPPER_H
 #define MPC_UNWRAPPER_H
@@ -12,12 +16,6 @@
 
 //blitz
 #include <blitz/array.h>
-
-// mpc
-//#include "mpc/rotation/transformer_helper_permutations.h"
-
-// TODO: This file provides a template function object that unwraps a multi-dimensional array
-// TODO: into a single one-dimensional array
 
 namespace mpc {
 namespace util {
