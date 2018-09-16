@@ -3,9 +3,9 @@ markdown:         kramdown
 highlighter:      rouge
 
 # Setup
-title:            Hydeout
-tagline:          'A Jekyll theme'
-description:      'The <a href="http://hyde.getpoole.com" target="_blank">Hyde</a> theme for <a href="http://jekyllrb.com" target="_blank">Jekyll</a>, refreshed.'
+title:            mpc
+tagline:          'a modern c++ library'
+description:      'mechanical properties of crystals and polycrystalline aggregates'
 url:              https://github.com/threecubed
 baseurl:          '/mpc'
                   # the optional subpath of your site, e.g. "/blog"
