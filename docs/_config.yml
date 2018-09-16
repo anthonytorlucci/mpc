@@ -1,26 +1,38 @@
 # Dependencies
-markdown:         redcarpet
-highlighter:      pygments
-
-# Permalinks
-#permalink:        pretty
-#relative_permalinks: true
+markdown:         kramdown
+highlighter:      rouge
 
 # Setup
-title:            mpc
-tagline:          'mechanical properties of crystals'
-description:      'mechanical properties of crystals and polycrystalline aggregates'
-url:              https://threecubed.github.io
-baseurl:          /mpc/
+title:            Hydeout
+tagline:          'A Jekyll theme'
+description:      'The <a href="http://hyde.getpoole.com" target="_blank">Hyde</a> theme for <a href="http://jekyllrb.com" target="_blank">Jekyll</a>, refreshed.'
+url:              https://github.com/threecubed
+baseurl:          '/mpc'
+                  # the optional subpath of your site, e.g. "/blog"
+                  # NB: This applies to all pages in your Jekyll site.
+                  # If you want to move just the blog index pages but keep
+                  # other pages at root, see the paginate_path and
+                  # sidebar_blog_link below.
 
 author:
   name:           'Anthony Torlucci'
-  url:
+  url:            https://twitter.com/MadSci27
 
 paginate:         5
+# paginate_path:    '/page:num'
+                    # Or '/blog/page:num' if you want to move your index pages
+
+plugins:
+  - jekyll-feed
+  - jekyll-gist
+  - jekyll-paginate
 
 # Custom vars
-version:          2.1.0
-
+version:            3.7.1
+sidebar_home_link:  true
+# sidebar_blog_link:  '/blog'   # By default, your home page is your blog
+                                # page. If you change your paginate_path,
+                                # set this to the root of the paginate_path
+                                # to enable a separate blog link.
 github:
-  repo:           https://github.com/threecubed/mpc
+  repo:             https://github.com/threecubed/mpc
