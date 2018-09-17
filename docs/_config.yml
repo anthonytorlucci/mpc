@@ -1,6 +1,6 @@
 # Site settings
 title: mpc
-email: example@example.com
+#email: example@example.com
 url: https://github.com/threecubed
 baseurl: '/mpc'
 description: 'c++ template library for the mechanical properties of crystals and polycrystalline aggregates'

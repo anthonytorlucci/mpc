@@ -92,12 +92,29 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
                 <h2>about mpc</h2>
-                <p>mpc is c++ header-only template library designed for the explicit calculation of mechanical properties in a three-dimensional Cartesian space.</p>
-                <p>TO BE COMPLETED...</p>
+                <p>
+                  mpc is c++ header-only template library designed for the
+                  explicit calculation of the mechanical properties of a
+                  crystal or polycrystalline aggregate in a three-dimensional
+                  Cartesian space.  The library's primary purpose is to compute
+                  the static effective stiffness and compliance tensors of
+                  heterogeneous or composite materials and the corresponding
+                  velocities using the Green-Christoffel equation.
+                </p>
+                <p>
+                  The user guide page illustrates the core data structures and
+                  a few examples of how to use the library for computational
+                  experiments with elastic tensor data of crystals.
+                </p>
+                <p>
+                  Skip to the download page to get the source code.
+                </p>
+                <br>
                 <h2>Grayscale Jekyll theme</h2>
                 <p>The Jekyll version is brought to you by <a href="https://github.com/jeromelachaud">Jerome Lachaud</a></p>
                 <p>This theme features stock photos by <a href="http://gratisography.com/">Gratisography</a> along with a custom Google Maps skin courtesy of <a href="http://snazzymaps.com/">Snazzy Maps</a>.</p>
                 <p>Grayscale includes full HTML, CSS, and custom JavaScript files along with LESS files for easy customization.</p>
+                <p><em>This site was created from the Grayscale Jekyll theme</em></p>
             </div>
         </div>
     </section>
@@ -108,9 +125,103 @@
             <div class="container">
                 <div class="col-lg-8 col-lg-offset-2">
                     <h2>mpc user guide</h2>
-                    <p>TODO: user guide</p>
-                    <p> MathJax test </p>
-                    <p>$$E=mc^2$$</p>
+                    <h3>user guide section 00 - introduction</h3>
+                    <p>
+                      mpc is c++ header-only template library designed for the
+                      explicit calculation of the mechanical properties of a
+                      crystal or polycrystalline aggregate in a three-dimensional
+                      Cartesian space.  The library's primary purpose is to compute
+                      the static effective stiffness and compliance tensors of
+                      heterogeneous or composite materials and the corresponding
+                      velocities using the Green-Christoffel equation.
+                    </p>
+                    <p>
+                      The user should be familiar the basics of continuum
+                      mechanics, particularly solid mechanics including, at a
+                      minimum, tensor algebra.  This user guide will walk you
+                      through creating the core data structures that make mpc.
+                      These core data structures are based on the concept of a
+                      tensor which is at the core of mechanics and thus form
+                      the core data structures for mpc.
+                    </p>
+                    <p>
+                      We assume that the material obeys Hooke's law; that is,
+                      there exists a linear relationship between the stress
+                      applied to the material and the corresponding strain.
+                      Hooke's law is written is concise suffix notation as
+                      \[
+                        \sigma_{ij} = c_{ijkl} \epsilon_{kl}
+                      \]
+                      or
+                      \[
+                        \epsilon_{kl} = s_{klij} \sigma_{ij}
+                      \]
+                      where \(\sigma_{ij}\) is the stress tensor, \(\epsilon_{kl}\)
+                      is the strain tensor, \(c_{ijkl}\) is the stiffness
+                      tensor, and \(s_{klmn}\) is the compliance tensor...
+                    </p>
+                    <br>
+                    <h3>user guide section 01 - core data structures</h3>
+                    <h4>terminology and mpc conventions</h4>
+                    <p>
+                      While stress and strain can be measured in two
+                      dimensions and possibly any curvilinear coordinate system,
+                      this higher level of abstraction was considered beyond
+                      the scope of the project.  Therefore, all tensors are
+                      considered to be Cartesian tensors in a three-dimensional
+                      space.
+                    </p>
+                    <p>
+                      Like most computational libraries, mpc has a few core
+                      data structures, most notably, the
+                      <font face="Courier New">StiffnessTensor</font> class and
+                      <font face="Courier New">ComplianceTensor</font> class
+                      which are used ubiquitously throughout the library to
+                      describe the mathematical objects, the stiffness tensor
+                      and compliance tensor, respectively.  Before we can use
+                      these classes, we must discuss the terminology of
+                      tensors used in the library and the abstract data types
+                      that form the foundation of the library generated from
+                      these concepts.
+                    </p>
+                    <p>
+                      As previously mentioned, we will do our investigation in
+                      three-dimensional space calculating the stiffness and
+                      compliance of a representative volume; therefore, the
+                      indices will take the range i,j,... = 1,2,3.  This is
+                      known as the <em>range convention</em>.  The second
+                      convention to note, which we have already used, is the
+                      summation convention for which we define the
+                      <em>rank</em> of a tensor as the number of "free"
+                      indices - those indices which do not repeat.  For
+                      example, the stiffness and compliance tensors are of rank
+                      four corresponding to the free indices <em>i</em>,
+                      <em>j</em>, <em>k</em>,and <em>l</em>.  The stress and
+                      strain tensors are of rank two corresponding to the
+                      free indices <em>i</em> and <em>j</em>, or <em>k</em> and
+                      <em>l</em>.  A vector is of rank one and written in
+                      suffix notation as $v_i$ where <em>i</em> takes the
+                      range 1,2,3 in three dimensional space. Finally, a scalar
+                      value is a tensor of rank zero and written without a
+                      free index as \(\alpha\).  Note that a tensor with a
+                      "dummy" index is also a scalar value, e.g.
+                      \(\alpha_{ii}\).  These <em>invariants</em> are very
+                      important in tensor analysis and will be discussed later
+                      in the user guide.
+                    </p>
+                    <p>
+                      Additionally, the mpc library attempts to follow the
+                      <a href="https://google.github.io/styleguide/cppguide.html">Google C++ Style Guide</a>.
+                    </p>
+                    <br>
+                    <h4>tensor component index</h4>
+                    <p>
+                      Tensors in mpc are represented as multi-dimensional
+                      arrays in which each dimension corresponds to an index
+                      and the values in that dimension correspond to the range
+                      convention of the tensor.  mpc defines this index with a
+                      template class TensorRankNComponentIndex.
+                    </p>
                 </div>
             </div>
         </div>
@@ -147,7 +258,7 @@
             <div class="col-lg-8 col-lg-offset-2">
                 <h2>Contact</h2>
                 <p>Anthony Torlucci - author of mpc</p>
-                <p><a href="mailto:example@example.com">example@example.com</a>
+                <!-- <p><a href="mailto:"></a> -->
                 </p>
                 <ul class="list-inline banner-social-buttons">
                     
