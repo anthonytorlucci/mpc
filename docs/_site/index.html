@@ -23,8 +23,13 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <!-- mathjax --> 
+    <!-- mathjax -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
+    <!-- highlightjs -->
+    <link rel="stylesheet" href="/mpc/css/dracula.css">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 
 </head>
 
@@ -105,6 +110,10 @@
                   The user guide page illustrates the core data structures and
                   a few examples of how to use the library for computational
                   experiments with elastic tensor data of crystals.
+                </p>
+                <p>
+                  Additionally, the mpc library attempts to follow the
+                  <a href="https://google.github.io/styleguide/cppguide.html">Google C++ Style Guide</a>.
                 </p>
                 <p>
                   Skip to the download page to get the source code.
@@ -200,7 +209,7 @@
                       strain tensors are of rank two corresponding to the
                       free indices <em>i</em> and <em>j</em>, or <em>k</em> and
                       <em>l</em>.  A vector is of rank one and written in
-                      suffix notation as $v_i$ where <em>i</em> takes the
+                      suffix notation as \(v_i\) where <em>i</em> takes the
                       range 1,2,3 in three dimensional space. Finally, a scalar
                       value is a tensor of rank zero and written without a
                       free index as \(\alpha\).  Note that a tensor with a
@@ -208,10 +217,6 @@
                       \(\alpha_{ii}\).  These <em>invariants</em> are very
                       important in tensor analysis and will be discussed later
                       in the user guide.
-                    </p>
-                    <p>
-                      Additionally, the mpc library attempts to follow the
-                      <a href="https://google.github.io/styleguide/cppguide.html">Google C++ Style Guide</a>.
                     </p>
                     <br>
                     <h4>tensor component index</h4>
@@ -222,6 +227,9 @@
                       convention of the tensor.  mpc defines this index with a
                       template class TensorRankNComponentIndex.
                     </p>
+                    <pre><code class="c++">
+void f() {}
+                    </code></pre>
                 </div>
             </div>
         </div>
