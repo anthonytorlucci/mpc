@@ -1,12 +1,12 @@
 /**
- *    @file harmonicaverage.hpp
- *    @brief function object for calculating the weighted harmonic
+ *    \file harmonicaverage.hpp
+ *    \brief function object for calculating the weighted harmonic
  * (non-linear) average of two std::std::vector's; the "values" can be
  * blitz arrays or plain numeric values while the second argument "weights" is
  * a vector of numeric values.
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_HARMONIC_AVERAGE_H

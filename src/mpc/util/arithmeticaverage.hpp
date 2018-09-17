@@ -1,12 +1,12 @@
 /**
- *    @file mpc.hpp
- *    @brief function object for calculating the weighted arithmetic
+ *    \file mpc.hpp
+ *    \brief function object for calculating the weighted arithmetic
  * (linear) average of two std::vector's; the "values" can be blitz arrays or
  * plain numeric values while the second argument "weights" is a vector of
  * numeric values
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_ARITHMETIC_AVERAGE_H

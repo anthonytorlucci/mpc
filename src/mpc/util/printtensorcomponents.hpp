@@ -1,9 +1,9 @@
 /**
- *    @file printtensorcomponents.hpp
- *    @brief function object used to print the tensor components from a blitz array
+ *    \file printtensorcomponents.hpp
+ *    \brief function object used to print the tensor components from a blitz array
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_PRINT_TENSOR_COMPONENTS_H

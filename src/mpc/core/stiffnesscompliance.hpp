@@ -1,11 +1,9 @@
 /**
- *    @file stiffnesscompliance.hpp
- *    @brief stiffness and compliance tensor classes; part of the core
- * data structures
+ *    \file stiffnesscompliance.hpp
+ *    \brief stiffness and compliance tensor classes; part of the core data structures
  *
- *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_STIFFNESSCOMPLIANCE_H
@@ -27,13 +25,22 @@
 namespace mpc {
 namespace core {
 
-/* tensor rank 4 */
+/**
+* \class TensorRank4Interface
+* \brief simple interface for tensors of rank 4
+*/
 template <typename T>
 struct TensorRank4Interface {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
         //virtual void SetComponents(std::set< mpc::core::TensorRank4Component<T> >& components) = 0;  // ???  http://www.modernescpp.com/index.php/c-core-guidelines-class-hierarchies
 };
 
+/**
+* \class TensorRank4Base
+* \brief base class for tensors of rank 4
+*
+* The tensors in mpc are three dimensional cartesian tensors; this base class provides
+*/
 template <typename T>
 struct TensorRank4Base : TensorRank4Interface<T> {
         blitz::Array<T,4> tensor = blitz::Array<T,4>(3, 3, 3, 3, blitz::ColumnMajorArray<4>());
@@ -42,7 +49,10 @@ struct TensorRank4Base : TensorRank4Interface<T> {
         }
 };
 
-// template object for stiffness tensor of rank 4
+/**
+* \class StiffnessTensor
+* \brief stiffness tensor class with function to set the components with a given symmety type
+*/
 template <typename T>
 struct StiffnessTensor : TensorRank4Base<T> {
         using TensorRank4Base<T>::tensor;
@@ -82,7 +92,10 @@ struct StiffnessTensor : TensorRank4Base<T> {
 
 };
 
-// template object for compliance tensor of rank 4
+/**
+* \class ComplianceTensor
+* \brief compliance tensor class with function to set the components with a given symmety type
+*/
 template <typename T>
 struct ComplianceTensor : TensorRank4Base<T> {
         using TensorRank4Base<T>::tensor;

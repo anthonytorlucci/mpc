@@ -1,10 +1,10 @@
 /**
- *    @file innerproductor.hpp
- *    @brief function object for calculating the inner product of two
+ *    \file innerproductor.hpp
+ *    \brief function object for calculating the inner product of two
  * blitz arrays
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_INNERPRODUCTOR_H

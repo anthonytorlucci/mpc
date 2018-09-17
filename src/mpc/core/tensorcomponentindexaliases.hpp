@@ -1,11 +1,11 @@
 /**
- *    @file tensorcomponentindexaliases.hpp
- *    @brief tensor components aliased by symmetry; different symmetry group
+ *    \file tensorcomponentindexaliases.hpp
+ *    \brief tensor components aliased by symmetry; different symmetry group
  * types will have different relationships among tensor components for which
  * mpc defines them as "aliases"; this concept is still a work in progress...
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_TENSORCOMPONENTINDEXALIASES_H
@@ -26,10 +26,10 @@
 namespace mpc {
 namespace core {
 
-// =======================================================================================================
-// =======================================================================================================
-// =======================================================================================================
-
+/**
+* \fn mpc::core::TensorRank2ComponentIndex ReducedTensorRank2ComponentIndex(const mpc::core::TensorRank2ComponentIndex&)
+* \brief reduced tensor component index reduces an index to the lowest integer value representation so indices that are "linked" by symmetry can be identified by a common index
+*/
 inline mpc::core::TensorRank2ComponentIndex ReducedTensorRank2ComponentIndex(const mpc::core::TensorRank2ComponentIndex& indexn) {
         const int i = indexn.FirstIndex();
         const int j = indexn.SecondIndex();
@@ -37,7 +37,13 @@ inline mpc::core::TensorRank2ComponentIndex ReducedTensorRank2ComponentIndex(con
 }
 
 // ==============================================================================================================================
-// rank 4 are a bit different and we have to take into account the symmetry.  A component index can belong to a group of component index which extends the symmetry of triclinic sets...
+/**
+* \fn mpc::core::TensorRank2ComponentIndex ReducedTensorRank2ComponentIndex(const mpc::core::TensorRank2ComponentIndex&)
+* \brief reduced tensor component index reduces an index to the lowest integer value representation so indices that are "linked" by symmetry can be identified by a common index
+*
+* rank 4 are a bit different and we have to take into account the symmetry.
+* Each symmetry group is specialized ...
+*/
 template <typename S=NoneSymmetryGroupType>
 inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex(const mpc::core::TensorRank4ComponentIndex& indexn) {
         static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
@@ -1202,15 +1208,22 @@ inline mpc::core::TensorRank4ComponentIndex ReducedTensorRank4ComponentIndex(con
 //================================================================================================================================
 //================================================================================================================================
 
-// where tensors of rank 2 here are assumed to be symmetric, i.e. A(i,j) = A(j,i).
+/**
+* \fn int TensorRank2IndexNumberOfAliases(const mpc::core::TensorRankNComponentIndex<2>&)
+* \brief number of aliases where tensors of rank 2 here are assumed to be symmetric, i.e. A(i,j) = A(j,i).
+*/
 constexpr inline int TensorRank2IndexNumberOfAliases(const mpc::core::TensorRankNComponentIndex<2>& indexn) {
         // returns the number of aliases for the index
         return (indexn.FirstIndex() == indexn.SecondIndex()) ? 1 : 2;
 }
 
-
-
 /* tensor rank 4 */
+/**
+* \fn int TensorRank4IndexNumberOfAliases(const mpc::core::TensorRankNComponentIndex<4>&)
+* \brief number of aliased components for a given component index and symmetry group
+*
+* each symmetry group is specialized...
+*/
 template <typename S=mpc::core::NoneSymmetryGroupType>
 inline int TensorRank4IndexNumberOfAliases(const mpc::core::TensorRankNComponentIndex<4>& indexn) {
         static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
@@ -2153,12 +2166,10 @@ inline int TensorRank4IndexNumberOfAliases<mpc::core::IsotropicSymmetryGroupType
         return 1;
 }
 
-
-
-
-
-
-// polymorphic version for matrix notation
+/**
+* \fn int TensorRank4IndexNumberOfAliases(const mpc::core::TensorRankNComponentIndex<2>&)
+* \brief polymorphic version for matrix notation
+*/
 template <typename S>
 inline int TensorRank4IndexNumberOfAliases(const mpc::core::TensorRankNComponentIndex<2>& indexn) {
         static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
@@ -2184,7 +2195,10 @@ inline int TensorRank4IndexNumberOfAliases(const mpc::core::TensorRankNComponent
 // =============================================================================
 // =============================================================================
 
-
+/**
+* \fn std::set<mpc::core::TensorRank2ComponentIndex> TensorRank2IndexAliases(const mpc::core::TensorRankNComponentIndex<2>&)
+* \brief returns a set of tensor rank 2 component indices that are aliases of the given tensor rank 2 component index
+*/
 inline std::set<mpc::core::TensorRank2ComponentIndex> TensorRank2IndexAliases(const mpc::core::TensorRankNComponentIndex<2>& indexn) {
 
         std::set<mpc::core::TensorRank2ComponentIndex> iset{
@@ -2195,7 +2209,10 @@ inline std::set<mpc::core::TensorRank2ComponentIndex> TensorRank2IndexAliases(co
 }
 
 
-//===
+/**
+* \fn std::set<mpc::core::TensorRank4ComponentIndex> TensorRank2IndexAliases(const mpc::core::TensorRankNComponentIndex<4>&)
+* \brief returns a set of tensor rank 4 component indices that are aliases of the given tensor rank 4 component index for the template argument symmetry group type
+*/
 template <typename S=mpc::core::NoneSymmetryGroupType>
 inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases(const mpc::core::TensorRankNComponentIndex<4>& indexn) {
         static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
@@ -3247,11 +3264,10 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases<mp
         return iset;
 }
 
-
-
-
-
-// polymorphic function for matrix notation to tensor indices
+/**
+* \fn std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases(const mpc::core::TensorRankNComponentIndex<2>&)
+* \brief polymorphic function for matrix notation to tensor indices
+*/
 template <typename S>
 inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases(const mpc::core::TensorRankNComponentIndex<2>& indexn) {
         static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
@@ -3263,16 +3279,6 @@ inline std::set<mpc::core::TensorRank4ComponentIndex> TensorRank4IndexAliases(co
         std::pair<int,int> q_indices = mpc::util::GetIndexFromVoigtMatrix(index_q);
         return TensorRank4IndexAliases<S>(mpc::core::TensorRank4ComponentIndex(p_indices.first, p_indices.second, q_indices.first, q_indices.second));
 }
-
-
-
-
-
-// ==============================================================================================================================
-// ==============================================================================================================================
-// ==============================================================================================================================
-
-
 
 
 } // namespace core

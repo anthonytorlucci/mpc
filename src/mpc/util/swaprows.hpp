@@ -1,9 +1,9 @@
 /**
- *    @file swaprows.hpp
- *    @brief utility function to swap rows of a two-dimensional blitz array
+ *    \file swaprows.hpp
+ *    \brief utility function to swap rows of a two-dimensional blitz array
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_SWAPROWS_H

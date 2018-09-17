@@ -1,10 +1,9 @@
 /**
- *    @file mineraldatatensors.hpp
- *    @brief functions that return stiffness tensor objects from the
- * mineral data properties
+ *    \file mineraldatatensors.hpp
+ *    \brief functions that return stiffness tensor objects from the mineral data properties
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MINERALDATATENSORSANDMATRICES_H

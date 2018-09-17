@@ -1,11 +1,11 @@
 /**
- *    @file tensorinvariants.hpp
- *    @brief tensor invariants - reduction in tensor rank by contraction,
+ *    \file tensorinvariants.hpp
+ *    \brief tensor invariants - reduction in tensor rank by contraction,
  * usually to a rank zero tensor or scalar; for stiffness and compliance
  * tensors, the bulk and shear modulii can be derived from the invariants
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_TENSORINVARIANTS_H

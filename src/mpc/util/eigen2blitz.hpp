@@ -1,10 +1,9 @@
 /**
- *    @file eigen2blitz.hpp
- *    @brief function for converting from a one- or two-dimensional
- * eigen matrix to a blitz array
+ *    \file eigen2blitz.hpp
+ *    \brief function for converting from a one- or two-dimensional eigen matrix to a blitz array
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_EIGEN2BLITZ_H

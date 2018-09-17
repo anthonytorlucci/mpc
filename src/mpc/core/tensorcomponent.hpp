@@ -1,10 +1,9 @@
 /**
- *    @file tensorcomponent.hpp
- *    @brief structure that defines a tensor component
+ *    \file tensorcomponent.hpp
+ *    \brief structure that defines a tensor component
  *
- *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_TENSORCOMPONENT_H
@@ -25,6 +24,10 @@
 namespace mpc {
 namespace core {
 
+/**
+* \class TensorRankNComponent
+* \brief tensor component consisting of a component index and a value
+*/
 template <typename T, int N>
 class TensorRankNComponent {
 using type = T;

@@ -1,11 +1,9 @@
 /**
- *    @file symmetrygrouptypes.hpp
- *    @brief classes that describe the different symmetry groups supported
- * by mpc as types used for template specializations
+ *    \file symmetrygrouptypes.hpp
+ *    \brief classes that describe the different symmetry groups supported by mpc as types used for template specializations
  *
- *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_SYMMETRYENUMERATION_H
@@ -24,7 +22,11 @@
 
 namespace mpc {
 namespace core {
-// symmetry classes
+
+/**
+* \enum SymmetryGroupEnumeration
+* \brief enumeration class of the symmetry group types
+*/
 enum class SymmetryGroupEnumeration {
         NONE,
         TRICLINIC,
@@ -40,10 +42,14 @@ enum class SymmetryGroupEnumeration {
         ISOTROPIC
 };
 
+/**
+* \class SymmetryGroupEnumerationInterface
+* \brief simple class interface with function to get std::string from enum
+*/
 struct SymmetryGroupEnumerationInterface {
-
-//    SYMMETRY symmetry;
-
+        /**
+        * \fn std::string ToStr(SymmetryGroupEnumeration symmetry_enum)
+        */
         static std::string ToStr(SymmetryGroupEnumeration symmetry_enum) {
                 switch (symmetry_enum) {
                 case SymmetryGroupEnumeration::TRICLINIC:
@@ -84,21 +90,62 @@ inline std::ostream& operator<<(std::ostream& os, SymmetryGroupEnumeration symme
 }
 
 // SymmetryEnumerationTypes => type_traits??
+/**
+* \typedef symmetry_none_t
+*/
 typedef std::integral_constant<SymmetryGroupEnumeration, SymmetryGroupEnumeration::NONE> symmetry_none_t;
+/**
+* \typedef symmetry_triclinic_t
+*/
 typedef std::integral_constant<SymmetryGroupEnumeration, SymmetryGroupEnumeration::TRICLINIC> symmetry_triclinic_t;
+/**
+* \typedef symmetry_monoclinicX2_t
+*/
 typedef std::integral_constant<SymmetryGroupEnumeration, SymmetryGroupEnumeration::MONOCLINIC_X2> symmetry_monoclinicX2_t;
+/**
+* \typedef symmetry_monoclinicX3_t
+*/
 typedef std::integral_constant<SymmetryGroupEnumeration, SymmetryGroupEnumeration::MONOCLINIC_X3> symmetry_monoclinicX3_t;
+/**
+* \typedef symmetry_orthorhombic_t
+*/
 typedef std::integral_constant<SymmetryGroupEnumeration, SymmetryGroupEnumeration::ORTHORHOMBIC> symmetry_orthorhombic_t;
+/**
+* \typedef symmetry_hexagonal_t
+*/
 typedef std::integral_constant<SymmetryGroupEnumeration, SymmetryGroupEnumeration::HEXAGONAL> symmetry_hexagonal_t;
+/**
+* \typedef symmetry_tetragonal7_t
+*/
 typedef std::integral_constant<SymmetryGroupEnumeration, SymmetryGroupEnumeration::TETRAGONAL7> symmetry_tetragonal7_t;
+/**
+* \typedef symmetry_tetragonal6_t
+*/
 typedef std::integral_constant<SymmetryGroupEnumeration, SymmetryGroupEnumeration::TETRAGONAL6> symmetry_tetragonal6_t;
+/**
+* \typedef symmetry_trigonal7_t
+*/
 typedef std::integral_constant<SymmetryGroupEnumeration, SymmetryGroupEnumeration::TRIGONAL7> symmetry_trigonal7_t;
+/**
+* \typedef symmetry_trigonal6_t
+*/
 typedef std::integral_constant<SymmetryGroupEnumeration, SymmetryGroupEnumeration::TRIGONAL6> symmetry_trigonal6_t;
+/**
+* \typedef symmetry_cubic_t
+*/
 typedef std::integral_constant<SymmetryGroupEnumeration, SymmetryGroupEnumeration::CUBIC> symmetry_cubic_t;
+/**
+* \typedef symmetry_isotropic_t
+*/
 typedef std::integral_constant<SymmetryGroupEnumeration, SymmetryGroupEnumeration::ISOTROPIC> symmetry_isotropic_t;
 
 //==============================================================================
-
+/**
+* \class SymmetryGroupBase
+* \brief base class for symmetry group types; used for template specializations
+*
+* TODO: describe the specializations for each symmetry group type
+*/
 struct SymmetryGroupBase {};
 // each of the following types can be verified to have SymmetryGroupBase as the base object for tempalte specialization; in other words, HasSymmetryGroupBase is a trait and T requires HasSymmetryGroupBase is a concept
 struct NoneSymmetryGroupType : public SymmetryGroupBase {

@@ -1,11 +1,9 @@
 /**
- *    @file symmetrypredicates.hpp
- *    @brief boolean functions related to symmetry groups or sets of
- * tensor components used for assertions or control flow
+ *    \file symmetrypredicates.hpp
+ *    \brief boolean functions related to symmetry groups or sets of tensor components used for assertions or control flow
  *
- *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_SYMMETRYPREDICATES_H
@@ -24,8 +22,6 @@
 #include "tensorcomponentindex.hpp"
 #include "tensorcomponentindexaliases.hpp"
 #include "tensorcomponent.hpp"
-
-
 
 namespace mpc {
 namespace core {
@@ -50,6 +46,9 @@ namespace core {
 
 // type traits for symmetry classes
 // good online article : https://akrzemi1.wordpress.com/2017/12/02/your-own-type-predicate/
+/**
+* \fn bool SymmetryGroupTypeHasNIndependentComponents()
+*/
 template <typename S, int N>
 constexpr inline bool SymmetryGroupTypeHasNIndependentComponents() {
         static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
@@ -127,30 +126,39 @@ constexpr inline bool SymmetryGroupTypeHasNIndependentComponents<mpc::core::Isot
 
 // convenience functions
 // 21 components
+/**
+* bool SymmetryGroupTypeHas21IndependentComponents()
+*/
 template <typename S>
 constexpr inline bool SymmetryGroupTypeHas21IndependentComponents() {
         static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
         return SymmetryGroupTypeHasNIndependentComponents<S,21>();
 }
 
-
 // 13 components
+/**
+* bool SymmetryGroupTypeHas13IndependentComponents()
+*/
 template <typename S>
 constexpr inline bool SymmetryGroupTypeHas13IndependentComponents() {
         static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
         return SymmetryGroupTypeHasNIndependentComponents<S,13>();
 }
 
-
 // 9 components
+/**
+* bool SymmetryGroupTypeHas9IndependentComponents()
+*/
 template <typename S>
 constexpr inline bool SymmetryGroupTypeHas9IndependentComponents() {
         static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
         return SymmetryGroupTypeHasNIndependentComponents<S,9>();
 }
 
-
 // 7 components
+/**
+* bool SymmetryGroupTypeHas7IndependentComponents()
+*/
 template <typename S>
 constexpr inline bool SymmetryGroupTypeHas7IndependentComponents() {
         static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
@@ -159,37 +167,44 @@ constexpr inline bool SymmetryGroupTypeHas7IndependentComponents() {
 
 
 // 6 components
+/**
+* bool SymmetryGroupTypeHas6IndependentComponents()
+*/
 template <typename S>
 constexpr inline bool SymmetryGroupTypeHas6IndependentComponents() {
         static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
         return SymmetryGroupTypeHasNIndependentComponents<S,6>();
 }
 
-
 // 5 components
+/**
+* bool SymmetryGroupTypeHas5IndependentComponents()
+*/
 template <typename S>
 constexpr inline bool SymmetryGroupTypeHas5IndependentComponents() {
         static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
         return SymmetryGroupTypeHasNIndependentComponents<S,5>();
 }
 
-
 // 3 components
+/**
+* bool SymmetryGroupTypeHas3IndependentComponents()
+*/
 template <typename S>
 constexpr inline bool SymmetryGroupTypeHas3IndependentComponents() {
         static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
         return SymmetryGroupTypeHasNIndependentComponents<S,3>();
 }
 
-
 // 2 components
+/**
+* bool SymmetryGroupTypeHas2IndependentComponents()
+*/
 template <typename S>
 constexpr inline bool SymmetryGroupTypeHas2IndependentComponents() {
         static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
         return SymmetryGroupTypeHasNIndependentComponents<S,2>();
 }
-
-
 
 // provide a similar function for the symmetry group enum by mapping to symmetry group type
 template<mpc::core::SymmetryGroupEnumeration Sym>
@@ -250,6 +265,10 @@ constexpr inline bool SymmetryGroupEnumerationHas2IndependentComponents() {
 //     For example, cubic symmetry has 3 non-zero components.  The indices could be {0000, 0011, 1212}, {0000, 0011, 0202}, {0000, 0011, 0101}, {0000, 0022, 1212}, {0000, 0022, 0202}, etc.
 //     The "reduced" set is simply {0000, 0011, 0101}; MPC compares the reduced components to these values to determine if the set is symmetry compliant...
 
+/**
+* \class IsComponentSetSymmetryCompliantFunctionObject
+* \brief function object that determines if a set of tensor components complies the constraints of the given symmetry
+*/
 template <typename T, typename CS, typename S=mpc::core::NoneSymmetryGroupType>
 struct IsComponentSetSymmetryCompliantFunctionObject {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
@@ -1345,6 +1364,10 @@ struct IsComponentSetSymmetryCompliantFunctionObject<T, mpc::core::ComplianceTyp
 
 
 // function template
+/**
+* \fn bool IsComponentSetSymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >&)
+* \brief function that creates a specialized function object to determine if the given set of components compiles with the constraints of the symmetry argument
+*/
 template <typename T, typename CS, typename S = mpc::core::NoneSymmetryGroupType>
 bool IsComponentSetSymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >& component_set) {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
@@ -1357,6 +1380,10 @@ bool IsComponentSetSymmetryCompliant(const std::set<mpc::core::TensorRank4Compon
 
 // ======
 // convenience function
+/**
+* \fn bool IsComponentSetTriclinicSymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >&)
+* \brief convenience function for IsComponentSetSymmetryCompliant
+*/
 template <typename T, typename CS>
 bool IsComponentSetTriclinicSymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >& component_set) {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
@@ -1365,6 +1392,10 @@ bool IsComponentSetTriclinicSymmetryCompliant(const std::set<mpc::core::TensorRa
         return fo(component_set);
 }
 
+/**
+* \fn bool IsComponentSetMonoclinicX2SymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >&)
+* \brief convenience function for IsComponentSetSymmetryCompliant
+*/
 template <typename T, typename CS>
 bool IsComponentSetMonoclinicX2SymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >& component_set) {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
@@ -1373,6 +1404,10 @@ bool IsComponentSetMonoclinicX2SymmetryCompliant(const std::set<mpc::core::Tenso
         return fo(component_set);
 }
 
+/**
+* \fn bool IsComponentSetMonoclinicX3SymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >&)
+* \brief convenience function for IsComponentSetSymmetryCompliant
+*/
 template <typename T, typename CS>
 bool IsComponentSetMonoclinicX3SymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >& component_set) {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
@@ -1381,6 +1416,10 @@ bool IsComponentSetMonoclinicX3SymmetryCompliant(const std::set<mpc::core::Tenso
         return fo(component_set);
 }
 
+/**
+* \fn bool IsComponentSetOrthorhombicSymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >&)
+* \brief convenience function for IsComponentSetSymmetryCompliant
+*/
 template <typename T, typename CS>
 bool IsComponentSetOrthorhombicSymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >& component_set) {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
@@ -1389,6 +1428,10 @@ bool IsComponentSetOrthorhombicSymmetryCompliant(const std::set<mpc::core::Tenso
         return fo(component_set);
 }
 
+/**
+* \fn bool IsComponentSetHexagonalSymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >&)
+* \brief convenience function for IsComponentSetSymmetryCompliant
+*/
 template <typename T, typename CS>
 bool IsComponentSetHexagonalSymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >& component_set) {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
@@ -1397,6 +1440,10 @@ bool IsComponentSetHexagonalSymmetryCompliant(const std::set<mpc::core::TensorRa
         return fo(component_set);
 }
 
+/**
+* \fn bool IsComponentSetTetragonal7SymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >&)
+* \brief convenience function for IsComponentSetSymmetryCompliant
+*/
 template <typename T, typename CS>
 bool IsComponentSetTetragonal7SymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >& component_set) {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
@@ -1405,6 +1452,10 @@ bool IsComponentSetTetragonal7SymmetryCompliant(const std::set<mpc::core::Tensor
         return fo(component_set);
 }
 
+/**
+* \fn bool IsComponentSetTetragonal6SymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >&)
+* \brief convenience function for IsComponentSetSymmetryCompliant
+*/
 template <typename T, typename CS>
 bool IsComponentSetTetragonal6SymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >& component_set) {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
@@ -1413,6 +1464,10 @@ bool IsComponentSetTetragonal6SymmetryCompliant(const std::set<mpc::core::Tensor
         return fo(component_set);
 }
 
+/**
+* \fn bool IsComponentSetTrigonal7SymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >&)
+* \brief convenience function for IsComponentSetSymmetryCompliant
+*/
 template <typename T, typename CS>
 bool IsComponentSetTrigonal7SymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >& component_set) {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
@@ -1421,6 +1476,10 @@ bool IsComponentSetTrigonal7SymmetryCompliant(const std::set<mpc::core::TensorRa
         return fo(component_set);
 }
 
+/**
+* \fn bool IsComponentSetTrigonal6SymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >&)
+* \brief convenience function for IsComponentSetSymmetryCompliant
+*/
 template <typename T, typename CS>
 bool IsComponentSetTrigonal6SymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >& component_set) {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
@@ -1429,6 +1488,10 @@ bool IsComponentSetTrigonal6SymmetryCompliant(const std::set<mpc::core::TensorRa
         return fo(component_set);
 }
 
+/**
+* \fn bool IsComponentSetCubicSymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >&)
+* \brief convenience function for IsComponentSetSymmetryCompliant
+*/
 template <typename T, typename CS>
 bool IsComponentSetCubicSymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >& component_set) {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
@@ -1437,6 +1500,10 @@ bool IsComponentSetCubicSymmetryCompliant(const std::set<mpc::core::TensorRank4C
         return fo(component_set);
 }
 
+/**
+* \fn bool IsComponentSetIsotropicSymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >&)
+* \brief convenience function for IsComponentSetSymmetryCompliant
+*/
 template <typename T, typename CS>
 bool IsComponentSetIsotropicSymmetryCompliant(const std::set<mpc::core::TensorRank4Component<T> >& component_set) {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
@@ -1444,10 +1511,6 @@ bool IsComponentSetIsotropicSymmetryCompliant(const std::set<mpc::core::TensorRa
         IsComponentSetSymmetryCompliantFunctionObject<T, CS, mpc::core::IsotropicSymmetryGroupType> fo;
         return fo(component_set);
 }
-
-// ==================================================================================================================================================
-
-
 
 
 } // namespace core

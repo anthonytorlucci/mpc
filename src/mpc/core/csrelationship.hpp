@@ -1,10 +1,9 @@
 /**
- *    @file csrelationship.hpp
- *    @brief functions and function objects to calculate the stiffness tensor
- * components from the compliance tensor components or vice versa
+ *    \file csrelationship.hpp
+ *    \brief functions and function objects to calculate the stiffness tensor components from the compliance tensor components or vice versa
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_CSRELATIONSHIP_H
@@ -27,12 +26,22 @@
 namespace mpc {
 namespace core {
 
-// ===============================================================================================================================
+/**
+* \class StiffnessFromComplianceFunctionObject
+* \brief function object for calculating the stiffness tensor components from the compliance tensor components
+*
+* TODO: more details...
+*/
 template <typename T, typename S=mpc::core::NoneSymmetryGroupType>
 struct StiffnessFromComplianceFunctionObject {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
         //static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
         //static_assert(std::is_base_of<mpc::core::CSBase,CS>::value, "CS must be derived from mpc::core::CSBase.");
+
+        /**
+        * \fn operator()
+        * TODO: doc...
+        */
         mpc::core::StiffnessTensor<T> operator() (const mpc::core::ComplianceTensor<T>& s_ijkl) {
                 // given the compliance tensor, fill the stiffness tensor...
                 // the solution requires 6 systems of equations involving a [9x9] matrix of the compliance tensor, a [9x1] solution vector
@@ -559,13 +568,22 @@ struct StiffnessFromComplianceFunctionObject {
 // };
 
 
-
-// ===============================================================================================================================
+/**
+* \class ComplianceFromStiffnessFunctionObject
+* \brief function object for calculating the compliance tensor components from the stiffness tensor components
+*
+* TODO: more details...
+*/
 template <typename T, typename S=mpc::core::NoneSymmetryGroupType>
 struct ComplianceFromStiffnessFunctionObject {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
         //static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
         //static_assert(std::is_base_of<mpc::core::CSBase,CS>::value, "CS must be derived from mpc::core::CSBase.");
+
+        /**
+        * \fn operator()
+        * TODO: more details
+        */
         mpc::core::ComplianceTensor<T> operator() (const mpc::core::StiffnessTensor<T>& c_ijkl) {
                 // given the stiffness tensor, fill the compliance tensor
                 // the solution requires 6 systems of equations involving a [9x9] matrix of the stiffness tensor, a [9x1] solution vector
@@ -1155,6 +1173,10 @@ struct ComplianceFromStiffnessFunctionObject {
 
 
 // === polymorphic functions =====================================================================================================
+/**
+* \fn mpc::core::ComplianceTensor<T> CSRelationship(mpc::core::StiffnessTensor<T>&)
+* \brief polymorphic convenience function to generate the compliance tensor object from a stiffness tensor object
+*/
 template <typename S, typename T>
 mpc::core::ComplianceTensor<T> CSRelationship(mpc::core::StiffnessTensor<T>& c_ijkl) {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
@@ -1164,6 +1186,10 @@ mpc::core::ComplianceTensor<T> CSRelationship(mpc::core::StiffnessTensor<T>& c_i
         return fo(c_ijkl);
 }
 
+/**
+* \fn mpc::core::StiffnessTensor<T> CSRelationship(mpc::core::ComplianceTensor<T>&)
+* \brief polymorphic convenience function to generate the stiffness tensor object from a compliance tensor object
+*/
 template <typename S, typename T>
 mpc::core::StiffnessTensor<T> CSRelationship(mpc::core::ComplianceTensor<T>& s_ijkl) {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");

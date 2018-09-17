@@ -1,10 +1,10 @@
 /**
- *    @file magnitude.hpp
- *    @brief simple function for claculating the magnitude, i.e. the
+ *    \file magnitude.hpp
+ *    \brief simple function for claculating the magnitude, i.e. the
  * square root of the sum of the squares, of a one-dimensional array
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_MAGNITUDE_H

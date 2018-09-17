@@ -1,10 +1,10 @@
 /**
- *    @file transformer.hpp
- *    @brief function object that transforms a tensor given an input tensor of
+ *    \file transformer.hpp
+ *    \brief function object that transforms a tensor given an input tensor of
  * rank N and a transformation tensor of rank 2
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_TRANSFORMER_H

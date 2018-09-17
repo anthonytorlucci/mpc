@@ -1,10 +1,10 @@
 /**
- *    @file hookeslaw.hpp
- *    @brief functions and corresponding functions objects for getting the
+ *    \file hookeslaw.hpp
+ *    \brief functions and corresponding functions objects for getting the
  * stress or strain tensor from the linear form of Hooke's Law
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef HOOKESLAW_H

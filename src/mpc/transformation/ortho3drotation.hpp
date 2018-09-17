@@ -1,10 +1,10 @@
 /**
- *    @file ortho3drotation.hpp
- *    @brief functions that ouput a transformation tensor to rotate another
+ *    \file ortho3drotation.hpp
+ *    \brief functions that ouput a transformation tensor to rotate another
  * tensor about one of the 3 Cartesian axes given an argument in radians
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_ORTHO3DROTATION_H

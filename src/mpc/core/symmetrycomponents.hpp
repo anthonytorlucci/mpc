@@ -1,11 +1,9 @@
 /**
- *    @file symmetrycomponents.hpp
- *    @brief functions and function objects for extracting components of the
- * stiffness or compliance tensor that are related in matrix notation form
+ *    \file symmetrycomponents.hpp
+ *    \brief functions and function objects for extracting components of the stiffness or compliance tensor that are related in matrix notation form
  *
- *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_SYMMETRYCOMPONENTS_H
@@ -32,7 +30,10 @@
 namespace mpc {
 namespace core {
 
-// common functions for the relationship among symmetry elements
+/**
+* \fn void CequalsTwoTimesTheDifferenceOfAandB(mpc::core::TensorRank4Component<T>&, mpc::core::TensorRank4Component<T>&, mpc::core::TensorRank4Component<T>&)
+* \brief helper function for the relationship among symmetry elements
+*/
 template <typename T>
 void CequalsTwoTimesTheDifferenceOfAandB(mpc::core::TensorRank4Component<T>& c, mpc::core::TensorRank4Component<T>& a, mpc::core::TensorRank4Component<T>& b) {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
@@ -60,6 +61,10 @@ void CequalsTwoTimesTheDifferenceOfAandB(mpc::core::TensorRank4Component<T>& c, 
         }
 }
 
+/**
+* \fn void CequalsTwoTimesTheDifferenceOfAandB(mpc::core::TensorRank4Component<T>&, mpc::core::TensorRank4Component<T>&, mpc::core::TensorRank4Component<T>&)
+* \brief helper function for the relationship among symmetry elements
+*/
 template <typename T>
 void CequalsOneHalfTheDifferenceOfAandB(mpc::core::TensorRank4Component<T>& c, mpc::core::TensorRank4Component<T>& a, mpc::core::TensorRank4Component<T>& b) {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
@@ -86,9 +91,10 @@ void CequalsOneHalfTheDifferenceOfAandB(mpc::core::TensorRank4Component<T>& c, m
         }
 }
 
-
-
-// SymmetryLink : template class to resolve components in the stiffness or compliance tensor that are related
+/**
+* \class SymmetryComponentLinkFunctionObject
+* \brief class to resolve components in the stiffness or compliance tensor that are related
+*/
 template <typename T, int M, int N, int P, int Q>
 struct SymmetryComponentLinkFunctionObject {
         // when working with matrix notation, use TriclinicSymmetryGroupType; aliased components will have identical indices for a given symmetry group type that has "linked" components
@@ -146,7 +152,10 @@ struct SymmetryComponentLinkFunctionObject {
         }
 };
 
-// SymmetryDualLink : template class to resolve components in the stiffness or compliance tensor that are related to two other components
+/**
+* \class SymmetryComponentDualLinkFunctionObject
+* \brief class to resolve components in the stiffness or compliance tensor that are related to two other components
+*/
 template <typename T, int M, int N, int P, int Q, int R, int S>
 struct SymmetryComponentDualLinkFunctionObject {
         // NOTE: the order here is very important.  The assumption is the component [M,N] is related to the componetns [P,Q] and [R,S], that is C = f(A,B)
@@ -219,6 +228,12 @@ struct SymmetryComponentDualLinkFunctionObject {
 //     Precondition: assumes the input set is symmetry compliant;  test the set with
 //         IsComponentSetSymmetryCompliant<>() before calling TensorRank4SymmetryComponents<>().
 
+/**
+* \class TensorRank4SymmetryComponentsFunctionObject
+* \brief function object that does nothing for symmetry groups that do not have any "linked" components
+*
+* TODO: describe partial specializations
+*/
 template <typename T, typename CS, typename S=mpc::core::NoneSymmetryGroupType>
 struct TensorRank4SymmetryComponentsFunctionObject {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
@@ -468,15 +483,6 @@ struct TensorRank4SymmetryComponentsFunctionObject<T, CS, mpc::core::HexagonalSy
         }
 };
 
-
-
-
-
-
-
-
-
-
 // partial specialization : CUBIC
 template <typename T, typename CS>
 struct TensorRank4SymmetryComponentsFunctionObject<T, CS, mpc::core::CubicSymmetryGroupType> {
@@ -583,10 +589,10 @@ struct TensorRank4SymmetryComponentsFunctionObject<T, CS, mpc::core::IsotropicSy
         }
 };
 
-
-
-
-// convenience function that creates the function object and calls it
+/**
+* \fn void TensorRank4SymmetryComponents(std::set<mpc::core::TensorRankNComponent<T,4> >&)
+* \brief convenience function that creates the function object and calls it
+*/
 template <typename T, typename CS, typename S>
 void TensorRank4SymmetryComponents(std::set<mpc::core::TensorRankNComponent<T,4> >& components) {
         // create the specialized function object at compile time depending on the rank4 tensor type (either StiffnessType or ComplianceType) and the SymmetryGroupType, e.g. TRICLINIC, ORTHORHOMBIC, VTI, etc.  NOTE the default is NONE.
@@ -596,10 +602,7 @@ void TensorRank4SymmetryComponents(std::set<mpc::core::TensorRankNComponent<T,4>
         // create the function object...
         mpc::core::TensorRank4SymmetryComponentsFunctionObject<T,CS,S> symmetry_components_fo;
         symmetry_components_fo(components);
-
 }
-
-
 
 } // namespace core
 } // namespace mpc

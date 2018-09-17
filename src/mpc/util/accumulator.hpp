@@ -1,10 +1,10 @@
 /**
- *    @file accumulator.hpp
- *    @brief function object for accumulating blitz arrays; two methods
+ *    \file accumulator.hpp
+ *    \brief function object for accumulating blitz arrays; two methods
  * are summation and multiplication
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_ACCUMULATOR_H

@@ -1,10 +1,9 @@
 /**
- *    @file stressstrain.hpp
- *    @brief stress and strain tensor classes; part of the core data structures
+ *    \file stressstrain.hpp
+ *    \brief stress and strain tensor classes; part of the core data structures
  *
- *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef STRESSSTRAIN_H
@@ -24,7 +23,10 @@
 namespace mpc {
 namespace core {
 
-/* tensor rank 2 */
+/**
+* \class TensorRank2Interface
+* \brief simple interface class for tensors of rank 2
+*/
 template <typename T>
 struct TensorRank2Interface {
         static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
@@ -32,6 +34,10 @@ struct TensorRank2Interface {
         // NOTE: the ApplySymmetry parameter here is used when you know that the tensor should be symmetrical, e.g. the Stress and Strain tensors.  However, the stress and strain tensors can be broken into symmetrical and asymetrical parts; for this reason, this parameter is provided so that the same class can be used for both parts and this parameter will determine if the symmetrical components need to be generated.
 };
 
+/**
+* \class TensorRank2Base
+* \brief simple base class for tensors of rank 2
+*/
 template <typename T>
 struct TensorRank2Base : TensorRank2Interface<T> {
         blitz::Array<T,2> tensor = blitz::Array<T,2>(3,3, blitz::ColumnMajorArray<2>());
@@ -40,10 +46,18 @@ struct TensorRank2Base : TensorRank2Interface<T> {
         }
 };
 
-// template object for stress tensor of rank 2
+/**
+* \class StressTensor
+* \brief stress tensor class with function to set the components
+*/
 template <typename T>
 struct StressTensor : TensorRank2Base<T> {
         using TensorRank2Base<T>::tensor;
+
+        /**
+        * \fn void SetComponents(std::set< mpc::core::TensorRank2Component<T> >&, bool)
+        * \brief set the components of the underlying tensor data member
+        */
         void SetComponents(std::set< mpc::core::TensorRank2Component<T> >& components, bool ApplySymmetry=false)
         {
                 assert(components.size() < 10);
@@ -73,10 +87,18 @@ struct StressTensor : TensorRank2Base<T> {
         }
 };
 
-// template object for strain tensor of rank 2
+/**
+* \class StrainTensor
+* \brief strain tensor class with function to set the components
+*/
 template <typename T>
 struct StrainTensor : TensorRank2Base<T> {
         using TensorRank2Base<T>::tensor;
+
+        /**
+        * \fn void SetComponents(std::set< mpc::core::TensorRank2Component<T> >&, bool)
+        * \brief set the components of the underlying tensor data member
+        */
         void SetComponents(std::set< mpc::core::TensorRank2Component<T> >& components, bool ApplySymmetry=false)
         {
                 assert(components.size() < 10);

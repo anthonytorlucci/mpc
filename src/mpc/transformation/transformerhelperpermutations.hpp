@@ -1,10 +1,10 @@
 /**
- *    @file transformerhelperpermutations.hpp
- *    @brief helper functions that generate the permutations of the indices
+ *    \file transformerhelperpermutations.hpp
+ *    \brief helper functions that generate the permutations of the indices
  * used by the transformer function object
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_TRANSFORMER_HELPER_PERMUTATIONS_H

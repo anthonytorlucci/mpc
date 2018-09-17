@@ -1,10 +1,10 @@
 /**
- *    @file mineraldataproperties.hpp
- *    @brief functions that return mineral data property values from
+ *    \file mineraldataproperties.hpp
+ *    \brief functions that return mineral data property values from
  * the literature
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MINERALDATAPROPERTIES_H

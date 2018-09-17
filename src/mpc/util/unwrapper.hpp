@@ -1,10 +1,10 @@
 /**
- *    @file unwrapper.hpp
- *    @brief function object that "unwraps" a multi-dimenional array into
+ *    \file unwrapper.hpp
+ *    \brief function object that "unwraps" a multi-dimenional array into
  * a single one-dimensional array; used by transformer function object
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_UNWRAPPER_H

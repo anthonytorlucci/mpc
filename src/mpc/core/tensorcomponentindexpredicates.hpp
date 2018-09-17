@@ -1,10 +1,9 @@
 /**
- *    @file tensorcomponentindexpredicates.hpp
- *    @brief boolean functions that take a TensorRankNComponentIndex<N> that
- * can be used in assertions or control program flow
+ *    \file tensorcomponentindexpredicates.hpp
+ *    \brief boolean functions that take a TensorRankNComponentIndex<N> that can be used in assertions or control program flow
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_TENSORCOMPONENTINDEXPREDICATES_H
@@ -12,6 +11,7 @@
 
 #include <iostream>
 
+// mpc
 #include "tensorcomponentindex.hpp"
 #include "tensorcomponentindexaliases.hpp"
 

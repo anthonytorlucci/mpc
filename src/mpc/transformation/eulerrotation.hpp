@@ -1,10 +1,9 @@
 /**
- *    @file eulerrotation.hpp
- *    @brief function object that outputs a transformation tensor based on 3
- * input Euler angles
+ *    \file eulerrotation.hpp
+ *    \brief function object that outputs a transformation tensor based on 3 input Euler angles
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_EULERROTATION_H

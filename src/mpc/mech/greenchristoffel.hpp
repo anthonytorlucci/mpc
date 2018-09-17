@@ -1,11 +1,11 @@
 /**
- *    @file greenchristoffel.hpp
- *    @brief class used for calculating the velocities using the
+ *    \file greenchristoffel.hpp
+ *    \brief class used for calculating the velocities using the
  * Green-Christoffel equation; currently only phase velocities are generated
  * and particle dispalcement is not yet implemented
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_GREENCHRISTOFFEL_H

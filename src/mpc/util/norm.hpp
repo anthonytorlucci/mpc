@@ -1,9 +1,9 @@
 /**
- *    @file norm.hpp
- *    @brief Lp norms
+ *    \file norm.hpp
+ *    \brief Lp norms
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_NORMAL_H

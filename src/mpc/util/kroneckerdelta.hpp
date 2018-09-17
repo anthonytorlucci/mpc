@@ -1,10 +1,9 @@
 /**
- *    @file kroneckerdelta.hpp
- *    @brief function for getting the second-rank tensor Kronecker delta
- * in N-dimenional space
+ *    \file kroneckerdelta.hpp
+ *    \brief function for getting the second-rank tensor Kronecker delta in N-dimenional space
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_KRONECKERDELTA3_H

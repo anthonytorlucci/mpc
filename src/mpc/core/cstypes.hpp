@@ -20,11 +20,19 @@
 namespace mpc {
 namespace core {
 
+/**
+* \enum CSEnumeration
+* \brief stiffness compliance types enumeration
+*/
 enum class CSEnumeration {
         STIFFNESS,
         COMPLIANCE
 };
 
+/**
+* \class CSEnumerationInterface
+* \brief interface to convert enum to std::string
+*/
 struct CSEnumerationInterface {
 
 //    SYMMETRY symmetry;
@@ -46,12 +54,27 @@ inline std::ostream& operator<<(std::ostream& os, CSEnumeration cs_enum) {
         return os;
 }
 
+/**
+* \typedef cs_stiffness_t
+*/
 typedef std::integral_constant<CSEnumeration, CSEnumeration::STIFFNESS> cs_stiffness_t;
+/**
+* \typedef cs_compliance_t
+*/
 typedef std::integral_constant<CSEnumeration, CSEnumeration::COMPLIANCE> cs_compliance_t;
 
+/**
+* \class CSBase
+* \brief base class for stiffness compliance types
+*
+* mpc template specializations rely on this class for static_assert()
+*/
 struct CSBase {};
 
-// specializations
+/**
+* \class StiffnessType
+* \brief simple class used mainly for template specializations in mpc
+*/
 struct StiffnessType : public CSBase {
         const CSEnumeration cs_enumeration = CSEnumeration::STIFFNESS;
         constexpr static inline CSEnumeration CSEnum() {
@@ -59,6 +82,10 @@ struct StiffnessType : public CSBase {
         }
 };
 
+/**
+* \class ComplianceType
+* \brief simple class used mainly for template specializations in mpc
+*/
 struct ComplianceType : public CSBase {
         const CSEnumeration cs_enumeration = CSEnumeration::COMPLIANCE;
         constexpr static inline CSEnumeration CSEnum() {

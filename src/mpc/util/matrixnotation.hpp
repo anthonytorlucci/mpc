@@ -1,10 +1,10 @@
 /**
- *    @file matrixnotation.hpp
- *    @brief helper functions for working with voigt matrix notation rather
+ *    \file matrixnotation.hpp
+ *    \brief helper functions for working with voigt matrix notation rather
  * than the complete tensor
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef MPC_MATRIXNOTATION_H

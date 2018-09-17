@@ -1,9 +1,9 @@
 /**
- *    @file rptransforms.hpp
- *    @brief simple rock physics transform functions
+ *    \file rptransforms.hpp
+ *    \brief simple rock physics transform functions
  *
- *    @author Anthony Torlucci
- *    @date 9/16/2018
+ *    \author Anthony Torlucci
+ *    \date 9/16/2018
  */
 
 #ifndef RPTRANSFORMS_H
