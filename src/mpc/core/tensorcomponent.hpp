@@ -1,11 +1,11 @@
 /**
-*    @file tensorcomponent.hpp
-*    @brief structure that defines a tensor component
-*    
-*
-*    @author Anthony Torlucci
-*    @date 9/16/2018
-*/
+ *    @file tensorcomponent.hpp
+ *    @brief structure that defines a tensor component
+ *
+ *
+ *    @author Anthony Torlucci
+ *    @date 9/16/2018
+ */
 
 #ifndef MPC_TENSORCOMPONENT_H
 #define MPC_TENSORCOMPONENT_H
@@ -27,61 +27,70 @@ namespace core {
 
 template <typename T, int N>
 class TensorRankNComponent {
-    using type = T;
+using type = T;
 
-    T value_;                             // NOTE: the api has changed.  this is no longer const
-    TensorRankNComponentIndex<N> index_;  // NOTE: the api has changed.  this is no longer const
+T value_;                                 // NOTE: the api has changed.  this is no longer const
+TensorRankNComponentIndex<N> index_;      // NOTE: the api has changed.  this is no longer const
 
-    TensorRankNComponent() {}  // default constructor is private; cannot be instantiated.
+TensorRankNComponent() {
+}                              // default constructor is private; cannot be instantiated.
 public:
-    constexpr TensorRankNComponent(T val, TensorRankNComponentIndex<N> indx) : value_(val), index_(indx) {
+constexpr TensorRankNComponent(T val, TensorRankNComponentIndex<N> indx) : value_(val), index_(indx) {
         //
-    }
-    // accessor
-    constexpr T Value() const { return value_; }
-    constexpr TensorRankNComponentIndex<N> Index() const { return index_; }
+}
+// accessor
+constexpr T Value() const {
+        return value_;
+}
+constexpr TensorRankNComponentIndex<N> Index() const {
+        return index_;
+}
 
-    // mutator
-    inline void Value(T val) { value_ = val; }
-    inline void Index(mpc::core::TensorRank4ComponentIndex index) { index_ = index; }
+// mutator
+inline void Value(T val) {
+        value_ = val;
+}
+inline void Index(mpc::core::TensorRank4ComponentIndex index) {
+        index_ = index;
+}
 
-    // NOTE that the less than and greater than operators are by index, NOT value
-    inline bool operator<(const TensorRankNComponent<T,N>& rhs) const {
+// NOTE that the less than and greater than operators are by index, NOT value
+inline bool operator<(const TensorRankNComponent<T,N>& rhs) const {
         if(this->index_ < rhs.Index()) { return true; }
         return false;
-    }
+}
 
-    inline bool operator>(const TensorRankNComponent<T,N>& rhs) const {
+inline bool operator>(const TensorRankNComponent<T,N>& rhs) const {
         if(this->index_ > rhs.Index()) { return true; }
         return false;
-    }
+}
 
-    inline bool operator==(const TensorRankNComponent<T,N>& rhs) const {
+inline bool operator==(const TensorRankNComponent<T,N>& rhs) const {
         if (this->index_ == rhs.index_ && this->value_ == rhs.value_) { return true; }
         return false;
-    }
+}
 
-    inline bool operator!=(const TensorRankNComponent<T,N>& rhs) const {
+inline bool operator!=(const TensorRankNComponent<T,N>& rhs) const {
         if (this->index_ == rhs.index_ || this->value_ == rhs.value_) { return false; }
         return true;
-    }
+}
 
-    inline bool operator<=(const TensorRankNComponent<T,N>& rhs) const {
+inline bool operator<=(const TensorRankNComponent<T,N>& rhs) const {
         if(this->index_ <= rhs.Index()) { return true; }
         return false;
-    }
+}
 
-    inline bool operator>=(const TensorRankNComponent<T,N>& rhs) const {
+inline bool operator>=(const TensorRankNComponent<T,N>& rhs) const {
         if(this->index_ >= rhs.Index()) { return true; }
         return false;
-    }
+}
 
 
-    friend std::ostream& operator<<( std::ostream& os, const TensorRankNComponent& t ) {
+friend std::ostream& operator<<( std::ostream& os, const TensorRankNComponent& t ) {
         // can access the enclosing Test. If T is int, it cannot access Test<double>
         os << std::to_string(t.Value()) << "," << t.Index();
         return os;
-    }
+}
 };
 
 // using aliases

@@ -1,12 +1,12 @@
 /**
-*    @file tensorcomponentindex.hpp
-*    @brief structure that defines a tensor component index, i.e. the
-* indices (i,j) or (i,j,k,l) of a tensor
-*    
-*
-*    @author Anthony Torlucci
-*    @date 9/16/2018
-*/
+ *    @file tensorcomponentindex.hpp
+ *    @brief structure that defines a tensor component index, i.e. the
+ * indices (i,j) or (i,j,k,l) of a tensor
+ *
+ *
+ *    @author Anthony Torlucci
+ *    @date 9/16/2018
+ */
 
 #ifndef MPC_TENSORCOMPONENTINDEX_H
 #define MPC_TENSORCOMPONENTINDEX_H
@@ -38,74 +38,80 @@ template<int M, int N>
 class CTensorRank2ComponentIndex {
 
 public:
-    constexpr CTensorRank2ComponentIndex() {}
-    constexpr inline int FirstIndex() const { return M; }  // no implicit this*
-    constexpr inline int SecondIndex() const { return N; }  // no implicit this*
+constexpr CTensorRank2ComponentIndex() {
+}
+constexpr inline int FirstIndex() const {
+        return M;
+}                                                          // no implicit this*
+constexpr inline int SecondIndex() const {
+        return N;
+}                                                           // no implicit this*
 
 
-    template <int P, int Q>
-    constexpr CTensorRank2ComponentIndex(const CTensorRank2ComponentIndex<P,Q>& rhs) {}  // copy constructor
+template <int P, int Q>
+constexpr CTensorRank2ComponentIndex(const CTensorRank2ComponentIndex<P,Q>& rhs) {
+}                                                                                        // copy constructor
 
-    // no assignment, M,N are fixed
-    //template <int P, int Q>
-    //inline CTensorRank2ComponentIndex& operator= (const CTensorRank2ComponentIndex& rhs) {
-    //    return CTensorRank2ComponentIndex<P,Q>();  // return new CTensorRank2ComponentIndex<P,Q>(); ????
-    //}
+// no assignment, M,N are fixed
+//template <int P, int Q>
+//inline CTensorRank2ComponentIndex& operator= (const CTensorRank2ComponentIndex& rhs) {
+//    return CTensorRank2ComponentIndex<P,Q>();  // return new CTensorRank2ComponentIndex<P,Q>(); ????
+//}
 
-    inline int operator[](int i) {
+inline int operator[](int i) {
         if(i==0) { return M; }
         if(i==1) { return N; }
         if(i>1 || i<0) { throw std::range_error("i must be less than or equal to one and greater than zero"); }
         return int();  // should never be called
-    }
+}
 
-    template <int P, int Q>
-    inline bool operator<(const CTensorRank2ComponentIndex<P,Q>& rhs) {
+template <int P, int Q>
+inline bool operator<(const CTensorRank2ComponentIndex<P,Q>& rhs) {
         // the convention mpc uses:
         return ((M*10 + N) < (P*10 + Q)) ? true : false;
-    }
+}
 
-    template <int P, int Q>
-    inline bool operator>(const CTensorRank2ComponentIndex<P,Q>& rhs) {
+template <int P, int Q>
+inline bool operator>(const CTensorRank2ComponentIndex<P,Q>& rhs) {
         // the convention mpc uses:
         return ((M*10 + N) > (P*10 + Q)) ? true : false;
-    }
+}
 
-    template <int P, int Q>
-    inline bool operator==(const CTensorRank2ComponentIndex<P,Q>& rhs) {
+template <int P, int Q>
+inline bool operator==(const CTensorRank2ComponentIndex<P,Q>& rhs) {
         return (M==P && N==Q) ? true : false;
-    }
+}
 
-    template <int P, int Q>
-    inline bool operator!=(const CTensorRank2ComponentIndex<P,Q>& rhs) {
+template <int P, int Q>
+inline bool operator!=(const CTensorRank2ComponentIndex<P,Q>& rhs) {
         return (M==P && N==Q) ? false : true;
-    }
+}
 
-    template <int P, int Q>
-    inline bool operator<=( const CTensorRank2ComponentIndex<P,Q>& rhs ) const
-    {
+template <int P, int Q>
+inline bool operator<=( const CTensorRank2ComponentIndex<P,Q>& rhs ) const
+{
         // the convention mpc uses:
         return ((M*10 + N) <= (P*10 + Q)) ? true : false;
-    }
+}
 
-    template <int P, int Q>
-    inline bool operator>=( const CTensorRank2ComponentIndex<P,Q>& rhs ) const
-    {
+template <int P, int Q>
+inline bool operator>=( const CTensorRank2ComponentIndex<P,Q>& rhs ) const
+{
         // the convention mpc uses:
         return ((M*10 + N) >= (P*10 + Q)) ? true : false;
-    }
+}
 
-    friend std::ostream& operator<<( std::ostream& os, const CTensorRank2ComponentIndex& t ) {
+friend std::ostream& operator<<( std::ostream& os, const CTensorRank2ComponentIndex& t ) {
         os << "[" <<
-              std::to_string(t.FirstIndex()) << "," <<
-              std::to_string(t.SecondIndex()) << "]";
+                std::to_string(t.FirstIndex()) << "," <<
+                std::to_string(t.SecondIndex()) << "]";
         return os;
-    }
+}
 
-    template <int P, int Q>
-    static blitz::TinyVector<int,2> ToBlitzTinyVector(const CTensorRank2ComponentIndex<P,Q>& indexn) {
+template <int P, int Q>
+static blitz::TinyVector<int,2> ToBlitzTinyVector(const CTensorRank2ComponentIndex<P,Q>& indexn) {
         return blitz::TinyVector<int,2>(P,Q);
-    }
+}
 };
 
 //template <int M, int N, int P, int Q>
@@ -152,19 +158,29 @@ template<int I, int J, int K, int L>
 class CTensorRank4ComponentIndex {
 
 public:
-    constexpr CTensorRank4ComponentIndex() {}
-    // the following functions can be used as template parameter values for
-    //     compile-time computation
-    constexpr inline int FirstIndex() const { return I; }  // no implicit this*
-    constexpr inline int SecondIndex() const { return J; }  // no implicit this*
-    constexpr inline int ThirdIndex() const { return K; } // no implicit this*
-    constexpr inline int FourthIndex() const { return L; } // no implicit this*
+constexpr CTensorRank4ComponentIndex() {
+}
+// the following functions can be used as template parameter values for
+//     compile-time computation
+constexpr inline int FirstIndex() const {
+        return I;
+}                                                          // no implicit this*
+constexpr inline int SecondIndex() const {
+        return J;
+}                                                           // no implicit this*
+constexpr inline int ThirdIndex() const {
+        return K;
+}                                                         // no implicit this*
+constexpr inline int FourthIndex() const {
+        return L;
+}                                                          // no implicit this*
 
 
-    template <int P, int Q, int R, int S>
-    constexpr CTensorRank4ComponentIndex(const CTensorRank4ComponentIndex<P,Q,R,S>& rhs) {}  // copy constructor
+template <int P, int Q, int R, int S>
+constexpr CTensorRank4ComponentIndex(const CTensorRank4ComponentIndex<P,Q,R,S>& rhs) {
+}                                                                                            // copy constructor
 
-    // no assignment operator; I,J,K,L are fixed????
+// no assignment operator; I,J,K,L are fixed????
 //     template <int P, int Q, int R, int S>
 //     inline CTensorRank4ComponentIndex<I,J,K,L>& operator=(CTensorRank4ComponentIndex<P,Q,R,S>& c) {
 //
@@ -172,21 +188,21 @@ public:
 //         return *this;
 //     }
 
-    inline int operator[](int i) {
+inline int operator[](int i) {
         switch (i) {
         case 0: return I;
         case 1: return J;
         case 2: return K;
         case 3: return L;
         default: int();
-        if (i<0 || i>3) { throw std::range_error("i must be less than or equal to three and greater than zero"); }
-        return int();  // should never be called
+                if (i<0 || i>3) { throw std::range_error("i must be less than or equal to three and greater than zero"); }
+                return int(); // should never be called
         }
-    }
+}
 
-    // =======
-    template <int P, int Q, int R, int S>
-    inline bool operator<(const CTensorRank4ComponentIndex<P,Q,R,S>& rhs) {
+// =======
+template <int P, int Q, int R, int S>
+inline bool operator<(const CTensorRank4ComponentIndex<P,Q,R,S>& rhs) {
 //         if (i_ < rhs.FirstIndex()) { return true; }
 //         if (i_ > rhs.FirstIndex()) { return false; }
 //         // case i_ == indext.FirstIndex(), move to next index value
@@ -200,10 +216,10 @@ public:
 //         return false;
         // the convention mpc uses:
         return ((I*1000 + J*100 + K*10 + L) < (P*1000 + Q*100 + R*10 + S)) ? true : false;
-    }
+}
 
-    template <int P, int Q, int R, int S>
-    inline bool operator>(const CTensorRank4ComponentIndex<P,Q,R,S>& rhs) {
+template <int P, int Q, int R, int S>
+inline bool operator>(const CTensorRank4ComponentIndex<P,Q,R,S>& rhs) {
 //         if (i_ > rhs.FirstIndex()) { return true; }
 //         if (i_ < rhs.FirstIndex()) { return false; }
 //         // case i_ == indext.FirstIndex(), move to next index value
@@ -217,47 +233,47 @@ public:
 //         return false;
         // the convention mpc uses:
         return ((I*1000 + J*100 + K*10 + L) > (P*1000 + Q*100 + R*10 + S)) ? true : false;
-    }
+}
 
-    inline bool operator==(const CTensorRank4ComponentIndex<I,J,K,L>& rhs) {
+inline bool operator==(const CTensorRank4ComponentIndex<I,J,K,L>& rhs) {
         if (I == rhs.FirstIndex() && J == rhs.SecondIndex() && K == rhs.ThirdIndex() && L == rhs.FourthIndex()) { return true; }
         return false;
-    }
+}
 
-    template <int P, int Q, int R, int S>
-    inline bool operator!=(const CTensorRank4ComponentIndex<P,Q,R,S>& rhs) {
+template <int P, int Q, int R, int S>
+inline bool operator!=(const CTensorRank4ComponentIndex<P,Q,R,S>& rhs) {
         if (I == rhs.FirstIndex() && J == rhs.SecondIndex() && K == rhs.ThirdIndex() && L == rhs.FourthIndex()) { return false; }
         return true;
-    }
+}
 
-    template <int P, int Q, int R, int S>
-    inline bool operator<=( const CTensorRank4ComponentIndex<P,Q,R,S>& rhs ) const
-    {
+template <int P, int Q, int R, int S>
+inline bool operator<=( const CTensorRank4ComponentIndex<P,Q,R,S>& rhs ) const
+{
         // the convention mpc uses:
         return ((I*1000 + J*100 + K*10 + L) <= (P*1000 + Q*100 + R*10 + S)) ? true : false;
-    }
+}
 
-    template <int P, int Q, int R, int S>
-    inline bool operator>=( const CTensorRank4ComponentIndex<P,Q,R,S>& rhs ) const
-    {
+template <int P, int Q, int R, int S>
+inline bool operator>=( const CTensorRank4ComponentIndex<P,Q,R,S>& rhs ) const
+{
         // the convention mpc uses:
         return ((I*1000 + J*100 + K*10 + L) >= (P*1000 + Q*100 + R*10 + S)) ? true : false;
-    }
-    // =======
+}
+// =======
 
-    friend inline std::ostream& operator<<( std::ostream& os, const CTensorRank4ComponentIndex& t ) {
+friend inline std::ostream& operator<<( std::ostream& os, const CTensorRank4ComponentIndex& t ) {
         os << "[" <<
-              std::to_string(t.FirstIndex()) << "," <<
-              std::to_string(t.SecondIndex()) << "," <<
-              std::to_string(t.ThirdIndex()) << "," <<
-              std::to_string(t.FourthIndex()) << "]";
+                std::to_string(t.FirstIndex()) << "," <<
+                std::to_string(t.SecondIndex()) << "," <<
+                std::to_string(t.ThirdIndex()) << "," <<
+                std::to_string(t.FourthIndex()) << "]";
         return os;
-    }
+}
 
-    template <int P, int Q, int R, int S>
-    static blitz::TinyVector<int,4> ToBlitzTinyVector(const CTensorRank4ComponentIndex<P,Q,R,S>& indexn) {
+template <int P, int Q, int R, int S>
+static blitz::TinyVector<int,4> ToBlitzTinyVector(const CTensorRank4ComponentIndex<P,Q,R,S>& indexn) {
         return blitz::TinyVector<int,4>(P,Q,R,S);
-    }
+}
 };
 
 // TODO: define the comparison operators outside the class, make friend, and constexpr; if constexpr, can they be used as a predicate in another template paramter value or static_assert()
@@ -278,60 +294,66 @@ class TensorRankNComponentIndex {};
 
 template <>
 class TensorRankNComponentIndex<2> {
-    int m_;
-    int n_;
+int m_;
+int n_;
 
 public:
-    constexpr TensorRankNComponentIndex(int m, int n) : m_(m), n_(n) {}
+constexpr TensorRankNComponentIndex(int m, int n) : m_(m), n_(n) {
+}
 
-    constexpr inline int FirstIndex() const /* implicit */ { return m_; }
-    constexpr inline int SecondIndex() const /* implicit */ { return n_; }
+constexpr inline int FirstIndex() const /* implicit */ {
+        return m_;
+}
+constexpr inline int SecondIndex() const /* implicit */ {
+        return n_;
+}
 
-    // constructor used for casting; note the use of explicit to avoid any implicit casts
-    template<int M, int N>
-    explicit TensorRankNComponentIndex(const CTensorRank2ComponentIndex<M,N>& cindex) : m_(M), n_(N) {}
+// constructor used for casting; note the use of explicit to avoid any implicit casts
+template<int M, int N>
+explicit TensorRankNComponentIndex(const CTensorRank2ComponentIndex<M,N>& cindex) : m_(M), n_(N) {
+}
 
-    inline int operator[](int i) {
+inline int operator[](int i) {
 
         if(i==0) { return m_; }
         if(i==1) { return n_; }
         if(i>1 || i<0) { throw std::range_error("i must be less than or equal to one and greater than zero"); }
         return int();  // should never be called
-    }
+}
 
-    // needed for set, although one index is not really greater than or less than another...
-    inline bool operator<( const TensorRankNComponentIndex& rhs ) const
-    {
+// needed for set, although one index is not really greater than or less than another...
+inline bool operator<( const TensorRankNComponentIndex& rhs ) const
+{
         return ((m_*10 + n_) < (rhs.FirstIndex()*10 + rhs.SecondIndex())) ? true : false;
-    }
-    inline bool operator>( const TensorRankNComponentIndex& rhs ) const
-    {
+}
+inline bool operator>( const TensorRankNComponentIndex& rhs ) const
+{
         return ((m_*10 + n_) > (rhs.FirstIndex()*10 + rhs.SecondIndex())) ? true : false;
-    }
+}
 
-    inline bool operator== (const TensorRankNComponentIndex& rhs) const
-    {
+inline bool operator== (const TensorRankNComponentIndex& rhs) const
+{
         return ((m_*10 + n_) == (rhs.FirstIndex()*10 + rhs.SecondIndex())) ? true : false;
-    }
+}
 
-    inline bool operator!= (const TensorRankNComponentIndex& rhs) const
-    {
+inline bool operator!= (const TensorRankNComponentIndex& rhs) const
+{
         return ((m_*10 + n_) != (rhs.FirstIndex()*10 + rhs.SecondIndex())) ? true : false;
-    }
+}
 
-    inline bool operator<=( const TensorRankNComponentIndex& rhs ) const
-    {
+inline bool operator<=( const TensorRankNComponentIndex& rhs ) const
+{
         return ((m_*10 + n_) <= (rhs.FirstIndex()*10 + rhs.SecondIndex())) ? true : false;
-    }
-    inline bool operator>=( const TensorRankNComponentIndex& rhs ) const
-    {
+}
+inline bool operator>=( const TensorRankNComponentIndex& rhs ) const
+{
         return ((m_*10 + n_) >= (rhs.FirstIndex()*10 + rhs.SecondIndex())) ? true : false;
-    }
+}
 
-    static inline blitz::TinyVector<int,2> ToBlitzTinyVector( const
-            mpc::core::TensorRankNComponentIndex<2>& indexn) {
+static inline blitz::TinyVector<int,2> ToBlitzTinyVector( const
+                                                          mpc::core::TensorRankNComponentIndex<2>& indexn) {
         return blitz::TinyVector<int,2>(indexn.FirstIndex(), indexn.SecondIndex());
-    }
+}
 };
 
 //inline bool operator<(TensorRankNComponentIndex<2>& lhs, TensorRankNComponentIndex<2>& rhs) {
@@ -357,32 +379,42 @@ public:
 
 
 inline std::ostream& operator<<(std::ostream& os, TensorRankNComponentIndex<2> indexR2) {
-    os << "[" <<
-          std::to_string(indexR2.FirstIndex()) << "," <<
-          std::to_string(indexR2.SecondIndex()) << "]";
-    return os;
+        os << "[" <<
+                std::to_string(indexR2.FirstIndex()) << "," <<
+                std::to_string(indexR2.SecondIndex()) << "]";
+        return os;
 }
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // https://stackoverflow.com/questions/12453623/can-i-get-a-c-compiler-to-instantiate-objects-at-compile-time
 template <>
 class TensorRankNComponentIndex<4> {
-    int i_;
-    int j_;
-    int k_;
-    int l_;
+int i_;
+int j_;
+int k_;
+int l_;
 public:
-    constexpr TensorRankNComponentIndex(int i, int j, int k, int l) : i_(i), j_(j), k_(k), l_(l) {}
-    constexpr inline int FirstIndex() const /* implicit */ { return i_; }
-    constexpr inline int SecondIndex() const /* implicit */ { return j_; }
-    constexpr inline int ThirdIndex() const /* implicit */ { return k_; }
-    constexpr inline int FourthIndex() const /* implicit */ { return l_; }
+constexpr TensorRankNComponentIndex(int i, int j, int k, int l) : i_(i), j_(j), k_(k), l_(l) {
+}
+constexpr inline int FirstIndex() const /* implicit */ {
+        return i_;
+}
+constexpr inline int SecondIndex() const /* implicit */ {
+        return j_;
+}
+constexpr inline int ThirdIndex() const /* implicit */ {
+        return k_;
+}
+constexpr inline int FourthIndex() const /* implicit */ {
+        return l_;
+}
 
-    template<int I, int J, int K, int L>
-    explicit TensorRankNComponentIndex(const CTensorRank4ComponentIndex<I,J,K,L>& cindex) :
-        i_(I), j_(J), k_(K), l_(L) {}
+template<int I, int J, int K, int L>
+explicit TensorRankNComponentIndex(const CTensorRank4ComponentIndex<I,J,K,L>& cindex) :
+        i_(I), j_(J), k_(K), l_(L) {
+}
 
-    inline int operator[](int i) {
+inline int operator[](int i) {
 
         switch (i) {
         case 0: return i_;
@@ -392,43 +424,43 @@ public:
         default: throw std::range_error("i must be less than or equal to three");
         }
 
-    }
+}
 
-    // needed for set, although one index is not really greater than or less than another...
-    inline bool operator<( const TensorRankNComponentIndex& rhs ) const
-    {
+// needed for set, although one index is not really greater than or less than another...
+inline bool operator<( const TensorRankNComponentIndex& rhs ) const
+{
         return ((i_*1000 + j_*100 + k_*10 + l_) < (rhs.FirstIndex()*1000 + rhs.SecondIndex()*100 + rhs.ThirdIndex()*10 + rhs.FourthIndex())) ? true : false;
-    }
-    inline bool operator>( const TensorRankNComponentIndex& rhs ) const
-    {
+}
+inline bool operator>( const TensorRankNComponentIndex& rhs ) const
+{
         return ((i_*1000 + j_*100 + k_*10 + l_) > (rhs.FirstIndex()*1000 + rhs.SecondIndex()*100 + rhs.ThirdIndex()*10 + rhs.FourthIndex())) ? true : false;
-    }
+}
 
-    inline bool operator== (const TensorRankNComponentIndex& rhs) const
-    {
+inline bool operator== (const TensorRankNComponentIndex& rhs) const
+{
         return ((i_*1000 + j_*100 + k_*10 + l_) == (rhs.FirstIndex()*1000 + rhs.SecondIndex()*100 + rhs.ThirdIndex()*10 + rhs.FourthIndex())) ? true : false;
-    }
+}
 
-    inline bool operator!= (const TensorRankNComponentIndex& rhs) const
-    {
+inline bool operator!= (const TensorRankNComponentIndex& rhs) const
+{
         return ((i_*1000 + j_*100 + k_*10 + l_) != (rhs.FirstIndex()*1000 + rhs.SecondIndex()*100 + rhs.ThirdIndex()*10 + rhs.FourthIndex())) ? true : false;
-    }
+}
 
-    inline bool operator<=( const TensorRankNComponentIndex& rhs ) const
-    {
+inline bool operator<=( const TensorRankNComponentIndex& rhs ) const
+{
         return ((i_*1000 + j_*100 + k_*10 + l_) <= (rhs.FirstIndex()*1000 + rhs.SecondIndex()*100 + rhs.ThirdIndex()*10 + rhs.FourthIndex())) ? true : false;
-    }
-    inline bool operator>=( const TensorRankNComponentIndex& rhs ) const
-    {
+}
+inline bool operator>=( const TensorRankNComponentIndex& rhs ) const
+{
         return ((i_*1000 + j_*100 + k_*10 + l_) >= (rhs.FirstIndex()*1000 + rhs.SecondIndex()*100 + rhs.ThirdIndex()*10 + rhs.FourthIndex())) ? true : false;
-    }
+}
 
-    static inline blitz::TinyVector<int,4> ToBlitzTinyVector(const
-            mpc::core::TensorRankNComponentIndex<4>& indexn) {
+static inline blitz::TinyVector<int,4> ToBlitzTinyVector(const
+                                                         mpc::core::TensorRankNComponentIndex<4>& indexn) {
         return blitz::TinyVector<int,4>(
-                    indexn.FirstIndex(), indexn.SecondIndex(),
-                    indexn.ThirdIndex(), indexn.FourthIndex());
-    }
+                indexn.FirstIndex(), indexn.SecondIndex(),
+                indexn.ThirdIndex(), indexn.FourthIndex());
+}
 };
 
 // TODO: comparison operator overloading is recommended OUTSIDE the class... move the comparison operator overloading here..
@@ -443,12 +475,12 @@ public:
 //}
 
 inline std::ostream& operator<<(std::ostream& os, TensorRankNComponentIndex<4> indexR4) {
-    os << "[" <<
-          std::to_string(indexR4.FirstIndex()) << "," <<
-          std::to_string(indexR4.SecondIndex()) << "," <<
-          std::to_string(indexR4.ThirdIndex()) << "," <<
-          std::to_string(indexR4.FourthIndex()) << "]";
-    return os;
+        os << "[" <<
+                std::to_string(indexR4.FirstIndex()) << "," <<
+                std::to_string(indexR4.SecondIndex()) << "," <<
+                std::to_string(indexR4.ThirdIndex()) << "," <<
+                std::to_string(indexR4.FourthIndex()) << "]";
+        return os;
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

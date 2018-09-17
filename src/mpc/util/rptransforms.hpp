@@ -1,10 +1,10 @@
 /**
-*    @file rptransforms.hpp
-*    @brief simple rock physics transform functions
-*
-*    @author Anthony Torlucci
-*    @date 9/16/2018
-*/
+ *    @file rptransforms.hpp
+ *    @brief simple rock physics transform functions
+ *
+ *    @author Anthony Torlucci
+ *    @date 9/16/2018
+ */
 
 #ifndef RPTRANSFORMS_H
 #define RPTRANSFORMS_H
@@ -20,118 +20,118 @@ namespace util {
 
 template <typename T>
 static inline T CalculateVpVsRatio(T vp, T vs) {
-    /**
-     *  Vp/Vs ratio for an array of velocity values
-     *  @param vp: p-wave velocity
-     *  @param vs: s-wave velocity
-     *  @return: Vp/Vs ratio
-     */
-    static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
-    return vp/vs;
+        /**
+         *  Vp/Vs ratio for an array of velocity values
+         *  @param vp: p-wave velocity
+         *  @param vs: s-wave velocity
+         *  @return: Vp/Vs ratio
+         */
+        static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+        return vp/vs;
 }
 
 template <typename T>
 static inline T CalculatePoissonsRatio(T vp, T vs) {
-    /**
-    *  Poisson's ratio for given p-wave velocity and s-wave velocity
-    *  @param vp: p-wave velocity
-    *  @param vs: s-wave velocity
-    *  @return: Poisson's ratio
-    */
-    static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
-    // TODO: assert Vs !=0
-    T pr;  // pr is undefined.  Make sure to handle exceptions correctly!
-    T zeta = std::pow<T>(vp,2) / std::pow<T>(vs,2);
-    if (zeta != 1) {
-        pr = 0.5 * ((zeta - 2) / (zeta - 1));
-    } else {
-        // TODO : raise exception or throw error > Poisson's ratio is infinite!
-    }
-    return pr;
+        /**
+         *  Poisson's ratio for given p-wave velocity and s-wave velocity
+         *  @param vp: p-wave velocity
+         *  @param vs: s-wave velocity
+         *  @return: Poisson's ratio
+         */
+        static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+        // TODO: assert Vs !=0
+        T pr; // pr is undefined.  Make sure to handle exceptions correctly!
+        T zeta = std::pow<T>(vp,2) / std::pow<T>(vs,2);
+        if (zeta != 1) {
+                pr = 0.5 * ((zeta - 2) / (zeta - 1));
+        } else {
+                // TODO : raise exception or throw error > Poisson's ratio is infinite!
+        }
+        return pr;
 }
 
 template <typename T>
 static inline T CalculateVsFromVpPR(T vp, T pr) {
-    /**
-    *  S-wave velocity from P-wave velocity and Poisson's ratio
-    *  @param vp: p-wave velocity
-    *  @param pr: Poisson's ratio
-    *  @return: s-wave velocity
-    */
-    static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
-    // assert(pr != 1)
-    T z1 = 0.5 - pr;
-    T z2 = 1 - pr;
-    T zeta = sqrt(z1/z2);
-    return vp * zeta;
+        /**
+         *  S-wave velocity from P-wave velocity and Poisson's ratio
+         *  @param vp: p-wave velocity
+         *  @param pr: Poisson's ratio
+         *  @return: s-wave velocity
+         */
+        static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+        // assert(pr != 1)
+        T z1 = 0.5 - pr;
+        T z2 = 1 - pr;
+        T zeta = sqrt(z1/z2);
+        return vp * zeta;
 }
 
 template <typename T>
 static inline T CalculateVpFromVsPR(T vs, T pr) {
-    /**
-    *  S-wave velocity from P-wave velocity and Poisson's ratio
-    *  @param vs: s-wave velocity
-    *  @param pr: Poisson's ratio
-    *  @return: p-wave velocity
-    */
-    static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
-    // assert(pr != 1)
-    T z1 = 0.5 - pr;
-    T z2 = 1 - pr;
-    T zeta = sqrt(z1/z2);
-    // assert zeta !=0; throw DiveideByZeroException???
-    return vs / zeta;
+        /**
+         *  S-wave velocity from P-wave velocity and Poisson's ratio
+         *  @param vs: s-wave velocity
+         *  @param pr: Poisson's ratio
+         *  @return: p-wave velocity
+         */
+        static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+        // assert(pr != 1)
+        T z1 = 0.5 - pr;
+        T z2 = 1 - pr;
+        T zeta = sqrt(z1/z2);
+        // assert zeta !=0; throw DiveideByZeroException???
+        return vs / zeta;
 }
 
 template <typename T>
 static inline T BulkModulusFromVpVsRho(T vp, T vs, T rho) {
-    /**
-    *  bulk modulus from P-wave velocity, S-wave velocity, and density
-    *  @param vp: p-wave velocity
-    *  @param vs: s-wave velocity
-    *  @param rho: density
-    *  @return: bulk modulus
-    */
-    static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
-    return rho * (std::pow(vp,2) - ((4.0/3.0) * std::pow(vs,2)));
+        /**
+         *  bulk modulus from P-wave velocity, S-wave velocity, and density
+         *  @param vp: p-wave velocity
+         *  @param vs: s-wave velocity
+         *  @param rho: density
+         *  @return: bulk modulus
+         */
+        static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+        return rho * (std::pow(vp,2) - ((4.0/3.0) * std::pow(vs,2)));
 }
 
 template <typename T>
 static inline T ShearModulusFromVsRho(T vs, T rho) {
-    /**
-    *  Shear modulus from S-wave velocity and density
-    *  @param vs: s-wave velocity
-    *  @param rho: density
-    *  @return: shear modulus
-    */
-    static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
-    return rho * std::pow(vs,2);
+        /**
+         *  Shear modulus from S-wave velocity and density
+         *  @param vs: s-wave velocity
+         *  @param rho: density
+         *  @return: shear modulus
+         */
+        static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+        return rho * std::pow(vs,2);
 }
 
 template <typename T>
 static inline T PvelFromBulkModulusShearModulusDensity(T K, T mu, T rho) {
-    /**
-    *  P-wave velocity from bulk modulus, shear modulus, and density
-    *  @param K: bulk modulus
-    *  @param mu: shear modulus
-    *  @param rho: density
-    *  @return: p-wave velocity
-    */
-    static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
-    // assert rho !=0; DivideByZero Exception?
-    return sqrt((K + (4.0 * mu / 3.0)) / rho);
+        /**
+         *  P-wave velocity from bulk modulus, shear modulus, and density
+         *  @param K: bulk modulus
+         *  @param mu: shear modulus
+         *  @param rho: density
+         *  @return: p-wave velocity
+         */
+        static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+        // assert rho !=0; DivideByZero Exception?
+        return sqrt((K + (4.0 * mu / 3.0)) / rho);
 }
 
 template <typename T>
 static inline T SvelFromShearModulusDensity(T mu, T rho) {
-    /**
-    *  S-wave velocity from shear modulus and density
-    *  @param mu: shear modulus
-    *  @param rho: density
-    *  @return: s-wave velocity
-    */
-    static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
-    return sqrt(mu / rho);
+        /**
+         *  S-wave velocity from shear modulus and density
+         *  @param mu: shear modulus
+         *  @param rho: density
+         *  @return: s-wave velocity
+         */
+        static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+        return sqrt(mu / rho);
 }
 
 

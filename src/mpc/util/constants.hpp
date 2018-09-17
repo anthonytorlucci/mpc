@@ -1,10 +1,10 @@
 /**
-*    @file constants.hpp
-*    @brief functions for constant values used by mpc
-*
-*    @author Anthony Torlucci
-*    @date 9/16/2018
-*/
+ *    @file constants.hpp
+ *    @brief functions for constant values used by mpc
+ *
+ *    @author Anthony Torlucci
+ *    @date 9/16/2018
+ */
 
 #ifndef MPC_CONSTANTS_H
 #define MPC_CONSTANTS_H
