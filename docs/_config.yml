@@ -28,5 +28,5 @@ color:
 
 # Build settings
 markdown: kramdown
-highlighter: pygments
+highlighter: rouge
 # permalink: pretty

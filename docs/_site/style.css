@@ -63,15 +63,6 @@ a:focus {
     color: #11505d;
 }
 
-/* added */
-pre {
-  padding: 0;
-
-  >code {
-    text-align: left;
-  }
-}
-
 .light {
     font-weight: 400;
 }
@@ -265,6 +256,16 @@ pre {
 
 .content-section {
     padding-top: 100px;
+    text-align: left;  /* added z3 */
+
+    /* added */
+    pre {
+      padding: 0;
+
+      >code {
+        text-align: left;
+      }
+    }
 }
 
 .download-section {
