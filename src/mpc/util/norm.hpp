@@ -25,7 +25,7 @@ static blitz::Array<T,1> Normal(blitz::Array<T,1>& input_array) {
         // TODO: make input_array const?
         // same as L2-norm
         blitz::Array<T,1> tmp(input_array.shape()); // use std::copy<>???
-        T mag = mpc::linsys::Magnitude<T>(input_array);
+        T mag = mpc::util::Magnitude<T>(input_array);
 
 //    blitz::TinyVector<T,1> ishp = input_array.shape();  // shape of the input array
 //    int num_elems = ishp(0);  // number of elements
@@ -42,7 +42,7 @@ static void Normalize(blitz::Array<T,1>& input_array) {
         // normalize the vector in place
         // NOTE: this will change the components of the input array so it will not work if the input_array is const
         // same as L2-norm
-        T mag = mpc::linsys::Magnitude<T>(input_array);
+        T mag = mpc::util::Magnitude<T>(input_array);
         input_array /= mag;
 }
 

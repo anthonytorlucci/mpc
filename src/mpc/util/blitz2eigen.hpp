@@ -11,7 +11,7 @@
 #define MPC_BLITZ2EIGEN_H
 
 // eigen
-#include <eigen3/Eigen/Dense>
+#include <Eigen/Dense>
 
 // blitz
 #include <blitz/array.h>

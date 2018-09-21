@@ -1,6 +1,8 @@
 # mpc
 mechanical properties of crystals and polycrystalline aggregates
 
+[user guide and api docs](https://threecubed.github.io/mpc/)
+
 mpc is a header-only template library written in c++ for working with the
 mechanical properties of crystals and polycrystalline aggregates...
 

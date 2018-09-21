@@ -62,6 +62,8 @@ struct StiffnessTensor : TensorRank4Base<T> {
         void SetComponentsWithSymmetry(std::set< mpc::core::TensorRank4Component<T> >& components) {
                 static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
                 // TODO: assert IsComponentSetSymmetryCompliant<>()...
+                //tensor = 0;
+
                 mpc::core::TensorRank4SymmetryComponents<T,mpc::core::StiffnessType,S>(components);
 
                 // if S is NoneSymmetryType, assign components to tensor
@@ -75,6 +77,7 @@ struct StiffnessTensor : TensorRank4Base<T> {
                 // else, the type is one of symmetry, thus use matrix notation
                 else {
                         blitz::Array<T,2> mat = blitz::Array<T,2>(6,6,blitz::ColumnMajorArray<2>());
+                        mat = 0;
 
                         for (auto c : components) {
                                 mpc::core::TensorRank4ComponentIndex c_index = c.Index();
@@ -118,6 +121,7 @@ struct ComplianceTensor : TensorRank4Base<T> {
                 // else, the type is one of symmetry, thus use matrix notation
                 else {
                         blitz::Array<T,2> mat = blitz::Array<T,2>(6,6,blitz::ColumnMajorArray<2>());
+                        mat = 0;
 
                         for (auto c : components) {
                                 mpc::core::TensorRank4ComponentIndex c_index = c.Index();
