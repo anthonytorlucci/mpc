@@ -37,7 +37,7 @@
           \]
           where \(\sigma_{ij}\) is the stress tensor, \(\epsilon_{kl}\)
           is the strain tensor, \(c_{ijkl}\) is the stiffness
-          tensor, and \(s_{klmn}\) is the compliance tensor...
+          tensor, and \(s_{klij}\) is the compliance tensor...
         </p>
         <br>
         <h3>user guide section 01 - core data structures</h3>
@@ -74,7 +74,7 @@
           like fortran and the literauture which uses the indices
           i,j,... = 1,2,3. The second
           convention to note, which we have already used, is the
-          summation convention for which we define the
+          <em>summation convention</em> for which we define the
           <em>rank</em> of a tensor as the number of <em>free</em>
           indices - those indices which do not repeat. For
           example, the stiffness and compliance tensors are of rank
@@ -99,7 +99,7 @@
           arrays in which each dimension corresponds to an index
           and the values in that dimension correspond to the range
           convention of the tensor. mpc defines this index with a
-          template class TensorRankNComponentIndex. For example,
+          template class <pre>TensorRankNComponentIndex<N></pre>. For example,
           the three component indices of a hydrostaic stress tensor
           would be:
         </p>
