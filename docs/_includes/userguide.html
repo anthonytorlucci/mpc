@@ -67,11 +67,15 @@
                       As previously mentioned, we will do our investigation in
                       three-dimensional space calculating the stiffness and
                       compliance of a representative volume; therefore, the
-                      indices will take the range i,j,... = 1,2,3.  This is
-                      known as the <em>range convention</em>.  The second
+                      indices will take the range i,j,... = 0,1,2.  This is
+                      known as the <em>range convention</em>.  Note that mpc is
+                      written in c++ and uses the c++ convention of zero-based
+                      indexing.  This is different from mathematical languages
+                      like fortran and the literauture which uses the indices
+                      i,j,... = 1,2,3.  The second
                       convention to note, which we have already used, is the
                       summation convention for which we define the
-                      <em>rank</em> of a tensor as the number of "free"
+                      <em>rank</em> of a tensor as the number of <em>free</em>
                       indices - those indices which do not repeat.  For
                       example, the stiffness and compliance tensors are of rank
                       four corresponding to the free indices <em>i</em>,
@@ -80,10 +84,10 @@
                       free indices <em>i</em> and <em>j</em>, or <em>k</em> and
                       <em>l</em>.  A vector is of rank one and written in
                       suffix notation as \(v_i\) where <em>i</em> takes the
-                      range 1,2,3 in three dimensional space. Finally, a scalar
+                      range 0,1,2 in three dimensional space. Finally, a scalar
                       value is a tensor of rank zero and written without a
                       free index as \(\alpha\).  Note that a tensor with a
-                      "dummy" index is also a scalar value, e.g.
+                      <em>dummy</em> index is also a scalar value, e.g.
                       \(\alpha_{ii}\).  These <em>invariants</em> are very
                       important in tensor analysis and will be discussed later
                       in the user guide.
@@ -95,11 +99,61 @@
                       arrays in which each dimension corresponds to an index
                       and the values in that dimension correspond to the range
                       convention of the tensor.  mpc defines this index with a
-                      template class TensorRankNComponentIndex.
+                      template class TensorRankNComponentIndex.  For example,
+                      the three component indices of a hydrostaic stress tensor
+                      would be:
                     </p>
+                    <!-- mpctest001.cpp -->
                     {% highlight c++ %}
-void HighlightTest() {}
+                    mpc::core::TensorRankNComponentIndex<2> index00 = mpc::core::TensorRankNComponentIndex<2>(0,0);
+                    mpc::core::TensorRankNComponentIndex<2> index11 = mpc::core::TensorRankNComponentIndex<2>(1,1);
+                    mpc::core::TensorRankNComponentIndex<2> index22 = mpc::core::TensorRankNComponentIndex<2>(2,2);
+                    std::cout << "index(0,0) : " << index00 << std::endl;
+                    std::cout << "index(1,1) : " << index11 << std::endl;
+                    std::cout << "index(2,2) : " << index22 << std::endl;
                     {% endhighlight %}
+                    <p>
+                      These correspond to the components of the stress tensor
+                      \(\sigma_{ii}\) for the range <em>i</em> = 0, 1, 2, obviously.
+                    </p>
+                    <p>
+                      A tensor component index of rank 2 has two member
+                      functions defined in the class: FirstIndex() and
+                      SecondIndex() which retrieve the index values from the
+                      first index and the second index, respectively.  These
+                      are also constexpr functions and can be called at compile
+                      time and therefore known to the compiler and can be used
+                      in other constexpr functions, but NOT as template
+                      parameter values.  In addition, there are four non-member
+                      functions that overload the operators "==", "!=", "<",
+                      and ">" for comparison.  The less than and greater than
+                      operators don't really make sense for an index, but are
+                      necessary because std::less<Key> is the default
+                      comparson operator used in std::set, an STL container
+                      used ubiquitously throughout the MPC library.
+                      Therefore, MPC defines index ordering as: <br>
+                      00 < 01 < 02 < 10 < 11 < 12 < 20 < 21 < 22 <br>
+                      For example,
+                    </p>
+                    <!-- mpctest002.cpp, mpctest003.cpp -->
+                    {% highlight c++ %}
+                    int first_index = index00.FirstIndex();
+                    std::cout << index00 << " FirstIndex() :  " << first_index << std::endl;
+                    int second_index = index00.SecondIndex();
+                    std::cout << index00 << " SecondIndex() : " << second_index << std::endl;
+
+                    std::cout << index00 << " == " << index11 << " : " << (index00 == index11) << std::endl;
+                    std::cout << index00 << " != " << index11 << " : " << (index00 != index11) << std::endl;
+                    std::cout << index00 << " <  " << index11 << " : " << (index00 < index11) << std::endl;
+                    std::cout << index00 << " >  " << index11 << " : " << (index00 > index11) << std::endl;
+                    std::cout << index00 << " <= " << index11 << " : " << (index00 <= index11) << std::endl;
+                    std::cout << index00 << " >= " << index11 << " : " << (index00 >= index11) << std::endl;
+                    {% endhighlight %}
+                    <p></p>
+
+
+
+
                     <p>TO BE COMPLETED...</p>
                 </div>
             </div>
