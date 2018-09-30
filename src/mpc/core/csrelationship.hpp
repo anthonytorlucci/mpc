@@ -12,6 +12,7 @@
 #include <iostream>
 
 // blitz
+#include <blitz/array.h>
 
 // eigen
 #include <Eigen/Dense>
@@ -586,7 +587,7 @@ struct ComplianceFromStiffnessFunctionObject {
         */
         mpc::core::ComplianceTensor<T> operator() (const mpc::core::StiffnessTensor<T>& c_ijkl) {
                 // given the stiffness tensor, fill the compliance tensor
-                // the solution requires 6 systems of equations involving a [9x9] matrix of the stiffness tensor, a [9x1] solution vector
+                // the solution requires 9 systems of equations involving a [9x9] matrix of the stiffness tensor, a [9x1] solution vector
                 //     which contains the compliance tensor, and a [9x1] vector from the identity tensor
 
                 mpc::core::ComplianceTensor<T> s_ijkl = mpc::core::ComplianceTensor<T>();
@@ -631,8 +632,15 @@ struct ComplianceFromStiffnessFunctionObject {
                 // system 1
                 i_vec << 1, 0, 0, 0, 0, 0, 0, 0, 0;
                 //std::cout << i_vec << std::endl;
-                //s_vec = c_mat_sys1.colPivHouseholderQr().solve(i_vec);
-                s_vec = c_mat_sys1.fullPivLu().solve(i_vec);
+                //--! s_vec = c_mat_sys1.partialPivLu().solve(i_vec);
+                //s_vec = c_mat_sys1.fullPivLu().solve(i_vec);
+                s_vec = c_mat_sys1.colPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys1.fullPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys1.completeOrthogonalDecomposition().solve(i_vec);
+                //--! s_vec = c_mat_sys1.llt().solve(i_vec);
+                //s_vec = c_mat_sys1.ldlt().solve(i_vec);
+                //s_vec = c_mat_sys1.bdcSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                //s_vec = c_mat_sys1.jacobiSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
                 s_ijkl.tensor(0,0,0,0) = s_vec(0);
                 s_ijkl.tensor(0,1,0,0) = s_vec(1);
                 s_ijkl.tensor(0,2,0,0) = s_vec(2);
@@ -648,8 +656,15 @@ struct ComplianceFromStiffnessFunctionObject {
                 // system 2
                 i_vec << 0, 0.5, 0, 0.5, 0, 0, 0, 0, 0;
                 //std::cout << i_vec << std::endl;
-                //s_vec = c_mat_sys2.colPivHouseholderQr().solve(i_vec);
-                s_vec = c_mat_sys2.fullPivLu().solve(i_vec);
+                //--! s_vec = c_mat_sys2.partialPivLu().solve(i_vec);
+                //s_vec = c_mat_sys2.fullPivLu().solve(i_vec);
+                s_vec = c_mat_sys2.colPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys2.fullPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys2.completeOrthogonalDecomposition().solve(i_vec);
+                //--! s_vec = c_mat_sys2.llt().solve(i_vec);
+                //s_vec = c_mat_sys2.ldlt().solve(i_vec);
+                //s_vec = c_mat_sys2.bdcSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                //s_vec = c_mat_sys2.jacobiSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
                 s_ijkl.tensor(0,0,0,1) = s_vec(0);
                 s_ijkl.tensor(0,1,0,1) = s_vec(1);
                 s_ijkl.tensor(0,2,0,1) = s_vec(2);
@@ -665,8 +680,15 @@ struct ComplianceFromStiffnessFunctionObject {
                 // system 3
                 i_vec << 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0;
                 //std::cout << i_vec << std::endl;
-                //s_vec = c_mat_sys3.colPivHouseholderQr().solve(i_vec);
-                s_vec = c_mat_sys3.fullPivLu().solve(i_vec);
+                //--! s_vec = c_mat_sys3.partialPivLu().solve(i_vec);
+                //s_vec = c_mat_sys3.fullPivLu().solve(i_vec);
+                s_vec = c_mat_sys3.colPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys3.fullPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys3.completeOrthogonalDecomposition().solve(i_vec);
+                //--! s_vec = c_mat_sys3.llt().solve(i_vec);
+                //s_vec = c_mat_sys3.ldlt().solve(i_vec);
+                //s_vec = c_mat_sys3.bdcSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                //s_vec = c_mat_sys3.jacobiSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
                 s_ijkl.tensor(0,0,0,2) = s_vec(0);
                 s_ijkl.tensor(0,1,0,2) = s_vec(1);
                 s_ijkl.tensor(0,2,0,2) = s_vec(2);
@@ -682,8 +704,15 @@ struct ComplianceFromStiffnessFunctionObject {
                 // system 4
                 i_vec << 0, 0.5, 0, 0.5, 0, 0, 0, 0, 0;
                 //std::cout << i_vec << std::endl;
-                //s_vec = c_mat_sys4.colPivHouseholderQr().solve(i_vec);
-                s_vec = c_mat_sys4.fullPivLu().solve(i_vec);
+                //--! s_vec = c_mat_sys4.partialPivLu().solve(i_vec);
+                //s_vec = c_mat_sys4.fullPivLu().solve(i_vec);
+                s_vec = c_mat_sys4.colPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys4.fullPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys4.completeOrthogonalDecomposition().solve(i_vec);
+                //--! s_vec = c_mat_sys4.llt().solve(i_vec);
+                //s_vec = c_mat_sys4.ldlt().solve(i_vec);
+                //s_vec = c_mat_sys4.bdcSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                //s_vec = c_mat_sys4.jacobiSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
                 s_ijkl.tensor(0,0,1,0) = s_vec(0);
                 s_ijkl.tensor(0,1,1,0) = s_vec(1);
                 s_ijkl.tensor(0,2,1,0) = s_vec(2);
@@ -699,8 +728,15 @@ struct ComplianceFromStiffnessFunctionObject {
                 // system 5
                 i_vec << 0, 0, 0, 0, 1, 0, 0, 0, 0;
                 //std::cout << i_vec << std::endl;
-                //s_vec = c_mat_sys5.colPivHouseholderQr().solve(i_vec);
-                s_vec = c_mat_sys5.fullPivLu().solve(i_vec);
+                //--! s_vec = c_mat_sys5.partialPivLu().solve(i_vec);
+                //s_vec = c_mat_sys5.fullPivLu().solve(i_vec);
+                s_vec = c_mat_sys5.colPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys5.fullPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys5.completeOrthogonalDecomposition().solve(i_vec);
+                //--! s_vec = c_mat_sys5.llt().solve(i_vec);
+                //s_vec = c_mat_sys5.ldlt().solve(i_vec);
+                //s_vec = c_mat_sys5.bdcSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                //s_vec = c_mat_sys5.jacobiSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
                 s_ijkl.tensor(0,0,1,1) = s_vec(0);
                 s_ijkl.tensor(0,1,1,1) = s_vec(1);
                 s_ijkl.tensor(0,2,1,1) = s_vec(2);
@@ -716,8 +752,15 @@ struct ComplianceFromStiffnessFunctionObject {
                 // system 6
                 i_vec << 0, 0, 0, 0, 0, 0.5, 0, 0.5, 0;
                 //std::cout << i_vec << std::endl;
-                //s_vec = c_mat_sys6.colPivHouseholderQr().solve(i_vec);
-                s_vec = c_mat_sys6.fullPivLu().solve(i_vec);
+                //--! s_vec = c_mat_sys6.partialPivLu().solve(i_vec);
+                //s_vec = c_mat_sys6.fullPivLu().solve(i_vec);
+                s_vec = c_mat_sys6.colPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys6.fullPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys6.completeOrthogonalDecomposition().solve(i_vec);
+                //--! s_vec = c_mat_sys6.llt().solve(i_vec);
+                //s_vec = c_mat_sys6.ldlt().solve(i_vec);
+                //s_vec = c_mat_sys6.bdcSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                //s_vec = c_mat_sys6.jacobiSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
                 s_ijkl.tensor(0,0,1,2) = s_vec(0);
                 s_ijkl.tensor(0,1,1,2) = s_vec(1);
                 s_ijkl.tensor(0,2,1,2) = s_vec(2);
@@ -733,8 +776,15 @@ struct ComplianceFromStiffnessFunctionObject {
                 // system 7
                 i_vec << 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0;
                 //std::cout << i_vec << std::endl;
-                //s_vec = c_mat_sys7.colPivHouseholderQr().solve(i_vec);
-                s_vec = c_mat_sys7.fullPivLu().solve(i_vec);
+                //--! s_vec = c_mat_sys7.partialPivLu().solve(i_vec);
+                //s_vec = c_mat_sys7.fullPivLu().solve(i_vec);
+                s_vec = c_mat_sys7.colPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys7.fullPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys7.completeOrthogonalDecomposition().solve(i_vec);
+                //--! s_vec = c_mat_sys7.llt().solve(i_vec);
+                //s_vec = c_mat_sys7.ldlt().solve(i_vec);
+                //s_vec = c_mat_sys7.bdcSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                //s_vec = c_mat_sys7.jacobiSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
                 s_ijkl.tensor(0,0,2,0) = s_vec(0);
                 s_ijkl.tensor(0,1,2,0) = s_vec(1);
                 s_ijkl.tensor(0,2,2,0) = s_vec(2);
@@ -750,8 +800,15 @@ struct ComplianceFromStiffnessFunctionObject {
                 // system 8
                 i_vec << 0, 0, 0, 0, 0, 0.5, 0, 0.5, 0;
                 //std::cout << i_vec << std::endl;
-                //s_vec = c_mat_sys8.colPivHouseholderQr().solve(i_vec);
-                s_vec = c_mat_sys8.fullPivLu().solve(i_vec);
+                //--! s_vec = c_mat_sys8.partialPivLu().solve(i_vec);
+                //s_vec = c_mat_sys8.fullPivLu().solve(i_vec);
+                s_vec = c_mat_sys8.colPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys8.fullPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys8.completeOrthogonalDecomposition().solve(i_vec);
+                //--! s_vec = c_mat_sys8.llt().solve(i_vec);
+                //s_vec = c_mat_sys8.ldlt().solve(i_vec);
+                //s_vec = c_mat_sys8.bdcSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                //s_vec = c_mat_sys8.jacobiSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
                 s_ijkl.tensor(0,0,2,1) = s_vec(0);
                 s_ijkl.tensor(0,1,2,1) = s_vec(1);
                 s_ijkl.tensor(0,2,2,1) = s_vec(2);
@@ -767,8 +824,15 @@ struct ComplianceFromStiffnessFunctionObject {
                 // system 9
                 i_vec << 0, 0, 0, 0, 0, 0, 0, 0, 1;
                 //std::cout << i_vec << std::endl;
-                //s_vec = c_mat_sys9.colPivHouseholderQr().solve(i_vec);
-                s_vec = c_mat_sys9.fullPivLu().solve(i_vec);
+                //--! s_vec = c_mat_sys9.partialPivLu().solve(i_vec);
+                //s_vec = c_mat_sys9.fullPivLu().solve(i_vec);
+                s_vec = c_mat_sys9.colPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys9.fullPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys9.completeOrthogonalDecomposition().solve(i_vec);
+                //--! s_vec = c_mat_sys9.llt().solve(i_vec);
+                //s_vec = c_mat_sys9.ldlt().solve(i_vec);
+                //s_vec = c_mat_sys9.bdcSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                //s_vec = c_mat_sys9.jacobiSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
                 s_ijkl.tensor(0,0,2,2) = s_vec(0);
                 s_ijkl.tensor(0,1,2,2) = s_vec(1);
                 s_ijkl.tensor(0,2,2,2) = s_vec(2);
@@ -796,28 +860,174 @@ struct ComplianceFromStiffnessFunctionObject {
  *  | 04  14  24  34  44  45 |
  *  | 05  15  25  35  45  55 |
  */
-// template <typename T>
-// struct ComplianceFromStiffnessFunctionObject<T, mpc::core::TriclinicSymmetryGroupType> {
-//     static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
-//     //static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
-//     //static_assert(std::is_base_of<mpc::core::CSBase,CS>::value, "CS must be derived from mpc::core::CSBase.");
-//     mpc::core::ComplianceTensor<T> operator() (const mpc::core::StiffnessTensor<T>& c_ijkl) {
-//         // given the stiffness tensor, fill the compliance tensor
-//         // the solution requires 6 systems of equations involving a [9x9] matrix of the stiffness tensor, a [9x1] solution vector
-//         //     which contains the compliance tensor, and a [9x1] vector from the identity tensor
-//
-//         mpc::core::ComplianceTensor<T> s_ijkl = mpc::core::ComplianceTensor<T>();
-//         T zero = static_cast<T>(0.0);
-//         Eigen::Matrix<T,36,21> c_mat_sys = Eigen::Matrix<T,36,21>::Zero();
-//
-//         Eigen::Matrix<T,21,1> s_vec = Eigen::Matrix<T,21,1>::Zero();
-//         Eigen::Matrix<T,36,1> i_vec = Eigen::Matrix<T,36,1>::Zero();
-//
-//         // TODO: system of equations
-//
-//         return s_ijkl;
-//     }
-// };
+template <typename T>
+struct ComplianceFromStiffnessFunctionObject<T, mpc::core::TriclinicSymmetryGroupType> {
+        static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+        //static_assert(std::is_base_of<mpc::core::SymmetryGroupBase,S>::value, "S must be derived from mpc::core::SymmetryGroupBase.");
+        //static_assert(std::is_base_of<mpc::core::CSBase,CS>::value, "CS must be derived from mpc::core::CSBase.");
+        mpc::core::ComplianceTensor<T> operator() (const mpc::core::StiffnessTensor<T>& c_ijkl) {
+                // given the stiffness tensor, fill the compliance tensor
+                // the solution requires 6 systems of equations involving a [9x9] matrix of the stiffness tensor, a [9x1] solution vector
+                //     which contains the compliance tensor, and a [9x1] vector from the identity tensor
+
+                blitz::Array<T,2> smat = blitz::Array<T,2>(6,6,blitz::ColumnMajorArray<2>());
+                smat = 0;
+
+                mpc::core::ComplianceTensor<T> s_ijkl = mpc::core::ComplianceTensor<T>();
+                T zero = static_cast<T>(0.0);
+                Eigen::Matrix<T,6,6> c_mat_sys1 = Eigen::Matrix<T,6,6>::Zero();
+                c_mat_sys1 <<
+                        c_ijkl.tensor(0,0,0,0), c_ijkl.tensor(0,0,1,1), c_ijkl.tensor(0,0,2,2), 2 * c_ijkl.tensor(0,0,1,2), 2 * c_ijkl.tensor(0,0,0,2), 2 * c_ijkl.tensor(0,0,0,1),
+                        c_ijkl.tensor(0,0,0,1), c_ijkl.tensor(1,1,0,1), c_ijkl.tensor(2,2,0,1), 2 * c_ijkl.tensor(1,2,0,1), 2 * c_ijkl.tensor(0,2,0,1), 2 * c_ijkl.tensor(0,1,0,1),
+                        c_ijkl.tensor(0,0,0,2), c_ijkl.tensor(1,1,0,2), c_ijkl.tensor(2,2,0,2), 2 * c_ijkl.tensor(1,2,0,2), 2 * c_ijkl.tensor(0,2,0,2), 2 * c_ijkl.tensor(0,2,0,1),
+                        c_ijkl.tensor(0,0,1,1), c_ijkl.tensor(1,1,1,1), c_ijkl.tensor(1,1,2,2), 2 * c_ijkl.tensor(1,1,1,2), 2 * c_ijkl.tensor(1,1,0,2), 2 * c_ijkl.tensor(1,1,0,1),
+                        c_ijkl.tensor(0,0,1,2), c_ijkl.tensor(1,1,1,2), c_ijkl.tensor(2,2,1,2), 2 * c_ijkl.tensor(1,2,1,2), 2 * c_ijkl.tensor(1,2,0,2), 2 * c_ijkl.tensor(1,2,0,1),
+                        c_ijkl.tensor(0,0,2,2), c_ijkl.tensor(1,1,2,2), c_ijkl.tensor(2,2,2,2), 2 * c_ijkl.tensor(2,2,1,2), 2 * c_ijkl.tensor(2,2,0,2), 2 * c_ijkl.tensor(2,2,0,1);
+
+                //std::cout << c_mat_sys1 << std::endl;
+
+                Eigen::Matrix<T,6,6> c_mat_sys2 = c_mat_sys1;
+                Eigen::Matrix<T,6,6> c_mat_sys3 = c_mat_sys1;
+                Eigen::Matrix<T,6,6> c_mat_sys5 = c_mat_sys1;
+                Eigen::Matrix<T,6,6> c_mat_sys6 = c_mat_sys1;
+                Eigen::Matrix<T,6,6> c_mat_sys9 = c_mat_sys1;
+
+                Eigen::Matrix<T,6,1> s_vec = Eigen::Matrix<T,6,1>::Zero();
+                Eigen::Matrix<T,6,1> i_vec = Eigen::Matrix<T,6,1>::Zero();
+
+                //T relative_error = 0;  // for testing
+
+                // system 1
+                i_vec << 1, 0, 0, 0, 0, 0;
+                //std::cout << i_vec << std::endl;
+                //--! s_vec = c_mat_sys1.partialPivLu().solve(i_vec);
+                //s_vec = c_mat_sys1.fullPivLu().solve(i_vec);
+                s_vec = c_mat_sys1.colPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys1.fullPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys1.completeOrthogonalDecomposition().solve(i_vec);
+                //--! s_vec = c_mat_sys1.llt().solve(i_vec);
+                //s_vec = c_mat_sys1.ldlt().solve(i_vec);
+                //s_vec = c_mat_sys1.bdcSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                //s_vec = c_mat_sys1.jacobiSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                smat(0,0) = s_vec(0);  // s_ijkl.tensor(0,0,0,0)
+                smat(0,1) = s_vec(1);  // s_ijkl.tensor(0,0,1,1)
+                smat(0,2) = s_vec(2);  // s_ijkl.tensor(0,0,2,2)
+                smat(0,3) = s_vec(3);  // s_ijkl.tensor(0,0,1,2)
+                smat(0,4) = s_vec(4);  // s_ijkl.tensor(0,0,0,2)
+                smat(0,5) = s_vec(5);  // s_ijkl.tensor(0,0,0,1)
+//         relative_error = (c_mat_sys1*s_vec - i_vec).norm() / i_vec.norm(); // norm() is L2 norm
+//         std::cout << "The relative error for sys1 is:\n" << relative_error << std::endl;
+
+                // system 2
+                i_vec << 0, 0.5, 0, 0, 0, 0;
+                //std::cout << i_vec << std::endl;
+                //--! s_vec = c_mat_sys1.partialPivLu().solve(i_vec);
+                //s_vec = c_mat_sys1.fullPivLu().solve(i_vec);
+                s_vec = c_mat_sys2.colPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys1.fullPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys1.completeOrthogonalDecomposition().solve(i_vec);
+                //--! s_vec = c_mat_sys1.llt().solve(i_vec);
+                //s_vec = c_mat_sys1.ldlt().solve(i_vec);
+                //s_vec = c_mat_sys1.bdcSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                //s_vec = c_mat_sys1.jacobiSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                smat(5,0) = s_vec(0);  // s_ijkl.tensor(0,0,0,1)
+                smat(1,5) = s_vec(1);  // s_ijkl.tensor(1,1,0,1)
+                smat(2,5) = s_vec(2);  // s_ijkl.tensor(2,2,0,1)
+                smat(3,5) = s_vec(3);  // s_ijkl.tensor(1,2,0,1)
+                smat(4,5) = s_vec(4);  // s_ijkl.tensor(0,2,0,1)
+                smat(5,5) = s_vec(5);  // s_ijkl.tensor(0,1,0,1)
+//         relative_error = (c_mat_sys1*s_vec - i_vec).norm() / i_vec.norm(); // norm() is L2 norm
+//         std::cout << "The relative error for sys1 is:\n" << relative_error << std::endl;
+
+                // system 3
+                i_vec << 0, 0, 0.5, 0, 0, 0;
+                //std::cout << i_vec << std::endl;
+                //--! s_vec = c_mat_sys1.partialPivLu().solve(i_vec);
+                //s_vec = c_mat_sys1.fullPivLu().solve(i_vec);
+                s_vec = c_mat_sys3.colPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys1.fullPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys1.completeOrthogonalDecomposition().solve(i_vec);
+                //--! s_vec = c_mat_sys1.llt().solve(i_vec);
+                //s_vec = c_mat_sys1.ldlt().solve(i_vec);
+                //s_vec = c_mat_sys1.bdcSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                //s_vec = c_mat_sys1.jacobiSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                smat(4,0) = s_vec(0);  // s_ijkl.tensor(0,0,0,2)
+                smat(1,4) = s_vec(1);  // s_ijkl.tensor(1,1,0,2)
+                smat(2,4) = s_vec(2);  // s_ijkl.tensor(2,2,0,2)
+                smat(3,4) = s_vec(3);  // s_ijkl.tensor(1,2,0,2)
+                smat(4,4) = s_vec(4);  // s_ijkl.tensor(0,2,0,2)
+                smat(5,4) = s_vec(5);  // s_ijkl.tensor(0,2,0,1)
+//         relative_error = (c_mat_sys1*s_vec - i_vec).norm() / i_vec.norm(); // norm() is L2 norm
+//         std::cout << "The relative error for sys1 is:\n" << relative_error << std::endl;
+
+                // system 5
+                i_vec << 0, 0, 0, 1, 0, 0;
+                //std::cout << i_vec << std::endl;
+                //--! s_vec = c_mat_sys1.partialPivLu().solve(i_vec);
+                //s_vec = c_mat_sys1.fullPivLu().solve(i_vec);
+                s_vec = c_mat_sys5.colPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys1.fullPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys1.completeOrthogonalDecomposition().solve(i_vec);
+                //--! s_vec = c_mat_sys1.llt().solve(i_vec);
+                //s_vec = c_mat_sys1.ldlt().solve(i_vec);
+                //s_vec = c_mat_sys1.bdcSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                //s_vec = c_mat_sys1.jacobiSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                smat(1,0) = s_vec(0);  // s_ijkl.tensor(0,0,1,1)
+                smat(1,1) = s_vec(1);  // s_ijkl.tensor(1,1,1,1)
+                smat(1,2) = s_vec(2);  // s_ijkl.tensor(1,1,2,2)
+                smat(1,3) = s_vec(3);  // s_ijkl.tensor(1,1,1,2)
+                smat(4,1) = s_vec(4);  // s_ijkl.tensor(1,1,0,2)
+                smat(5,1) = s_vec(5);  // s_ijkl.tensor(1,1,0,1)
+//         relative_error = (c_mat_sys1*s_vec - i_vec).norm() / i_vec.norm(); // norm() is L2 norm
+//         std::cout << "The relative error for sys1 is:\n" << relative_error << std::endl;
+
+                // system 6
+                i_vec << 0, 0, 0, 0, 0.5, 0;
+                //std::cout << i_vec << std::endl;
+                //--! s_vec = c_mat_sys1.partialPivLu().solve(i_vec);
+                //s_vec = c_mat_sys1.fullPivLu().solve(i_vec);
+                s_vec = c_mat_sys6.colPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys1.fullPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys1.completeOrthogonalDecomposition().solve(i_vec);
+                //--! s_vec = c_mat_sys1.llt().solve(i_vec);
+                //s_vec = c_mat_sys1.ldlt().solve(i_vec);
+                //s_vec = c_mat_sys1.bdcSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                //s_vec = c_mat_sys1.jacobiSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                smat(3,0) = s_vec(0);  // s_ijkl.tensor(0,0,1,2)
+                smat(3,1) = s_vec(1);  // s_ijkl.tensor(1,1,1,2)
+                smat(2,3) = s_vec(2);  // s_ijkl.tensor(2,2,1,2)
+                smat(3,3) = s_vec(3);  // s_ijkl.tensor(1,2,1,2)
+                smat(4,3) = s_vec(4);  // s_ijkl.tensor(1,2,0,2)
+                smat(5,3) = s_vec(5);  // s_ijkl.tensor(1,2,0,1)
+//         relative_error = (c_mat_sys1*s_vec - i_vec).norm() / i_vec.norm(); // norm() is L2 norm
+//         std::cout << "The relative error for sys1 is:\n" << relative_error << std::endl;
+
+                // system 9
+                i_vec << 0, 0, 0, 0, 0, 1;
+                //std::cout << i_vec << std::endl;
+                //--! s_vec = c_mat_sys1.partialPivLu().solve(i_vec);
+                //s_vec = c_mat_sys1.fullPivLu().solve(i_vec);
+                s_vec = c_mat_sys9.colPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys1.fullPivHouseholderQr().solve(i_vec);
+                //s_vec = c_mat_sys1.completeOrthogonalDecomposition().solve(i_vec);
+                //--! s_vec = c_mat_sys1.llt().solve(i_vec);
+                //s_vec = c_mat_sys1.ldlt().solve(i_vec);
+                //s_vec = c_mat_sys1.bdcSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                //s_vec = c_mat_sys1.jacobiSvd( Eigen::ComputeFullU | Eigen::ComputeFullV ).solve(i_vec);
+                smat(2,0) = s_vec(0);  // s_ijkl.tensor(0,0,2,2)
+                smat(2,1) = s_vec(1);  // s_ijkl.tensor(1,1,2,2)
+                smat(2,2) = s_vec(2);  // s_ijkl.tensor(2,2,2,2)
+                smat(3,2) = s_vec(3);  // s_ijkl.tensor(2,2,1,2)
+                smat(4,2) = s_vec(4);  // s_ijkl.tensor(2,2,0,2)
+                smat(5,2) = s_vec(5);  // s_ijkl.tensor(2,2,0,1)
+//         relative_error = (c_mat_sys1*s_vec - i_vec).norm() / i_vec.norm(); // norm() is L2 norm
+//         std::cout << "The relative error for sys1 is:\n" << relative_error << std::endl;
+
+                mpc::util::VoigtMatrixToComplianceTensorNoFactor(smat, s_ijkl.tensor);
+
+                return s_ijkl;
+        }
+};
 
 
 // MONOCLINIC_X2
