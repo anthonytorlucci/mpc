@@ -375,15 +375,15 @@ mpc::core::StiffnessTensor<T> ForsteriteStiffnessTensor() {
         mpc::core::StiffnessTensor<T> stiffness_tensor = mpc::core::StiffnessTensor<T>();
         // void SetComponents(T c11, T c12, T c13, T c22, T c23, T c33, T c44, T c55, T c66)
         std::set< mpc::core::TensorRank4Component<T> > tmp_set{
-                mpc::core::TensorRank4Component<T>(mpc::data::EnstatiteC11<T>(), mpc::core::TensorRank4ComponentIndex(0,0,0,0)),
-                mpc::core::TensorRank4Component<T>(mpc::data::EnstatiteC12<T>(), mpc::core::TensorRank4ComponentIndex(0,0,1,1)),
-                mpc::core::TensorRank4Component<T>(mpc::data::EnstatiteC13<T>(), mpc::core::TensorRank4ComponentIndex(0,0,2,2)),
-                mpc::core::TensorRank4Component<T>(mpc::data::EnstatiteC22<T>(), mpc::core::TensorRank4ComponentIndex(1,1,1,1)),
-                mpc::core::TensorRank4Component<T>(mpc::data::EnstatiteC23<T>(), mpc::core::TensorRank4ComponentIndex(1,1,2,2)),
-                mpc::core::TensorRank4Component<T>(mpc::data::EnstatiteC33<T>(), mpc::core::TensorRank4ComponentIndex(2,2,2,2)),
-                mpc::core::TensorRank4Component<T>(mpc::data::EnstatiteC44<T>(), mpc::core::TensorRank4ComponentIndex(1,2,1,2)),
-                mpc::core::TensorRank4Component<T>(mpc::data::EnstatiteC55<T>(), mpc::core::TensorRank4ComponentIndex(0,2,0,2)),
-                mpc::core::TensorRank4Component<T>(mpc::data::EnstatiteC66<T>(), mpc::core::TensorRank4ComponentIndex(0,1,0,1))
+                mpc::core::TensorRank4Component<T>(mpc::data::ForsteriteC11<T>(), mpc::core::TensorRank4ComponentIndex(0,0,0,0)),
+                mpc::core::TensorRank4Component<T>(mpc::data::ForsteriteC12<T>(), mpc::core::TensorRank4ComponentIndex(0,0,1,1)),
+                mpc::core::TensorRank4Component<T>(mpc::data::ForsteriteC13<T>(), mpc::core::TensorRank4ComponentIndex(0,0,2,2)),
+                mpc::core::TensorRank4Component<T>(mpc::data::ForsteriteC22<T>(), mpc::core::TensorRank4ComponentIndex(1,1,1,1)),
+                mpc::core::TensorRank4Component<T>(mpc::data::ForsteriteC23<T>(), mpc::core::TensorRank4ComponentIndex(1,1,2,2)),
+                mpc::core::TensorRank4Component<T>(mpc::data::ForsteriteC33<T>(), mpc::core::TensorRank4ComponentIndex(2,2,2,2)),
+                mpc::core::TensorRank4Component<T>(mpc::data::ForsteriteC44<T>(), mpc::core::TensorRank4ComponentIndex(1,2,1,2)),
+                mpc::core::TensorRank4Component<T>(mpc::data::ForsteriteC55<T>(), mpc::core::TensorRank4ComponentIndex(0,2,0,2)),
+                mpc::core::TensorRank4Component<T>(mpc::data::ForsteriteC66<T>(), mpc::core::TensorRank4ComponentIndex(0,1,0,1))
         };
         stiffness_tensor.template SetComponentsWithSymmetry<mpc::core::OrthorhombicSymmetryGroupType>(tmp_set); // https://stackoverflow.com/questions/3786360/confusing-template-error
         return stiffness_tensor;
