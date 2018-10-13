@@ -179,7 +179,7 @@ class CTensorRank4ComponentIndex {
         case 1: return J;
         case 2: return K;
         case 3: return L;
-        default: int();
+        default:
                 if (i<0 || i>3) { throw std::range_error("i must be less than or equal to three and greater than zero"); }
                 return int(); // should never be called
         }
