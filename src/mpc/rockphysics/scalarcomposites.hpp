@@ -96,7 +96,7 @@ namespace mpc {
             }
 
             void SetCompositeComponents(const std::vector< std::tuple<T,T,T,T> >& vec) {
-                std::cout << "ScalarCompositesBase::SetComponents(...) called." << std::endl;
+                //std::cout << "ScalarCompositesBase::SetComponents(...) called." << std::endl;
                 // no type saftey !!!
                 volumefraction_type_vector.clear();
                 bulkmodulus_type_vector.clear();
@@ -122,7 +122,7 @@ namespace mpc {
             }
 
             void SetCompositeComponents(const std::vector< std::tuple<mpc::rockphysics::BulkModulusType<T>, mpc::rockphysics::ShearModulusType<T>, mpc::rockphysics::DensityType<T>, mpc::rockphysics::VolumeFractionType<T> > >& vec) {
-                std::cout << "ScalarCompositesBase::SetComponents(...) called." << std::endl;
+                //std::cout << "ScalarCompositesBase::SetComponents(...) called." << std::endl;
                 //
                 volumefraction_type_vector.clear();
                 bulkmodulus_type_vector.clear();
@@ -288,7 +288,7 @@ namespace mpc {
                 /*
                  * Precondition: all std::vectors are same size
                  */
-                std::cout << "ScalarCompositeBase::EffectiveValues() called." << std::endl;
+                //std::cout << "ScalarCompositeBase::EffectiveValues() called." << std::endl;
 
                 // initialize output variables
                 mpc::rockphysics::BulkModulusType<T> K_type = mpc::rockphysics::BulkModulusType<T>(1.0);
@@ -344,7 +344,7 @@ namespace mpc {
                 /*
                  * Precondition: all std::vectors are same size
                  */
-                std::cout << "FluidPhase::EffectiveValues() called." << std::endl;
+                //std::cout << "FluidPhase::EffectiveValues() called." << std::endl;
 
                 // initialize output variables
                 mpc::rockphysics::BulkModulusType<T> K_type = mpc::rockphysics::BulkModulusType<T>(1.0);
@@ -402,7 +402,7 @@ namespace mpc {
                 /*
                  * Precondition: all std::vectors are same size
                  */
-                std::cout << "SolidPhase::EffectiveValues() called." << std::endl;
+                //std::cout << "SolidPhase::EffectiveValues() called." << std::endl;
 
                 // initialize output variables
                 mpc::rockphysics::BulkModulusType<T> K_type = mpc::rockphysics::BulkModulusType<T>(1.0);

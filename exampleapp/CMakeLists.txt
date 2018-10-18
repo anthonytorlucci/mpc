@@ -91,6 +91,7 @@ include_directories(/Users/atorlucci/projectsCLion/mpc/src)
 set(HEADER_FILES
         mainwindow.h
         homepage.h
+        fluidphaseview.h
         mixinglawsview.h
         )
 
@@ -98,8 +99,8 @@ set(SOURCE_FILES
         main.cpp
         mainwindow.cpp
         homepage.cpp
+        fluidphaseview.cpp
         mixinglawsview.cpp
-
         )
 
 

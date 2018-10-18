@@ -10,6 +10,7 @@
 #include <QVTKOpenGLWidget.h>
 
 #include "homepage.h"
+#include "fluidphaseview.h"
 #include "mixinglawsview.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
@@ -33,7 +34,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect(action_home_page, &QAction::triggered, this, &MainWindow::OnHomePage);
     menu->addAction(action_home_page);
 
-    // add other views here
+    // fluid phase view
+    FluidPhaseView* fluidphaseview = new FluidPhaseView(this);
+    stacked_widget->addWidget(fluidphaseview);
+    QAction * action_fluidphase = new QAction("&fluid phase", this);
+    connect(action_fluidphase, &QAction::triggered, this, &MainWindow::OnFLuidPhaseView);
+    menu->addAction(action_fluidphase);
+
+    // TODO: solid phase view
+
+    // mixing laws view
     MixingLawsView* mixinglawsview = new MixingLawsView(this);
     stacked_widget->addWidget(mixinglawsview);
     // action and slot
@@ -59,15 +69,24 @@ MainWindow::~MainWindow()
     // destructor
 }
 
+// private slots
 void MainWindow::OnHomePage() {
     status_bar->showMessage("loading home page ...");
     stacked_widget->setCurrentIndex(0);
     status_bar->showMessage("done");
 }
 
-void MainWindow::OnMixingLawsView() {
+void MainWindow::OnFLuidPhaseView() {
     status_bar->showMessage("loading mixing laws ...");
     stacked_widget->setCurrentIndex(1);
+    status_bar->showMessage("done");
+}
+
+// TODO: OnSolidPhaseView
+
+void MainWindow::OnMixingLawsView() {
+    status_bar->showMessage("loading mixing laws ...");
+    stacked_widget->setCurrentIndex(2);
     status_bar->showMessage("done");
 }
 

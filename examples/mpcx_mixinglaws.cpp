@@ -64,7 +64,27 @@ void mpcexamples::mpcMixingLaws() {
     mpc::rockphysics::DensityType<double> fluid_mixture_effective_density = fluid_mixture.EffectiveDensityType();
     std::cout << "fluid mixture effective density value: " << fluid_mixture_effective_density.value << std::endl;
 
-    // TODO: change volume fraction values
+    // change volume fraction values
+    std::vector<double> vf_new{0.7,0.2,0.1};
+    fluid_mixture.VolumeFractionTypeVector(vf_new);
+
+    std::vector< mpc::rockphysics::VolumeFractionType<double> > fluid_mixture_vf_type_vec_new = fluid_mixture.VolumeFractionTypeVector();
+
+    for (int i=0; i<fluid_mixture_vf_type_vec_new.size(); ++i) {
+        std::cout << "component " << i << std::endl;
+        //std::cout << "fluid mixture K type : " << fluid_mixture_K_type_vec[i].value << std::endl;
+        //std::cout << "fluid mixture mu type : " << fluid_mixture_mu_type_vec[i].value << std::endl;
+        //std::cout << "fluid mixture rho type : " << fluid_mixture_rho_type_vec[i].value << std::endl;
+        std::cout << "fluid mixture vf type new : " << fluid_mixture_vf_type_vec_new[i].value << std::endl;
+        std::cout << "" << std::endl;
+    }
+
+    mpc::rockphysics::BulkModulusType<double> fluid_mixture_effective_bulkmodulus_new = fluid_mixture.EffectiveBulkModulusType();
+    std::cout << "fluid mixture effective bulkmodulus value new: " << fluid_mixture_effective_bulkmodulus_new.value << std::endl;
+    mpc::rockphysics::ShearModulusType<double> fluid_mixture_effective_shearmodulus_new = fluid_mixture.EffectiveShearModulusType();
+    std::cout << "fluid mixture effective shearmodulus value new: " << fluid_mixture_effective_shearmodulus_new.value << std::endl;
+    mpc::rockphysics::DensityType<double> fluid_mixture_effective_density_new = fluid_mixture.EffectiveDensityType();
+    std::cout << "fluid mixture effective density value new: " << fluid_mixture_effective_density_new.value << std::endl;
 
 
     // solid phase

@@ -128,7 +128,7 @@ MixingLawsView::MixingLawsView(QWidget *parent) {
     controls_widget->setLayout(controls_widget_layout);
 
     // vtk render window
-    QVTKOpenGLWidget* vtkopenglwidget = new QVTKOpenGLWidget(this);  // TODO: use smart pointer!!!
+    QVTKOpenGLWidget* vtkopenglwidget = new QVTKOpenGLWidget(this);
     vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
     vtkopenglwidget->SetRenderWindow(renderWindow);
 
