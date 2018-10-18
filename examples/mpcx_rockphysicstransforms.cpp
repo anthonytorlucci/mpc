@@ -33,7 +33,7 @@ void mpcexamples::mpcRockPhysicsTransforms() {
     std::cout << "quartz pvel type value: " << quartz_pvel_type.value << std::endl;
 
     // option 2 : NO TYPE SAFETY!!!
-    double quartz_pvel = mpc::rockphysics::PvelFromBulkModulusShearModulusDensity<double>(quartz_bulk_modulus, quartz_shear_modulus, quartz_density);
+    double quartz_pvel = mpc::rockphysics::CompressionalWaveVelocityFromBulkModulusShearModulusDensity(quartz_bulk_modulus, quartz_shear_modulus, quartz_density);
     std::cout << "quartz pvel value: " << quartz_pvel << std::endl;
 
 

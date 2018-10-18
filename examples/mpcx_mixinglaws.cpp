@@ -2,91 +2,128 @@
 
 // c++
 #include <iostream>
+#include <vector>
+#include <tuple>
 
 // mpc
-#include <mpc/utilities/arithmeticaverage.hpp>
-#include <mpc/utilities/harmonicaverage.hpp>
+//#include <mpc/utilities/arithmeticaverage.hpp>
+//#include <mpc/utilities/harmonicaverage.hpp>
 #include <mpc/data/mineraldataproperties.hpp>
 #include <mpc/data/mineraldatatensors.hpp>
+#include <mpc/rockphysics/rockphysicstransformstypes.hpp>
+#include <mpc/rockphysics/rockphysicstransforms.hpp>
+#include <mpc/rockphysics/scalarcomposites.hpp>
 
 void mpcexamples::mpcMixingLaws() {
     /** mixing laws */
     std::cout << "" << std::endl;
 
-    mpc::utilities::WeightedArithmeticAverage<double,0> weighted_arithmetic_average_dbl0; // mass balance, Voigt bounds
-    mpc::utilities::WeightedHarmonicAverage<double,0> weighted_harmonic_average_dbl0; // Ruess bounds
+    double gas_K = 0.0435;  // GPa
+    double gas_rho = 0.1770;  // g/cm**3
 
+    double oil_K = 0.3922;  // GPa
+    double oil_rho = 0.6359;  // g/cm**3
+
+    double brine_K = 2.6819;  // GPa
+    double brine_rho = 1.0194;  // g/cm**3
+
+    auto fluid_mixture_gas_tuple = std::make_tuple(mpc::rockphysics::BulkModulusType<double>(gas_K), mpc::rockphysics::ShearModulusType<double>(0.0), mpc::rockphysics::DensityType<double>(gas_rho), mpc::rockphysics::VolumeFractionType<double>(0.2));
+
+    auto fluid_mixture_oil_tuple = std::make_tuple(mpc::rockphysics::BulkModulusType<double>(oil_K), mpc::rockphysics::ShearModulusType<double>(0.0), mpc::rockphysics::DensityType<double>(oil_rho), mpc::rockphysics::VolumeFractionType<double>(0.3));
+
+    auto fluid_mixture_brine_tuple = std::make_tuple(mpc::rockphysics::BulkModulusType<double>(brine_K), mpc::rockphysics::ShearModulusType<double>(0.0), mpc::rockphysics::DensityType<double>(brine_rho), mpc::rockphysics::VolumeFractionType<double>(0.5));
+
+    //auto brine_K_type = std::get<0>(fluid_mixture_brine_tuple);
+
+    std::vector< std::tuple<mpc::rockphysics::BulkModulusType<double>, mpc::rockphysics::ShearModulusType<double>, mpc::rockphysics::DensityType<double>, mpc::rockphysics::VolumeFractionType<double> > > fluid_mixture_vec{
+        fluid_mixture_gas_tuple,
+        fluid_mixture_oil_tuple,
+        fluid_mixture_brine_tuple
+    };
+
+    mpc::rockphysics::FluidPhase<double> fluid_mixture = mpc::rockphysics::FluidPhase(fluid_mixture_vec);
+
+    std::vector< mpc::rockphysics::BulkModulusType<double> > fluid_mixture_K_type_vec = fluid_mixture.BulkModulusTypeVector();
+    std::vector< mpc::rockphysics::ShearModulusType<double> > fluid_mixture_mu_type_vec = fluid_mixture.ShearModulusTypeVector();
+    std::vector< mpc::rockphysics::DensityType<double> > fluid_mixture_rho_type_vec = fluid_mixture.DensityTypeVector();
+    std::vector< mpc::rockphysics::VolumeFractionType<double> > fluid_mixture_vf_type_vec = fluid_mixture.VolumeFractionTypeVector();
+
+    for (int i=0; i<fluid_mixture_K_type_vec.size(); ++i) {
+        std::cout << "component " << i << std::endl;
+        std::cout << "fluid mixture K type : " << fluid_mixture_K_type_vec[i].value << std::endl;
+        std::cout << "fluid mixture mu type : " << fluid_mixture_mu_type_vec[i].value << std::endl;
+        std::cout << "fluid mixture rho type : " << fluid_mixture_rho_type_vec[i].value << std::endl;
+        std::cout << "fluid mixture vf type : " << fluid_mixture_vf_type_vec[i].value << std::endl;
+        std::cout << "" << std::endl;
+    }
+
+    mpc::rockphysics::BulkModulusType<double> fluid_mixture_effective_bulkmodulus = fluid_mixture.EffectiveBulkModulusType();
+    std::cout << "fluid mixture effective bulkmodulus value: " << fluid_mixture_effective_bulkmodulus.value << std::endl;
+    mpc::rockphysics::ShearModulusType<double> fluid_mixture_effective_shearmodulus = fluid_mixture.EffectiveShearModulusType();
+    std::cout << "fluid mixture effective shearmodulus value: " << fluid_mixture_effective_shearmodulus.value << std::endl;
+    mpc::rockphysics::DensityType<double> fluid_mixture_effective_density = fluid_mixture.EffectiveDensityType();
+    std::cout << "fluid mixture effective density value: " << fluid_mixture_effective_density.value << std::endl;
+
+    // TODO: change volume fraction values
+
+
+    // solid phase
     // mineral data
-    double quartz_density = mpc::data::QuartzDensity<double>();
-    double quartz_bulk_modulus = mpc::data::QuartzBulkModulus<double>();
-    double quartz_shear_modulus = mpc::data::QuartzShearModulus<double>();
+    double quartz_rho = mpc::data::QuartzDensity<double>();
+    double quartz_K = mpc::data::QuartzBulkModulus<double>();
+    double quartz_mu = mpc::data::QuartzShearModulus<double>();
 
-    double muscovite_density = mpc::data::MuscoviteDensity<double>();
-    double muscovite_bulk_modulus = mpc::data::MuscoviteBulkModulus<double>();
-    double muscovite_shear_modulus = mpc::data::MuscoviteShearModulus<double>();
+    double muscovite_rho = mpc::data::MuscoviteDensity<double>();
+    double muscovite_K = mpc::data::MuscoviteBulkModulus<double>();
+    double muscovite_mu = mpc::data::MuscoviteShearModulus<double>();
 
-    double montecellite_density = mpc::data::MontecelliteDensity<double>();
-    double montecellite_bulk_modulus = mpc::data::MontecelliteBulkModulus<double>();
-    double montecellite_shear_modulus = mpc::data::MontecelliteShearModulus<double>();
+    double montecellite_rho = mpc::data::MontecelliteDensity<double>();
+    double montecellite_K = mpc::data::MontecelliteBulkModulus<double>();
+    double montecellite_mu = mpc::data::MontecelliteShearModulus<double>();
 
-    // set the data
-    std::vector<double> densities{ quartz_density, muscovite_density, montecellite_density };
-    std::vector<double> K_moduli{ quartz_bulk_modulus, muscovite_bulk_modulus, montecellite_bulk_modulus };
-    std::vector<double> mu_moduli{ quartz_shear_modulus, muscovite_shear_modulus, montecellite_shear_modulus };
-    std::vector<double> volume_fractions{ 0.5, 0.3, 0.2 }; // must sum to one!!!
+    auto solid_mixture_quartz_tuple = std::make_tuple(mpc::rockphysics::BulkModulusType<double>(quartz_K), mpc::rockphysics::ShearModulusType<double>(quartz_mu), mpc::rockphysics::DensityType<double>(quartz_rho), mpc::rockphysics::VolumeFractionType<double>(0.5));
 
-    std::cout << "\ndensities" << std::endl;
-    for (auto dens : densities) {
-        std::cout << dens << std::endl;
+    auto solid_mixture_muscovite_tuple = std::make_tuple(mpc::rockphysics::BulkModulusType<double>(muscovite_K), mpc::rockphysics::ShearModulusType<double>(muscovite_mu), mpc::rockphysics::DensityType<double>(muscovite_rho), mpc::rockphysics::VolumeFractionType<double>(0.3));
+
+    auto solid_mixture_montecellite_tuple = std::make_tuple(mpc::rockphysics::BulkModulusType<double>(montecellite_K), mpc::rockphysics::ShearModulusType<double>(montecellite_mu), mpc::rockphysics::DensityType<double>(montecellite_rho), mpc::rockphysics::VolumeFractionType<double>(0.2));
+
+    //auto brine_K_type = std::get<0>(fluid_mixture_brine_tuple);
+
+    std::vector< std::tuple<mpc::rockphysics::BulkModulusType<double>, mpc::rockphysics::ShearModulusType<double>, mpc::rockphysics::DensityType<double>, mpc::rockphysics::VolumeFractionType<double> > > solid_mixture_vec{
+            solid_mixture_quartz_tuple,
+            solid_mixture_muscovite_tuple,
+            solid_mixture_montecellite_tuple
+    };
+
+    mpc::rockphysics::SolidPhase<double> solid_mixture = mpc::rockphysics::SolidPhase(solid_mixture_vec);
+
+    std::vector< mpc::rockphysics::BulkModulusType<double> > solid_mixture_K_type_vec = solid_mixture.BulkModulusTypeVector();
+    std::vector< mpc::rockphysics::ShearModulusType<double> > solid_mixture_mu_type_vec = solid_mixture.ShearModulusTypeVector();
+    std::vector< mpc::rockphysics::DensityType<double> > solid_mixture_rho_type_vec = solid_mixture.DensityTypeVector();
+    std::vector< mpc::rockphysics::VolumeFractionType<double> > solid_mixture_vf_type_vec = solid_mixture.VolumeFractionTypeVector();
+
+    for (int i=0; i<solid_mixture_K_type_vec.size(); ++i) {
+        std::cout << "component " << i << std::endl;
+        std::cout << "solid mixture K type : " << solid_mixture_K_type_vec[i].value << std::endl;
+        std::cout << "solid mixture mu type : " << solid_mixture_mu_type_vec[i].value << std::endl;
+        std::cout << "solid mixture rho type : " << solid_mixture_rho_type_vec[i].value << std::endl;
+        std::cout << "solid mixture vf type : " << solid_mixture_vf_type_vec[i].value << std::endl;
+        std::cout << "" << std::endl;
     }
-    std::cout << "\nbulk moduli" << std::endl;
-    for (auto K_mod : K_moduli) {
-        std::cout << K_mod << std::endl;
-    }
-    std::cout << "\nshear moduli" << std::endl;
-    for (auto mu_mod : mu_moduli) {
-        std::cout << mu_mod << std::endl;
-    }
+
+    mpc::rockphysics::BulkModulusType<double> solid_mixture_effective_bulkmodulus = solid_mixture.EffectiveBulkModulusType();
+    std::cout << "solid mixture effective bulkmodulus value: " << solid_mixture_effective_bulkmodulus.value << std::endl;
+    mpc::rockphysics::ShearModulusType<double> solid_mixture_effective_shearmodulus = solid_mixture.EffectiveShearModulusType();
+    std::cout << "solid mixture effective shearmodulus value: " << solid_mixture_effective_shearmodulus.value << std::endl;
+    mpc::rockphysics::DensityType<double> solid_mixture_effective_density = solid_mixture.EffectiveDensityType();
+    std::cout << "solid mixture effective density value: " << solid_mixture_effective_density.value << std::endl;
+
+    // TODO: change volume fraction values
+
+    // TODO: rock physics transforms
 
 
-    double mean_rho = weighted_arithmetic_average_dbl0(densities, volume_fractions); // mass balance equation
-    double upper_K = weighted_arithmetic_average_dbl0(K_moduli, volume_fractions);
-    double upper_mu = weighted_arithmetic_average_dbl0(mu_moduli, volume_fractions);
-    double lower_K = weighted_harmonic_average_dbl0(K_moduli, volume_fractions);
-    double lower_mu = weighted_harmonic_average_dbl0(mu_moduli, volume_fractions);
 
-    std::cout << "\nmean density" << std::endl;
-    std::cout << mean_rho << std::endl;
-
-    std::cout << "\nVoigt upper bound bulk modulus" << std::endl;
-    std::cout << upper_K << std::endl;
-
-    std::cout << "\nVoigt upper bound shear modulus" << std::endl;
-    std::cout << upper_mu << std::endl;
-
-    std::cout << "\nRuess lower bound bulk modulus" << std::endl;
-    std::cout << lower_K << std::endl;
-
-    std::cout << "\nRuess lower bound shear modulus" << std::endl;
-    std::cout << lower_mu << std::endl;
-
-    // simple rock physics transforms
-//    double upper_vp = mpc::utilities::PvelFromBulkModulusShearModulusDensity<double>(upper_K, upper_mu, mean_rho);
-//    double upper_vs = mpc::utilities::SvelFromShearModulusDensity<double>(upper_mu, mean_rho);
-//    double lower_vp = mpc::utilities::PvelFromBulkModulusShearModulusDensity<double>(lower_K, lower_mu, mean_rho);
-//    double lower_vs = mpc::utilities::SvelFromShearModulusDensity<double>(lower_mu, mean_rho);
-//
-//    std::cout << "\nVoigt upper bound p-wave velocity" << std::endl;
-//    std::cout << upper_vp << std::endl;
-//
-//    std::cout << "\nVoigt upper bound s-wave velocity" << std::endl;
-//    std::cout << upper_vs << std::endl;
-//
-//    std::cout << "\nRuess lower bound p-wave velocity" << std::endl;
-//    std::cout << lower_vp << std::endl;
-//
-//    std::cout << "\nRuess lower bound s-wave velocity" << std::endl;
-//    std::cout << lower_vs << std::endl;
 
     // data
     // ref : Dvorkin, J., Guitierrez, M., Grana, D., 2014, Seismic Reflections of Rock Properties : Cambridge University Press.
@@ -94,65 +131,12 @@ void mpcexamples::mpcMixingLaws() {
     const double sand_K = 16.334;     // (GPa)
     const double sand_mu = 6.604;     // (GPa)
     const double sand_rho = 2.24;     // (g/cm**3)
-//    mpc::core::KMuRho<double> sand_kmurho = mpc::core::KMuRho<double>(sand_K, sand_mu, sand_rho);
-//    std::cout << "sand bulk modulus: " << sand_kmurho.BulkModulus() << std::endl;
-//    std::cout << "sand shear modulus: " << sand_kmurho.ShearModulus() << std::endl;
-//    std::cout << "sand density: " << sand_kmurho.Density() << std::endl;
-//    double sand_pvel = sand_kmurho.PWaveVelocity();  // km/s
-//    std::cout << "sand p wave velocity: " << sand_pvel << std::endl;
-//    double sand_svel = sand_kmurho.SWaveVelocity();  // km/s
-//    std::cout << "sand s wave velocity: " << sand_svel << std::endl;
-//    double sand_pr = sand_kmurho.PoissonsRatio();  // dimensionless
-//    std::cout << "sand poissons ratio: " << sand_pr << std::endl;
 
-    std::cout << "" << std::endl;
+
     const double mudrock_K = 15.144;  // (GPa)
     const double mudrock_mu = 4.064;  // (GPa)
     const double mudrock_rho = 2.45;  // (g/cm**3)
-//    mpc::core::KMuRho<double> mudrock_kmurho = mpc::core::KMuRho<double>(mudrock_K, mudrock_mu, mudrock_rho);
-//    std::cout << "mudrock bulk modulus: " << mudrock_kmurho.BulkModulus() << std::endl;
-//    std::cout << "mudrock shear modulus: " << mudrock_kmurho.ShearModulus() << std::endl;
-//    std::cout << "mudrock density: " << mudrock_kmurho.Density() << std::endl;
-//    double mudrock_pvel = mudrock_kmurho.PWaveVelocity();
-//    std::cout << "mudrock p wave velocity: " << mudrock_pvel << std::endl;
-//    double mudrock_svel = mudrock_kmurho.SWaveVelocity();
-//    std::cout << "mudrock s wave velocity: " << mudrock_svel << std::endl;
-//    double mudrock_pr = mudrock_kmurho.PoissonsRatio();
-//    std::cout << "mudrock poissons ratio: " << mudrock_pr << std::endl;
 
-    double gas_K = 0.0435;  // GPa
-    double gas_rho = 0.1770;  // g/cm**3
-//    mpc::core::KMuRho<double> gas_kmurho = mpc::core::KMuRho<double>(gas_K, 0.0, gas_rho);
-//    std::cout << "gas bulk modulus: " << gas_kmurho.BulkModulus() << std::endl;
-//    std::cout << "gas shear modulus: " << gas_kmurho.ShearModulus() << std::endl;
-//    std::cout << "gas density: " << gas_kmurho.Density() << std::endl;
-//    double gas_pvel = gas_kmurho.PWaveVelocity();
-//    std::cout << "gas p wave velocity: " << gas_pvel << std::endl;
-//    double gas_svel = gas_kmurho.SWaveVelocity();
-//    std::cout << "gas s wave velocity: " << gas_svel << std::endl;
-
-
-    double oil_K = 0.3922;  // GPa
-    double oil_rho = 0.6359;  // g/cm**3
-//    mpc::core::KMuRho<double> oil_kmurho = mpc::core::KMuRho<double>(oil_K, 0.0, oil_rho);
-//    std::cout << "oil bulk modulus: " << oil_kmurho.BulkModulus() << std::endl;
-//    std::cout << "oil shear modulus: " << oil_kmurho.ShearModulus() << std::endl;
-//    std::cout << "oil density: " << oil_kmurho.Density() << std::endl;
-//    double oil_pvel = oil_kmurho.PWaveVelocity();
-//    std::cout << "oil p wave velocity: " << oil_pvel << std::endl;
-//    double oil_svel = oil_kmurho.SWaveVelocity();
-//    std::cout << "oil s wave velocity: " << oil_svel << std::endl;
-
-    double brine_K = 2.6819;  // GPa
-    double brine_rho = 1.0194;  // g/cm**3
-//    mpc::core::KMuRho<double> brine_kmurho = mpc::core::KMuRho<double>(brine_K, 0.0, brine_rho);
-//    std::cout << "brine bulk modulus: " << brine_kmurho.BulkModulus() << std::endl;
-//    std::cout << "brine shear modulus: " << brine_kmurho.ShearModulus() << std::endl;
-//    std::cout << "brine density: " << brine_kmurho.Density() << std::endl;
-//    double brine_pvel = brine_kmurho.PWaveVelocity();
-//    std::cout << "brine p wave velocity: " << brine_pvel << std::endl;
-//    double brine_svel = brine_kmurho.SWaveVelocity();
-//    std::cout << "brine s wave velocity: " << brine_svel << std::endl;
 
 
 }

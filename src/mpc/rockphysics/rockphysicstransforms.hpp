@@ -575,7 +575,7 @@ namespace mpc {
             return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::BulkModulusType<T> >::Compute(mpc::rockphysics::YoungsModulusType<T>(E), mpc::rockphysics::PoissonsRatioType<T>(nu)).value;
         }
 
-        // fn() BulkModulusFromCompressionalModulusShearModulus TODO
+
         template <typename T>
         static inline T BulkModulusFromCompressionalModulusShearModulus(T M, T mu) {
             /**
@@ -589,7 +589,7 @@ namespace mpc {
             return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::BulkModulusType<T> >::Compute(mpc::rockphysics::CompressionalModulusType<T>(M), mpc::rockphysics::ShearModulusType<T>(mu)).value;
         }
 
-        // fn() BulkModulusFromCompressibilityModulus TODO
+
         template <typename T>
         static inline T BulkModulusFromCompressibilityModulus(T beta) {
             /**
@@ -602,7 +602,7 @@ namespace mpc {
             return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::BulkModulusType<T> >::Compute(mpc::rockphysics::CompressibilityModulusType<T>(beta)).value;
         }
 
-        // fn() BulkModulusFromHydrostaticPressureVolumetricStrain TODO
+
         template <typename T>
         static inline T BulkModulusFromHydrostaticPressureVolumetricStrain(T sigma_0, T epsilon_kk) {
             /**
@@ -618,98 +618,556 @@ namespace mpc {
 
 
         //// ShearModulusType
-        // fn() ShearModulusFromBulkModulusLameParameter
+        template <typename T>
+        static inline T ShearModulusFromBulkModulusLameParameter(T K, T lame) {
+            /**
+             *  \fn ...
+             *  \param K: bulk modulus
+             *  \param lame: Lame parameter modulus
+             *  \return: shear modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
 
-        // fn() ShearModulusFromBulkModulusYoungsModulus
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::ShearModulusType<T> >::Compute(mpc::rockphysics::BulkModulusType<T>(K), mpc::rockphysics::LameParamterModulusType<T>(lame)).value;
+        }
 
-        // fn() ShearModulusFromLameParameterPoissonsRatio
 
-        // fn() ShearModulusFromBulkModulusPoissonsRatio
+        template <typename T>
+        static inline T ShearModulusFromBulkModulusYoungsModulus(T K, T E) {
+            /**
+             *  \fn ...
+             *  \param K: bulk modulus
+             *  \param E: Young's modulus
+             *  \return: shear modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
 
-        // fn() ShearModulusFromYoungsModulusPoissonsRatio
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::ShearModulusType<T> >::Compute(mpc::rockphysics::BulkModulusType<T>(K), mpc::rockphysics::YoungsModulusType<T>(E)).value;
+        }
+
+
+        template <typename T>
+        static inline T ShearModulusFromLameParameterPoissonsRatio(T lame, T nu) {
+            /**
+             *  \fn ...
+             *  \param lame: Lame parameter modulus
+             *  \param nu: Poisson's ratio
+             *  \return: shear modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::ShearModulusType<T> >::Compute(mpc::rockphysics::LameParamterModulusType<T>(lame), mpc::rockphysics::PoissonsRatioType<T>(nu)).value;
+        }
+
+
+        template <typename T>
+        static inline T ShearModulusFromBulkModulusPoissonsRatio(T K, T nu) {
+            /**
+             *  \fn ...
+             *  \param K: bulk modulus
+             *  \param nu: Poisson's ratio
+             *  \return: shear modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::ShearModulusType<T> >::Compute(mpc::rockphysics::BulkModulusType<T>(K), mpc::rockphysics::PoissonsRatioType<T>(nu)).value;
+        }
+
+
+        template <typename T>
+        static inline T ShearModulusFromYoungsModulusPoissonsRatio(T E, T nu) {
+            /**
+             *  \fn ...
+             *  \param E: Young's modulus
+             *  \param nu: Poisson's ratio
+             *  \return: shear modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::ShearModulusType<T> >::Compute(mpc::rockphysics::YoungsModulusType<T>(E), mpc::rockphysics::PoissonsRatioType<T>(nu)).value;
+        }
 
         //// YoungsModulusType
-        // fn() YoungsModulusFromLameParameterShearModulus
+        template <typename T>
+        static inline T YoungsModulusFromLameParameterShearModulus(T lame, T mu) {
+            /**
+             *  \fn ...
+             *  \param lame: Lame parameter modulus
+             *  \param mu: shear modulus
+             *  \return: Young's modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
 
-        // fn() YoungsModulusFromBulkModulusLameParameter
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::YoungsModulusType<T> >::Compute(mpc::rockphysics::LameParamterModulusType<T>(lame), mpc::rockphysics::ShearModulusType<T>(mu)).value;
+        }
 
-        // fn() YoungsModulusFromBulkModulusShearModulus
 
-        // fn() YoungsModulusFromLameParameterPoissonsRatio
+        template <typename T>
+        static inline T YoungsModulusFromBulkModulusLameParameter(T K, T lame) {
+            /**
+             *  \fn ...
+             *  \param K: bulk modulus
+             *  \param lame: Lame parameter modulus
+             *  \return: Young's modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
 
-        // fn() YoungsModulusFromShearModulusPoissonsRatio
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::YoungsModulusType<T> >::Compute(mpc::rockphysics::BulkModulusType<T>(K), mpc::rockphysics::LameParamterModulusType<T>(lame)).value;
+        }
 
-        // fn() YoungsModulusFromBulkModulusPoissonsRatio
+
+        template <typename T>
+        static inline T YoungsModulusFromBulkModulusShearModulus(T K, T mu) {
+            /**
+             *  \fn ...
+             *  \param K: bulk modulus
+             *  \param mu: shear modulus
+             *  \return: Young's modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::YoungsModulusType<T> >::Compute(mpc::rockphysics::BulkModulusType<T>(K), mpc::rockphysics::ShearModulusType<T>(mu)).value;
+        }
+
+
+        template <typename T>
+        static inline T YoungsModulusFromLameParameterPoissonsRatio(T lame, T nu) {
+            /**
+             *  \fn ...
+             *  \param lame: Lame parameter modulus
+             *  \param nu: Poisson's ratio
+             *  \return: Young's modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::YoungsModulusType<T> >::Compute(mpc::rockphysics::LameParamterModulusType<T>(lame), mpc::rockphysics::PoissonsRatioType<T>(nu)).value;
+        }
+
+
+        template <typename T>
+        static inline T YoungsModulusFromShearModulusPoissonsRatio(T mu, T nu) {
+            /**
+             *  \fn ...
+             *  \param mu: shear modulus
+             *  \param nu: Poisson's ratio
+             *  \return: Young's modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::YoungsModulusType<T> >::Compute(mpc::rockphysics::ShearModulusType<T>(mu), mpc::rockphysics::PoissonsRatioType<T>(nu)).value;
+        }
+
+
+        template <typename T>
+        static inline T YoungsModulusFromBulkModulusPoissonsRatio(T K, T nu) {
+            /**
+             *  \fn ...
+             *  \param K: bulk modulus
+             *  \param nu: Poisson's ratio
+             *  \return: Young's modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::YoungsModulusType<T> >::Compute(mpc::rockphysics::BulkModulusType<T>(K), mpc::rockphysics::PoissonsRatioType<T>(nu)).value;
+        }
 
         //// LameParameterModulusType
-        // fn() LameParameterFromBulkModulusShearModulus
+        template <typename T>
+        static inline T LameParameterFromBulkModulusShearModulus(T K, T mu) {
+            /**
+             *  \fn ...
+             *  \param K: bulk modulus
+             *  \param mu: shear modulus
+             *  \return: Lame parameter modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
 
-        // fn() LameParameterFromYoungsModulusShearModulus
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::LameParamterModulusType<T> >::Compute(mpc::rockphysics::BulkModulusType<T>(K), mpc::rockphysics::ShearModulusType<T>(mu)).value;
+        }
 
-        // fn() LameParameterFromBulkModulusYoungsModulus
 
-        // fn() LameParameterFromShearModulusPoissonsRatio
+        template <typename T>
+        static inline T LameParameterFromYoungsModulusShearModulus(T E, T mu) {
+            /**
+             *  \fn ...
+             *  \param E: Young's modulus
+             *  \param mu: shear modulus
+             *  \return: Lame parameter modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
 
-        // fn() LameParameterFromBulkModulusPoissonsRatio
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::LameParamterModulusType<T> >::Compute(mpc::rockphysics::YoungsModulusType<T>(E), mpc::rockphysics::ShearModulusType<T>(mu)).value;
+        }
 
-        // fn() LameParameterFromYoungsModulusPoissonsRatio
 
-        // fn() LameParameterFromCompressionalModulusShearModulus
+        template <typename T>
+        static inline T LameParameterFromBulkModulusYoungsModulus(T K, T E) {
+            /**
+             *  \fn ...
+             *  \param K: compressional modulus
+             *  \param E: shear modulus
+             *  \return: Lame parameter modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::LameParamterModulusType<T> >::Compute(mpc::rockphysics::BulkModulusType<T>(K), mpc::rockphysics::YoungsModulusType<T>(E)).value;
+        }
+
+
+        template <typename T>
+        static inline T LameParameterFromShearModulusPoissonsRatio(T mu, T nu) {
+            /**
+             *  \fn ...
+             *  \param mu: shear modulus
+             *  \param nu: Poisson's ratio
+             *  \return: Lame parameter modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::LameParamterModulusType<T> >::Compute(mpc::rockphysics::ShearModulusType<T>(mu), mpc::rockphysics::PoissonsRatioType<T>(nu)).value;
+        }
+
+
+        template <typename T>
+        static inline T LameParameterFromBulkModulusPoissonsRatio(T K, T nu) {
+            /**
+             *  \fn ...
+             *  \param K: bulk modulus
+             *  \param nu: Poisson's ratio
+             *  \return: Lame parameter modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::LameParamterModulusType<T> >::Compute(mpc::rockphysics::BulkModulusType<T>(K), mpc::rockphysics::PoissonsRatioType<T>(nu)).value;
+        }
+
+
+        template <typename T>
+        static inline T LameParameterFromYoungsModulusPoissonsRatio(T E, T nu) {
+            /**
+             *  \fn ...
+             *  \param E: Young's modulus
+             *  \param nu: Poisson's ratio
+             *  \return: Lame parameter modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::LameParamterModulusType<T> >::Compute(mpc::rockphysics::YoungsModulusType<T>(E), mpc::rockphysics::PoissonsRatioType<T>(nu)).value;
+        }
+
+
+        template <typename T>
+        static inline T LameParameterFromCompressionalModulusShearModulus(T M, T mu) {
+            /**
+             *  \fn ...
+             *  \param M: compressional modulus
+             *  \param mu: shear modulus
+             *  \return: Lame parameter modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::LameParamterModulusType<T> >::Compute(mpc::rockphysics::CompressionalModulusType<T>(M), mpc::rockphysics::ShearModulusType<T>(mu)).value;
+        }
 
 
         //// PoissonsRatioType
-        // fn() PoissonsRatioFromLameParameterShearModulus
+        template <typename T>
+        static inline T PoissonsRatioFromLameParameterShearModulus(T lame, T mu) {
+            /**
+             *  \fn ...
+             *  \param lame: compressional modulus
+             *  \param mu: shear modulus
+             *  \return: Poisson's ratio
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
 
-        // fn() PoissonsRatioFromBulkModulusLameParameter
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::PoissonsRatioType<T> >::Compute(mpc::rockphysics::LameParamterModulusType<T>(lame), mpc::rockphysics::ShearModulusType<T>(mu)).value;
+        }
 
-        // fn() PoissonsRatioFromBulkModulusShearModulus
 
-        // fn() PoissonsRatioFromYoungsModulusShearModulus
+        template <typename T>
+        static inline T PoissonsRatioFromBulkModulusLameParameter(T K, T lame) {
+            /**
+             *  \fn ...
+             *  \param K: bulk modulus
+             *  \param lame: Lame parameter modulus
+             *  \return: Poisson's ratio
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
 
-        // fn() PoissonsRatioFromBulkModulusYoungsModulus
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::PoissonsRatioType<T> >::Compute(mpc::rockphysics::BulkModulusType<T>(K), mpc::rockphysics::LameParamterModulusType<T>(lame)).value;
+        }
 
-        // fn() PoissonsRatioFromCompressionalModulusShearModulus
+
+        template <typename T>
+        static inline T PoissonsRatioFromBulkModulusShearModulus(T K, T mu) {
+            /**
+             *  \fn ...
+             *  \param K: bulk modulus
+             *  \param mu: shear modulus
+             *  \return: Poisson's ratio
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::PoissonsRatioType<T> >::Compute(mpc::rockphysics::BulkModulusType<T>(K), mpc::rockphysics::ShearModulusType<T>(mu)).value;
+        }
+
+
+        template <typename T>
+        static inline T PoissonsRatioFromYoungsModulusShearModulus(T E, T mu) {
+            /**
+             *  \fn ...
+             *  \param E: Young's modulus
+             *  \param mu: shear modulus
+             *  \return: Poisson's ratio
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::PoissonsRatioType<T> >::Compute(mpc::rockphysics::YoungsModulusType<T>(E), mpc::rockphysics::ShearModulusType<T>(mu)).value;
+        }
+
+
+        template <typename T>
+        static inline T PoissonsRatioFromBulkModulusYoungsModulus(T K, T E) {
+            /**
+             *  \fn ...
+             *  \param K: bulk modulus
+             *  \param E: Young's modulus
+             *  \return: Poisson's ratio
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::PoissonsRatioType<T> >::Compute(mpc::rockphysics::BulkModulusType<T>(K), mpc::rockphysics::YoungsModulusType<T>(E)).value;
+        }
+
+
+        template <typename T>
+        static inline T PoissonsRatioFromCompressionalModulusShearModulus(T M, T mu) {
+            /**
+             *  \fn ...
+             *  \param M: compressional modulus
+             *  \param mu: shear modulus
+             *  \return: Poisson's ratio
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::PoissonsRatioType<T> >::Compute(mpc::rockphysics::CompressionalModulusType<T>(M), mpc::rockphysics::ShearModulusType<T>(mu)).value;
+        }
 
 
         //// CompressionalModulusType
-        // fn() CompressionalModulusFromDensityCompressionalWaveVelocity
+        template <typename T>
+        static inline T CompressionalModulusFromDensityCompressionalWaveVelocity(T rho, T pvel) {
+            /**
+             *  \fn ...
+             *  \param rho: density
+             *  \param pvel: p-wave velocity
+             *  \return: compressional or p-wave modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
 
-        // fn() CompressionalModulusFromLameParameterShearModulus
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::CompressionalModulusType<T> >::Compute(mpc::rockphysics::DensityType<T>(rho), mpc::rockphysics::CompressionalWaveVelocityType<T>(pvel)).value;
+        }
 
-        // fn() CompressionalModulusFromBulkModulusLameParameter
 
-        // fn() CompressionalModulusFromBulkModulusShearModulus
+        template <typename T>
+        static inline T CompressionalModulusFromLameParameterShearModulus(T lame, T mu) {
+            /**
+             *  \fn ...
+             *  \param lame: Lame parameter modulus
+             *  \param mu: shear modulus
+             *  \return: compressional or p-wave modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
 
-        // fn() CompressionalModulusFromYoungsModulusShearModulus
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::CompressionalModulusType<T> >::Compute(mpc::rockphysics::LameParamterModulusType<T>(lame), mpc::rockphysics::ShearModulusType<T>(mu)).value;
+        }
 
-        // fn() CompressionalModulusFromBulkModulusYoungsModulus
 
-        // fn() CompressionalModulusFromLameParameterPoissonsRatio
+        template <typename T>
+        static inline T CompressionalModulusFromBulkModulusLameParameter(T K, T lame) {
+            /**
+             *  \fn ...
+             *  \param K: bulk modulus
+             *  \param lame: Lame parameter modulus
+             *  \return: compressional or p-wave modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::CompressionalModulusType<T> >::Compute(mpc::rockphysics::BulkModulusType<T>(K), mpc::rockphysics::LameParamterModulusType<T>(lame)).value;
+        }
+
+
+        template <typename T>
+        static inline T CompressionalModulusFromBulkModulusShearModulus(T K, T mu) {
+            /**
+             *  \fn ...
+             *  \param K: bulk modulus
+             *  \param mu: shear modulus
+             *  \return: compressional or p-wave modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::CompressionalModulusType<T> >::Compute(mpc::rockphysics::BulkModulusType<T>(K), mpc::rockphysics::ShearModulusType<T>(mu)).value;
+        }
+
+
+        template <typename T>
+        static inline T CompressionalModulusFromYoungsModulusShearModulus(T E, T mu) {
+            /**
+             *  \fn ...
+             *  \param E: Young's modulus
+             *  \param mu: shear modulus
+             *  \return: compressional or p-wave modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::CompressionalModulusType<T> >::Compute(mpc::rockphysics::YoungsModulusType<T>(E), mpc::rockphysics::ShearModulusType<T>(mu)).value;
+        }
+
+
+        template <typename T>
+        static inline T CompressionalModulusFromBulkModulusYoungsModulus(T K, T E) {
+            /**
+             *  \fn ...
+             *  \param K: bulk modulus
+             *  \param E: Young's modulus
+             *  \return: compressional or p-wave modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::CompressionalModulusType<T> >::Compute(mpc::rockphysics::BulkModulusType<T>(K), mpc::rockphysics::YoungsModulusType<T>(E)).value;
+        }
+
+
+        template <typename T>
+        static inline T CompressionalModulusFromLameParameterPoissonsRatio(T lame, T nu) {
+            /**
+             *  \fn ...
+             *  \param lame: Lame parameter modulus
+             *  \param nu: Poisson's ratio
+             *  \return: compressional or p-wave modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::CompressionalModulusType<T> >::Compute(mpc::rockphysics::LameParamterModulusType<T>(lame), mpc::rockphysics::PoissonsRatioType<T>(nu)).value;
+        }
 
         // fn() CompressionalModulusFromShearModulusPoissonsRatio
+        template <typename T>
+        static inline T CompressionalModulusFromShearModulusPoissonsRatio(T mu, T nu) {
+            /**
+             *  \fn ...
+             *  \param mu: shear modulus
+             *  \param nu: Poisson's ratio
+             *  \return: compressional or p-wave modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
 
-        // fn() CompressionalModulusFromBulkModulusPoissonsRatio
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::CompressionalModulusType<T> >::Compute(mpc::rockphysics::ShearModulusType<T>(mu), mpc::rockphysics::PoissonsRatioType<T>(nu)).value;
+        }
 
-        // fn() CompressionalModulusFromYoungsModulusPoissonsRatio
+
+        template <typename T>
+        static inline T CompressionalModulusFromBulkModulusPoissonsRatio(T K, T nu) {
+            /**
+             *  \fn ...
+             *  \param K: bulk modulus
+             *  \param nu: Poisson's ratio
+             *  \return: compressional or p-wave modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::CompressionalModulusType<T> >::Compute(mpc::rockphysics::BulkModulusType<T>(K), mpc::rockphysics::PoissonsRatioType<T>(nu)).value;
+        }
+
+
+        template <typename T>
+        static inline T CompressionalModulusFromYoungsModulusPoissonsRatio(T E, T nu) {
+            /**
+             *  \fn ...
+             *  \param E: Young's modulus
+             *  \param nu: Poisson's ratio
+             *  \return: compressional or p-wave modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::CompressionalModulusType<T> >::Compute(mpc::rockphysics::YoungsModulusType<T>(E), mpc::rockphysics::PoissonsRatioType<T>(nu)).value;
+        }
 
         //// CompressibilityModulusType
-        // fn() CompressibilityFromBulkModulus
+        template <typename T>
+        static inline T CompressibilityFromBulkModulus(T K) {
+            /**
+             *  \fn ...
+             *  \param K: bulk modulus
+             *  \return: compressibility (reciprocal) modulus
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::CompressibilityModulusType<T> >::Compute(mpc::rockphysics::BulkModulusType<T>(K)).value;
+        }
 
 
         //// HydrostaticPressureType
-        // fn() HydrostaticPressureFromBulkModulusVolumetricStrain
+        template <typename T>
+        static inline T HydrostaticPressureFromBulkModulusVolumetricStrain(T K, T epsilon_kk) {
+            /**
+             *  \fn ...
+             *  \param K: bulk modulus
+             *  \param epsilon_kk: volumetric strain
+             *  \return: hydrostatic pressure or mean stress
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::HydrostaticPressureType<T> >::Compute(mpc::rockphysics::BulkModulusType<T>(K), mpc::rockphysics::VolumetricStrainType<T>(epsilon_kk)).value;
+        }
 
 
         //// VolumetricStrainType
-        // fn() VolumetricStrainFromHydrostaticPressureBulkModulus
+        template <typename T>
+        static inline T VolumetricStrainFromHydrostaticPressureBulkModulus(T sigma_0, T K) {
+            /**
+             *  \fn ...
+             *  \param sigma_0: hydrostatic pressure or mean stress
+             *  \param K: bulk modulus
+             *  \return: volumetric strain
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::VolumetricStrainType<T> >::Compute(mpc::rockphysics::HydrostaticPressureType<T>(sigma_0), mpc::rockphysics::BulkModulusType<T>(K)).value;
+        }
 
 
         //// VpVsRatioType
         // fn() VpVsFromCompressionalWaveVelocityShearWaveVelocity
+        template <typename T>
+        static inline T VpVsFromCompressionalWaveVelocityShearWaveVelocity(T pvel, T svel) {
+            /**
+             *  \fn ...
+             *  \param pvel: compressional wave velocity
+             *  \param svel: shear wave velocity
+             *  \return: Vp/Vs ratio
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::VpVsRatioType<T> >::Compute(mpc::rockphysics::CompressionalWaveVelocityType<T>(pvel), mpc::rockphysics::ShearWaveVelocityType<T>(svel)).value;
+        }
 
 
         //// VsVpRatioType
-        // fn() VsVpFromCompressionalWaveVelocityShearWaveVelocity
+        template <typename T>
+        static inline T VsVpFromCompressionalWaveVelocityShearWaveVelocity(T pvel, T svel) {
+            /**
+             *  \fn ...
+             *  \param pvel: compressional wave velocity
+             *  \param svel: shear wave velocity
+             *  \return: Vs/Vp ratio
+             */
+            static_assert(std::is_floating_point<T>::value, "Type T must be of type float, double, or long double");
+
+            return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::VsVpRatioType<T> >::Compute(mpc::rockphysics::CompressionalWaveVelocityType<T>(pvel), mpc::rockphysics::ShearWaveVelocityType<T>(svel)).value;
+        }
 
 
         //// CompressionalWaveVelocityType
@@ -741,7 +1199,7 @@ namespace mpc {
             return mpc::rockphysics::RockPhysicsTransforms<T,mpc::rockphysics::CompressionalWaveVelocityType<T> >::Compute(mpc::rockphysics::LameParamterModulusType<T>(lame), mpc::rockphysics::ShearModulusType<T>(mu), mpc::rockphysics::DensityType<T>(rho)).value;
         }
 
-        // fn() CompressionalWaveVelocityFromCompressionalModulusDensity(...)
+
         template <typename T>
         static inline T CompressionalWaveVelocityFromCompressionalModulusDensity(T M, T rho) {
             /**

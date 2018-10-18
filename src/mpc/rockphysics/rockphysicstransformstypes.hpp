@@ -47,7 +47,7 @@ namespace mpc {
             using AbstractScalarRockProperty<T>::description;
 
             constexpr ShearModulusType(T val) {
-                assert(val > 0);
+                assert(val >= 0);
                 value = val;
                 description = "shear modulus";
             }
