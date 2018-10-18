@@ -1,0 +1,46 @@
+\hypertarget{scalarcomposites_8hpp}{}\section{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/rockphysics/scalarcomposites.hpp File Reference}
+\label{scalarcomposites_8hpp}\index{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/rockphysics/scalarcomposites.\+hpp@{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/rockphysics/scalarcomposites.\+hpp}}
+
+
+simple scalar composites ...  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$tuple$>$}\newline
+{\ttfamily \#include \char`\"{}mpc/utilities/arithmeticaverage.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpc/utilities/harmonicaverage.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpc/rockphysics/rockphysicstransformstypes.\+hpp\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classmpc_1_1rockphysics_1_1_scalar_composites_base}{mpc\+::rockphysics\+::\+Scalar\+Composites\+Base$<$ T, U $>$}}
+\item 
+class \mbox{\hyperlink{classmpc_1_1rockphysics_1_1_fluid_phase}{mpc\+::rockphysics\+::\+Fluid\+Phase$<$ T $>$}}
+\item 
+class \mbox{\hyperlink{classmpc_1_1rockphysics_1_1_solid_phase}{mpc\+::rockphysics\+::\+Solid\+Phase$<$ T $>$}}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacempc}{mpc}}
+\item 
+ \mbox{\hyperlink{namespacempc_1_1rockphysics}{mpc\+::rockphysics}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+simple scalar composites ... 
+
+These classes are a simplified abstraction of a composite material. The input rock properties are scalar values and the effective rock properties are scalar functions. Certain assumptions are made that reduce the complex mathematics of micromechanics to simple averaging ... \begin{DoxyVerb}                          FluidPhase             SolidPhase
+\end{DoxyVerb}
+ effective density arithmetic average arithmetic average effective bulk modulus harmonic average Voigt Ruess Hill average effective shear modulus N/A Voigt Ruess Hill average
+
+\begin{DoxyAuthor}{Author}
+Anthony Torlucci 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2018/10/14 
+\end{DoxyDate}

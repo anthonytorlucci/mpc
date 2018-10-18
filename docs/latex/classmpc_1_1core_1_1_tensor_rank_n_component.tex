@@ -1,0 +1,197 @@
+\hypertarget{classmpc_1_1core_1_1_tensor_rank_n_component}{}\section{mpc\+:\+:core\+:\+:Tensor\+Rank\+N\+Component$<$ T, N $>$ Class Template Reference}
+\label{classmpc_1_1core_1_1_tensor_rank_n_component}\index{mpc\+::core\+::\+Tensor\+Rank\+N\+Component$<$ T, N $>$@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component$<$ T, N $>$}}
+
+
+tensor component consisting of a component index and a value  
+
+
+
+
+{\ttfamily \#include $<$tensorcomponent.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+constexpr \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_a57477ad47a9e4039f314f777bc337488}{Tensor\+Rank\+N\+Component}} (T val, \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{Tensor\+Rank\+N\+Component\+Index}}$<$ N $>$ indx)
+\item 
+constexpr T \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_aed45ac0ca9bbec054d37c2feaa73378a}{Value}} () const
+\item 
+constexpr \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{Tensor\+Rank\+N\+Component\+Index}}$<$ N $>$ \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_a0b54eda033610a20f0c51ab47ea36324}{Index}} () const
+\item 
+void \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_a340efa1304773b5074b460795bf70cac}{Value}} (T val)
+\item 
+void \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_a5f398096099b3d7c7353bed10a79ad5d}{Index}} (\mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} index)
+\item 
+bool \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_a06a52579da1cac23e406fa638f8c31c1}{operator$<$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{Tensor\+Rank\+N\+Component}}$<$ T, N $>$ \&rhs) const
+\item 
+bool \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_aea9710656c2dfba2e031476c9662f937}{operator$>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{Tensor\+Rank\+N\+Component}}$<$ T, N $>$ \&rhs) const
+\item 
+bool \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_af4daf80199bb73541c8ccee2f41e45e6}{operator==}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{Tensor\+Rank\+N\+Component}}$<$ T, N $>$ \&rhs) const
+\item 
+bool \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_aa3e7f1d6e679fe8d4a3f0242f5f20dfd}{operator!=}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{Tensor\+Rank\+N\+Component}}$<$ T, N $>$ \&rhs) const
+\item 
+bool \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_a82c62e2f448445e13931a1b64217f582}{operator$<$=}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{Tensor\+Rank\+N\+Component}}$<$ T, N $>$ \&rhs) const
+\item 
+bool \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_a03ca8237de6ccde2a7bbdc68fc4712f4}{operator$>$=}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{Tensor\+Rank\+N\+Component}}$<$ T, N $>$ \&rhs) const
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_aeecda552ac00ef38d6ff442f48718c6b}{operator$<$$<$}} (std\+::ostream \&os, const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{Tensor\+Rank\+N\+Component}} \&t)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T, int N$>$\newline
+class mpc\+::core\+::\+Tensor\+Rank\+N\+Component$<$ T, N $>$}
+
+tensor component consisting of a component index and a value 
+
+Definition at line 32 of file tensorcomponent.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classmpc_1_1core_1_1_tensor_rank_n_component_a57477ad47a9e4039f314f777bc337488}\label{classmpc_1_1core_1_1_tensor_rank_n_component_a57477ad47a9e4039f314f777bc337488}} 
+\index{mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}!Tensor\+Rank\+N\+Component@{Tensor\+Rank\+N\+Component}}
+\index{Tensor\+Rank\+N\+Component@{Tensor\+Rank\+N\+Component}!mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}
+\subsubsection{\texorpdfstring{Tensor\+Rank\+N\+Component()}{TensorRankNComponent()}}
+{\footnotesize\ttfamily template$<$typename T, int N$>$ \\
+constexpr \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}$<$ T, N $>$\+::\mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{Tensor\+Rank\+N\+Component}} (\begin{DoxyParamCaption}\item[{T}]{val,  }\item[{\mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{Tensor\+Rank\+N\+Component\+Index}}$<$ N $>$}]{indx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 41 of file tensorcomponent.\+hpp.
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classmpc_1_1core_1_1_tensor_rank_n_component_a0b54eda033610a20f0c51ab47ea36324}\label{classmpc_1_1core_1_1_tensor_rank_n_component_a0b54eda033610a20f0c51ab47ea36324}} 
+\index{mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}!Index@{Index}}
+\index{Index@{Index}!mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}
+\subsubsection{\texorpdfstring{Index()}{Index()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T, int N$>$ \\
+constexpr \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{Tensor\+Rank\+N\+Component\+Index}}$<$N$>$ \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}$<$ T, N $>$\+::Index (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 49 of file tensorcomponent.\+hpp.
+
+\mbox{\Hypertarget{classmpc_1_1core_1_1_tensor_rank_n_component_a5f398096099b3d7c7353bed10a79ad5d}\label{classmpc_1_1core_1_1_tensor_rank_n_component_a5f398096099b3d7c7353bed10a79ad5d}} 
+\index{mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}!Index@{Index}}
+\index{Index@{Index}!mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}
+\subsubsection{\texorpdfstring{Index()}{Index()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T, int N$>$ \\
+void \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}$<$ T, N $>$\+::Index (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}}}]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 57 of file tensorcomponent.\+hpp.
+
+\mbox{\Hypertarget{classmpc_1_1core_1_1_tensor_rank_n_component_aa3e7f1d6e679fe8d4a3f0242f5f20dfd}\label{classmpc_1_1core_1_1_tensor_rank_n_component_aa3e7f1d6e679fe8d4a3f0242f5f20dfd}} 
+\index{mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}
+\subsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily template$<$typename T, int N$>$ \\
+bool \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}$<$ T, N $>$\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{Tensor\+Rank\+N\+Component}}$<$ T, N $>$ \&}]{rhs }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 77 of file tensorcomponent.\+hpp.
+
+\mbox{\Hypertarget{classmpc_1_1core_1_1_tensor_rank_n_component_a06a52579da1cac23e406fa638f8c31c1}\label{classmpc_1_1core_1_1_tensor_rank_n_component_a06a52579da1cac23e406fa638f8c31c1}} 
+\index{mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}
+\subsubsection{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily template$<$typename T, int N$>$ \\
+bool \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}$<$ T, N $>$\+::operator$<$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{Tensor\+Rank\+N\+Component}}$<$ T, N $>$ \&}]{rhs }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 62 of file tensorcomponent.\+hpp.
+
+\mbox{\Hypertarget{classmpc_1_1core_1_1_tensor_rank_n_component_a82c62e2f448445e13931a1b64217f582}\label{classmpc_1_1core_1_1_tensor_rank_n_component_a82c62e2f448445e13931a1b64217f582}} 
+\index{mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}!operator$<$=@{operator$<$=}}
+\index{operator$<$=@{operator$<$=}!mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}
+\subsubsection{\texorpdfstring{operator$<$=()}{operator<=()}}
+{\footnotesize\ttfamily template$<$typename T, int N$>$ \\
+bool \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}$<$ T, N $>$\+::operator$<$= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{Tensor\+Rank\+N\+Component}}$<$ T, N $>$ \&}]{rhs }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 82 of file tensorcomponent.\+hpp.
+
+\mbox{\Hypertarget{classmpc_1_1core_1_1_tensor_rank_n_component_af4daf80199bb73541c8ccee2f41e45e6}\label{classmpc_1_1core_1_1_tensor_rank_n_component_af4daf80199bb73541c8ccee2f41e45e6}} 
+\index{mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}!operator==@{operator==}}
+\index{operator==@{operator==}!mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}
+\subsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily template$<$typename T, int N$>$ \\
+bool \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}$<$ T, N $>$\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{Tensor\+Rank\+N\+Component}}$<$ T, N $>$ \&}]{rhs }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 72 of file tensorcomponent.\+hpp.
+
+\mbox{\Hypertarget{classmpc_1_1core_1_1_tensor_rank_n_component_aea9710656c2dfba2e031476c9662f937}\label{classmpc_1_1core_1_1_tensor_rank_n_component_aea9710656c2dfba2e031476c9662f937}} 
+\index{mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}!operator$>$@{operator$>$}}
+\index{operator$>$@{operator$>$}!mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}
+\subsubsection{\texorpdfstring{operator$>$()}{operator>()}}
+{\footnotesize\ttfamily template$<$typename T, int N$>$ \\
+bool \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}$<$ T, N $>$\+::operator$>$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{Tensor\+Rank\+N\+Component}}$<$ T, N $>$ \&}]{rhs }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 67 of file tensorcomponent.\+hpp.
+
+\mbox{\Hypertarget{classmpc_1_1core_1_1_tensor_rank_n_component_a03ca8237de6ccde2a7bbdc68fc4712f4}\label{classmpc_1_1core_1_1_tensor_rank_n_component_a03ca8237de6ccde2a7bbdc68fc4712f4}} 
+\index{mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}!operator$>$=@{operator$>$=}}
+\index{operator$>$=@{operator$>$=}!mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}
+\subsubsection{\texorpdfstring{operator$>$=()}{operator>=()}}
+{\footnotesize\ttfamily template$<$typename T, int N$>$ \\
+bool \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}$<$ T, N $>$\+::operator$>$= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{Tensor\+Rank\+N\+Component}}$<$ T, N $>$ \&}]{rhs }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 87 of file tensorcomponent.\+hpp.
+
+\mbox{\Hypertarget{classmpc_1_1core_1_1_tensor_rank_n_component_aed45ac0ca9bbec054d37c2feaa73378a}\label{classmpc_1_1core_1_1_tensor_rank_n_component_aed45ac0ca9bbec054d37c2feaa73378a}} 
+\index{mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}!Value@{Value}}
+\index{Value@{Value}!mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}
+\subsubsection{\texorpdfstring{Value()}{Value()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T, int N$>$ \\
+constexpr T \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}$<$ T, N $>$\+::Value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 46 of file tensorcomponent.\+hpp.
+
+\mbox{\Hypertarget{classmpc_1_1core_1_1_tensor_rank_n_component_a340efa1304773b5074b460795bf70cac}\label{classmpc_1_1core_1_1_tensor_rank_n_component_a340efa1304773b5074b460795bf70cac}} 
+\index{mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}!Value@{Value}}
+\index{Value@{Value}!mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}
+\subsubsection{\texorpdfstring{Value()}{Value()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T, int N$>$ \\
+void \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}$<$ T, N $>$\+::Value (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 54 of file tensorcomponent.\+hpp.
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classmpc_1_1core_1_1_tensor_rank_n_component_aeecda552ac00ef38d6ff442f48718c6b}\label{classmpc_1_1core_1_1_tensor_rank_n_component_aeecda552ac00ef38d6ff442f48718c6b}} 
+\index{mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!mpc\+::core\+::\+Tensor\+Rank\+N\+Component@{mpc\+::core\+::\+Tensor\+Rank\+N\+Component}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily template$<$typename T, int N$>$ \\
+std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os,  }\item[{const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component}{Tensor\+Rank\+N\+Component}}$<$ T, N $>$ \&}]{t }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Definition at line 93 of file tensorcomponent.\+hpp.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/\mbox{\hyperlink{tensorcomponent_8hpp}{tensorcomponent.\+hpp}}\end{DoxyCompactItemize}

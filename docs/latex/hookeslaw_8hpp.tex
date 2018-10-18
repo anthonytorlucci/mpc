@@ -1,0 +1,46 @@
+\hypertarget{hookeslaw_8hpp}{}\section{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/mechanics/hookeslaw.hpp File Reference}
+\label{hookeslaw_8hpp}\index{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/mechanics/hookeslaw.\+hpp@{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/mechanics/hookeslaw.\+hpp}}
+
+
+functions and corresponding functions objects for getting the stress or strain tensor from the linear form of Hooke\textquotesingle{}s Law  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include \char`\"{}mpc/core/cstypes.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpc/core/symmetrygrouptypes.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpc/core/stressstrain.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpc/core/stiffnesscompliance.\+hpp\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{structmpc_1_1mechanics_1_1_hookes_law_function_object}{mpc\+::mechanics\+::\+Hookes\+Law\+Function\+Object$<$ T, C\+S $>$}}
+\begin{DoxyCompactList}\small\item\em function object based on linear form of Hooke\textquotesingle{}s Law \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structmpc_1_1mechanics_1_1_hookes_law_function_object_3_01_t_00_01mpc_1_1core_1_1_stiffness_type_01_4}{mpc\+::mechanics\+::\+Hookes\+Law\+Function\+Object$<$ T, mpc\+::core\+::\+Stiffness\+Type $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1mechanics_1_1_hookes_law_function_object_3_01_t_00_01mpc_1_1core_1_1_compliance_type_01_4}{mpc\+::mechanics\+::\+Hookes\+Law\+Function\+Object$<$ T, mpc\+::core\+::\+Compliance\+Type $>$}}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacempc}{mpc}}
+\item 
+ \mbox{\hyperlink{namespacempc_1_1mechanics}{mpc\+::mechanics}}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{structmpc_1_1core_1_1_stress_tensor}{mpc\+::core\+::\+Stress\+Tensor}}$<$ T $>$ \mbox{\hyperlink{namespacempc_1_1mechanics_ac0209e8d833d606783d3b6d7a2fc7e02}{mpc\+::mechanics\+::\+Hookes\+Law}} (\mbox{\hyperlink{structmpc_1_1core_1_1_stiffness_tensor}{mpc\+::core\+::\+Stiffness\+Tensor}}$<$ T $>$ \&c\+\_\+ijkl, \mbox{\hyperlink{structmpc_1_1core_1_1_strain_tensor}{mpc\+::core\+::\+Strain\+Tensor}}$<$ T $>$ \&e\+\_\+kl)
+\item 
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{structmpc_1_1core_1_1_strain_tensor}{mpc\+::core\+::\+Strain\+Tensor}}$<$ T $>$ \mbox{\hyperlink{namespacempc_1_1mechanics_a769777e6d9b85dad0caae5a471deefe5}{mpc\+::mechanics\+::\+Hookes\+Law}} (\mbox{\hyperlink{structmpc_1_1core_1_1_compliance_tensor}{mpc\+::core\+::\+Compliance\+Tensor}}$<$ T $>$ \&s\+\_\+ijkl, \mbox{\hyperlink{structmpc_1_1core_1_1_stress_tensor}{mpc\+::core\+::\+Stress\+Tensor}}$<$ T $>$ \&t\+\_\+kl)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+functions and corresponding functions objects for getting the stress or strain tensor from the linear form of Hooke\textquotesingle{}s Law 
+
+\begin{DoxyAuthor}{Author}
+Anthony Torlucci 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2018/10/14 
+\end{DoxyDate}

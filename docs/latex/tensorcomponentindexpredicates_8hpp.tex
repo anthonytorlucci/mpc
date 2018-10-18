@@ -1,0 +1,79 @@
+\hypertarget{tensorcomponentindexpredicates_8hpp}{}\section{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/tensorcomponentindexpredicates.hpp File Reference}
+\label{tensorcomponentindexpredicates_8hpp}\index{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/tensorcomponentindexpredicates.\+hpp@{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/tensorcomponentindexpredicates.\+hpp}}
+
+
+boolean functions that take a Tensor\+Rank\+N\+Component\+Index$<$\+N$>$ that can be used in assertions or control program flow  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include \char`\"{}tensorcomponentindex.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}tensorcomponentindexaliases.\+hpp\char`\"{}}\newline
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacempc}{mpc}}
+\item 
+ \mbox{\hyperlink{namespacempc_1_1core}{mpc\+::core}}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$int M, int N$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a41f80a8b9f9225f1642eeb1673a7390c}{mpc\+::core\+::\+C\+Component\+Index\+Has\+Alias}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_c_tensor_rank2_component_index}{mpc\+::core\+::\+C\+Tensor\+Rank2\+Component\+Index}}$<$ M, N $>$ \&indexn)
+\item 
+{\footnotesize template$<$int M, int N$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a9c341d33c82aa89108921c14b7ecf2ee}{mpc\+::core\+::\+C\+Component\+Index\+Has\+Alias}} ()
+\item 
+{\footnotesize template$<$int M, int N, int P, int Q$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_ad146cbb32d70eee93b789db71d9d5e87}{mpc\+::core\+::\+C\+Component\+Index\+Is\+Alias}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_c_tensor_rank2_component_index}{mpc\+::core\+::\+C\+Tensor\+Rank2\+Component\+Index}}$<$ M, N $>$ \&indexa, const \mbox{\hyperlink{classmpc_1_1core_1_1_c_tensor_rank2_component_index}{mpc\+::core\+::\+C\+Tensor\+Rank2\+Component\+Index}}$<$ P, Q $>$ \&indexb)
+\item 
+{\footnotesize template$<$int M, int N, int P, int Q$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a27928f5f83ac3728a04d378fca923dbf}{mpc\+::core\+::\+C\+Component\+Index\+Is\+Alias}} ()
+\item 
+{\footnotesize template$<$int I, int J, int K, int L$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a2242e766ecb8a4fabbedd7284d5df21f}{mpc\+::core\+::\+C\+Component\+Index\+Has\+Alias}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_c_tensor_rank4_component_index}{mpc\+::core\+::\+C\+Tensor\+Rank4\+Component\+Index}}$<$ I, J, K, L $>$ \&indexn)
+\item 
+{\footnotesize template$<$int I, int J, int K, int L$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a406506b84ea67d4832c875f28d06ac77}{mpc\+::core\+::\+C\+Component\+Index\+Has\+Alias}} ()
+\item 
+{\footnotesize template$<$int I, int J, int K, int L, int P, int Q, int R, int S$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a460c912b41c051dee4402f90e271577b}{mpc\+::core\+::\+C\+Component\+Index\+Is\+Alias}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_c_tensor_rank4_component_index}{mpc\+::core\+::\+C\+Tensor\+Rank4\+Component\+Index}}$<$ I, J, K, L $>$ \&indexa, const \mbox{\hyperlink{classmpc_1_1core_1_1_c_tensor_rank4_component_index}{mpc\+::core\+::\+C\+Tensor\+Rank4\+Component\+Index}}$<$ P, Q, R, S $>$ \&indexb)
+\item 
+{\footnotesize template$<$int I, int J, int K, int L, int P, int Q, int R, int S$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_aa712fe25e927caf0d63c2eb2673cd088}{mpc\+::core\+::\+C\+Component\+Index\+Is\+Alias}} ()
+\item 
+constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a1773ac71ac76281f15a14fbc2590c4da}{mpc\+::core\+::\+Tensor\+Rank2\+Component\+Index\+Has\+Alias}} (const \mbox{\hyperlink{namespacempc_1_1core_a7ae080dac58868c1e167479dce34928a}{mpc\+::core\+::\+Tensor\+Rank2\+Component\+Index}} \&indexn)
+\item 
+constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a4968c91b710a9f3384869b2de32dd7de}{mpc\+::core\+::\+Tensor\+Rank2\+Component\+Index\+Is\+Alias}} (const \mbox{\hyperlink{namespacempc_1_1core_a7ae080dac58868c1e167479dce34928a}{mpc\+::core\+::\+Tensor\+Rank2\+Component\+Index}} \&indexa, const \mbox{\hyperlink{namespacempc_1_1core_a7ae080dac58868c1e167479dce34928a}{mpc\+::core\+::\+Tensor\+Rank2\+Component\+Index}} \&indexb)
+\item 
+{\footnotesize template$<$typename S  = mpc\+::core\+::\+None\+Symmetry\+Group\+Type$>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_a7242817d0014fa66d25e5cf10a2c4ddf}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index\+Has\+Alias}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_a20fb04000260d2acb9517d9004c26a06}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index\+Has\+Alias$<$ mpc\+::core\+::\+Triclinic\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_a19fdf1194e49ecd8a99003d78708ac2b}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index\+Has\+Alias$<$ mpc\+::core\+::\+Monoclinic\+X2\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_ac4ed81b1fb981df31670bb32592e4eb8}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index\+Has\+Alias$<$ mpc\+::core\+::\+Monoclinic\+X3\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_aed5c66342dec29f784602d5b3637fc6c}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index\+Has\+Alias$<$ mpc\+::core\+::\+Orthorhombic\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_a21f8cbab46bedb3a3588d926221a5fae}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index\+Has\+Alias$<$ mpc\+::core\+::\+Hexagonal\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_a79394263f68305a5f487a7c11a7efc6a}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index\+Has\+Alias$<$ mpc\+::core\+::\+Tetragonal7\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_aba63aa9beb5dc6209ec0e316f0cbc47a}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index\+Has\+Alias$<$ mpc\+::core\+::\+Tetragonal6\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_a1c36195d71aecc462b7e46921d63e9ce}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index\+Has\+Alias$<$ mpc\+::core\+::\+Trigonal7\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_a02a7ba547c1a761d2b90905c0a6a8059}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index\+Has\+Alias$<$ mpc\+::core\+::\+Trigonal6\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_aff2e1f4d3192240dd5dcb7a6a37d5edd}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index\+Has\+Alias$<$ mpc\+::core\+::\+Cubic\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_a43b1363c53c73157fd5344004173d0be}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index\+Has\+Alias$<$ mpc\+::core\+::\+Isotropic\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$typename S $>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_a6a2bb811eb9c52ad922c8e96c8f0386b}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index\+Is\+Alias}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexa, const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexb)
+\item 
+{\footnotesize template$<$$>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_a14e25a11fab9f7ae7575404bbbbf822f}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index\+Is\+Alias$<$ mpc\+::core\+::\+None\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexa, const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexb)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+boolean functions that take a Tensor\+Rank\+N\+Component\+Index$<$\+N$>$ that can be used in assertions or control program flow 
+
+\begin{DoxyAuthor}{Author}
+Anthony Torlucci 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2018/10/14 
+\end{DoxyDate}

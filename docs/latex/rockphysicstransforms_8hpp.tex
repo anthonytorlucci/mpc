@@ -1,0 +1,59 @@
+\hypertarget{rockphysicstransforms_8hpp}{}\section{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/rockphysics/rockphysicstransforms.hpp File Reference}
+\label{rockphysicstransforms_8hpp}\index{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/rockphysics/rockphysicstransforms.\+hpp@{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/rockphysics/rockphysicstransforms.\+hpp}}
+
+
+function object and corresponding functions to convert or transform elastic moduli and related rock properties  
+
+
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include \char`\"{}mpc/rockphysics/rockphysicstransformstypes.\+hpp\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_rock_physics_transforms}{mpc\+::rockphysics\+::\+Rock\+Physics\+Transforms$<$ T, U $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_rock_physics_transforms_3_01_t_00_01mpc_1_1rockphysics_1_1_bulk_modulus_type_3_01_t_01_4_01_4}{mpc\+::rockphysics\+::\+Rock\+Physics\+Transforms$<$ T, mpc\+::rockphysics\+::\+Bulk\+Modulus\+Type$<$ T $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_rock_physics_transforms_3_01_t_00_01mpc_1_1rockphysics_1_1_shear_modulus_type_3_01_t_01_4_01_4}{mpc\+::rockphysics\+::\+Rock\+Physics\+Transforms$<$ T, mpc\+::rockphysics\+::\+Shear\+Modulus\+Type$<$ T $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_rock_physics_transforms_3_01_t_00_01mpc_1_1rockphysics_1_1_youngs_modulus_type_3_01_t_01_4_01_4}{mpc\+::rockphysics\+::\+Rock\+Physics\+Transforms$<$ T, mpc\+::rockphysics\+::\+Youngs\+Modulus\+Type$<$ T $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_rock_physics_transforms_3_01_t_00_01mpc_1_1rockphysics_1_1_lame_para5e1496021e3962f82419b3f52eb8942}{mpc\+::rockphysics\+::\+Rock\+Physics\+Transforms$<$ T, mpc\+::rockphysics\+::\+Lame\+Paramter\+Modulus\+Type$<$ T $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_rock_physics_transforms_3_01_t_00_01mpc_1_1rockphysics_1_1_poissons_ratio_type_3_01_t_01_4_01_4}{mpc\+::rockphysics\+::\+Rock\+Physics\+Transforms$<$ T, mpc\+::rockphysics\+::\+Poissons\+Ratio\+Type$<$ T $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_rock_physics_transforms_3_01_t_00_01mpc_1_1rockphysics_1_1_compressa00c69c96057f48abd3a978c95b68f00}{mpc\+::rockphysics\+::\+Rock\+Physics\+Transforms$<$ T, mpc\+::rockphysics\+::\+Compressional\+Modulus\+Type$<$ T $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_rock_physics_transforms_3_01_t_00_01mpc_1_1rockphysics_1_1_compress029d68897a9e33d88bc676cbccd09ca6}{mpc\+::rockphysics\+::\+Rock\+Physics\+Transforms$<$ T, mpc\+::rockphysics\+::\+Compressibility\+Modulus\+Type$<$ T $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_rock_physics_transforms_3_01_t_00_01mpc_1_1rockphysics_1_1_hydrosta0770be3f580566706c66bcfacbc69794}{mpc\+::rockphysics\+::\+Rock\+Physics\+Transforms$<$ T, mpc\+::rockphysics\+::\+Hydrostatic\+Pressure\+Type$<$ T $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_rock_physics_transforms_3_01_t_00_01mpc_1_1rockphysics_1_1_volumetric_strain_type_3_01_t_01_4_01_4}{mpc\+::rockphysics\+::\+Rock\+Physics\+Transforms$<$ T, mpc\+::rockphysics\+::\+Volumetric\+Strain\+Type$<$ T $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_rock_physics_transforms_3_01_t_00_01mpc_1_1rockphysics_1_1_vp_vs_ratio_type_3_01_t_01_4_01_4}{mpc\+::rockphysics\+::\+Rock\+Physics\+Transforms$<$ T, mpc\+::rockphysics\+::\+Vp\+Vs\+Ratio\+Type$<$ T $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_rock_physics_transforms_3_01_t_00_01mpc_1_1rockphysics_1_1_vs_vp_ratio_type_3_01_t_01_4_01_4}{mpc\+::rockphysics\+::\+Rock\+Physics\+Transforms$<$ T, mpc\+::rockphysics\+::\+Vs\+Vp\+Ratio\+Type$<$ T $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_rock_physics_transforms_3_01_t_00_01mpc_1_1rockphysics_1_1_compressf65fcccb092ada4e6b4f03ee735d85ea}{mpc\+::rockphysics\+::\+Rock\+Physics\+Transforms$<$ T, mpc\+::rockphysics\+::\+Compressional\+Wave\+Velocity\+Type$<$ T $>$ $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_rock_physics_transforms_3_01_t_00_01mpc_1_1rockphysics_1_1_shear_wa3da182e2bbb4493283e5091a086fb3f1}{mpc\+::rockphysics\+::\+Rock\+Physics\+Transforms$<$ T, mpc\+::rockphysics\+::\+Shear\+Wave\+Velocity\+Type$<$ T $>$ $>$}}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacempc}{mpc}}
+\item 
+ \mbox{\hyperlink{namespacempc_1_1rockphysics}{mpc\+::rockphysics}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+function object and corresponding functions to convert or transform elastic moduli and related rock properties 
+
+\begin{DoxyAuthor}{Author}
+Anthony Torlucci 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2018/10/14 
+\end{DoxyDate}

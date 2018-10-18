@@ -1,0 +1,117 @@
+\hypertarget{tensorcomponentindexaliases_8hpp}{}\section{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/tensorcomponentindexaliases.hpp File Reference}
+\label{tensorcomponentindexaliases_8hpp}\index{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/tensorcomponentindexaliases.\+hpp@{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/tensorcomponentindexaliases.\+hpp}}
+
+
+tensor components aliased by symmetry; different symmetry group types will have different relationships among tensor components for which mpc defines them as \char`\"{}aliases\char`\"{}; this concept is still a work in progress...  
+
+
+{\ttfamily \#include $<$set$>$}\newline
+{\ttfamily \#include $<$iterator$>$}\newline
+{\ttfamily \#include \char`\"{}mpc/core/tensorcomponentindex.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpc/core/symmetrygrouptypes.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpc/utilities/matrixnotation.\+hpp\char`\"{}}\newline
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacempc}{mpc}}
+\item 
+ \mbox{\hyperlink{namespacempc_1_1core}{mpc\+::core}}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacempc_1_1core_a7ae080dac58868c1e167479dce34928a}{mpc\+::core\+::\+Tensor\+Rank2\+Component\+Index}} \mbox{\hyperlink{namespacempc_1_1core_a1c54881498b05ba5ae2813859990a2e3}{mpc\+::core\+::\+Reduced\+Tensor\+Rank2\+Component\+Index}} (const \mbox{\hyperlink{namespacempc_1_1core_a7ae080dac58868c1e167479dce34928a}{mpc\+::core\+::\+Tensor\+Rank2\+Component\+Index}} \&indexn)
+\begin{DoxyCompactList}\small\item\em reduced tensor component index reduces an index to the lowest integer value representation so indices that are \char`\"{}linked\char`\"{} by symmetry can be identified by a common index \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename S  = None\+Symmetry\+Group\+Type$>$ }\\\mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \mbox{\hyperlink{namespacempc_1_1core_ae67b259d682419c12fa2e072049d20ad}{mpc\+::core\+::\+Reduced\+Tensor\+Rank4\+Component\+Index}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\\mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \mbox{\hyperlink{namespacempc_1_1core_ad70c0223a19e50c5ef2ceda51a00e14b}{mpc\+::core\+::\+Reduced\+Tensor\+Rank4\+Component\+Index$<$ mpc\+::core\+::\+Triclinic\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\\mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \mbox{\hyperlink{namespacempc_1_1core_aacad83184cf6ca9921da2fa10cdb3ead}{mpc\+::core\+::\+Reduced\+Tensor\+Rank4\+Component\+Index$<$ mpc\+::core\+::\+Monoclinic\+X2\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\\mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \mbox{\hyperlink{namespacempc_1_1core_ad2c8e4dbec07c3685e0674acba76c636}{mpc\+::core\+::\+Reduced\+Tensor\+Rank4\+Component\+Index$<$ mpc\+::core\+::\+Monoclinic\+X3\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\\mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \mbox{\hyperlink{namespacempc_1_1core_a846d4e3edf48bafd6214a87c038a9e65}{mpc\+::core\+::\+Reduced\+Tensor\+Rank4\+Component\+Index$<$ mpc\+::core\+::\+Orthorhombic\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\\mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \mbox{\hyperlink{namespacempc_1_1core_a2b5f8439a02a650591d2bef22cff0705}{mpc\+::core\+::\+Reduced\+Tensor\+Rank4\+Component\+Index$<$ mpc\+::core\+::\+Hexagonal\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\\mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \mbox{\hyperlink{namespacempc_1_1core_ae3728d6fa5c3d448761e8486bbbd596b}{mpc\+::core\+::\+Reduced\+Tensor\+Rank4\+Component\+Index$<$ mpc\+::core\+::\+Tetragonal7\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\\mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \mbox{\hyperlink{namespacempc_1_1core_a8d91529fe189cafe00a575b601cf2b20}{mpc\+::core\+::\+Reduced\+Tensor\+Rank4\+Component\+Index$<$ mpc\+::core\+::\+Tetragonal6\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\\mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \mbox{\hyperlink{namespacempc_1_1core_a156205a65087ea1d9c9fb9dbcd1578a6}{mpc\+::core\+::\+Reduced\+Tensor\+Rank4\+Component\+Index$<$ mpc\+::core\+::\+Trigonal7\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\\mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \mbox{\hyperlink{namespacempc_1_1core_ad1ff1df316ea57d13729b92536925713}{mpc\+::core\+::\+Reduced\+Tensor\+Rank4\+Component\+Index$<$ mpc\+::core\+::\+Trigonal6\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\\mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \mbox{\hyperlink{namespacempc_1_1core_ab982d8ea9335e8a18cd3cd4aea421048}{mpc\+::core\+::\+Reduced\+Tensor\+Rank4\+Component\+Index$<$ mpc\+::core\+::\+Cubic\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\\mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \mbox{\hyperlink{namespacempc_1_1core_a598e37b7032dc2f900ba4e30bb7aeea5}{mpc\+::core\+::\+Reduced\+Tensor\+Rank4\+Component\+Index$<$ mpc\+::core\+::\+Isotropic\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \&indexn)
+\item 
+{\footnotesize template$<$typename S  = None\+Symmetry\+Group\+Type$>$ }\\\mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} \mbox{\hyperlink{namespacempc_1_1core_af5434f54bedc11f7a8ace3b9b11fb6ff}{mpc\+::core\+::\+Reduced\+Tensor\+Rank4\+Component\+Index}} (const \mbox{\hyperlink{namespacempc_1_1core_a7ae080dac58868c1e167479dce34928a}{mpc\+::core\+::\+Tensor\+Rank2\+Component\+Index}} \&indexn)
+\item 
+constexpr int \mbox{\hyperlink{namespacempc_1_1core_a35a48d42caf0b2d1c0fe29bdfbc6a416}{mpc\+::core\+::\+Tensor\+Rank2\+Index\+Number\+Of\+Aliases}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 2 $>$ \&indexn)
+\begin{DoxyCompactList}\small\item\em number of aliases where tensors of rank 2 here are assumed to be symmetric, i.\+e. A(i,j) = A(j,i). \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename S  = mpc\+::core\+::\+None\+Symmetry\+Group\+Type$>$ }\\int \mbox{\hyperlink{namespacempc_1_1core_a8d98ed039053b282c6ce8cff2fad214c}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Number\+Of\+Aliases}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\begin{DoxyCompactList}\small\item\em number of aliased components for a given component index and symmetry group \end{DoxyCompactList}\item 
+{\footnotesize template$<$$>$ }\\int \mbox{\hyperlink{namespacempc_1_1core_a4b43beee70b3ec62c364455881812f4f}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Number\+Of\+Aliases$<$ mpc\+::core\+::\+Triclinic\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\int \mbox{\hyperlink{namespacempc_1_1core_a2f0dd54326ec0f3d33bd92130c3cc9f2}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Number\+Of\+Aliases$<$ mpc\+::core\+::\+Monoclinic\+X2\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\int \mbox{\hyperlink{namespacempc_1_1core_a4db5d7be01597c4ca1e258d2dab27e81}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Number\+Of\+Aliases$<$ mpc\+::core\+::\+Monoclinic\+X3\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\int \mbox{\hyperlink{namespacempc_1_1core_a437f4bdfb137d17ac070b9ff54f889bf}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Number\+Of\+Aliases$<$ mpc\+::core\+::\+Orthorhombic\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\int \mbox{\hyperlink{namespacempc_1_1core_acced519e371dd13b347144a098e4b34f}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Number\+Of\+Aliases$<$ mpc\+::core\+::\+Hexagonal\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\int \mbox{\hyperlink{namespacempc_1_1core_afe7eb270332a274e4ee837d6d0f740bf}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Number\+Of\+Aliases$<$ mpc\+::core\+::\+Tetragonal7\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\int \mbox{\hyperlink{namespacempc_1_1core_ac976c8820421fa076d712f77e36a871e}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Number\+Of\+Aliases$<$ mpc\+::core\+::\+Tetragonal6\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\int \mbox{\hyperlink{namespacempc_1_1core_ab16fd1951e2b9044702fa7844807dd84}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Number\+Of\+Aliases$<$ mpc\+::core\+::\+Trigonal7\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\int \mbox{\hyperlink{namespacempc_1_1core_a7063739f60a5e7fcb313c8e51d0966bd}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Number\+Of\+Aliases$<$ mpc\+::core\+::\+Trigonal6\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\int \mbox{\hyperlink{namespacempc_1_1core_a3dda133f6b673b26c72f42e5f08e65e6}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Number\+Of\+Aliases$<$ mpc\+::core\+::\+Cubic\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\int \mbox{\hyperlink{namespacempc_1_1core_a08ef4837296a243c256799affc08ecca}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Number\+Of\+Aliases$<$ mpc\+::core\+::\+Isotropic\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$typename S $>$ }\\int \mbox{\hyperlink{namespacempc_1_1core_a037ed4a13ba13f31c94daeb8854c473b}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Number\+Of\+Aliases}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 2 $>$ \&indexn)
+\begin{DoxyCompactList}\small\item\em polymorphic version for matrix notation \end{DoxyCompactList}\item 
+std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_a7ae080dac58868c1e167479dce34928a}{mpc\+::core\+::\+Tensor\+Rank2\+Component\+Index}} $>$ \mbox{\hyperlink{namespacempc_1_1core_ac57e02dffa1feb89711fd3abab43faff}{mpc\+::core\+::\+Tensor\+Rank2\+Index\+Aliases}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 2 $>$ \&indexn)
+\begin{DoxyCompactList}\small\item\em returns a set of tensor rank 2 component indices that are aliases of the given tensor rank 2 component index \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename S  = mpc\+::core\+::\+None\+Symmetry\+Group\+Type$>$ }\\std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} $>$ \mbox{\hyperlink{namespacempc_1_1core_a40d1fb8009b3f7c34a6ea01a4b46027f}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Aliases}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} $>$ \mbox{\hyperlink{namespacempc_1_1core_a4ff433f9ec4bb5fc7b191316479e269d}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Aliases$<$ mpc\+::core\+::\+Triclinic\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} $>$ \mbox{\hyperlink{namespacempc_1_1core_a70b4f45b13d870d2640b00970b378441}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Aliases$<$ mpc\+::core\+::\+Monoclinic\+X2\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} $>$ \mbox{\hyperlink{namespacempc_1_1core_a0b052c1b16c1b0c03ca83be25dc26877}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Aliases$<$ mpc\+::core\+::\+Monoclinic\+X3\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} $>$ \mbox{\hyperlink{namespacempc_1_1core_a5eee0ad076390ff26c6f422026fea824}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Aliases$<$ mpc\+::core\+::\+Orthorhombic\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} $>$ \mbox{\hyperlink{namespacempc_1_1core_a10c87a52eecf7750cc80658d4ae62568}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Aliases$<$ mpc\+::core\+::\+Hexagonal\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} $>$ \mbox{\hyperlink{namespacempc_1_1core_afc0e41f61af45d956b4d550c3bb1cb43}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Aliases$<$ mpc\+::core\+::\+Tetragonal7\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} $>$ \mbox{\hyperlink{namespacempc_1_1core_a3ee16afdd151d5662c537c992869324d}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Aliases$<$ mpc\+::core\+::\+Tetragonal6\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} $>$ \mbox{\hyperlink{namespacempc_1_1core_ae33e5a116327851eb9d62052cf62b48b}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Aliases$<$ mpc\+::core\+::\+Trigonal7\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} $>$ \mbox{\hyperlink{namespacempc_1_1core_a71000356aa12b434221c52dab1ec73d5}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Aliases$<$ mpc\+::core\+::\+Trigonal6\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} $>$ \mbox{\hyperlink{namespacempc_1_1core_ad81cccb6866982c1a9ce3591a7a9596e}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Aliases$<$ mpc\+::core\+::\+Cubic\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$$>$ }\\std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} $>$ \mbox{\hyperlink{namespacempc_1_1core_a843a34f476e1272ca8745eece0697e35}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Aliases$<$ mpc\+::core\+::\+Isotropic\+Symmetry\+Group\+Type $>$}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 4 $>$ \&indexn)
+\item 
+{\footnotesize template$<$typename S $>$ }\\std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} $>$ \mbox{\hyperlink{namespacempc_1_1core_ae51c90cf3ec68d7a452bfcefc3405858}{mpc\+::core\+::\+Tensor\+Rank4\+Index\+Aliases}} (const \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index}}$<$ 2 $>$ \&indexn)
+\begin{DoxyCompactList}\small\item\em polymorphic function for matrix notation to tensor indices \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+tensor components aliased by symmetry; different symmetry group types will have different relationships among tensor components for which mpc defines them as \char`\"{}aliases\char`\"{}; this concept is still a work in progress... 
+
+\begin{DoxyAuthor}{Author}
+Anthony Torlucci 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2018/10/14 
+\end{DoxyDate}

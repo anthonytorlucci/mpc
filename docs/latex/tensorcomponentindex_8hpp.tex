@@ -1,0 +1,59 @@
+\hypertarget{tensorcomponentindex_8hpp}{}\section{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/tensorcomponentindex.hpp File Reference}
+\label{tensorcomponentindex_8hpp}\index{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/tensorcomponentindex.\+hpp@{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/tensorcomponentindex.\+hpp}}
+
+
+structure that defines a tensor component index, i.\+e. the indices (i,j) or (i,j,k,l) of a tensor  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$set$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+{\ttfamily \#include $<$stdexcept$>$}\newline
+{\ttfamily \#include $<$blitz/array.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}mpc/utilities/matrixnotation.\+hpp\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classmpc_1_1core_1_1_c_tensor_rank2_component_index}{mpc\+::core\+::\+C\+Tensor\+Rank2\+Component\+Index$<$ M, N $>$}}
+\begin{DoxyCompactList}\small\item\em compile time rank 2 tensor index An index class with constexpr member functions that can be used as template parameter values... \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classmpc_1_1core_1_1_c_tensor_rank4_component_index}{mpc\+::core\+::\+C\+Tensor\+Rank4\+Component\+Index$<$ I, J, K, L $>$}}
+\begin{DoxyCompactList}\small\item\em compile time rank 4 tensor index An index class with constexpr member functions that can be used as template parameter values... \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index$<$ N $>$}}
+\begin{DoxyCompactList}\small\item\em the index representation of a tensor component of rank n \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index_3_012_01_4}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index$<$ 2 $>$}}
+\item 
+class \mbox{\hyperlink{classmpc_1_1core_1_1_tensor_rank_n_component_index_3_014_01_4}{mpc\+::core\+::\+Tensor\+Rank\+N\+Component\+Index$<$ 4 $>$}}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacempc}{mpc}}
+\item 
+ \mbox{\hyperlink{namespacempc_1_1core}{mpc\+::core}}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \mbox{\hyperlink{namespacempc_1_1core_a7ae080dac58868c1e167479dce34928a}{mpc\+::core\+::\+Tensor\+Rank2\+Component\+Index}} = Tensor\+Rank\+N\+Component\+Index$<$ 2 $>$
+\item 
+using \mbox{\hyperlink{namespacempc_1_1core_a54c081f41b2475abd10182bf023805d2}{mpc\+::core\+::\+Tensor\+Rank4\+Component\+Index}} = Tensor\+Rank\+N\+Component\+Index$<$ 4 $>$
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{namespacempc_1_1core_aa9733db2c8b0b9cb9322fb2de46b09cb}{mpc\+::core\+::operator$<$$<$}} (std\+::ostream \&os, Tensor\+Rank\+N\+Component\+Index$<$ 2 $>$ index\+R2)
+\item 
+std\+::ostream \& \mbox{\hyperlink{namespacempc_1_1core_afbf6f256794f47576046fcc1595ac21a}{mpc\+::core\+::operator$<$$<$}} (std\+::ostream \&os, Tensor\+Rank\+N\+Component\+Index$<$ 4 $>$ index\+R4)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+structure that defines a tensor component index, i.\+e. the indices (i,j) or (i,j,k,l) of a tensor 
+
+\begin{DoxyAuthor}{Author}
+Anthony Torlucci 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2018/10/14 
+\end{DoxyDate}

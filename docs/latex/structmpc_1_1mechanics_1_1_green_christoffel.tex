@@ -1,0 +1,93 @@
+\hypertarget{structmpc_1_1mechanics_1_1_green_christoffel}{}\section{mpc\+:\+:mechanics\+:\+:Green\+Christoffel$<$ T $>$ Class Template Reference}
+\label{structmpc_1_1mechanics_1_1_green_christoffel}\index{mpc\+::mechanics\+::\+Green\+Christoffel$<$ T $>$@{mpc\+::mechanics\+::\+Green\+Christoffel$<$ T $>$}}
+
+
+function object for calculating velocities based on Green-\/\+Christoffel equation  
+
+
+
+
+{\ttfamily \#include $<$greenchristoffel.\+hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structmpc_1_1mechanics_1_1_green_christoffel_a7a0ced87a84adeda26f1c3e70d6f9214}{Green\+Christoffel}} ()
+\item 
+void \mbox{\hyperlink{structmpc_1_1mechanics_1_1_green_christoffel_a82e7d064980bd9885e26b25376a23ad4}{Set\+Components}} (const \mbox{\hyperlink{structmpc_1_1core_1_1_stiffness_tensor}{mpc\+::core\+::\+Stiffness\+Tensor}}$<$ T $>$ \&cijkl, blitz\+::\+Array$<$ T, 1 $>$ \&n)
+\item 
+std\+::array$<$ T, 3 $>$ \mbox{\hyperlink{structmpc_1_1mechanics_1_1_green_christoffel_a84df39c5961390293bf77ba4dfadac13}{Phase\+Velocities}} (T density)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+blitz\+::\+Array$<$ T, 2 $>$ \mbox{\hyperlink{structmpc_1_1mechanics_1_1_green_christoffel_a6d8298d4bd31b188f061c4bd07810c04}{tensor}} = blitz\+::\+Array$<$T,2$>$(3,3,blitz\+::\+Column\+Major\+Array$<$2$>$())
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class mpc\+::mechanics\+::\+Green\+Christoffel$<$ T $>$}
+
+function object for calculating velocities based on Green-\/\+Christoffel equation 
+
+Definition at line 41 of file greenchristoffel.\+hpp.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structmpc_1_1mechanics_1_1_green_christoffel_a7a0ced87a84adeda26f1c3e70d6f9214}\label{structmpc_1_1mechanics_1_1_green_christoffel_a7a0ced87a84adeda26f1c3e70d6f9214}} 
+\index{mpc\+::mechanics\+::\+Green\+Christoffel@{mpc\+::mechanics\+::\+Green\+Christoffel}!Green\+Christoffel@{Green\+Christoffel}}
+\index{Green\+Christoffel@{Green\+Christoffel}!mpc\+::mechanics\+::\+Green\+Christoffel@{mpc\+::mechanics\+::\+Green\+Christoffel}}
+\subsubsection{\texorpdfstring{Green\+Christoffel()}{GreenChristoffel()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{structmpc_1_1mechanics_1_1_green_christoffel}{mpc\+::mechanics\+::\+Green\+Christoffel}}$<$ T $>$\+::\mbox{\hyperlink{structmpc_1_1mechanics_1_1_green_christoffel}{Green\+Christoffel}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 59 of file greenchristoffel.\+hpp.
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{structmpc_1_1mechanics_1_1_green_christoffel_a84df39c5961390293bf77ba4dfadac13}\label{structmpc_1_1mechanics_1_1_green_christoffel_a84df39c5961390293bf77ba4dfadac13}} 
+\index{mpc\+::mechanics\+::\+Green\+Christoffel@{mpc\+::mechanics\+::\+Green\+Christoffel}!Phase\+Velocities@{Phase\+Velocities}}
+\index{Phase\+Velocities@{Phase\+Velocities}!mpc\+::mechanics\+::\+Green\+Christoffel@{mpc\+::mechanics\+::\+Green\+Christoffel}}
+\subsubsection{\texorpdfstring{Phase\+Velocities()}{PhaseVelocities()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::array$<$T,3$>$ \mbox{\hyperlink{structmpc_1_1mechanics_1_1_green_christoffel}{mpc\+::mechanics\+::\+Green\+Christoffel}}$<$ T $>$\+::Phase\+Velocities (\begin{DoxyParamCaption}\item[{T}]{density }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 81 of file greenchristoffel.\+hpp.
+
+\mbox{\Hypertarget{structmpc_1_1mechanics_1_1_green_christoffel_a82e7d064980bd9885e26b25376a23ad4}\label{structmpc_1_1mechanics_1_1_green_christoffel_a82e7d064980bd9885e26b25376a23ad4}} 
+\index{mpc\+::mechanics\+::\+Green\+Christoffel@{mpc\+::mechanics\+::\+Green\+Christoffel}!Set\+Components@{Set\+Components}}
+\index{Set\+Components@{Set\+Components}!mpc\+::mechanics\+::\+Green\+Christoffel@{mpc\+::mechanics\+::\+Green\+Christoffel}}
+\subsubsection{\texorpdfstring{Set\+Components()}{SetComponents()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \mbox{\hyperlink{structmpc_1_1mechanics_1_1_green_christoffel}{mpc\+::mechanics\+::\+Green\+Christoffel}}$<$ T $>$\+::Set\+Components (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structmpc_1_1core_1_1_stiffness_tensor}{mpc\+::core\+::\+Stiffness\+Tensor}}$<$ T $>$ \&}]{cijkl,  }\item[{blitz\+::\+Array$<$ T, 1 $>$ \&}]{n }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 64 of file greenchristoffel.\+hpp.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structmpc_1_1mechanics_1_1_green_christoffel_a6d8298d4bd31b188f061c4bd07810c04}\label{structmpc_1_1mechanics_1_1_green_christoffel_a6d8298d4bd31b188f061c4bd07810c04}} 
+\index{mpc\+::mechanics\+::\+Green\+Christoffel@{mpc\+::mechanics\+::\+Green\+Christoffel}!tensor@{tensor}}
+\index{tensor@{tensor}!mpc\+::mechanics\+::\+Green\+Christoffel@{mpc\+::mechanics\+::\+Green\+Christoffel}}
+\subsubsection{\texorpdfstring{tensor}{tensor}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+blitz\+::\+Array$<$T,2$>$ \mbox{\hyperlink{structmpc_1_1mechanics_1_1_green_christoffel}{mpc\+::mechanics\+::\+Green\+Christoffel}}$<$ T $>$\+::tensor = blitz\+::\+Array$<$T,2$>$(3,3,blitz\+::\+Column\+Major\+Array$<$2$>$())}
+
+
+
+Definition at line 56 of file greenchristoffel.\+hpp.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/mechanics/\mbox{\hyperlink{greenchristoffel_8hpp}{greenchristoffel.\+hpp}}\end{DoxyCompactItemize}

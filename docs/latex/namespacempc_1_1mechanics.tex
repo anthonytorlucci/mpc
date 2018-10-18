@@ -1,0 +1,45 @@
+\hypertarget{namespacempc_1_1mechanics}{}\section{mpc\+:\+:mechanics Namespace Reference}
+\label{namespacempc_1_1mechanics}\index{mpc\+::mechanics@{mpc\+::mechanics}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{structmpc_1_1mechanics_1_1_green_christoffel}{Green\+Christoffel}}
+\begin{DoxyCompactList}\small\item\em function object for calculating velocities based on Green-\/\+Christoffel equation \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{structmpc_1_1mechanics_1_1_hookes_law_function_object}{Hookes\+Law\+Function\+Object}}
+\begin{DoxyCompactList}\small\item\em function object based on linear form of Hooke\textquotesingle{}s Law \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structmpc_1_1mechanics_1_1_hookes_law_function_object_3_01_t_00_01mpc_1_1core_1_1_compliance_type_01_4}{Hookes\+Law\+Function\+Object$<$ T, mpc\+::core\+::\+Compliance\+Type $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1mechanics_1_1_hookes_law_function_object_3_01_t_00_01mpc_1_1core_1_1_stiffness_type_01_4}{Hookes\+Law\+Function\+Object$<$ T, mpc\+::core\+::\+Stiffness\+Type $>$}}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{structmpc_1_1core_1_1_stress_tensor}{mpc\+::core\+::\+Stress\+Tensor}}$<$ T $>$ \mbox{\hyperlink{namespacempc_1_1mechanics_ac0209e8d833d606783d3b6d7a2fc7e02}{Hookes\+Law}} (\mbox{\hyperlink{structmpc_1_1core_1_1_stiffness_tensor}{mpc\+::core\+::\+Stiffness\+Tensor}}$<$ T $>$ \&c\+\_\+ijkl, \mbox{\hyperlink{structmpc_1_1core_1_1_strain_tensor}{mpc\+::core\+::\+Strain\+Tensor}}$<$ T $>$ \&e\+\_\+kl)
+\item 
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{structmpc_1_1core_1_1_strain_tensor}{mpc\+::core\+::\+Strain\+Tensor}}$<$ T $>$ \mbox{\hyperlink{namespacempc_1_1mechanics_a769777e6d9b85dad0caae5a471deefe5}{Hookes\+Law}} (\mbox{\hyperlink{structmpc_1_1core_1_1_compliance_tensor}{mpc\+::core\+::\+Compliance\+Tensor}}$<$ T $>$ \&s\+\_\+ijkl, \mbox{\hyperlink{structmpc_1_1core_1_1_stress_tensor}{mpc\+::core\+::\+Stress\+Tensor}}$<$ T $>$ \&t\+\_\+kl)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{namespacempc_1_1mechanics_ac0209e8d833d606783d3b6d7a2fc7e02}\label{namespacempc_1_1mechanics_ac0209e8d833d606783d3b6d7a2fc7e02}} 
+\index{mpc\+::mechanics@{mpc\+::mechanics}!Hookes\+Law@{Hookes\+Law}}
+\index{Hookes\+Law@{Hookes\+Law}!mpc\+::mechanics@{mpc\+::mechanics}}
+\subsubsection{\texorpdfstring{Hookes\+Law()}{HookesLaw()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{structmpc_1_1core_1_1_stress_tensor}{mpc\+::core\+::\+Stress\+Tensor}}$<$T$>$ mpc\+::mechanics\+::\+Hookes\+Law (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structmpc_1_1core_1_1_stiffness_tensor}{mpc\+::core\+::\+Stiffness\+Tensor}}$<$ T $>$ \&}]{c\+\_\+ijkl,  }\item[{\mbox{\hyperlink{structmpc_1_1core_1_1_strain_tensor}{mpc\+::core\+::\+Strain\+Tensor}}$<$ T $>$ \&}]{e\+\_\+kl }\end{DoxyParamCaption})}
+
+
+
+Definition at line 102 of file hookeslaw.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1mechanics_a769777e6d9b85dad0caae5a471deefe5}\label{namespacempc_1_1mechanics_a769777e6d9b85dad0caae5a471deefe5}} 
+\index{mpc\+::mechanics@{mpc\+::mechanics}!Hookes\+Law@{Hookes\+Law}}
+\index{Hookes\+Law@{Hookes\+Law}!mpc\+::mechanics@{mpc\+::mechanics}}
+\subsubsection{\texorpdfstring{Hookes\+Law()}{HookesLaw()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\mbox{\hyperlink{structmpc_1_1core_1_1_strain_tensor}{mpc\+::core\+::\+Strain\+Tensor}}$<$T$>$ mpc\+::mechanics\+::\+Hookes\+Law (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structmpc_1_1core_1_1_compliance_tensor}{mpc\+::core\+::\+Compliance\+Tensor}}$<$ T $>$ \&}]{s\+\_\+ijkl,  }\item[{\mbox{\hyperlink{structmpc_1_1core_1_1_stress_tensor}{mpc\+::core\+::\+Stress\+Tensor}}$<$ T $>$ \&}]{t\+\_\+kl }\end{DoxyParamCaption})}
+
+
+
+Definition at line 114 of file hookeslaw.\+hpp.
+

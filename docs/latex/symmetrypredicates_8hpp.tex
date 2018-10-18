@@ -1,0 +1,154 @@
+\hypertarget{symmetrypredicates_8hpp}{}\section{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/symmetrypredicates.hpp File Reference}
+\label{symmetrypredicates_8hpp}\index{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/symmetrypredicates.\+hpp@{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/symmetrypredicates.\+hpp}}
+
+
+boolean functions related to symmetry groups or sets of tensor components used for assertions or control flow  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$set$>$}\newline
+{\ttfamily \#include $<$iterator$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include \char`\"{}mpc/core/cstypes.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpc/core/symmetrygrouptypes.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpc/core/tensorcomponentindex.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpc/core/tensorcomponentindexaliases.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpc/core/tensorcomponent.\+hpp\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{structmpc_1_1core_1_1_is_component_set_symmetry_compliant_function_object}{mpc\+::core\+::\+Is\+Component\+Set\+Symmetry\+Compliant\+Function\+Object$<$ T, C\+S, S $>$}}
+\begin{DoxyCompactList}\small\item\em function object that determines if a set of tensor components complies the constraints of the given symmetry \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_is_component_set_symmetry_compliant_function_object_3_01_t_00_01_c_s_00_01d3c1d925f2eca11cbddbc5600942f490}{mpc\+::core\+::\+Is\+Component\+Set\+Symmetry\+Compliant\+Function\+Object$<$ T, C\+S, mpc\+::core\+::\+Triclinic\+Symmetry\+Group\+Type $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_is_component_set_symmetry_compliant_function_object_3_01_t_00_01_c_s_00_016f569c2dcdd1cc1caa682f778656be28}{mpc\+::core\+::\+Is\+Component\+Set\+Symmetry\+Compliant\+Function\+Object$<$ T, C\+S, mpc\+::core\+::\+Monoclinic\+X2\+Symmetry\+Group\+Type $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_is_component_set_symmetry_compliant_function_object_3_01_t_00_01_c_s_00_013f9861239b5d9799e3a43792ff074444}{mpc\+::core\+::\+Is\+Component\+Set\+Symmetry\+Compliant\+Function\+Object$<$ T, C\+S, mpc\+::core\+::\+Monoclinic\+X3\+Symmetry\+Group\+Type $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_is_component_set_symmetry_compliant_function_object_3_01_t_00_01_c_s_00_01c77cfd51bf8948d72cf3d00fb984e8d4}{mpc\+::core\+::\+Is\+Component\+Set\+Symmetry\+Compliant\+Function\+Object$<$ T, C\+S, mpc\+::core\+::\+Orthorhombic\+Symmetry\+Group\+Type $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_is_component_set_symmetry_compliant_function_object_3_01_t_00_01mpc_1_1cor759b7c69972a7dcf59bf7ae608e4a92c}{mpc\+::core\+::\+Is\+Component\+Set\+Symmetry\+Compliant\+Function\+Object$<$ T, mpc\+::core\+::\+Stiffness\+Type, mpc\+::core\+::\+Hexagonal\+Symmetry\+Group\+Type $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_is_component_set_symmetry_compliant_function_object_3_01_t_00_01mpc_1_1cor65f9bfc7ad47a96a53fdb8a3ba7c1868}{mpc\+::core\+::\+Is\+Component\+Set\+Symmetry\+Compliant\+Function\+Object$<$ T, mpc\+::core\+::\+Compliance\+Type, mpc\+::core\+::\+Hexagonal\+Symmetry\+Group\+Type $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_is_component_set_symmetry_compliant_function_object_3_01_t_00_01_c_s_00_0174e7091832b554a08a6a609e34a1f0c5}{mpc\+::core\+::\+Is\+Component\+Set\+Symmetry\+Compliant\+Function\+Object$<$ T, C\+S, mpc\+::core\+::\+Tetragonal7\+Symmetry\+Group\+Type $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_is_component_set_symmetry_compliant_function_object_3_01_t_00_01_c_s_00_01d026bbfe93e923dfb312d1f5251cf8bf}{mpc\+::core\+::\+Is\+Component\+Set\+Symmetry\+Compliant\+Function\+Object$<$ T, C\+S, mpc\+::core\+::\+Tetragonal6\+Symmetry\+Group\+Type $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_is_component_set_symmetry_compliant_function_object_3_01_t_00_01mpc_1_1corbe0c5d4e21105c144a825f64d1e00184}{mpc\+::core\+::\+Is\+Component\+Set\+Symmetry\+Compliant\+Function\+Object$<$ T, mpc\+::core\+::\+Stiffness\+Type, mpc\+::core\+::\+Trigonal7\+Symmetry\+Group\+Type $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_is_component_set_symmetry_compliant_function_object_3_01_t_00_01mpc_1_1corf68b74e952b553f9b8078bf1720fcdd4}{mpc\+::core\+::\+Is\+Component\+Set\+Symmetry\+Compliant\+Function\+Object$<$ T, mpc\+::core\+::\+Compliance\+Type, mpc\+::core\+::\+Trigonal7\+Symmetry\+Group\+Type $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_is_component_set_symmetry_compliant_function_object_3_01_t_00_01mpc_1_1cor18824c2f208577845d220d91137aad1b}{mpc\+::core\+::\+Is\+Component\+Set\+Symmetry\+Compliant\+Function\+Object$<$ T, mpc\+::core\+::\+Stiffness\+Type, mpc\+::core\+::\+Trigonal6\+Symmetry\+Group\+Type $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_is_component_set_symmetry_compliant_function_object_3_01_t_00_01mpc_1_1cor7e9d925cc161002e187fa51051b32e07}{mpc\+::core\+::\+Is\+Component\+Set\+Symmetry\+Compliant\+Function\+Object$<$ T, mpc\+::core\+::\+Compliance\+Type, mpc\+::core\+::\+Trigonal6\+Symmetry\+Group\+Type $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_is_component_set_symmetry_compliant_function_object_3_01_t_00_01_c_s_00_01723db7c1bc35eb364238a108ed0b27cf}{mpc\+::core\+::\+Is\+Component\+Set\+Symmetry\+Compliant\+Function\+Object$<$ T, C\+S, mpc\+::core\+::\+Cubic\+Symmetry\+Group\+Type $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_is_component_set_symmetry_compliant_function_object_3_01_t_00_01mpc_1_1cor5b3c621b09cb8374deb901704b4d0284}{mpc\+::core\+::\+Is\+Component\+Set\+Symmetry\+Compliant\+Function\+Object$<$ T, mpc\+::core\+::\+Stiffness\+Type, mpc\+::core\+::\+Isotropic\+Symmetry\+Group\+Type $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_is_component_set_symmetry_compliant_function_object_3_01_t_00_01mpc_1_1cor908b0f4089077088ed6aeed533d1b3c9}{mpc\+::core\+::\+Is\+Component\+Set\+Symmetry\+Compliant\+Function\+Object$<$ T, mpc\+::core\+::\+Compliance\+Type, mpc\+::core\+::\+Isotropic\+Symmetry\+Group\+Type $>$}}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacempc}{mpc}}
+\item 
+ \mbox{\hyperlink{namespacempc_1_1core}{mpc\+::core}}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename S , int N$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a4fc1927e7fe7eb577a6bef4ab6bfb4e4}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has\+N\+Independent\+Components}} ()
+\item 
+{\footnotesize template$<$$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a8fb7f012a089de353f204505a594e737}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has\+N\+Independent\+Components$<$ mpc\+::core\+::\+Triclinic\+Symmetry\+Group\+Type, 21 $>$}} ()
+\item 
+{\footnotesize template$<$$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a7a87a87ba663c97dca99de2c658e78ac}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has\+N\+Independent\+Components$<$ mpc\+::core\+::\+Monoclinic\+X2\+Symmetry\+Group\+Type, 13 $>$}} ()
+\item 
+{\footnotesize template$<$$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a9169add78bd6de588a7274cfc7411e6d}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has\+N\+Independent\+Components$<$ mpc\+::core\+::\+Monoclinic\+X3\+Symmetry\+Group\+Type, 13 $>$}} ()
+\item 
+{\footnotesize template$<$$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a6ccdda697e75eb6823ed1a501ec13fa1}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has\+N\+Independent\+Components$<$ mpc\+::core\+::\+Orthorhombic\+Symmetry\+Group\+Type, 9 $>$}} ()
+\item 
+{\footnotesize template$<$$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a5879a998916b1a3098f83a1e64911589}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has\+N\+Independent\+Components$<$ mpc\+::core\+::\+Tetragonal7\+Symmetry\+Group\+Type, 7 $>$}} ()
+\item 
+{\footnotesize template$<$$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a9d9122afa0af51479a4dec2d2d8c68a6}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has\+N\+Independent\+Components$<$ mpc\+::core\+::\+Trigonal7\+Symmetry\+Group\+Type, 7 $>$}} ()
+\item 
+{\footnotesize template$<$$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_aaa99a161d476fdf2e9221868cf4bcf25}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has\+N\+Independent\+Components$<$ mpc\+::core\+::\+Tetragonal6\+Symmetry\+Group\+Type, 6 $>$}} ()
+\item 
+{\footnotesize template$<$$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a5481798f15b70cec912d03a7bbc49bb4}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has\+N\+Independent\+Components$<$ mpc\+::core\+::\+Trigonal6\+Symmetry\+Group\+Type, 6 $>$}} ()
+\item 
+{\footnotesize template$<$$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_abbbc369dc0ab18f2055c74b2e83a2309}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has\+N\+Independent\+Components$<$ mpc\+::core\+::\+Hexagonal\+Symmetry\+Group\+Type, 5 $>$}} ()
+\item 
+{\footnotesize template$<$$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a19d52494997193d25a84c367400e8993}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has\+N\+Independent\+Components$<$ mpc\+::core\+::\+Cubic\+Symmetry\+Group\+Type, 3 $>$}} ()
+\item 
+{\footnotesize template$<$$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_aaac96533f9150c7f0f9662d1239c4ec8}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has\+N\+Independent\+Components$<$ mpc\+::core\+::\+Isotropic\+Symmetry\+Group\+Type, 2 $>$}} ()
+\item 
+{\footnotesize template$<$typename S $>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_ae6d0b15349b8bc18ab64a31b19fdd553}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has21\+Independent\+Components}} ()
+\item 
+{\footnotesize template$<$typename S $>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a384195f1b9c2914504451efcbd89f188}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has13\+Independent\+Components}} ()
+\item 
+{\footnotesize template$<$typename S $>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_aa01c4ada3a7c3a782f270df513b509f1}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has9\+Independent\+Components}} ()
+\item 
+{\footnotesize template$<$typename S $>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_accdfd67f26b27f03bbab68358d954bb0}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has7\+Independent\+Components}} ()
+\item 
+{\footnotesize template$<$typename S $>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a148ec307192d560f052a1cc0c8dffb7c}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has6\+Independent\+Components}} ()
+\item 
+{\footnotesize template$<$typename S $>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_acb4d9bceab008077200a0a4c9ab91c69}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has5\+Independent\+Components}} ()
+\item 
+{\footnotesize template$<$typename S $>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a7ad5874b01d418427d2f88e392213289}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has3\+Independent\+Components}} ()
+\item 
+{\footnotesize template$<$typename S $>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a5ff452bd2a36ed7bfbaff4e81d07290f}{mpc\+::core\+::\+Symmetry\+Group\+Type\+Has2\+Independent\+Components}} ()
+\item 
+{\footnotesize template$<$mpc\+::core\+::\+Symmetry\+Group\+Enumeration Sym$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a21ac1a6b1e3d110dfe48271ea0a94ca1}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+Has21\+Independent\+Components}} ()
+\item 
+{\footnotesize template$<$mpc\+::core\+::\+Symmetry\+Group\+Enumeration Sym$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a3963b11549140e877c6b7d3f74382af0}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+Has13\+Independent\+Components}} ()
+\item 
+{\footnotesize template$<$mpc\+::core\+::\+Symmetry\+Group\+Enumeration Sym$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a5da30dc818b56accc08364c93c331924}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+Has9\+Independent\+Components}} ()
+\item 
+{\footnotesize template$<$mpc\+::core\+::\+Symmetry\+Group\+Enumeration Sym$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a04ff2937be881ddc1aee34d59d6b7af5}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+Has7\+Independent\+Components}} ()
+\item 
+{\footnotesize template$<$mpc\+::core\+::\+Symmetry\+Group\+Enumeration Sym$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a35a6a7755ecf1facefe9fc495ba8562e}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+Has6\+Independent\+Components}} ()
+\item 
+{\footnotesize template$<$mpc\+::core\+::\+Symmetry\+Group\+Enumeration Sym$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_af0e68c831123f9f34edf807434016e77}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+Has5\+Independent\+Components}} ()
+\item 
+{\footnotesize template$<$mpc\+::core\+::\+Symmetry\+Group\+Enumeration Sym$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_a794af450ca75ce367faa0f0a282ff54d}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+Has3\+Independent\+Components}} ()
+\item 
+{\footnotesize template$<$mpc\+::core\+::\+Symmetry\+Group\+Enumeration Sym$>$ }\\constexpr bool \mbox{\hyperlink{namespacempc_1_1core_abc0db530207961bd47fd1308595ae226}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+Has2\+Independent\+Components}} ()
+\item 
+{\footnotesize template$<$typename T , typename CS , typename S  = mpc\+::core\+::\+None\+Symmetry\+Group\+Type$>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_aef4b990e7b443957c2c6bfe0498753d7}{mpc\+::core\+::\+Is\+Component\+Set\+Symmetry\+Compliant}} (const std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_ac3a232afc7c680d580628e834030482f}{mpc\+::core\+::\+Tensor\+Rank4\+Component}}$<$ T $>$ $>$ \&component\+\_\+set)
+\begin{DoxyCompactList}\small\item\em function that creates a specialized function object to determine if the given set of components compiles with the constraints of the symmetry argument \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename CS $>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_a3112d520d8ca2505f59481a872c173e2}{mpc\+::core\+::\+Is\+Component\+Set\+Triclinic\+Symmetry\+Compliant}} (const std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_ac3a232afc7c680d580628e834030482f}{mpc\+::core\+::\+Tensor\+Rank4\+Component}}$<$ T $>$ $>$ \&component\+\_\+set)
+\begin{DoxyCompactList}\small\item\em convenience function for Is\+Component\+Set\+Symmetry\+Compliant \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename CS $>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_ac121083b9dbf6e9a9e29c41aed0fd68a}{mpc\+::core\+::\+Is\+Component\+Set\+Monoclinic\+X2\+Symmetry\+Compliant}} (const std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_ac3a232afc7c680d580628e834030482f}{mpc\+::core\+::\+Tensor\+Rank4\+Component}}$<$ T $>$ $>$ \&component\+\_\+set)
+\begin{DoxyCompactList}\small\item\em convenience function for Is\+Component\+Set\+Symmetry\+Compliant \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename CS $>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_a03b3facbec930564c01185edc6834398}{mpc\+::core\+::\+Is\+Component\+Set\+Monoclinic\+X3\+Symmetry\+Compliant}} (const std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_ac3a232afc7c680d580628e834030482f}{mpc\+::core\+::\+Tensor\+Rank4\+Component}}$<$ T $>$ $>$ \&component\+\_\+set)
+\begin{DoxyCompactList}\small\item\em convenience function for Is\+Component\+Set\+Symmetry\+Compliant \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename CS $>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_a636ef48d9715e8bbe399606d11229114}{mpc\+::core\+::\+Is\+Component\+Set\+Orthorhombic\+Symmetry\+Compliant}} (const std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_ac3a232afc7c680d580628e834030482f}{mpc\+::core\+::\+Tensor\+Rank4\+Component}}$<$ T $>$ $>$ \&component\+\_\+set)
+\begin{DoxyCompactList}\small\item\em convenience function for Is\+Component\+Set\+Symmetry\+Compliant \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename CS $>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_a5fba223541d3c2615a86a32de49e1bc4}{mpc\+::core\+::\+Is\+Component\+Set\+Hexagonal\+Symmetry\+Compliant}} (const std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_ac3a232afc7c680d580628e834030482f}{mpc\+::core\+::\+Tensor\+Rank4\+Component}}$<$ T $>$ $>$ \&component\+\_\+set)
+\begin{DoxyCompactList}\small\item\em convenience function for Is\+Component\+Set\+Symmetry\+Compliant \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename CS $>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_a92e4483941bd929b5081ebcec09dec55}{mpc\+::core\+::\+Is\+Component\+Set\+Tetragonal7\+Symmetry\+Compliant}} (const std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_ac3a232afc7c680d580628e834030482f}{mpc\+::core\+::\+Tensor\+Rank4\+Component}}$<$ T $>$ $>$ \&component\+\_\+set)
+\begin{DoxyCompactList}\small\item\em convenience function for Is\+Component\+Set\+Symmetry\+Compliant \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename CS $>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_a3310295841e3459b8259d4f4976e0758}{mpc\+::core\+::\+Is\+Component\+Set\+Tetragonal6\+Symmetry\+Compliant}} (const std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_ac3a232afc7c680d580628e834030482f}{mpc\+::core\+::\+Tensor\+Rank4\+Component}}$<$ T $>$ $>$ \&component\+\_\+set)
+\begin{DoxyCompactList}\small\item\em convenience function for Is\+Component\+Set\+Symmetry\+Compliant \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename CS $>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_af046341a578d766d11560ed1b6f35ff8}{mpc\+::core\+::\+Is\+Component\+Set\+Trigonal7\+Symmetry\+Compliant}} (const std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_ac3a232afc7c680d580628e834030482f}{mpc\+::core\+::\+Tensor\+Rank4\+Component}}$<$ T $>$ $>$ \&component\+\_\+set)
+\begin{DoxyCompactList}\small\item\em convenience function for Is\+Component\+Set\+Symmetry\+Compliant \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename CS $>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_affdfa075c30cf1356eb98c6eb625e8f8}{mpc\+::core\+::\+Is\+Component\+Set\+Trigonal6\+Symmetry\+Compliant}} (const std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_ac3a232afc7c680d580628e834030482f}{mpc\+::core\+::\+Tensor\+Rank4\+Component}}$<$ T $>$ $>$ \&component\+\_\+set)
+\begin{DoxyCompactList}\small\item\em convenience function for Is\+Component\+Set\+Symmetry\+Compliant \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename CS $>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_a24497694376335a8c2e32fc7b1bd22fd}{mpc\+::core\+::\+Is\+Component\+Set\+Cubic\+Symmetry\+Compliant}} (const std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_ac3a232afc7c680d580628e834030482f}{mpc\+::core\+::\+Tensor\+Rank4\+Component}}$<$ T $>$ $>$ \&component\+\_\+set)
+\begin{DoxyCompactList}\small\item\em convenience function for Is\+Component\+Set\+Symmetry\+Compliant \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T , typename CS $>$ }\\bool \mbox{\hyperlink{namespacempc_1_1core_a0aee7acb4257605a58b75db9365f8f87}{mpc\+::core\+::\+Is\+Component\+Set\+Isotropic\+Symmetry\+Compliant}} (const std\+::set$<$ \mbox{\hyperlink{namespacempc_1_1core_ac3a232afc7c680d580628e834030482f}{mpc\+::core\+::\+Tensor\+Rank4\+Component}}$<$ T $>$ $>$ \&component\+\_\+set)
+\begin{DoxyCompactList}\small\item\em convenience function for Is\+Component\+Set\+Symmetry\+Compliant \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+boolean functions related to symmetry groups or sets of tensor components used for assertions or control flow 
+
+\begin{DoxyAuthor}{Author}
+Anthony Torlucci 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2018/10/14 
+\end{DoxyDate}

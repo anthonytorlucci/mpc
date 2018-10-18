@@ -1,0 +1,139 @@
+\hypertarget{symmetrygrouptypes_8hpp}{}\section{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/symmetrygrouptypes.hpp File Reference}
+\label{symmetrygrouptypes_8hpp}\index{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/symmetrygrouptypes.\+hpp@{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/symmetrygrouptypes.\+hpp}}
+
+
+classes that describe the different symmetry groups supported by mpc as types used for template specializations  
+
+
+{\ttfamily \#include $<$set$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \#include $<$blitz/array.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}mpc/core/tensorcomponent.\+hpp\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{structmpc_1_1core_1_1_symmetry_group_enumeration_interface}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+Interface}}
+\begin{DoxyCompactList}\small\item\em simple class interface with function to get std\+::string from enum \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{structmpc_1_1core_1_1_symmetry_group_base}{mpc\+::core\+::\+Symmetry\+Group\+Base}}
+\begin{DoxyCompactList}\small\item\em base class for symmetry group types; used for template specializations \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_none_symmetry_group_type}{mpc\+::core\+::\+None\+Symmetry\+Group\+Type}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_triclinic_symmetry_group_type}{mpc\+::core\+::\+Triclinic\+Symmetry\+Group\+Type}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_monoclinic_x2_symmetry_group_type}{mpc\+::core\+::\+Monoclinic\+X2\+Symmetry\+Group\+Type}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_monoclinic_x3_symmetry_group_type}{mpc\+::core\+::\+Monoclinic\+X3\+Symmetry\+Group\+Type}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_orthorhombic_symmetry_group_type}{mpc\+::core\+::\+Orthorhombic\+Symmetry\+Group\+Type}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_hexagonal_symmetry_group_type}{mpc\+::core\+::\+Hexagonal\+Symmetry\+Group\+Type}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_tetragonal7_symmetry_group_type}{mpc\+::core\+::\+Tetragonal7\+Symmetry\+Group\+Type}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_tetragonal6_symmetry_group_type}{mpc\+::core\+::\+Tetragonal6\+Symmetry\+Group\+Type}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_trigonal7_symmetry_group_type}{mpc\+::core\+::\+Trigonal7\+Symmetry\+Group\+Type}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_trigonal6_symmetry_group_type}{mpc\+::core\+::\+Trigonal6\+Symmetry\+Group\+Type}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_cubic_symmetry_group_type}{mpc\+::core\+::\+Cubic\+Symmetry\+Group\+Type}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_isotropic_symmetry_group_type}{mpc\+::core\+::\+Isotropic\+Symmetry\+Group\+Type}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_symmetry_group_type}{mpc\+::core\+::\+Symmetry\+Group\+Type$<$ Sym $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_symmetry_group_type_3_01_symmetry_group_enumeration_1_1_n_o_n_e_01_4}{mpc\+::core\+::\+Symmetry\+Group\+Type$<$ Symmetry\+Group\+Enumeration\+::\+N\+O\+N\+E $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_symmetry_group_type_3_01_symmetry_group_enumeration_1_1_t_r_i_c_l_i_n_i_c_01_4}{mpc\+::core\+::\+Symmetry\+Group\+Type$<$ Symmetry\+Group\+Enumeration\+::\+T\+R\+I\+C\+L\+I\+N\+I\+C $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_symmetry_group_type_3_01_symmetry_group_enumeration_1_1_m_o_n_o_c_l_i_n_i_c___x2_01_4}{mpc\+::core\+::\+Symmetry\+Group\+Type$<$ Symmetry\+Group\+Enumeration\+::\+M\+O\+N\+O\+C\+L\+I\+N\+I\+C\+\_\+\+X2 $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_symmetry_group_type_3_01_symmetry_group_enumeration_1_1_m_o_n_o_c_l_i_n_i_c___x3_01_4}{mpc\+::core\+::\+Symmetry\+Group\+Type$<$ Symmetry\+Group\+Enumeration\+::\+M\+O\+N\+O\+C\+L\+I\+N\+I\+C\+\_\+\+X3 $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_symmetry_group_type_3_01_symmetry_group_enumeration_1_1_o_r_t_h_o_r_h_o_m_b_i_c_01_4}{mpc\+::core\+::\+Symmetry\+Group\+Type$<$ Symmetry\+Group\+Enumeration\+::\+O\+R\+T\+H\+O\+R\+H\+O\+M\+B\+I\+C $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_symmetry_group_type_3_01_symmetry_group_enumeration_1_1_h_e_x_a_g_o_n_a_l_01_4}{mpc\+::core\+::\+Symmetry\+Group\+Type$<$ Symmetry\+Group\+Enumeration\+::\+H\+E\+X\+A\+G\+O\+N\+A\+L $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_symmetry_group_type_3_01_symmetry_group_enumeration_1_1_t_e_t_r_a_g_o_n_a_l7_01_4}{mpc\+::core\+::\+Symmetry\+Group\+Type$<$ Symmetry\+Group\+Enumeration\+::\+T\+E\+T\+R\+A\+G\+O\+N\+A\+L7 $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_symmetry_group_type_3_01_symmetry_group_enumeration_1_1_t_e_t_r_a_g_o_n_a_l6_01_4}{mpc\+::core\+::\+Symmetry\+Group\+Type$<$ Symmetry\+Group\+Enumeration\+::\+T\+E\+T\+R\+A\+G\+O\+N\+A\+L6 $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_symmetry_group_type_3_01_symmetry_group_enumeration_1_1_t_r_i_g_o_n_a_l7_01_4}{mpc\+::core\+::\+Symmetry\+Group\+Type$<$ Symmetry\+Group\+Enumeration\+::\+T\+R\+I\+G\+O\+N\+A\+L7 $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_symmetry_group_type_3_01_symmetry_group_enumeration_1_1_t_r_i_g_o_n_a_l6_01_4}{mpc\+::core\+::\+Symmetry\+Group\+Type$<$ Symmetry\+Group\+Enumeration\+::\+T\+R\+I\+G\+O\+N\+A\+L6 $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_symmetry_group_type_3_01_symmetry_group_enumeration_1_1_c_u_b_i_c_01_4}{mpc\+::core\+::\+Symmetry\+Group\+Type$<$ Symmetry\+Group\+Enumeration\+::\+C\+U\+B\+I\+C $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_symmetry_group_type_3_01_symmetry_group_enumeration_1_1_i_s_o_t_r_o_p_i_c_01_4}{mpc\+::core\+::\+Symmetry\+Group\+Type$<$ Symmetry\+Group\+Enumeration\+::\+I\+S\+O\+T\+R\+O\+P\+I\+C $>$}}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacempc}{mpc}}
+\item 
+ \mbox{\hyperlink{namespacempc_1_1core}{mpc\+::core}}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::integral\+\_\+constant$<$ Symmetry\+Group\+Enumeration, Symmetry\+Group\+Enumeration\+::\+N\+O\+NE $>$ \mbox{\hyperlink{namespacempc_1_1core_a2b8454b3fb237992c1e1d43897efa248}{mpc\+::core\+::symmetry\+\_\+none\+\_\+t}}
+\item 
+typedef std\+::integral\+\_\+constant$<$ Symmetry\+Group\+Enumeration, Symmetry\+Group\+Enumeration\+::\+T\+R\+I\+C\+L\+I\+N\+IC $>$ \mbox{\hyperlink{namespacempc_1_1core_aac81e6abdf397b85db386498023abce6}{mpc\+::core\+::symmetry\+\_\+triclinic\+\_\+t}}
+\item 
+typedef std\+::integral\+\_\+constant$<$ Symmetry\+Group\+Enumeration, Symmetry\+Group\+Enumeration\+::\+M\+O\+N\+O\+C\+L\+I\+N\+I\+C\+\_\+\+X2 $>$ \mbox{\hyperlink{namespacempc_1_1core_a306d5d3ef71068ebd7f68b2fc7612f70}{mpc\+::core\+::symmetry\+\_\+monoclinic\+X2\+\_\+t}}
+\item 
+typedef std\+::integral\+\_\+constant$<$ Symmetry\+Group\+Enumeration, Symmetry\+Group\+Enumeration\+::\+M\+O\+N\+O\+C\+L\+I\+N\+I\+C\+\_\+\+X3 $>$ \mbox{\hyperlink{namespacempc_1_1core_a5d8f530135aa7d7848a2413cc8723662}{mpc\+::core\+::symmetry\+\_\+monoclinic\+X3\+\_\+t}}
+\item 
+typedef std\+::integral\+\_\+constant$<$ Symmetry\+Group\+Enumeration, Symmetry\+Group\+Enumeration\+::\+O\+R\+T\+H\+O\+R\+H\+O\+M\+B\+IC $>$ \mbox{\hyperlink{namespacempc_1_1core_a4eef5d2c2b920fd8250780f64555fe56}{mpc\+::core\+::symmetry\+\_\+orthorhombic\+\_\+t}}
+\item 
+typedef std\+::integral\+\_\+constant$<$ Symmetry\+Group\+Enumeration, Symmetry\+Group\+Enumeration\+::\+H\+E\+X\+A\+G\+O\+N\+AL $>$ \mbox{\hyperlink{namespacempc_1_1core_a8def77cb2eb2da6f3f4fca3b77bedd52}{mpc\+::core\+::symmetry\+\_\+hexagonal\+\_\+t}}
+\item 
+typedef std\+::integral\+\_\+constant$<$ Symmetry\+Group\+Enumeration, Symmetry\+Group\+Enumeration\+::\+T\+E\+T\+R\+A\+G\+O\+N\+A\+L7 $>$ \mbox{\hyperlink{namespacempc_1_1core_a79a28757f34cb27302c53b368452329c}{mpc\+::core\+::symmetry\+\_\+tetragonal7\+\_\+t}}
+\item 
+typedef std\+::integral\+\_\+constant$<$ Symmetry\+Group\+Enumeration, Symmetry\+Group\+Enumeration\+::\+T\+E\+T\+R\+A\+G\+O\+N\+A\+L6 $>$ \mbox{\hyperlink{namespacempc_1_1core_abb8eb7f886d1f203879263524d6b8ecb}{mpc\+::core\+::symmetry\+\_\+tetragonal6\+\_\+t}}
+\item 
+typedef std\+::integral\+\_\+constant$<$ Symmetry\+Group\+Enumeration, Symmetry\+Group\+Enumeration\+::\+T\+R\+I\+G\+O\+N\+A\+L7 $>$ \mbox{\hyperlink{namespacempc_1_1core_a9bab7237b00addccb251ac236fd8d160}{mpc\+::core\+::symmetry\+\_\+trigonal7\+\_\+t}}
+\item 
+typedef std\+::integral\+\_\+constant$<$ Symmetry\+Group\+Enumeration, Symmetry\+Group\+Enumeration\+::\+T\+R\+I\+G\+O\+N\+A\+L6 $>$ \mbox{\hyperlink{namespacempc_1_1core_af428acbfa5a27a2eceab3d2cdfb7f9ce}{mpc\+::core\+::symmetry\+\_\+trigonal6\+\_\+t}}
+\item 
+typedef std\+::integral\+\_\+constant$<$ Symmetry\+Group\+Enumeration, Symmetry\+Group\+Enumeration\+::\+C\+U\+B\+IC $>$ \mbox{\hyperlink{namespacempc_1_1core_a500c5dc401a79c05b1d1cbdba6f273eb}{mpc\+::core\+::symmetry\+\_\+cubic\+\_\+t}}
+\item 
+typedef std\+::integral\+\_\+constant$<$ Symmetry\+Group\+Enumeration, Symmetry\+Group\+Enumeration\+::\+I\+S\+O\+T\+R\+O\+P\+IC $>$ \mbox{\hyperlink{namespacempc_1_1core_a0d4476fe9836edb1425ecd07097c9330}{mpc\+::core\+::symmetry\+\_\+isotropic\+\_\+t}}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{namespacempc_1_1core_a9d979684062547055a0ef5c13077bad8}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration}} \{ \newline
+\mbox{\hyperlink{namespacempc_1_1core_a9d979684062547055a0ef5c13077bad8ab50339a10e1de285ac99d4c3990b8693}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+::\+N\+O\+NE}}, 
+\mbox{\hyperlink{namespacempc_1_1core_a9d979684062547055a0ef5c13077bad8a049b6e2743d57033eacaea302ca6710a}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+::\+T\+R\+I\+C\+L\+I\+N\+IC}}, 
+\mbox{\hyperlink{namespacempc_1_1core_a9d979684062547055a0ef5c13077bad8a7eb6e11f17e97fbe9fc371a72a989b96}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+::\+M\+O\+N\+O\+C\+L\+I\+N\+I\+C\+\_\+\+X2}}, 
+\mbox{\hyperlink{namespacempc_1_1core_a9d979684062547055a0ef5c13077bad8ab31f5171fdded777eb3112da45967b57}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+::\+M\+O\+N\+O\+C\+L\+I\+N\+I\+C\+\_\+\+X3}}, 
+\newline
+\mbox{\hyperlink{namespacempc_1_1core_a9d979684062547055a0ef5c13077bad8a45ddba8b47424b406a313caed88b091a}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+::\+O\+R\+T\+H\+O\+R\+H\+O\+M\+B\+IC}}, 
+\mbox{\hyperlink{namespacempc_1_1core_a9d979684062547055a0ef5c13077bad8a5d7adeeaa10073a6a3c5bd970a7f958b}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+::\+H\+E\+X\+A\+G\+O\+N\+AL}}, 
+\mbox{\hyperlink{namespacempc_1_1core_a9d979684062547055a0ef5c13077bad8aea4a27c3d1e79d6a65ab91e165ba6d73}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+::\+T\+E\+T\+R\+A\+G\+O\+N\+A\+L7}}, 
+\mbox{\hyperlink{namespacempc_1_1core_a9d979684062547055a0ef5c13077bad8a63dabd41a700b44f934a19db4e0f8f83}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+::\+T\+E\+T\+R\+A\+G\+O\+N\+A\+L6}}, 
+\newline
+\mbox{\hyperlink{namespacempc_1_1core_a9d979684062547055a0ef5c13077bad8ab347d6d7556c0d38dc3d111b08a50dee}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+::\+T\+R\+I\+G\+O\+N\+A\+L7}}, 
+\mbox{\hyperlink{namespacempc_1_1core_a9d979684062547055a0ef5c13077bad8ad11b66b53c3c9dbfe73aa29a5d3df56c}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+::\+T\+R\+I\+G\+O\+N\+A\+L6}}, 
+\mbox{\hyperlink{namespacempc_1_1core_a9d979684062547055a0ef5c13077bad8accd681e34e5e40fbce74618c3ccffcff}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+::\+C\+U\+B\+IC}}, 
+\mbox{\hyperlink{namespacempc_1_1core_a9d979684062547055a0ef5c13077bad8a099d59049574174a1c19567d38b479c2}{mpc\+::core\+::\+Symmetry\+Group\+Enumeration\+::\+I\+S\+O\+T\+R\+O\+P\+IC}}
+ \}
+\begin{DoxyCompactList}\small\item\em enumeration class of the symmetry group types \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \mbox{\hyperlink{namespacempc_1_1core_a372993ccd0fbeaef1367f7266160da4a}{mpc\+::core\+::operator$<$$<$}} (std\+::ostream \&os, Symmetry\+Group\+Enumeration symmetry\+\_\+enum)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+classes that describe the different symmetry groups supported by mpc as types used for template specializations 
+
+\begin{DoxyAuthor}{Author}
+Anthony Torlucci 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2018/10/14 
+\end{DoxyDate}

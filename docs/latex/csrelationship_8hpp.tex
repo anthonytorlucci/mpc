@@ -1,0 +1,49 @@
+\hypertarget{csrelationship_8hpp}{}\section{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/csrelationship.hpp File Reference}
+\label{csrelationship_8hpp}\index{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/csrelationship.\+hpp@{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/core/csrelationship.\+hpp}}
+
+
+functions and function objects to calculate the stiffness tensor components from the compliance tensor components or vice versa  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$blitz/array.\+h$>$}\newline
+{\ttfamily \#include $<$Eigen/\+Dense$>$}\newline
+{\ttfamily \#include $<$Eigen/\+QR$>$}\newline
+{\ttfamily \#include \char`\"{}mpc/core/cstypes.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpc/core/symmetrygrouptypes.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpc/core/stiffnesscompliance.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpc/utilities/matrixnotation.\+hpp\char`\"{}}\newline
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{structmpc_1_1core_1_1_stiffness_from_compliance_function_object}{mpc\+::core\+::\+Stiffness\+From\+Compliance\+Function\+Object$<$ T, S $>$}}
+\begin{DoxyCompactList}\small\item\em function object for calculating the stiffness tensor components from the compliance tensor components \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{structmpc_1_1core_1_1_compliance_from_stiffness_function_object}{mpc\+::core\+::\+Compliance\+From\+Stiffness\+Function\+Object$<$ T, S $>$}}
+\begin{DoxyCompactList}\small\item\em function object for calculating the compliance tensor components from the stiffness tensor components \end{DoxyCompactList}\item 
+struct \mbox{\hyperlink{structmpc_1_1core_1_1_compliance_from_stiffness_function_object_3_01_t_00_01mpc_1_1core_1_1_triclinic_symmetry_group_type_01_4}{mpc\+::core\+::\+Compliance\+From\+Stiffness\+Function\+Object$<$ T, mpc\+::core\+::\+Triclinic\+Symmetry\+Group\+Type $>$}}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacempc}{mpc}}
+\item 
+ \mbox{\hyperlink{namespacempc_1_1core}{mpc\+::core}}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename S , typename T $>$ }\\\mbox{\hyperlink{structmpc_1_1core_1_1_compliance_tensor}{mpc\+::core\+::\+Compliance\+Tensor}}$<$ T $>$ \mbox{\hyperlink{namespacempc_1_1core_aa7722f016512fa5a038350eb89fce451}{mpc\+::core\+::\+C\+S\+Relationship}} (\mbox{\hyperlink{structmpc_1_1core_1_1_stiffness_tensor}{mpc\+::core\+::\+Stiffness\+Tensor}}$<$ T $>$ \&c\+\_\+ijkl)
+\begin{DoxyCompactList}\small\item\em polymorphic convenience function to generate the compliance tensor object from a stiffness tensor object \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename S , typename T $>$ }\\\mbox{\hyperlink{structmpc_1_1core_1_1_stiffness_tensor}{mpc\+::core\+::\+Stiffness\+Tensor}}$<$ T $>$ \mbox{\hyperlink{namespacempc_1_1core_aea25821c5c4e736c92d4ede4d7f3241d}{mpc\+::core\+::\+C\+S\+Relationship}} (\mbox{\hyperlink{structmpc_1_1core_1_1_compliance_tensor}{mpc\+::core\+::\+Compliance\+Tensor}}$<$ T $>$ \&s\+\_\+ijkl)
+\begin{DoxyCompactList}\small\item\em polymorphic convenience function to generate the stiffness tensor object from a compliance tensor object \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+functions and function objects to calculate the stiffness tensor components from the compliance tensor components or vice versa 
+
+\begin{DoxyAuthor}{Author}
+Anthony Torlucci 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2018/10/14 
+\end{DoxyDate}

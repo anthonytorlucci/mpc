@@ -1,0 +1,58 @@
+\hypertarget{tensorinvariants_8hpp}{}\section{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/rockphysics/tensorinvariants.hpp File Reference}
+\label{tensorinvariants_8hpp}\index{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/rockphysics/tensorinvariants.\+hpp@{/\+Users/atorlucci/\+Documents/github\+\_\+threecubed\+\_\+repos/mpc/src/mpc/rockphysics/tensorinvariants.\+hpp}}
+
+
+tensor invariants -\/ reduction in tensor rank by contraction, usually to a rank zero tensor or scalar; for stiffness and compliance tensors, the bulk and shear modulii can be derived from the invariants  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+{\ttfamily \#include $<$blitz/array.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}mpc/core/stressstrain.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpc/core/stiffnesscompliance.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpc/utilities/constants.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpc/utilities/kroneckerdelta.\+hpp\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}mpc/rockphysics/rockphysicstransformstypes.\+hpp\char`\"{}}\newline
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacempc}{mpc}}
+\item 
+ \mbox{\hyperlink{namespacempc_1_1rockphysics}{mpc\+::rockphysics}}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\std\+::pair$<$ \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_bulk_modulus_type}{mpc\+::rockphysics\+::\+Bulk\+Modulus\+Type}}$<$ T $>$, \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_shear_modulus_type}{mpc\+::rockphysics\+::\+Shear\+Modulus\+Type}}$<$ T $>$ $>$ \mbox{\hyperlink{namespacempc_1_1rockphysics_a902a5b076610546b106099671ae0a16a}{mpc\+::rockphysics\+::\+Get\+Voigt\+Bulk\+And\+Shear\+Modulus\+From\+Stiffness\+Tensor}} (\mbox{\hyperlink{structmpc_1_1core_1_1_stiffness_tensor}{mpc\+::core\+::\+Stiffness\+Tensor}}$<$ T $>$ \&c)
+\item 
+{\footnotesize template$<$typename T $>$ }\\std\+::pair$<$ \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_bulk_modulus_type}{mpc\+::rockphysics\+::\+Bulk\+Modulus\+Type}}$<$ T $>$, \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_shear_modulus_type}{mpc\+::rockphysics\+::\+Shear\+Modulus\+Type}}$<$ T $>$ $>$ \mbox{\hyperlink{namespacempc_1_1rockphysics_aaf1fb571ea01068c87bf84edab69dcaf}{mpc\+::rockphysics\+::\+Get\+Ruess\+Bulk\+And\+Shear\+Modulus\+From\+Compliance}} (\mbox{\hyperlink{structmpc_1_1core_1_1_compliance_tensor}{mpc\+::core\+::\+Compliance\+Tensor}}$<$ T $>$ \&s)
+\item 
+{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{namespacempc_1_1rockphysics_acd5fe0ee3cac0cb810ca53c636186f59}{mpc\+::rockphysics\+::\+Make\+Isotropic\+Stiffness\+Tensor}} (T kappa, T mu, \mbox{\hyperlink{structmpc_1_1core_1_1_stiffness_tensor}{mpc\+::core\+::\+Stiffness\+Tensor}}$<$ T $>$ \&c)
+\item 
+{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{namespacempc_1_1rockphysics_a75a4220a2ac8369dca978b0538d69f8b}{mpc\+::rockphysics\+::\+Make\+Isotropic\+Compliance\+Tensor}} (T kappa, T mu, \mbox{\hyperlink{structmpc_1_1core_1_1_compliance_tensor}{mpc\+::core\+::\+Compliance\+Tensor}}$<$ T $>$ \&s)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \mbox{\hyperlink{namespacempc_1_1rockphysics_a70f32dd89107171a423f129c9a33ee8d}{mpc\+::rockphysics\+::\+Rank2\+Tensor\+Contraction}} (const \mbox{\hyperlink{structmpc_1_1core_1_1_tensor_rank2_base}{mpc\+::core\+::\+Tensor\+Rank2\+Base}}$<$ T $>$ \&gamma\+\_\+ij)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \mbox{\hyperlink{namespacempc_1_1rockphysics_a8135f4b9ab5b9f0b03b8ce41688a8eda}{mpc\+::rockphysics\+::\+Stress\+Tensor\+Contraction}} (const \mbox{\hyperlink{structmpc_1_1core_1_1_stress_tensor}{mpc\+::core\+::\+Stress\+Tensor}}$<$ T $>$ \&sigma\+\_\+ij)
+\item 
+{\footnotesize template$<$typename T $>$ }\\T \mbox{\hyperlink{namespacempc_1_1rockphysics_a1fa58a28d857413244986ece16926de9}{mpc\+::rockphysics\+::\+Strain\+Tensor\+Contraction}} (const \mbox{\hyperlink{structmpc_1_1core_1_1_strain_tensor}{mpc\+::core\+::\+Strain\+Tensor}}$<$ T $>$ \&epsilon\+\_\+ij)
+\item 
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{structmpc_1_1core_1_1_tensor_rank2_base}{mpc\+::core\+::\+Tensor\+Rank2\+Base}}$<$ T $>$ \mbox{\hyperlink{namespacempc_1_1rockphysics_a30179402f47d7229ee4f2b92999e313b}{mpc\+::rockphysics\+::\+Dilational\+Stiffness\+Tensor\+Contraction}} (const \mbox{\hyperlink{structmpc_1_1core_1_1_stiffness_tensor}{mpc\+::core\+::\+Stiffness\+Tensor}}$<$ T $>$ \&c\+\_\+ijkl)
+\item 
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{structmpc_1_1core_1_1_tensor_rank2_base}{mpc\+::core\+::\+Tensor\+Rank2\+Base}}$<$ T $>$ \mbox{\hyperlink{namespacempc_1_1rockphysics_a0b82ccff88d9a955297715f83cf19a8b}{mpc\+::rockphysics\+::\+Voigt\+Stiffness\+Tensor\+Contraction}} (const \mbox{\hyperlink{structmpc_1_1core_1_1_stiffness_tensor}{mpc\+::core\+::\+Stiffness\+Tensor}}$<$ T $>$ \&c\+\_\+ijkl)
+\item 
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{structmpc_1_1core_1_1_tensor_rank2_base}{mpc\+::core\+::\+Tensor\+Rank2\+Base}}$<$ T $>$ \mbox{\hyperlink{namespacempc_1_1rockphysics_aff4d878ffd88b30e7145e7fe3cdf78e7}{mpc\+::rockphysics\+::\+Hydrostatic\+Pressure\+Compliance\+Tensor\+Contraction}} (const \mbox{\hyperlink{structmpc_1_1core_1_1_compliance_tensor}{mpc\+::core\+::\+Compliance\+Tensor}}$<$ T $>$ \&s\+\_\+ijkl)
+\item 
+{\footnotesize template$<$typename T $>$ }\\\mbox{\hyperlink{structmpc_1_1core_1_1_tensor_rank2_base}{mpc\+::core\+::\+Tensor\+Rank2\+Base}}$<$ T $>$ \mbox{\hyperlink{namespacempc_1_1rockphysics_af0944164902bfb3aee857caed6c2d07f}{mpc\+::rockphysics\+::\+Ruess\+Compliance\+Tensor\+Contraction}} (const \mbox{\hyperlink{structmpc_1_1core_1_1_compliance_tensor}{mpc\+::core\+::\+Compliance\+Tensor}}$<$ T $>$ \&s\+\_\+ijkl)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+tensor invariants -\/ reduction in tensor rank by contraction, usually to a rank zero tensor or scalar; for stiffness and compliance tensors, the bulk and shear modulii can be derived from the invariants 
+
+\begin{DoxyAuthor}{Author}
+Anthony Torlucci 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2018/10/14 
+\end{DoxyDate}
