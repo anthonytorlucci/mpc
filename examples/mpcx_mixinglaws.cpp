@@ -140,6 +140,15 @@ void mpcexamples::mpcMixingLaws() {
 
     // TODO: change volume fraction values
 
+    // Upper and Lower bound member functions for solid phase
+    std::pair< mpc::rockphysics::BulkModulusType<double>, mpc::rockphysics::ShearModulusType<double> > kmu_upper = solid_mixture.VoigtUpperBound();
+    std::cout << "k upper : " << kmu_upper.first.value << std::endl;
+    std::cout << "mu upper : " << kmu_upper.second.value << std::endl;
+
+    std::pair< mpc::rockphysics::BulkModulusType<double>, mpc::rockphysics::ShearModulusType<double> > kmu_lower = solid_mixture.RuessLowerBound();
+    std::cout << "k lower : " << kmu_lower.first.value << std::endl;
+    std::cout << "mu lower : " << kmu_lower.second.value << std::endl;
+
     // TODO: rock physics transforms
 
 

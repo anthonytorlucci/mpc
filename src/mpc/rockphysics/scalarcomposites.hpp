@@ -22,6 +22,7 @@
 #include <string>
 #include <vector>
 #include <tuple>
+#include <utility>
 
 // mpc
 #include "mpc/utilities/arithmeticaverage.hpp"
@@ -436,6 +437,68 @@ namespace mpc {
                 rho_type.value = arithmetic_average_fo(rho_vec_values, vf_vec_values);  // mass balance
 
                 return std::make_tuple(K_type, mu_type, rho_type);
+            }
+
+            std::pair< mpc::rockphysics::BulkModulusType<T>,mpc::rockphysics::ShearModulusType<T> > VoigtUpperBound() {
+                //
+                // initialize output variables
+                mpc::rockphysics::BulkModulusType<T> K_type = mpc::rockphysics::BulkModulusType<T>(1.0);
+                mpc::rockphysics::ShearModulusType<T> mu_type = mpc::rockphysics::ShearModulusType<T>(1.0);
+                //mpc::rockphysics::DensityType<T> rho_type = mpc::rockphysics::DensityType<T>(1.0);
+
+                mpc::utilities::WeightedArithmeticAverage<T,0> arithmetic_average_fo;
+
+                // the above function objects require std::vector<T>, so ...
+                int number_of_components = int(volumefraction_type_vector.size());
+                std::vector<T> K_vec_values(number_of_components);
+                std::vector<T> mu_vec_values(number_of_components);
+                //std::vector<T> rho_vec_values(number_of_components);
+                std::vector<T> vf_vec_values(number_of_components);
+                for (int i=0; i<number_of_components; ++i) {
+                    K_vec_values[i] = bulkmodulus_type_vector[i].value;
+                    mu_vec_values[i] = shearmodulus_type_vector[i].value;
+                    //rho_vec_values[i] = density_type_vector[i].value;
+                    vf_vec_values[i] = volumefraction_type_vector[i].value;
+                }
+
+                T K_voigt = arithmetic_average_fo(K_vec_values, vf_vec_values);
+                K_type.value = K_voigt;
+
+                T mu_voigt = arithmetic_average_fo(mu_vec_values, vf_vec_values);
+                mu_type.value = mu_voigt;
+
+                return std::make_tuple(K_type, mu_type);
+            }
+
+            std::pair< mpc::rockphysics::BulkModulusType<T>,mpc::rockphysics::ShearModulusType<T> > RuessLowerBound() {
+                //
+                // initialize output variables
+                mpc::rockphysics::BulkModulusType<T> K_type = mpc::rockphysics::BulkModulusType<T>(1.0);
+                mpc::rockphysics::ShearModulusType<T> mu_type = mpc::rockphysics::ShearModulusType<T>(1.0);
+                //mpc::rockphysics::DensityType<T> rho_type = mpc::rockphysics::DensityType<T>(1.0);
+
+                mpc::utilities::WeightedHarmonicAverage<T,0> harmonic_average_fo; // Ruess bounds
+
+                // the above function objects require std::vector<T>, so ...
+                int number_of_components = int(volumefraction_type_vector.size());
+                std::vector<T> K_vec_values(number_of_components);
+                std::vector<T> mu_vec_values(number_of_components);
+                //std::vector<T> rho_vec_values(number_of_components);
+                std::vector<T> vf_vec_values(number_of_components);
+                for (int i=0; i<number_of_components; ++i) {
+                    K_vec_values[i] = bulkmodulus_type_vector[i].value;
+                    mu_vec_values[i] = shearmodulus_type_vector[i].value;
+                    //rho_vec_values[i] = density_type_vector[i].value;
+                    vf_vec_values[i] = volumefraction_type_vector[i].value;
+                }
+
+                T K_voigt = harmonic_average_fo(K_vec_values, vf_vec_values);
+                K_type.value = K_voigt;
+
+                T mu_voigt = harmonic_average_fo(mu_vec_values, vf_vec_values);
+                mu_type.value = mu_voigt;
+
+                return std::make_tuple(K_type, mu_type);
             }
 
 
