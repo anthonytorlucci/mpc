@@ -2,6 +2,7 @@
 
 // c++
 #include <iostream>
+#include <cmath>
 
 // Qt
 #include <QDebug>
@@ -16,8 +17,8 @@
 
 
 // VTK
-#include <vtkActor.h>
-#include <vtkPolyDataMapper.h>
+#include <vtkMath.h>
+#include <vtkPointData.h>
 
 // mpc
 #include <mpc/utilities/arithmeticaverage.hpp>
@@ -342,6 +343,176 @@ MixingLawsView::MixingLawsView(QWidget *parent) {
     vtkrenderwindow->AddRenderer(vtkrenderer);
 
     // TODO: you are here
+    // vtk examples : colored elevation
+    vtkpoints = vtkSmartPointer<vtkPoints>::New();
+    double xx, yy, zz;
+//    for(unsigned int x = 0; x < numgridpoints; x++)
+//    {
+//        for(unsigned int y = 0; y < numgridpoints; y++)
+//        {
+//            //xx = x + vtkMath::Random(-.2, .2);
+//            //yy = y + vtkMath::Random(-.2, .2);
+//            //zz = vtkMath::Random(-.5, .5);
+//            xx = x / (numgridpoints - 1);  // background fluid saturation
+//            yy = y / (numgridpoints - 1);  // background solid concentration
+//            zz = vtkMath::Random(-.5, .5); // TODO: replace with effective_K_sat
+//            vtkpoints->InsertNextPoint(xx, yy, zz);
+//        }
+//    }
+    blitz::Array<double,2> barray2_eff_Ksat = blitz::Array<double,2>(numgridpoints, numgridpoints);
+    barray2_eff_Ksat = 0;
+    blitz::Array<double,2> barray2_eff_mu = blitz::Array<double,2>(numgridpoints, numgridpoints);
+    barray2_eff_mu = 0;
+    blitz::Array<double,2> barray2_eff_rho = blitz::Array<double,2>(numgridpoints, numgridpoints);
+    barray2_eff_rho = 0;
+    //std::cout << barray2_eff_rho << std::endl;
+    // the array values are initialized in the loop where the points are created...
+    // TODO: move to vtk points loop
+    std::vector<double> vf_vec_values{1.0, 0.0};
+    double interval = 1.0 / (numgridpoints-1);
+
+    // initialize upper and lower bound pairs
+    std::pair< mpc::rockphysics::BulkModulusType<double>, mpc::rockphysics::ShearModulusType<double> > kmu_upper = solidphase.VoigtUpperBound();
+
+    std::pair< mpc::rockphysics::BulkModulusType<double>, mpc::rockphysics::ShearModulusType<double> > kmu_lower = solidphase.RuessLowerBound();
+
+    double solid_effective_density = 1.0;
+    double solid_effective_bulkmodulus = 1.0;
+    double solid_effective_shearmodulus = 1.0;
+    double fluid_effective_density = 1.0;
+    double fluid_effective_bulkmodulus = 1.0;
+    double fluid_effective_shearmodulus = 1.0;
+    double composite_saturated_bulkmodulus = 1.0;
+    double porous_rockframe_bulkmodulus = 1.0;
+
+    for (int m=0; m<numgridpoints; ++m) {
+        // fluid phase
+        // increasing row index corresponds to increasing BACKGROUND fluid saturation
+        vf_vec_values = std::vector<double>({ m*interval, 1.0 - (m*interval) });
+
+        fluidphase.VolumeFractionTypeVector(vf_vec_values);
+        fluid_effective_bulkmodulus = fluidphase.EffectiveBulkModulusType().value;
+        fluid_effective_shearmodulus = fluidphase.EffectiveShearModulusType().value;
+        fluid_effective_density = fluidphase.EffectiveDensityType().value;
+        for (int n=0; n<numgridpoints; ++n) {
+            // solid phase
+            // increasing column index corresponds to increasing BACKGROUND solid concentration
+            vf_vec_values = std::vector<double>({ n*interval, 1.0 - (n*interval) });
+
+            solidphase.VolumeFractionTypeVector(vf_vec_values);
+            kmu_upper = solidphase.VoigtUpperBound();
+            kmu_lower = solidphase.RuessLowerBound();
+
+            solid_effective_density = solidphase.EffectiveDensityType().value;
+            barray2_eff_rho(m,n) = 0.5 * (fluid_effective_density + solid_effective_density);  // mass balance; simple mean
+
+            solid_effective_shearmodulus = (kmu_upper.second.value * hill_weighting_coefficient) + (kmu_lower.second.value * (1-hill_weighting_coefficient));  // 0 -> Ruess lower bound; 1 -> Voigt upper bound
+            barray2_eff_mu(m,n) = solid_effective_shearmodulus;  // no influence from the fluid
+
+            solid_effective_bulkmodulus = (kmu_upper.first.value * hill_weighting_coefficient) + (kmu_lower.first.value * (1-hill_weighting_coefficient));  // 0 -> Ruess lower bound; 1 -> Voigt upper bound
+            porous_rockframe_bulkmodulus = 1.5 * solid_effective_shearmodulus;  // oversimiplified assumption!!!!
+            composite_saturated_bulkmodulus = this->PrivateCalcKSat(porous_rockframe_bulkmodulus, solid_effective_bulkmodulus, fluid_effective_bulkmodulus, fluid_volume_fraction);
+            //std::cout << "Ksat : " << composite_saturated_bulkmodulus << std::endl;
+            barray2_eff_Ksat(m,n) = composite_saturated_bulkmodulus;
+
+            xx = double(m) / double((numgridpoints - 1));  // background fluid saturation
+            yy = double(n) / double((numgridpoints - 1));  // background solid concentration
+            //std::cout << "x : " << xx << ", y : " << yy << std::endl;
+            zz = composite_saturated_bulkmodulus;  // default
+            vtkpoints->InsertNextPoint(xx, yy, zz);
+
+        }  // END for (n ...)
+    }  // END for (m ...)
+
+    // Add the grid points to a polydata object
+    vtkinputpolydata = vtkSmartPointer<vtkPolyData>::New();
+    vtkinputpolydata->SetPoints(vtkpoints);
+
+    // Triangulate the grid points
+    vtkdelaunay2d = vtkSmartPointer<vtkDelaunay2D>::New();
+    vtkdelaunay2d->SetInputData(vtkinputpolydata);
+    vtkdelaunay2d->Update();
+    vtkoutputpolydata = vtkdelaunay2d->GetOutput();
+
+    double bounds[6];
+    vtkoutputpolydata->GetBounds(bounds);
+
+    // Find min and max z
+    double minx = bounds[0];
+    double maxx = bounds[1];
+    double miny = bounds[2];
+    double maxy = bounds[3];
+    double minz = bounds[4];
+    double maxz = bounds[5];
+
+    //std::cout << "minx: " << minx << std::endl;
+    //std::cout << "maxx: " << maxx << std::endl;
+    //std::cout << "miny: " << miny << std::endl;
+    //std::cout << "maxy: " << maxy << std::endl;
+    //std::cout << "minz: " << minz << std::endl;
+    //std::cout << "maxz: " << maxz << std::endl;
+
+    // Create the color map
+    vtkcolorlookuptable = vtkSmartPointer<vtkLookupTable>::New();
+    vtkcolorlookuptable->SetTableRange(minz, maxz);
+    vtkcolorlookuptable->Build();
+
+    // Generate the colors for each point based on the color map
+    vtkcolorchararray = vtkSmartPointer<vtkUnsignedCharArray>::New();
+    vtkcolorchararray->SetNumberOfComponents(3);
+    vtkcolorchararray->SetName("Colors");
+
+    //++std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
+
+    for(int i = 0; i < vtkoutputpolydata->GetNumberOfPoints(); i++)
+    {
+        double p[3];
+        vtkoutputpolydata->GetPoint(i,p);
+
+        double dcolor[3];
+        vtkcolorlookuptable->GetColor(p[2], dcolor);
+//        std::cout << "dcolor: "
+//                  << dcolor[0] << " "
+//                  << dcolor[1] << " "
+//                  << dcolor[2] << std::endl;
+        unsigned char color[3];
+        for(unsigned int j = 0; j < 3; j++)
+        {
+            color[j] = static_cast<unsigned char>(255.0 * dcolor[j]);
+        }
+//        std::cout << "color: "
+//                  << (int)color[0] << " "
+//                  << (int)color[1] << " "
+//                  << (int)color[2] << std::endl;
+
+        //vtkcolorchararray->InsertNextTupleValue(color);  // VTK version < 7
+        vtkcolorchararray->InsertNextTypedTuple(color);
+    }
+
+    vtkoutputpolydata->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
+
+    // Create a mapper and actor
+    vtkpolydatamapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkpolydatamapper->SetInputData(vtkoutputpolydata);
+
+
+    vtkactor = vtkSmartPointer<vtkActor>::New();
+    vtkactor->SetMapper(vtkpolydatamapper);
+
+//    // Create a renderer, render window, and interactor
+//    vtkSmartPointer<vtkRenderer> renderer =
+//            vtkSmartPointer<vtkRenderer>::New();
+//    vtkSmartPointer<vtkRenderWindow> renderWindow =
+//            vtkSmartPointer<vtkRenderWindow>::New();
+//    renderWindow->AddRenderer(renderer);
+//    vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
+//            vtkSmartPointer<vtkRenderWindowInteractor>::New();
+//    renderWindowInteractor->SetRenderWindow(renderWindow);
+
+    // Add the actor to the scene
+    vtkrenderer->AddActor(vtkactor);
+
+    // END vtk examples : colored elevation
 
     // main splitter
     QSplitter* splitter = new QSplitter(this);
@@ -940,4 +1111,14 @@ void MixingLawsView::PrivateUpdatePlot() {
      * update the plot points
      */
 
+}
+
+double MixingLawsView::PrivateCalcKSat(double K_porous_rockframe, double K_mineral_matrix, double K_fluid, double porosity) {
+    // (Smith, Tad M., Sondergeld, Carl H., Rai, Chandra S., 2003, Gassmann fluid substitutions: A tutorial: GEOPHYSICS, 68, 2, 430-440)
+
+    //double K_porous_rockframe = 1.5 * effective_shearmodulus;  // over-simplified assumption
+    double tmp_numerator = std::pow(1.0 - (K_porous_rockframe / K_mineral_matrix), 2);
+    double tmp_denominator = (porosity / K_fluid) + ((1.0 - porosity) / K_mineral_matrix) - (K_porous_rockframe / std::pow(K_mineral_matrix, 2));
+
+    return K_porous_rockframe + (tmp_numerator / tmp_denominator);
 }

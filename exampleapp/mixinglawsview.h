@@ -25,6 +25,9 @@
 #include <vtkActor.h>
 #include <vtkRenderWindowInteractor.h>
 
+// blitz
+#include <blitz/array.h>
+
 class MixingLawsView : public QWidget {
 Q_OBJECT
 public:
@@ -43,6 +46,10 @@ public slots:
 private:
     // private member functions
     void PrivateUpdatePlot();
+    double PrivateCalcKSat(double K_porous_rockframe, double K_mineral_matrix, double K_fluid, double porosity);
+
+    const int numgridpoints = 21;
+
     // data
     // ref : Dvorkin, J., Guitierrez, M., Grana, D., 2014, Seismic Reflections of Rock Properties : Cambridge University Press.
     // p. 161, 170
@@ -125,7 +132,7 @@ private:
     vtkSmartPointer<vtkPolyData> vtkoutputpolydata;
     vtkSmartPointer<vtkDelaunay2D> vtkdelaunay2d;
     vtkSmartPointer<vtkLookupTable> vtkcolorlookuptable;
-    vtkSmartPointer<vtkUnsignedCharArray> colorchararray;
+    vtkSmartPointer<vtkUnsignedCharArray> vtkcolorchararray;
     vtkSmartPointer<vtkPolyDataMapper> vtkpolydatamapper;
     vtkSmartPointer<vtkActor> vtkactor;
     vtkSmartPointer<vtkRenderWindowInteractor> vtkrenderwindowinteractor;
