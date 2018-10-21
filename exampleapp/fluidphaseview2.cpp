@@ -1,4 +1,4 @@
-#include "fluidphaseview.h"
+#include "fluidphaseview2.h"
 
 // c++
 #include <iostream>
@@ -12,13 +12,13 @@
 #include <QVBoxLayout>
 #include <QSurfaceFormat>
 #include <QSplitter>
+#include <QTabWidget>
 
 // VTK
 #include <vtkVersion.h>
 #include <vtkRenderer.h>
 #include <vtkRenderWindowInteractor.h>
 #include <vtkRenderWindow.h>
-//#include <vtkSmartPointer.h>
 #include <vtkChartXY.h>
 #include <vtkTable.h>
 #include <vtkPlot.h>
@@ -43,7 +43,7 @@
 #include <vtkAxis.h>
 
 
-FluidPhaseView::FluidPhaseView(QWidget *parent) {
+FluidPhaseView2::FluidPhaseView2(QWidget *parent) {
     // constructor
 
     auto fluid_mixture_gas_tuple = std::make_tuple(mpc::rockphysics::BulkModulusType<double>(gas_K), mpc::rockphysics::ShearModulusType<double>(0.0), mpc::rockphysics::DensityType<double>(gas_rho), mpc::rockphysics::VolumeFractionType<double>(1.0));
@@ -304,19 +304,24 @@ FluidPhaseView::FluidPhaseView(QWidget *parent) {
 
 
     // VTK views widget
-    QWidget* views_widget = new QWidget(this);
-    QHBoxLayout* views_widget_layout = new QHBoxLayout(this);
-    views_widget_layout->addWidget(qvtkopenglwidget_K);
-    views_widget_layout->addWidget(qvtkopenglwidget_mu);
-    views_widget_layout->addWidget(qvtkopenglwidget_rho);
-    views_widget->setLayout(views_widget_layout);
+//    QWidget* views_widget = new QWidget(this);
+//    QHBoxLayout* views_widget_layout = new QHBoxLayout(this);
+//    views_widget_layout->addWidget(qvtkopenglwidget_K);
+//    views_widget_layout->addWidget(qvtkopenglwidget_mu);
+//    views_widget_layout->addWidget(qvtkopenglwidget_rho);
+//    views_widget->setLayout(views_widget_layout);
+    QTabWidget* views_tabwidget = new QTabWidget(this);
+    views_tabwidget->addTab(qvtkopenglwidget_K, "bulk modulus");
+    views_tabwidget->addTab(qvtkopenglwidget_mu, "shear modulus");
+    views_tabwidget->addTab(qvtkopenglwidget_rho, "density");
 
     // main splitter
     QSplitter* splitter = new QSplitter(this);
     splitter->setOrientation(Qt::Vertical);
     splitter->addWidget(controls_widget);
     //splitter->addWidget(qvtkopenglwidget);
-    splitter->addWidget(views_widget);
+    //splitter->addWidget(views_widget);
+    splitter->addWidget(views_tabwidget);
 
     /* === signals/slots === */
     connect(interactive_checkbox, SIGNAL(stateChanged(int)), this, SLOT(OnInteractiveCheckBoxStateChanged(int)));
@@ -329,12 +334,12 @@ FluidPhaseView::FluidPhaseView(QWidget *parent) {
 
 }
 
-FluidPhaseView::~FluidPhaseView() {
+FluidPhaseView2::~FluidPhaseView2() {
     // destructor
 }
 
 // slots
-void FluidPhaseView::OnInteractiveCheckBoxStateChanged(int) {
+void FluidPhaseView2::OnInteractiveCheckBoxStateChanged(int) {
     // if interactive unchecked, set the bounds of each plot manually
     // implemented mainly for taking consistent screen captures
     if (interactive_checkbox->isChecked()) {

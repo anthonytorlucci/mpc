@@ -467,7 +467,7 @@ namespace mpc {
                 T mu_voigt = arithmetic_average_fo(mu_vec_values, vf_vec_values);
                 mu_type.value = mu_voigt;
 
-                return std::make_tuple(K_type, mu_type);
+                return std::make_pair(K_type, mu_type);
             }
 
             std::pair< mpc::rockphysics::BulkModulusType<T>,mpc::rockphysics::ShearModulusType<T> > RuessLowerBound() {
@@ -498,7 +498,7 @@ namespace mpc {
                 T mu_voigt = harmonic_average_fo(mu_vec_values, vf_vec_values);
                 mu_type.value = mu_voigt;
 
-                return std::make_tuple(K_type, mu_type);
+                return std::make_pair(K_type, mu_type);
             }
 
 

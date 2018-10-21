@@ -92,7 +92,9 @@ set(HEADER_FILES
         mainwindow.h
         homepage.h
         fluidphaseview.h
+        fluidphaseview2.h
         solidphaseview.h
+        solidphaseview2.h
         mixinglawsview.h
         )
 
@@ -101,7 +103,9 @@ set(SOURCE_FILES
         mainwindow.cpp
         homepage.cpp
         fluidphaseview.cpp
+        fluidphaseview2.cpp
         solidphaseview.cpp
+        solidphaseview2.cpp
         mixinglawsview.cpp
         )
 

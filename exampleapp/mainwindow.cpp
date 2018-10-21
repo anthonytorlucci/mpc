@@ -10,7 +10,10 @@
 #include <QVTKOpenGLWidget.h>
 
 #include "homepage.h"
-#include "fluidphaseview.h"
+//#include "fluidphaseview.h"
+#include "fluidphaseview2.h"
+//#include "solidphaseview.h"
+#include "solidphaseview2.h"
 #include "mixinglawsview.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
@@ -35,13 +38,31 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     menu->addAction(action_home_page);
 
     // fluid phase view
-    FluidPhaseView* fluidphaseview = new FluidPhaseView(this);
-    stacked_widget->addWidget(fluidphaseview);
+//    FluidPhaseView* fluidphaseview = new FluidPhaseView(this);
+//    stacked_widget->addWidget(fluidphaseview);
+//    QAction * action_fluidphase = new QAction("&fluid phase", this);
+//    connect(action_fluidphase, &QAction::triggered, this, &MainWindow::OnFLuidPhaseView);
+//    menu->addAction(action_fluidphase);
+
+    FluidPhaseView2* fluidphaseview2 = new FluidPhaseView2(this);
+    stacked_widget->addWidget(fluidphaseview2);
     QAction * action_fluidphase = new QAction("&fluid phase", this);
     connect(action_fluidphase, &QAction::triggered, this, &MainWindow::OnFLuidPhaseView);
     menu->addAction(action_fluidphase);
 
-    // TODO: solid phase view
+    // solid phase view
+//    SolidPhaseView* solidphaseview = new SolidPhaseView(this);
+//    stacked_widget->addWidget(solidphaseview);
+//    QAction * action_solidphase = new QAction("&solid phase", this);
+//    connect(action_solidphase, &QAction::triggered, this, &MainWindow::OnSolidPhaseView);
+//    menu->addAction(action_solidphase);
+
+    SolidPhaseView2* solidphaseview2 = new SolidPhaseView2(this);
+    stacked_widget->addWidget(solidphaseview2);
+    QAction * action_solidphase = new QAction("&solid phase", this);
+    connect(action_solidphase, &QAction::triggered, this, &MainWindow::OnSolidPhaseView);
+    menu->addAction(action_solidphase);
+
 
     // mixing laws view
     MixingLawsView* mixinglawsview = new MixingLawsView(this);
@@ -77,16 +98,20 @@ void MainWindow::OnHomePage() {
 }
 
 void MainWindow::OnFLuidPhaseView() {
-    status_bar->showMessage("loading mixing laws ...");
+    status_bar->showMessage("loading fluid phase ...");
     stacked_widget->setCurrentIndex(1);
     status_bar->showMessage("done");
 }
 
-// TODO: OnSolidPhaseView
+void MainWindow::OnSolidPhaseView() {
+    status_bar->showMessage("loading solid phase ...");
+    stacked_widget->setCurrentIndex(2);
+    status_bar->showMessage("done");
+}
 
 void MainWindow::OnMixingLawsView() {
     status_bar->showMessage("loading mixing laws ...");
-    stacked_widget->setCurrentIndex(2);
+    stacked_widget->setCurrentIndex(3);
     status_bar->showMessage("done");
 }
 

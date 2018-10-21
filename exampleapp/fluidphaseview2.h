@@ -1,5 +1,5 @@
-#ifndef MPCEXAMPLEAPP_FLUIDPHASEVIEW_H
-#define MPCEXAMPLEAPP_FLUIDPHASEVIEW_H
+#ifndef MPCEXAMPLEAPP_FLUIDPHASEVIEW2_H
+#define MPCEXAMPLEAPP_FLUIDPHASEVIEW2_H
 
 #include <QObject>
 #include <QWidget>
@@ -21,11 +21,11 @@
 //class vtkContextView;
 //class vtkChartXY;
 
-class FluidPhaseView : public QWidget {
+class FluidPhaseView2 : public QWidget {
 Q_OBJECT
 public:
-    explicit FluidPhaseView(QWidget *parent = nullptr);
-    ~FluidPhaseView();
+    explicit FluidPhaseView2(QWidget *parent = nullptr);
+    ~FluidPhaseView2();
 
 signals:
 
@@ -74,4 +74,4 @@ private:
 };
 
 
-#endif //MPCEXAMPLEAPP_FLUIDPHASEVIEW_H
+#endif //MPCEXAMPLEAPP_FLUIDPHASEVIEW2_H

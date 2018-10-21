@@ -1,4 +1,4 @@
-#include "solidphaseview.h"
+#include "solidphaseview2.h"
 
 // c++
 #include <iostream>
@@ -12,6 +12,7 @@
 #include <QVBoxLayout>
 #include <QSurfaceFormat>
 #include <QSplitter>
+#include <QTabWidget>
 
 // VTK
 #include <vtkVersion.h>
@@ -43,7 +44,7 @@
 #include <vtkAxis.h>
 
 
-SolidPhaseView::SolidPhaseView(QWidget *parent) {
+SolidPhaseView2::SolidPhaseView2(QWidget *parent) {
     // constructor
 
     auto solid_mixture_sand_tuple = std::make_tuple(mpc::rockphysics::BulkModulusType<double>(sand_K), mpc::rockphysics::ShearModulusType<double>(sand_mu), mpc::rockphysics::DensityType<double>(sand_rho), mpc::rockphysics::VolumeFractionType<double>(0.0));
@@ -457,19 +458,24 @@ SolidPhaseView::SolidPhaseView(QWidget *parent) {
 
 
     // VTK views widget
-    QWidget* views_widget = new QWidget(this);
-    QHBoxLayout* views_widget_layout = new QHBoxLayout(this);
-    views_widget_layout->addWidget(qvtkopenglwidget_K);
-    views_widget_layout->addWidget(qvtkopenglwidget_mu);
-    views_widget_layout->addWidget(qvtkopenglwidget_rho);
-    views_widget->setLayout(views_widget_layout);
+//    QWidget* views_widget = new QWidget(this);
+//    QHBoxLayout* views_widget_layout = new QHBoxLayout(this);
+//    views_widget_layout->addWidget(qvtkopenglwidget_K);
+//    views_widget_layout->addWidget(qvtkopenglwidget_mu);
+//    views_widget_layout->addWidget(qvtkopenglwidget_rho);
+//    views_widget->setLayout(views_widget_layout);
+    QTabWidget* views_tabwidget = new QTabWidget(this);
+    views_tabwidget->addTab(qvtkopenglwidget_K, "bulk modulus");
+    views_tabwidget->addTab(qvtkopenglwidget_mu, "shear modulus");
+    views_tabwidget->addTab(qvtkopenglwidget_rho, "density");
 
     // main splitter
     QSplitter* splitter = new QSplitter(this);
     splitter->setOrientation(Qt::Vertical);
     splitter->addWidget(controls_widget);
     //splitter->addWidget(qvtkopenglwidget);
-    splitter->addWidget(views_widget);
+    //splitter->addWidget(views_widget);
+    splitter->addWidget(views_tabwidget);
 
     /* === signals/slots === */
     connect(interactive_checkbox, SIGNAL(stateChanged(int)), this, SLOT(OnInteractiveCheckBoxStateChanged(int)));
@@ -481,12 +487,12 @@ SolidPhaseView::SolidPhaseView(QWidget *parent) {
 
 }
 
-SolidPhaseView::~SolidPhaseView() {
+SolidPhaseView2::~SolidPhaseView2() {
     // destructor
 }
 
 // slots
-void SolidPhaseView::OnInteractiveCheckBoxStateChanged(int) {
+void SolidPhaseView2::OnInteractiveCheckBoxStateChanged(int) {
     //
     // if interactive unchecked, set the bounds of each plot manually
     // implemented mainly for taking consistent screen captures

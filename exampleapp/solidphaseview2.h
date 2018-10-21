@@ -1,5 +1,5 @@
-#ifndef MPCEXAMPLEAPP_FLUIDPHASEVIEW_H
-#define MPCEXAMPLEAPP_FLUIDPHASEVIEW_H
+#ifndef MPCEXAMPLEAPP_SOLIDPHASEVIEW2_H
+#define MPCEXAMPLEAPP_SOLIDPHASEVIEW2_H
 
 #include <QObject>
 #include <QWidget>
@@ -21,11 +21,11 @@
 //class vtkContextView;
 //class vtkChartXY;
 
-class FluidPhaseView : public QWidget {
+class SolidPhaseView2 : public QWidget {
 Q_OBJECT
 public:
-    explicit FluidPhaseView(QWidget *parent = nullptr);
-    ~FluidPhaseView();
+    explicit SolidPhaseView2(QWidget *parent = nullptr);
+    ~SolidPhaseView2();
 
 signals:
 
@@ -36,14 +36,13 @@ private:
     // data
     // ref : Dvorkin, J., Guitierrez, M., Grana, D., 2014, Seismic Reflections of Rock Properties : Cambridge University Press.
     // p. 161, 170
-    const double gas_K = 0.0435;  // GPa
-    const double gas_rho = 0.1770;  // g/cm**3
+    const double sand_K = 16.334;     // (GPa)
+    const double sand_mu = 6.604;     // (GPa)
+    const double sand_rho = 2.24;     // (g/cm**3)
 
-    const double oil_K = 0.3922;  // GPa
-    const double oil_rho = 0.6359;  // g/cm**3
-
-    const double brine_K = 2.6819;  // GPa
-    const double brine_rho = 1.0194;  // g/cm**3
+    const double mudrock_K = 15.144;  // (GPa)
+    const double mudrock_mu = 4.064;  // (GPa)
+    const double mudrock_rho = 2.45;  // (g/cm**3)
 
     // variables
 
@@ -74,4 +73,4 @@ private:
 };
 
 
-#endif //MPCEXAMPLEAPP_FLUIDPHASEVIEW_H
+#endif //MPCEXAMPLEAPP_SOLIDPHASEVIEW2_H

@@ -18,7 +18,7 @@ public:
 private slots:
     void OnHomePage();
     void OnFLuidPhaseView();
-    //void OnSolidPhaseView();
+    void OnSolidPhaseView();
     void OnMixingLawsView();
 
 private:
