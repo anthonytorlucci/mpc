@@ -19,6 +19,14 @@
 // VTK
 #include <vtkMath.h>
 #include <vtkPointData.h>
+#include <vtkTransform.h>
+#include <vtkAxesActor.h>
+#include <vtkVertexGlyphFilter.h>
+#include <vtkProperty.h>
+#include <vtkOutlineFilter.h>
+#include <vtkCubeAxesActor2D.h>
+#include <vtkTextProperty.h>
+#include <vtkCamera.h>
 
 // mpc
 #include <mpc/utilities/arithmeticaverage.hpp>
@@ -28,6 +36,7 @@
 #include <mpc/rockphysics/rockphysicstransformstypes.hpp>
 #include <mpc/rockphysics/rockphysicstransforms.hpp>
 #include <mpc/rockphysics/scalarcomposites.hpp>
+#include <vtkOutlineFilter.h>
 
 
 MixingLawsView::MixingLawsView(QWidget *parent) {
@@ -342,23 +351,13 @@ MixingLawsView::MixingLawsView(QWidget *parent) {
     vtkrenderer->SetBackground2(vtknamedcolors->GetColor3d("DarkGray").GetData());
     vtkrenderwindow->AddRenderer(vtkrenderer);
 
-    // TODO: you are here
+    vtkrenderwindowinteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
+//    vtkrenderwindowinteractor->SetRenderWindow(vtkrenderwindow);
+    vtkrenderwindowinteractor = vtkrenderwindow->GetInteractor();
+
     // vtk examples : colored elevation
     vtkpoints = vtkSmartPointer<vtkPoints>::New();
     double xx, yy, zz;
-//    for(unsigned int x = 0; x < numgridpoints; x++)
-//    {
-//        for(unsigned int y = 0; y < numgridpoints; y++)
-//        {
-//            //xx = x + vtkMath::Random(-.2, .2);
-//            //yy = y + vtkMath::Random(-.2, .2);
-//            //zz = vtkMath::Random(-.5, .5);
-//            xx = x / (numgridpoints - 1);  // background fluid saturation
-//            yy = y / (numgridpoints - 1);  // background solid concentration
-//            zz = vtkMath::Random(-.5, .5); // TODO: replace with effective_K_sat
-//            vtkpoints->InsertNextPoint(xx, yy, zz);
-//        }
-//    }
     blitz::Array<double,2> barray2_eff_Ksat = blitz::Array<double,2>(numgridpoints, numgridpoints);
     barray2_eff_Ksat = 0;
     blitz::Array<double,2> barray2_eff_mu = blitz::Array<double,2>(numgridpoints, numgridpoints);
@@ -367,7 +366,6 @@ MixingLawsView::MixingLawsView(QWidget *parent) {
     barray2_eff_rho = 0;
     //std::cout << barray2_eff_rho << std::endl;
     // the array values are initialized in the loop where the points are created...
-    // TODO: move to vtk points loop
     std::vector<double> vf_vec_values{1.0, 0.0};
     double interval = 1.0 / (numgridpoints-1);
 
@@ -415,8 +413,9 @@ MixingLawsView::MixingLawsView(QWidget *parent) {
             //std::cout << "Ksat : " << composite_saturated_bulkmodulus << std::endl;
             barray2_eff_Ksat(m,n) = composite_saturated_bulkmodulus;
 
-            xx = double(m) / double((numgridpoints - 1));  // background fluid saturation
-            yy = double(n) / double((numgridpoints - 1));  // background solid concentration
+            // IMPORTANT !!!  NOTE the scaling of 100 makes the plot nicer; TODO: zscale???
+            xx = 100 * double(m) / double((numgridpoints - 1));  // background fluid saturation
+            yy = 100 * double(n) / double((numgridpoints - 1));  // background solid concentration
             //std::cout << "x : " << xx << ", y : " << yy << std::endl;
             zz = composite_saturated_bulkmodulus;  // default
             vtkpoints->InsertNextPoint(xx, yy, zz);
@@ -427,6 +426,20 @@ MixingLawsView::MixingLawsView(QWidget *parent) {
     // Add the grid points to a polydata object
     vtkinputpolydata = vtkSmartPointer<vtkPolyData>::New();
     vtkinputpolydata->SetPoints(vtkpoints);
+
+    // vtk examples - TriangulateTerrainMap.cxx
+    vtkSmartPointer<vtkVertexGlyphFilter> vtkglyphfilter = vtkSmartPointer<vtkVertexGlyphFilter>::New();
+    vtkglyphfilter->SetInputData(vtkinputpolydata);
+    vtkglyphfilter->Update();
+
+    vtkSmartPointer<vtkPolyDataMapper> pointsmapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    pointsmapper->SetInputConnection(vtkglyphfilter->GetOutputPort());
+
+    vtkSmartPointer<vtkActor> pointsactor = vtkSmartPointer<vtkActor>::New();
+    pointsactor->SetMapper(pointsmapper);
+    pointsactor->GetProperty()->SetPointSize(3);
+    //pointsactor->GetProperty()->SetColor(1,0,0);
+    vtkrenderer->AddActor(pointsactor);
 
     // Triangulate the grid points
     vtkdelaunay2d = vtkSmartPointer<vtkDelaunay2D>::New();
@@ -468,6 +481,7 @@ MixingLawsView::MixingLawsView(QWidget *parent) {
     {
         double p[3];
         vtkoutputpolydata->GetPoint(i,p);
+        //std::cout << "point : " << i << ", x : " << p[0] << ", y : " << p[1] << ", z : " << p[2] << std::endl;
 
         double dcolor[3];
         vtkcolorlookuptable->GetColor(p[2], dcolor);
@@ -499,21 +513,49 @@ MixingLawsView::MixingLawsView(QWidget *parent) {
     vtkactor = vtkSmartPointer<vtkActor>::New();
     vtkactor->SetMapper(vtkpolydatamapper);
 
-//    // Create a renderer, render window, and interactor
-//    vtkSmartPointer<vtkRenderer> renderer =
-//            vtkSmartPointer<vtkRenderer>::New();
-//    vtkSmartPointer<vtkRenderWindow> renderWindow =
-//            vtkSmartPointer<vtkRenderWindow>::New();
-//    renderWindow->AddRenderer(renderer);
-//    vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
-//            vtkSmartPointer<vtkRenderWindowInteractor>::New();
-//    renderWindowInteractor->SetRenderWindow(renderWindow);
-
     // Add the actor to the scene
     vtkrenderer->AddActor(vtkactor);
+    // END vtk examples : colored elevation ============================================================================
 
-    // END vtk examples : colored elevation
+    // vtk examples : CubeAxesActor2D.cxx
+    // Create a vtkOutlineFilter to draw the bounding box of the data set.
+    // Also create the associated mapper and actor.
+    vtkSmartPointer<vtkOutlineFilter> vtkoutline = vtkSmartPointer<vtkOutlineFilter>::New();
+    vtkoutline->SetInputConnection(vtkdelaunay2d->GetOutputPort());  // requires subclass of vtkAlgorithm
 
+
+    vtkSmartPointer<vtkPolyDataMapper> vtkoutlinemapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkoutlinemapper->SetInputConnection(vtkoutline->GetOutputPort());
+
+    vtkSmartPointer<vtkActor> vtkoutlineactor = vtkSmartPointer<vtkActor>::New();
+    vtkoutlineactor->SetMapper(vtkoutlinemapper.GetPointer());
+    vtkoutlineactor->GetProperty()->SetColor(0., 0., 0.);
+
+    // add the actors to the renderer
+    vtkrenderer->AddViewProp(vtkoutlineactor.GetPointer());
+
+    // Create a text property
+    vtkSmartPointer<vtkTextProperty> vtktextproperty = vtkSmartPointer<vtkTextProperty>::New();
+    vtktextproperty->SetColor(1, 1, 1);
+    vtktextproperty->ShadowOn();
+    vtktextproperty->SetFontSize(20);
+
+    // Create a vtkCubeAxesActor2D.  Use the outer edges of the bounding box to
+    // draw the axes.  Add the actor to the renderer.
+    vtkSmartPointer<vtkCubeAxesActor2D> vtkcubeaxesactor2d = vtkSmartPointer<vtkCubeAxesActor2D>::New();
+    vtkcubeaxesactor2d->SetInputConnection(vtkdelaunay2d->GetOutputPort());
+    vtkcubeaxesactor2d->SetCamera(vtkrenderer->GetActiveCamera());
+    vtkrenderer->ResetCamera();  // REQUIRED !!!
+    vtkcubeaxesactor2d->SetLabelFormat("%6.4g");
+    vtkcubeaxesactor2d->SetFlyModeToOuterEdges();
+    //vtkcubeaxesactor2d->SetFlyModeToClosestTriad();
+    //vtkcubeaxesactor2d->SetFlyModeToNone();
+    vtkcubeaxesactor2d->SetAxisTitleTextProperty(vtktextproperty.GetPointer());
+    vtkcubeaxesactor2d->SetAxisLabelTextProperty(vtktextproperty.GetPointer());
+    vtkrenderer->AddViewProp(vtkcubeaxesactor2d.GetPointer());
+    // TODO: you are here ... set the axes labels
+
+    // =================================================================================================================
     // main splitter
     QSplitter* splitter = new QSplitter(this);
     splitter->setOrientation(Qt::Vertical);
