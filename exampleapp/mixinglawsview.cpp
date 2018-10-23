@@ -21,12 +21,8 @@
 #include <vtkPointData.h>
 #include <vtkTransform.h>
 #include <vtkAxesActor.h>
-#include <vtkVertexGlyphFilter.h>
 #include <vtkProperty.h>
-#include <vtkOutlineFilter.h>
-#include <vtkCubeAxesActor2D.h>
-#include <vtkTextProperty.h>
-#include <vtkCamera.h>
+
 
 // mpc
 #include <mpc/utilities/arithmeticaverage.hpp>
@@ -36,7 +32,6 @@
 #include <mpc/rockphysics/rockphysicstransformstypes.hpp>
 #include <mpc/rockphysics/rockphysicstransforms.hpp>
 #include <mpc/rockphysics/scalarcomposites.hpp>
-#include <vtkOutlineFilter.h>
 
 
 MixingLawsView::MixingLawsView(QWidget *parent) {
@@ -329,10 +324,21 @@ MixingLawsView::MixingLawsView(QWidget *parent) {
     porosity_groupbox_layout->addWidget(porosity_value_lineedit, 0, 2);
     porosity_groupbox->setLayout(porosity_groupbox_layout);
 
+    rockproperty_combobox = new QComboBox(this);
+    rockproperty_combobox->addItem("saturated bulk modulus");
+    rockproperty_combobox->addItem("effective shear modulus");
+    rockproperty_combobox->addItem("effective density");
+    rockproperty_combobox->addItem("effective p-wave velocity");
+    rockproperty_combobox->addItem("effective s-wave velocity");
+    rockproperty_combobox->addItem("effective Vp/Vs ratio");
+    rockproperty_combobox->addItem("effective Vs/Vp ratio");
+    rockproperty_combobox->addItem("effective Poisson's ratio");
+
     QVBoxLayout* controls_widget_layout = new QVBoxLayout(this);
     controls_widget_layout->addWidget(fluids_groupbox);
     controls_widget_layout->addWidget(solids_groupbox);
     controls_widget_layout->addWidget(porosity_groupbox);
+    controls_widget_layout->addWidget(rockproperty_combobox);
     controls_widget->setLayout(controls_widget_layout);
 
     // VTK views
@@ -358,12 +364,6 @@ MixingLawsView::MixingLawsView(QWidget *parent) {
     // vtk examples : colored elevation
     vtkpoints = vtkSmartPointer<vtkPoints>::New();
     double xx, yy, zz;
-    blitz::Array<double,2> barray2_eff_Ksat = blitz::Array<double,2>(numgridpoints, numgridpoints);
-    barray2_eff_Ksat = 0;
-    blitz::Array<double,2> barray2_eff_mu = blitz::Array<double,2>(numgridpoints, numgridpoints);
-    barray2_eff_mu = 0;
-    blitz::Array<double,2> barray2_eff_rho = blitz::Array<double,2>(numgridpoints, numgridpoints);
-    barray2_eff_rho = 0;
     //std::cout << barray2_eff_rho << std::endl;
     // the array values are initialized in the loop where the points are created...
     std::vector<double> vf_vec_values{1.0, 0.0};
@@ -402,20 +402,17 @@ MixingLawsView::MixingLawsView(QWidget *parent) {
             kmu_lower = solidphase.RuessLowerBound();
 
             solid_effective_density = solidphase.EffectiveDensityType().value;
-            barray2_eff_rho(m,n) = 0.5 * (fluid_effective_density + solid_effective_density);  // mass balance; simple mean
 
             solid_effective_shearmodulus = (kmu_upper.second.value * hill_weighting_coefficient) + (kmu_lower.second.value * (1-hill_weighting_coefficient));  // 0 -> Ruess lower bound; 1 -> Voigt upper bound
-            barray2_eff_mu(m,n) = solid_effective_shearmodulus;  // no influence from the fluid
 
             solid_effective_bulkmodulus = (kmu_upper.first.value * hill_weighting_coefficient) + (kmu_lower.first.value * (1-hill_weighting_coefficient));  // 0 -> Ruess lower bound; 1 -> Voigt upper bound
             porous_rockframe_bulkmodulus = 1.5 * solid_effective_shearmodulus;  // oversimiplified assumption!!!!
             composite_saturated_bulkmodulus = this->PrivateCalcKSat(porous_rockframe_bulkmodulus, solid_effective_bulkmodulus, fluid_effective_bulkmodulus, fluid_volume_fraction);
             //std::cout << "Ksat : " << composite_saturated_bulkmodulus << std::endl;
-            barray2_eff_Ksat(m,n) = composite_saturated_bulkmodulus;
 
             // IMPORTANT !!!  NOTE the scaling of 100 makes the plot nicer; TODO: zscale???
-            xx = 100 * double(m) / double((numgridpoints - 1));  // background fluid saturation
-            yy = 100 * double(n) / double((numgridpoints - 1));  // background solid concentration
+            xx = double(m) / double((numgridpoints - 1));  // background fluid saturation
+            yy = double(n) / double((numgridpoints - 1));  // background solid concentration
             //std::cout << "x : " << xx << ", y : " << yy << std::endl;
             zz = composite_saturated_bulkmodulus;  // default
             vtkpoints->InsertNextPoint(xx, yy, zz);
@@ -428,17 +425,17 @@ MixingLawsView::MixingLawsView(QWidget *parent) {
     vtkinputpolydata->SetPoints(vtkpoints);
 
     // vtk examples - TriangulateTerrainMap.cxx
-    vtkSmartPointer<vtkVertexGlyphFilter> vtkglyphfilter = vtkSmartPointer<vtkVertexGlyphFilter>::New();
+    vtkglyphfilter = vtkSmartPointer<vtkVertexGlyphFilter>::New();
     vtkglyphfilter->SetInputData(vtkinputpolydata);
     vtkglyphfilter->Update();
 
-    vtkSmartPointer<vtkPolyDataMapper> pointsmapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    pointsmapper = vtkSmartPointer<vtkPolyDataMapper>::New();
     pointsmapper->SetInputConnection(vtkglyphfilter->GetOutputPort());
 
-    vtkSmartPointer<vtkActor> pointsactor = vtkSmartPointer<vtkActor>::New();
+    pointsactor = vtkSmartPointer<vtkActor>::New();
     pointsactor->SetMapper(pointsmapper);
     pointsactor->GetProperty()->SetPointSize(3);
-    //pointsactor->GetProperty()->SetColor(1,0,0);
+    pointsactor->GetProperty()->SetColor(0.5,0.5,0.5);
     vtkrenderer->AddActor(pointsactor);
 
     // Triangulate the grid points
@@ -520,14 +517,14 @@ MixingLawsView::MixingLawsView(QWidget *parent) {
     // vtk examples : CubeAxesActor2D.cxx
     // Create a vtkOutlineFilter to draw the bounding box of the data set.
     // Also create the associated mapper and actor.
-    vtkSmartPointer<vtkOutlineFilter> vtkoutline = vtkSmartPointer<vtkOutlineFilter>::New();
+    vtkoutline = vtkSmartPointer<vtkOutlineFilter>::New();
     vtkoutline->SetInputConnection(vtkdelaunay2d->GetOutputPort());  // requires subclass of vtkAlgorithm
 
 
-    vtkSmartPointer<vtkPolyDataMapper> vtkoutlinemapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkoutlinemapper = vtkSmartPointer<vtkPolyDataMapper>::New();
     vtkoutlinemapper->SetInputConnection(vtkoutline->GetOutputPort());
 
-    vtkSmartPointer<vtkActor> vtkoutlineactor = vtkSmartPointer<vtkActor>::New();
+    vtkoutlineactor = vtkSmartPointer<vtkActor>::New();
     vtkoutlineactor->SetMapper(vtkoutlinemapper.GetPointer());
     vtkoutlineactor->GetProperty()->SetColor(0., 0., 0.);
 
@@ -535,14 +532,14 @@ MixingLawsView::MixingLawsView(QWidget *parent) {
     vtkrenderer->AddViewProp(vtkoutlineactor.GetPointer());
 
     // Create a text property
-    vtkSmartPointer<vtkTextProperty> vtktextproperty = vtkSmartPointer<vtkTextProperty>::New();
+    vtktextproperty = vtkSmartPointer<vtkTextProperty>::New();
     vtktextproperty->SetColor(1, 1, 1);
     vtktextproperty->ShadowOn();
     vtktextproperty->SetFontSize(20);
 
     // Create a vtkCubeAxesActor2D.  Use the outer edges of the bounding box to
     // draw the axes.  Add the actor to the renderer.
-    vtkSmartPointer<vtkCubeAxesActor2D> vtkcubeaxesactor2d = vtkSmartPointer<vtkCubeAxesActor2D>::New();
+    vtkcubeaxesactor2d = vtkSmartPointer<vtkCubeAxesActor2D>::New();
     vtkcubeaxesactor2d->SetInputConnection(vtkdelaunay2d->GetOutputPort());
     vtkcubeaxesactor2d->SetCamera(vtkrenderer->GetActiveCamera());
     vtkrenderer->ResetCamera();  // REQUIRED !!!
@@ -552,8 +549,22 @@ MixingLawsView::MixingLawsView(QWidget *parent) {
     //vtkcubeaxesactor2d->SetFlyModeToNone();
     vtkcubeaxesactor2d->SetAxisTitleTextProperty(vtktextproperty.GetPointer());
     vtkcubeaxesactor2d->SetAxisLabelTextProperty(vtktextproperty.GetPointer());
+    vtkcubeaxesactor2d->SetXLabel("background fluid saturation");
+    vtkcubeaxesactor2d->SetYLabel("background solid concentration");
+    vtkcubeaxesactor2d->SetZLabel("saturated bulk modulus");
     vtkrenderer->AddViewProp(vtkcubeaxesactor2d.GetPointer());
-    // TODO: you are here ... set the axes labels
+
+    // vtk examples : ScalarBarActor.cxx
+    vtkscalarbaractor = vtkSmartPointer<vtkScalarBarActor>::New();
+    vtkscalarbaractor->SetLookupTable(vtkcolorlookuptable);
+    vtkscalarbaractor->SetTitle("Ksat");
+    vtkscalarbaractor->SetLabelFormat("%6.4g");
+    vtkscalarbaractor->SetTitleTextProperty(vtktextproperty.GetPointer());
+    vtkscalarbaractor->SetLabelTextProperty(vtktextproperty.GetPointer());
+    //vtkscalarbaractor->SetHeight(0.7);
+    vtkscalarbaractor->SetUnconstrainedFontSize(true);
+    vtkrenderer->AddActor2D(vtkscalarbaractor);
+
 
     // =================================================================================================================
     // main splitter
@@ -568,6 +579,7 @@ MixingLawsView::MixingLawsView(QWidget *parent) {
     connect(foreground_solid_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnForegroundSolidComboBoxChanged(int)));
     connect(hill_average_slider, SIGNAL(sliderReleased()), this, SLOT(OnHillAverageSliderReleased()));
     connect(porosity_slider, SIGNAL(sliderReleased()), this, SLOT(OnPorositySliderReleaed()));
+    connect(rockproperty_combobox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnRockPropertyComboBoxChanged(int)));
 
     // this
     QVBoxLayout* layout = new QVBoxLayout(this);
@@ -607,7 +619,8 @@ void MixingLawsView::OnForegroundFluidComboBoxChanged(int i) {
     // DEBUG std::cout << "acitve fluid bulk mod : " << active_fluid_K << std::endl;
     foreground_fluid_density_value_lineedit->setText(QString::number(foreground_fluid_rho));
     foreground_fluid_bulkmodulus_value_lineedit->setText(QString::number(foreground_fluid_K));
-    // TODO: update points
+
+    PrivateUpdatePlot();
 }
 
 void MixingLawsView::OnBackgroundSolidComboBoxChanged(int i) {
@@ -859,7 +872,8 @@ void MixingLawsView::OnBackgroundSolidComboBoxChanged(int i) {
     background_solid_bulkmodulus_value_lineedit->setText(QString::number(background_solid_K));
     background_solid_shearmodulus_value_lineedit->setText(QString::number(background_solid_mu));
     background_solid_density_value_lineedit->setText(QString::number(background_solid_rho));
-    // TODO: update points
+
+    PrivateUpdatePlot();
 }
 
 void MixingLawsView::OnForegroundSolidComboBoxChanged(int i) {
@@ -1111,14 +1125,16 @@ void MixingLawsView::OnForegroundSolidComboBoxChanged(int i) {
     foreground_solid_bulkmodulus_value_lineedit->setText(QString::number(foreground_solid_K));
     foreground_solid_shearmodulus_value_lineedit->setText(QString::number(foreground_solid_mu));
     foreground_solid_density_value_lineedit->setText(QString::number(foreground_solid_rho));
-    // TODO: update points
+
+    PrivateUpdatePlot();
 }
 
 void MixingLawsView::OnHillAverageSliderReleased() {
     // when slider is released, update the hill weighting coefficient data member and the hill average label
     hill_weighting_coefficient = hill_average_slider->value() * 0.01;
     hill_average_value_lineedit->setText(QString::number(hill_weighting_coefficient));
-    // TODO: update points
+
+    PrivateUpdatePlot();
 }
 
 void MixingLawsView::OnPorositySliderReleaed() {
@@ -1127,7 +1143,20 @@ void MixingLawsView::OnPorositySliderReleaed() {
     fluid_volume_fraction = value * 0.01;
     solid_volume_fraction = 1 - fluid_volume_fraction;
     porosity_value_lineedit->setText(QString::number(fluid_volume_fraction));
-    // TODO: update points
+
+    PrivateUpdatePlot();
+}
+
+void MixingLawsView::OnRockPropertyComboBoxChanged(int i) {
+    // 0 : "saturated bulk modulus"
+    // 1 : "effective shear modulus"
+    // 2 : "effective density"
+    // 3 : "effective p-wave velocity"
+    // 4 : "effective s-wave velocity"
+    // 5 : "effective Vp/Vs ratio"
+    // 6 : "effective Vs/Vp ratio"
+    // 7 : "effective Poisson's ratio"
+    PrivateUpdatePlot();
 }
 
 // member functions
@@ -1135,23 +1164,381 @@ void MixingLawsView::OnPorositySliderReleaed() {
 // private member functions
 void MixingLawsView::PrivateUpdatePlot() {
     // update the effective values and plot points
-    /* Given:
-     *     double background_fluid_K;
-     *     double background_fluid_rho;
-     *     double foreground_fluid_K;
-     *     double foreground_fluid_rho;
-     *     double background_solid_K;
-     *     double background_solid_mu;
-     *     double background_solid_rho;
-     *     double foreground_solid_K;
-     *     double foreground_solid_mu;
-     *     double foreground_solid_rho;
-     *     double fluid_volume_fraction;  // fluid_volume_fraction = 1-solid_volume_fraction, i.e., fluid_volume_fraction = porosity
-     *     double solid_volume_fraction;  // solid_volume_fraction = 1-fluid_volume_fraction, i.e., solid_volume_fraction =  1-porosity
-     *     double hill_weighting_coefficient;  // 0 -> Ruess lower bound; 1 -> Voigt upper bound
-     *
-     * update the plot points
-     */
+
+    int requested_rockproperty = rockproperty_combobox->currentIndex();
+    // determines the output rock property to plot
+    // 0 : "saturated bulk modulus"
+    // 1 : "effective shear modulus"
+    // 2 : "effective density"
+    // 3 : "effective p-wave velocity"
+    // 4 : "effective s-wave velocity"
+    // 5 : "effective Vp/Vs ratio"
+    // 6 : "effective Vs/Vp ratio"
+    // 7 : "effective Poisson's ratio"
+    //--std::cout << "requested rock property : " << requested_rockproperty << std::endl;
+
+    // mpc
+    auto background_fluid_mixture_tuple = std::make_tuple(mpc::rockphysics::BulkModulusType<double>(background_fluid_K), mpc::rockphysics::ShearModulusType<double>(0.0), mpc::rockphysics::DensityType<double>(background_fluid_rho), mpc::rockphysics::VolumeFractionType<double>(0.5));
+
+    auto foreground_fluid_mixture_tuple = std::make_tuple(mpc::rockphysics::BulkModulusType<double>(foreground_fluid_K), mpc::rockphysics::ShearModulusType<double>(0.0), mpc::rockphysics::DensityType<double>(foreground_fluid_rho), mpc::rockphysics::VolumeFractionType<double>(0.5));
+
+    std::vector< std::tuple<mpc::rockphysics::BulkModulusType<double>, mpc::rockphysics::ShearModulusType<double>, mpc::rockphysics::DensityType<double>, mpc::rockphysics::VolumeFractionType<double> > > fluid_mixture_vec{
+            background_fluid_mixture_tuple,
+            foreground_fluid_mixture_tuple
+    };
+
+    mpc::rockphysics::FluidPhase<double> fluidphase = mpc::rockphysics::FluidPhase(fluid_mixture_vec);
+
+    auto background_solid_mixture_tuple = std::make_tuple(mpc::rockphysics::BulkModulusType<double>(background_solid_K), mpc::rockphysics::ShearModulusType<double>(background_solid_mu), mpc::rockphysics::DensityType<double>(background_solid_rho), mpc::rockphysics::VolumeFractionType<double>(0.5));
+
+    auto foreground_solid_mixture_tuple = std::make_tuple(mpc::rockphysics::BulkModulusType<double>(foreground_solid_K), mpc::rockphysics::ShearModulusType<double>(foreground_solid_mu), mpc::rockphysics::DensityType<double>(foreground_solid_rho), mpc::rockphysics::VolumeFractionType<double>(0.5));
+
+
+    std::vector< std::tuple<mpc::rockphysics::BulkModulusType<double>, mpc::rockphysics::ShearModulusType<double>, mpc::rockphysics::DensityType<double>, mpc::rockphysics::VolumeFractionType<double> > > solid_mixture_vec{
+            background_solid_mixture_tuple,
+            foreground_solid_mixture_tuple
+    };
+
+    mpc::rockphysics::SolidPhase<double> solidphase = mpc::rockphysics::SolidPhase(solid_mixture_vec);
+
+    // TODO: complete updating plot;
+    vtkpoints->Reset();
+    double xx, yy, zz;
+    std::vector<double> vf_vec_values{1.0, 0.0};
+    double interval = 1.0 / (numgridpoints-1);
+
+    // initialize upper and lower bound pairs
+    std::pair< mpc::rockphysics::BulkModulusType<double>, mpc::rockphysics::ShearModulusType<double> > kmu_upper = solidphase.VoigtUpperBound();
+
+    std::pair< mpc::rockphysics::BulkModulusType<double>, mpc::rockphysics::ShearModulusType<double> > kmu_lower = solidphase.RuessLowerBound();
+
+    double solid_effective_density = 1.0;
+    double solid_effective_bulkmodulus = 1.0;
+    double solid_effective_shearmodulus = 1.0;
+    double fluid_effective_density = 1.0;
+    double fluid_effective_bulkmodulus = 1.0;
+    double fluid_effective_shearmodulus = 1.0;
+    double porous_rockframe_bulkmodulus = 1.0;
+    double composite_saturated_bulkmodulus = 1.0;
+    double composite_shearmodulus = 1.0;
+    double composite_density = 1.0;
+    double composite_pwave_velocity = 1.0;
+    double composite_swave_velocity = 1.0;
+    double composite_VpVs_ratio = 1.0;
+    double composite_VsVp_ratio = 1.0;
+    double composite_poissons_ratio = 1.0;
+
+
+    for (int m=0; m<numgridpoints; ++m) {
+        // fluid phase
+        // increasing row index corresponds to increasing BACKGROUND fluid saturation
+        vf_vec_values = std::vector<double>({ m*interval, 1.0 - (m*interval) });
+
+        fluidphase.VolumeFractionTypeVector(vf_vec_values);
+        fluid_effective_bulkmodulus = fluidphase.EffectiveBulkModulusType().value;
+        fluid_effective_shearmodulus = fluidphase.EffectiveShearModulusType().value;
+        fluid_effective_density = fluidphase.EffectiveDensityType().value;
+        for (int n=0; n<numgridpoints; ++n) {
+            // solid phase
+            // increasing column index corresponds to increasing BACKGROUND solid concentration
+            vf_vec_values = std::vector<double>({ n*interval, 1.0 - (n*interval) });
+
+            solidphase.VolumeFractionTypeVector(vf_vec_values);
+            kmu_upper = solidphase.VoigtUpperBound();
+            kmu_lower = solidphase.RuessLowerBound();
+
+            solid_effective_density = solidphase.EffectiveDensityType().value;
+
+            solid_effective_shearmodulus = (kmu_upper.second.value * hill_weighting_coefficient) + (kmu_lower.second.value * (1-hill_weighting_coefficient));  // 0 -> Ruess lower bound; 1 -> Voigt upper bound
+
+            solid_effective_bulkmodulus = (kmu_upper.first.value * hill_weighting_coefficient) + (kmu_lower.first.value * (1-hill_weighting_coefficient));  // 0 -> Ruess lower bound; 1 -> Voigt upper bound
+            porous_rockframe_bulkmodulus = 1.5 * solid_effective_shearmodulus;  // oversimiplified assumption!!!!
+            composite_saturated_bulkmodulus = this->PrivateCalcKSat(porous_rockframe_bulkmodulus, solid_effective_bulkmodulus, fluid_effective_bulkmodulus, fluid_volume_fraction);
+
+
+            composite_shearmodulus = solid_effective_shearmodulus;  // no influence from fluid
+            composite_density = 0.5 * (solid_effective_density + fluid_effective_density);
+
+            mpc::rockphysics::BulkModulusType<double> K_type = mpc::rockphysics::BulkModulusType<double>(composite_saturated_bulkmodulus);
+            mpc::rockphysics::ShearModulusType<double> mu_type = mpc::rockphysics::ShearModulusType<double>(solid_effective_shearmodulus);
+            mpc::rockphysics::DensityType<double> rho_type = mpc::rockphysics::DensityType<double>(0.5 * (solid_effective_density + fluid_effective_density));
+            mpc::rockphysics::CompressionalWaveVelocityType<double> pvel_type = mpc::rockphysics::RockPhysicsTransforms<double,mpc::rockphysics::CompressionalWaveVelocityType<double> >::Compute(K_type, mu_type, rho_type);
+            composite_pwave_velocity = pvel_type.value;
+
+            mpc::rockphysics::ShearWaveVelocityType<double> svel_type = mpc::rockphysics::RockPhysicsTransforms<double,mpc::rockphysics::ShearWaveVelocityType<double> >::Compute(mu_type, rho_type);
+            composite_swave_velocity = svel_type.value;
+
+            composite_VpVs_ratio = composite_pwave_velocity / composite_swave_velocity;
+            composite_VsVp_ratio = composite_swave_velocity / composite_pwave_velocity;
+
+            mpc::rockphysics::PoissonsRatioType<double> nu_type = mpc::rockphysics::RockPhysicsTransforms<double,mpc::rockphysics::PoissonsRatioType<double> >::Compute(K_type, mu_type);
+            double composite_poissons_ratio = nu_type.value;
+
+
+            // IMPORTANT !!!  NOTE the scaling of 100 makes the plot nicer; TODO: zscale???
+            xx = double(m) / double((numgridpoints - 1));  // background fluid saturation
+            yy = double(n) / double((numgridpoints - 1));  // background solid concentration
+            // TODO: redesign with switch outside for loop?
+            switch (requested_rockproperty) {
+                case 0: {
+                    // 0 : "saturated bulk modulus"
+                    //--std::cout << "saturated bulk modulus called" << std::endl;
+                    zz = composite_saturated_bulkmodulus;  // default
+                    break;
+                }
+                case 1: {
+                    // 1 : "effective shear modulus"
+                    //--std::cout << "effective shear modulus called" << std::endl;
+                    zz = composite_shearmodulus;
+                    break;
+                }
+                case 2: {
+                    // 2 : "effective density"
+                    //--std::cout << "effective density called" << std::endl;
+                    zz = composite_density;  // simple mean
+                    break;
+                }
+                case 3: {
+                    // 3 : "effective p-wave velocity"
+                    //--std::cout << "effective p-wave velocity called" << std::endl;
+                    zz = composite_pwave_velocity;
+                    break;
+                }
+                case 4: {
+                    // 4 : "effective s-wave velocity"
+                    //--std::cout << "effective s-wave velocity called" << std::endl;
+                    zz = composite_swave_velocity;
+                    break;
+                }
+                case 5: {
+                    // 5 : "effective Vp/Vs ratio"
+                    //--std::cout << "effective Vp/Vs ratio called" << std::endl;
+                    zz = composite_VpVs_ratio;
+                    break;
+                }
+                case 6: {
+                    // 6 : "effective Vs/Vp ratio"
+                    //--std::cout << "effective Vs/Vp ratio called" << std::endl;
+                    zz = composite_VsVp_ratio;
+                    break;
+                }
+                case 7: {
+                    // 7 : "effective Poisson's ratio"
+                    //--std::cout << "effective Poisson's ratio called" << std::endl;
+                    zz = composite_poissons_ratio;
+                    break;
+                }
+                default: {
+                    //--std::cout << "default; something went wrong!" << std::endl;
+                    zz = 0.0;
+                    break;
+                }
+            }
+            //std::cout << "output z value : " << zz << std::endl;  // =================================================
+            vtkpoints->InsertNextPoint(xx, yy, zz);
+
+        }  // END for (n ...)
+    }  // END for (m ...)
+
+    // Add the grid points to a polydata object
+    //..vtkinputpolydata = vtkSmartPointer<vtkPolyData>::New();
+    vtkinputpolydata->SetPoints(vtkpoints);
+
+    // vtk examples - TriangulateTerrainMap.cxx
+    //..vtkglyphfilter = vtkSmartPointer<vtkVertexGlyphFilter>::New();
+    vtkglyphfilter->SetInputData(vtkinputpolydata);
+    vtkglyphfilter->Update();
+
+    //..pointsmapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    pointsmapper->SetInputConnection(vtkglyphfilter->GetOutputPort());
+
+    //..pointsactor = vtkSmartPointer<vtkActor>::New();
+    pointsactor->SetMapper(pointsmapper);
+    //..pointsactor->GetProperty()->SetPointSize(3);
+    //..pointsactor->GetProperty()->SetColor(0.5,0.5,0.5);
+    //..vtkrenderer->AddActor(pointsactor);
+
+    // Triangulate the grid points
+    //..vtkdelaunay2d = vtkSmartPointer<vtkDelaunay2D>::New();
+    vtkdelaunay2d->SetInputData(vtkinputpolydata);
+    vtkdelaunay2d->Update();
+    vtkoutputpolydata = vtkdelaunay2d->GetOutput();
+
+    double bounds[6];
+    vtkoutputpolydata->GetBounds(bounds);
+
+    // Find min and max z
+    double minx = bounds[0];
+    double maxx = bounds[1];
+    double miny = bounds[2];
+    double maxy = bounds[3];
+    double minz = bounds[4];
+    double maxz = bounds[5];
+
+    //--std::cout << "bounds : " << minx << " , " << maxx << " , " << miny << " , " << maxy << " , " << minz << " , " << maxz << std::endl;
+
+    // Create the color map
+    //..vtkcolorlookuptable = vtkSmartPointer<vtkLookupTable>::New();
+    vtkcolorlookuptable->SetTableRange(minz, maxz);
+    vtkcolorlookuptable->Build();
+
+    // Generate the colors for each point based on the color map
+    //..vtkcolorchararray = vtkSmartPointer<vtkUnsignedCharArray>::New();
+    //..vtkcolorchararray->SetNumberOfComponents(3);
+    //..vtkcolorchararray->SetName("Colors");
+
+    //++std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
+
+    for(int i = 0; i < vtkoutputpolydata->GetNumberOfPoints(); i++)
+    {
+        double p[3];
+        vtkoutputpolydata->GetPoint(i,p);
+        //std::cout << "point : " << i << ", x : " << p[0] << ", y : " << p[1] << ", z : " << p[2] << std::endl;
+
+        double dcolor[3];
+        vtkcolorlookuptable->GetColor(p[2], dcolor);
+//        std::cout << "dcolor: "
+//                  << dcolor[0] << " "
+//                  << dcolor[1] << " "
+//                  << dcolor[2] << std::endl;
+        unsigned char color[3];
+        for(unsigned int j = 0; j < 3; j++)
+        {
+            color[j] = static_cast<unsigned char>(255.0 * dcolor[j]);
+        }
+//        std::cout << "color: "
+//                  << (int)color[0] << " "
+//                  << (int)color[1] << " "
+//                  << (int)color[2] << std::endl;
+
+        //vtkcolorchararray->InsertNextTupleValue(color);  // VTK version < 7
+        vtkcolorchararray->InsertNextTypedTuple(color);
+    }
+
+    vtkoutputpolydata->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
+
+    // Create a mapper and actor
+    //..vtkpolydatamapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkpolydatamapper->SetInputData(vtkoutputpolydata);
+
+
+    //..vtkactor = vtkSmartPointer<vtkActor>::New();
+    vtkactor->SetMapper(vtkpolydatamapper);
+//    // zscale
+//    double zscale = 1.0 / (bounds[5] - bounds[4]);
+//    vtkactor->SetScale(1.0,1.0,zscale);
+
+    // Add the actor to the scene
+    //..vtkrenderer->AddActor(vtkactor);
+    // END vtk examples : colored elevation ============================================================================
+
+    // vtk examples : CubeAxesActor2D.cxx
+    // Create a vtkOutlineFilter to draw the bounding box of the data set.
+    // Also create the associated mapper and actor.
+    //..vtkoutline = vtkSmartPointer<vtkOutlineFilter>::New();
+    //..vtkoutline->SetInputConnection(vtkdelaunay2d->GetOutputPort());  // requires subclass of vtkAlgorithm
+
+
+    //..vtkoutlinemapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    //..vtkoutlinemapper->SetInputConnection(vtkoutline->GetOutputPort());
+
+    //..vtkoutlineactor = vtkSmartPointer<vtkActor>::New();
+    //..vtkoutlineactor->SetMapper(vtkoutlinemapper.GetPointer());
+    //..vtkoutlineactor->GetProperty()->SetColor(0., 0., 0.);
+
+    // add the actors to the renderer
+    //..vtkrenderer->AddViewProp(vtkoutlineactor.GetPointer());
+
+    // Create a text property
+    //..vtktextproperty = vtkSmartPointer<vtkTextProperty>::New();
+    //..vtktextproperty->SetColor(1, 1, 1);
+    //..vtktextproperty->ShadowOn();
+    //..vtktextproperty->SetFontSize(20);
+
+    // Create a vtkCubeAxesActor2D.  Use the outer edges of the bounding box to
+    // draw the axes.  Add the actor to the renderer.
+    //..vtkcubeaxesactor2d = vtkSmartPointer<vtkCubeAxesActor2D>::New();
+    //..vtkcubeaxesactor2d->SetInputConnection(vtkdelaunay2d->GetOutputPort());
+    //..vtkcubeaxesactor2d->SetCamera(vtkrenderer->GetActiveCamera());
+    vtkrenderer->ResetCamera();  // REQUIRED !!!
+    //..vtkcubeaxesactor2d->SetLabelFormat("%6.4g");
+    //..vtkcubeaxesactor2d->SetFlyModeToOuterEdges();
+    //vtkcubeaxesactor2d->SetFlyModeToClosestTriad();
+    //vtkcubeaxesactor2d->SetFlyModeToNone();
+    //..vtkcubeaxesactor2d->SetAxisTitleTextProperty(vtktextproperty.GetPointer());
+    //..vtkcubeaxesactor2d->SetAxisLabelTextProperty(vtktextproperty.GetPointer());
+    //..vtkcubeaxesactor2d->SetXLabel("background fluid saturation");
+    //..vtkcubeaxesactor2d->SetYLabel("background solid concentration");
+    switch (requested_rockproperty) {
+        case 0: {
+            // 0 : "saturated bulk modulus"
+            vtkcubeaxesactor2d->SetZLabel("saturated bulk modulus");
+            vtkscalarbaractor->SetTitle("saturated bulk modulus");
+            break;
+        }
+        case 1: {
+            // 1 : "effective shear modulus"
+            vtkcubeaxesactor2d->SetZLabel("effective shear modulus");
+            vtkscalarbaractor->SetTitle("effective shear modulus");
+            break;
+        }
+        case 2: {
+            // 2 : "effective density"
+            vtkcubeaxesactor2d->SetZLabel("effective density");
+            vtkscalarbaractor->SetTitle("effective density");
+            break;
+        }
+        case 3: {
+            // 3 : "effective p-wave velocity"
+            vtkcubeaxesactor2d->SetZLabel("effective p-wave velocity");
+            vtkscalarbaractor->SetTitle("effective p-wave velocity");
+            break;
+        }
+        case 4: {
+            // 4 : "effective s-wave velocity"
+            vtkcubeaxesactor2d->SetZLabel("effective s-wave velocity");
+            vtkscalarbaractor->SetTitle("effective s-wave velocity");
+            break;
+        }
+        case 5: {
+            // 5 : "effective Vp/Vs ratio"
+            vtkcubeaxesactor2d->SetZLabel("effective Vp/Vs ratio");
+            vtkscalarbaractor->SetTitle("effective Vp/Vs ratio");
+            break;
+        }
+        case 6: {
+            // 6 : "effective Vs/Vp ratio"
+            vtkcubeaxesactor2d->SetZLabel("effective Vs/Vp ratio");
+            vtkscalarbaractor->SetTitle("effective Vs/Vp ratio");
+            break;
+        }
+        case 7: {
+            // 7 : "effective Poisson's ratio"
+            vtkcubeaxesactor2d->SetZLabel("effective Poisson's ratio");
+            vtkscalarbaractor->SetTitle("effective Poisson's ratio");
+            break;
+        }
+        default: {
+            // something went wrong!!!
+            vtkcubeaxesactor2d->SetZLabel("");
+            vtkscalarbaractor->SetTitle("");
+            break;
+        }
+    }
+
+    //..vtkrenderer->AddViewProp(vtkcubeaxesactor2d.GetPointer());
+
+    // vtk examples : ScalarBarActor.cxx
+    //..vtkscalarbaractor = vtkSmartPointer<vtkScalarBarActor>::New();
+    vtkscalarbaractor->SetLookupTable(vtkcolorlookuptable);
+    //..vtkscalarbaractor->SetTitle("Ksat");
+    //..vtkscalarbaractor->SetLabelFormat("%6.4g");
+    //..vtkscalarbaractor->SetTitleTextProperty(vtktextproperty.GetPointer());
+    //..vtkscalarbaractor->SetLabelTextProperty(vtktextproperty.GetPointer());
+    //..vtkscalarbaractor->SetUnconstrainedFontSize(true);
+    //..vtkrenderer->AddActor2D(vtkscalarbaractor);
+
+    // TODO: zscale
 
 }
 

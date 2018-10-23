@@ -24,6 +24,12 @@
 #include <vtkUnsignedCharArray.h>
 #include <vtkActor.h>
 #include <vtkRenderWindowInteractor.h>
+#include <vtkVertexGlyphFilter.h>
+#include <vtkOutlineFilter.h>
+#include <vtkTextProperty.h>
+#include <vtkCubeAxesActor2D.h>
+#include <vtkScalarBarActor.h>
+#include <vtkCamera.h>
 
 // blitz
 #include <blitz/array.h>
@@ -42,6 +48,7 @@ public slots:
     void OnForegroundSolidComboBoxChanged(int);
     void OnHillAverageSliderReleased();
     void OnPorositySliderReleaed();
+    void OnRockPropertyComboBoxChanged(int);
 
 private:
     // private member functions
@@ -121,6 +128,8 @@ private:
     QSlider* porosity_slider;
     QLineEdit* porosity_value_lineedit;
 
+    QComboBox* rockproperty_combobox;
+
     // VTK
     QVTKOpenGLWidget* qvtkopenglwidget;
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> vtkgenericopenglwindow;
@@ -136,6 +145,16 @@ private:
     vtkSmartPointer<vtkPolyDataMapper> vtkpolydatamapper;
     vtkSmartPointer<vtkActor> vtkactor;
     vtkSmartPointer<vtkRenderWindowInteractor> vtkrenderwindowinteractor;
+    vtkSmartPointer<vtkCamera> vtkcamera;
+    vtkSmartPointer<vtkVertexGlyphFilter> vtkglyphfilter;
+    vtkSmartPointer<vtkPolyDataMapper> pointsmapper;
+    vtkSmartPointer<vtkActor> pointsactor;
+    vtkSmartPointer<vtkOutlineFilter> vtkoutline;
+    vtkSmartPointer<vtkPolyDataMapper> vtkoutlinemapper;
+    vtkSmartPointer<vtkActor> vtkoutlineactor;
+    vtkSmartPointer<vtkTextProperty> vtktextproperty;
+    vtkSmartPointer<vtkCubeAxesActor2D> vtkcubeaxesactor2d;
+    vtkSmartPointer<vtkScalarBarActor> vtkscalarbaractor;
 
 };
 

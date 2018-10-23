@@ -20,6 +20,7 @@ private slots:
     void OnFLuidPhaseView();
     void OnSolidPhaseView();
     void OnMixingLawsView();
+    void OnMineralVelsView();
 
 private:
     QSharedPointer<QStackedWidget> stacked_widget;

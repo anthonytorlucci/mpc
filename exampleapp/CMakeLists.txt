@@ -96,6 +96,7 @@ set(HEADER_FILES
         solidphaseview.h
         solidphaseview2.h
         mixinglawsview.h
+        mineralvelsview.h
         )
 
 set(SOURCE_FILES
@@ -107,6 +108,7 @@ set(SOURCE_FILES
         solidphaseview.cpp
         solidphaseview2.cpp
         mixinglawsview.cpp
+        mineralvelsview.cpp
         )
 
 

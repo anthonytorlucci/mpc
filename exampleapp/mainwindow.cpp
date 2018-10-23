@@ -15,6 +15,7 @@
 //#include "solidphaseview.h"
 #include "solidphaseview2.h"
 #include "mixinglawsview.h"
+#include "mineralvelsview.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -46,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     FluidPhaseView2* fluidphaseview2 = new FluidPhaseView2(this);
     stacked_widget->addWidget(fluidphaseview2);
-    QAction * action_fluidphase = new QAction("&fluid phase", this);
+    QAction * action_fluidphase = new QAction("fluid phase", this);
     connect(action_fluidphase, &QAction::triggered, this, &MainWindow::OnFLuidPhaseView);
     menu->addAction(action_fluidphase);
 
@@ -59,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     SolidPhaseView2* solidphaseview2 = new SolidPhaseView2(this);
     stacked_widget->addWidget(solidphaseview2);
-    QAction * action_solidphase = new QAction("&solid phase", this);
+    QAction * action_solidphase = new QAction("solid phase", this);
     connect(action_solidphase, &QAction::triggered, this, &MainWindow::OnSolidPhaseView);
     menu->addAction(action_solidphase);
 
@@ -68,9 +69,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     MixingLawsView* mixinglawsview = new MixingLawsView(this);
     stacked_widget->addWidget(mixinglawsview);
     // action and slot
-    QAction * action_mixinglawsview = new QAction("&mixing laws", this);
+    QAction * action_mixinglawsview = new QAction("mixing laws", this);
     connect(action_mixinglawsview, &QAction::triggered, this, &MainWindow::OnMixingLawsView);
     menu->addAction(action_mixinglawsview);
+
+    // mineral vels view
+    MineralVelsView* mineralvelsview = new MineralVelsView(this);
+    stacked_widget->addWidget(mineralvelsview);
+    // action and slot
+    QAction * action_mineralvelsview = new QAction("mineral vels", this);
+    connect(action_mineralvelsview, &QAction::triggered, this, &MainWindow::OnMineralVelsView);
+    menu->addAction(action_mineralvelsview);
+
 
 //    menu->addSeparator();
 //    // quit application
@@ -112,6 +122,12 @@ void MainWindow::OnSolidPhaseView() {
 void MainWindow::OnMixingLawsView() {
     status_bar->showMessage("loading mixing laws ...");
     stacked_widget->setCurrentIndex(3);
+    status_bar->showMessage("done");
+}
+
+void MainWindow::OnMineralVelsView() {
+    status_bar->showMessage("loading mineral vels ...");
+    stacked_widget->setCurrentIndex(4);
     status_bar->showMessage("done");
 }
 
