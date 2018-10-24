@@ -75,6 +75,9 @@ private:
     double mineral_C55;
     double mineral_C56;
     double mineral_C66;
+    double mineral_density;
+    double mineral_K;
+    double mineral_mu;
 
     // Qt widgets
     QLabel* mineral_label;
@@ -146,13 +149,24 @@ private:
     vtkSmartPointer<vtkActor> vtkactor_vp0;
     vtkSmartPointer<vtkRenderWindowInteractor> vtkrenderwindowinteractor_vp0;
     vtkSmartPointer<vtkVertexGlyphFilter> vtkglyphfilter_vp0;
-    vtkSmartPointer<vtkPolyDataMapper> pointsmapper_vp0;
-    vtkSmartPointer<vtkActor> pointsactor_vp0;
+    vtkSmartPointer<vtkPolyDataMapper> vtkpointsmapper_vp0;
+    vtkSmartPointer<vtkActor> vtkpointsactor_vp0;
     vtkSmartPointer<vtkOutlineFilter> vtkoutline_vp0;
     vtkSmartPointer<vtkPolyDataMapper> vtkoutlinemapper_vp0;
     vtkSmartPointer<vtkActor> vtkoutlineactor_vp0;
     vtkSmartPointer<vtkCubeAxesActor2D> vtkcubeaxesactor2d_vp0;
     vtkSmartPointer<vtkScalarBarActor> vtkscalarbaractor_vp0;
+    // iso
+    vtkSmartPointer<vtkPoints> vtkpoints_isovp0;
+    vtkSmartPointer<vtkPolyData> vtkinputpolydata_isovp0;
+    vtkSmartPointer<vtkVertexGlyphFilter> vtkglyphfilter_isovp0;
+    vtkSmartPointer<vtkPolyDataMapper> vtkpointsmapper_isovp0;
+    vtkSmartPointer<vtkActor> vtkpointsactor_isovp0;
+    vtkSmartPointer<vtkDelaunay2D> vtkdelaunay2d_isovp0;
+    vtkSmartPointer<vtkPolyData> vtkoutputpolydata_isovp0;
+    vtkSmartPointer<vtkPolyDataMapper> vtkpolydatamapper_isovp0;
+    vtkSmartPointer<vtkActor> vtkactor_isovp0;
+
 
     QVTKOpenGLWidget* qvtkopenglwidget_vs1;
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> vtkgenericopenglwindow_vs1;
@@ -166,13 +180,23 @@ private:
     vtkSmartPointer<vtkActor> vtkactor_vs1;
     vtkSmartPointer<vtkRenderWindowInteractor> vtkrenderwindowinteractor_vs1;
     vtkSmartPointer<vtkVertexGlyphFilter> vtkglyphfilter_vs1;
-    vtkSmartPointer<vtkPolyDataMapper> pointsmapper_vs1;
-    vtkSmartPointer<vtkActor> pointsactor_vs1;
+    vtkSmartPointer<vtkPolyDataMapper> vtkpointsmapper_vs1;
+    vtkSmartPointer<vtkActor> vtkpointsactor_vs1;
     vtkSmartPointer<vtkOutlineFilter> vtkoutline_vs1;
     vtkSmartPointer<vtkPolyDataMapper> vtkoutlinemapper_vs1;
     vtkSmartPointer<vtkActor> vtkoutlineactor_vs1;
     vtkSmartPointer<vtkCubeAxesActor2D> vtkcubeaxesactor2d_vs1;
     vtkSmartPointer<vtkScalarBarActor> vtkscalarbaractor_vs1;
+    // iso
+    vtkSmartPointer<vtkPoints> vtkpoints_isovs1;
+    vtkSmartPointer<vtkPolyData> vtkinputpolydata_isovs1;
+    vtkSmartPointer<vtkVertexGlyphFilter> vtkglyphfilter_isovs1;
+    vtkSmartPointer<vtkPolyDataMapper> vtkpointsmapper_isovs1;
+    vtkSmartPointer<vtkActor> vtkpointsactor_isovs1;
+    vtkSmartPointer<vtkDelaunay2D> vtkdelaunay2d_isovs1;
+    vtkSmartPointer<vtkPolyData> vtkoutputpolydata_isovs1;
+    vtkSmartPointer<vtkPolyDataMapper> vtkpolydatamapper_isovs1;
+    vtkSmartPointer<vtkActor> vtkactor_isovs1;
 
     QVTKOpenGLWidget* qvtkopenglwidget_vs2;
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> vtkgenericopenglwindow_vs2;
@@ -186,13 +210,23 @@ private:
     vtkSmartPointer<vtkActor> vtkactor_vs2;
     vtkSmartPointer<vtkRenderWindowInteractor> vtkrenderwindowinteractor_vs2;
     vtkSmartPointer<vtkVertexGlyphFilter> vtkglyphfilter_vs2;
-    vtkSmartPointer<vtkPolyDataMapper> pointsmapper_vs2;
-    vtkSmartPointer<vtkActor> pointsactor_vs2;
+    vtkSmartPointer<vtkPolyDataMapper> vtkpointsmapper_vs2;
+    vtkSmartPointer<vtkActor> vtkpointsactor_vs2;
     vtkSmartPointer<vtkOutlineFilter> vtkoutline_vs2;
     vtkSmartPointer<vtkPolyDataMapper> vtkoutlinemapper_vs2;
     vtkSmartPointer<vtkActor> vtkoutlineactor_vs2;
     vtkSmartPointer<vtkCubeAxesActor2D> vtkcubeaxesactor2d_vs2;
     vtkSmartPointer<vtkScalarBarActor> vtkscalarbaractor_vs2;
+    // iso
+    vtkSmartPointer<vtkPoints> vtkpoints_isovs2;
+    vtkSmartPointer<vtkPolyData> vtkinputpolydata_isovs2;
+    vtkSmartPointer<vtkVertexGlyphFilter> vtkglyphfilter_isovs2;
+    vtkSmartPointer<vtkPolyDataMapper> vtkpointsmapper_isovs2;
+    vtkSmartPointer<vtkActor> vtkpointsactor_isovs2;
+    vtkSmartPointer<vtkDelaunay2D> vtkdelaunay2d_isovs2;
+    vtkSmartPointer<vtkPolyData> vtkoutputpolydata_isovs2;
+    vtkSmartPointer<vtkPolyDataMapper> vtkpolydatamapper_isovs2;
+    vtkSmartPointer<vtkActor> vtkactor_isovs2;
 
 };
 

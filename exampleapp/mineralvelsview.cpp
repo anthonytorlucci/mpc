@@ -25,19 +25,39 @@
 
 
 // mpc
+#include <mpc/utilities/printtensorcomponents.hpp>
 #include <mpc/utilities/arithmeticaverage.hpp>
 #include <mpc/utilities/harmonicaverage.hpp>
+#include <mpc/utilities/constants.hpp>
+#include <mpc/utilities/norm.hpp>
+#include <mpc/utilities/magnitude.hpp>
+
+#include <mpc/core/csrelationship.hpp>
+#include <mpc/core/stiffnesscompliance.hpp>
+
 #include <mpc/data/mineraldataproperties.hpp>
 #include <mpc/data/mineraldatatensors.hpp>
+
 #include <mpc/rockphysics/rockphysicstransformstypes.hpp>
 #include <mpc/rockphysics/rockphysicstransforms.hpp>
 #include <mpc/rockphysics/scalarcomposites.hpp>
+#include <mpc/rockphysics/tensorinvariants.hpp>
+
+#include <mpc/mechanics/greenchristoffel.hpp>
+
+#include <mpc/transformation/eulerrotation.hpp>
+#include <mpc/transformation/transformer.hpp>
+
+
 
 
 MineralVelsView::MineralVelsView(QWidget *parent) {
     // constructor
 
     // initialize variables
+    mineral_density = mpc::data::QuartzDensity<double>();
+    mineral_K = mpc::data::QuartzBulkModulus<double>();
+    mineral_mu = mpc::data::QuartzShearModulus<double>();
     mineral_C11 = mpc::data::QuartzC11<double>();
     mineral_C12 = mpc::data::QuartzC12<double>();
     mineral_C13 = mpc::data::QuartzC13<double>();
@@ -323,74 +343,80 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
 
     // VTK views
     vtknamedcolors = vtkSmartPointer<vtkNamedColors>::New();
+    vtkcolorlookuptable = vtkSmartPointer<vtkLookupTable>::New();
+    // Generate the colors for each point based on the color map
+    vtkcolorchararray = vtkSmartPointer<vtkUnsignedCharArray>::New();
+    vtkcolorchararray->SetNumberOfComponents(3);
+    vtkcolorchararray->SetName("Colors");
+    // Create a text property
+    vtktextproperty = vtkSmartPointer<vtkTextProperty>::New();
+    vtktextproperty->SetColor(1, 1, 1);
+    vtktextproperty->ShadowOn();
+    vtktextproperty->SetFontSize(20);
 
+    // =================================================================================================================
     qvtkopenglwidget_vp0 = new QVTKOpenGLWidget(this);
     vtkgenericopenglwindow_vp0 = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
     qvtkopenglwidget_vp0->SetRenderWindow(vtkgenericopenglwindow_vp0);
     vtkrenderwindow_vp0 = qvtkopenglwidget_vp0->GetRenderWindow();
 
+    // You can continue to use 'vtkrenderwindow' as a regular vtkRenderWindow
+    // including adding renderers, actors, etc.
+    vtkrenderer_vp0 = vtkSmartPointer<vtkRenderer>::New();
+    vtkrenderer_vp0->GradientBackgroundOn();
+    vtkrenderer_vp0->SetBackground(vtknamedcolors->GetColor3d("Black").GetData());
+    vtkrenderer_vp0->SetBackground2(vtknamedcolors->GetColor3d("DarkGray").GetData());
+    vtkrenderwindow_vp0->AddRenderer(vtkrenderer_vp0);
 
-//
-//    // You can continue to use 'vtkrenderwindow' as a regular vtkRenderWindow
-//    // including adding renderers, actors, etc.
-//    vtkrenderer = vtkSmartPointer<vtkRenderer>::New();
-//    vtkrenderer->GradientBackgroundOn();
-//    vtkrenderer->SetBackground(vtknamedcolors->GetColor3d("Black").GetData());
-//    vtkrenderer->SetBackground2(vtknamedcolors->GetColor3d("DarkGray").GetData());
-//    vtkrenderwindow->AddRenderer(vtkrenderer);
-//
-//    vtkrenderwindowinteractor = vtkSmartPointer<vtkRenderWindowInteractor>::New();
-//    vtkrenderwindowinteractor = vtkrenderwindow->GetInteractor();
-//
-//    vtkpoints = vtkSmartPointer<vtkPoints>::New();
-//
-//    // Add the grid points to a polydata object
-//    vtkinputpolydata = vtkSmartPointer<vtkPolyData>::New();
-//    vtkinputpolydata->SetPoints(vtkpoints);
-//
-//    // normal vector endpoints
-//    vtkglyphfilter = vtkSmartPointer<vtkVertexGlyphFilter>::New();
-//    vtkglyphfilter->SetInputData(vtkinputpolydata);
-//    vtkglyphfilter->Update();
-//
-//    pointsmapper = vtkSmartPointer<vtkPolyDataMapper>::New();
-//    pointsmapper->SetInputConnection(vtkglyphfilter->GetOutputPort());
-//
-//    pointsactor = vtkSmartPointer<vtkActor>::New();
-//    pointsactor->SetMapper(pointsmapper);
-//    pointsactor->GetProperty()->SetPointSize(3);
-//    pointsactor->GetProperty()->SetColor(0.5,0.5,0.5);
-//    vtkrenderer->AddActor(pointsactor);
-//
-//    // Triangulate the grid points
-//    vtkdelaunay2d = vtkSmartPointer<vtkDelaunay2D>::New();
-//    vtkdelaunay2d->SetInputData(vtkinputpolydata);
-//    vtkdelaunay2d->Update();
-//    vtkoutputpolydata = vtkdelaunay2d->GetOutput();
-//
+    vtkcamera = vtkrenderer_vp0->GetActiveCamera();
+
+    vtkrenderwindowinteractor_vp0 = vtkSmartPointer<vtkRenderWindowInteractor>::New();
+    vtkrenderwindowinteractor_vp0 = vtkrenderwindow_vp0->GetInteractor();
+
+    vtkpoints_vp0 = vtkSmartPointer<vtkPoints>::New();
+
+    // Add the grid points to a polydata object
+    vtkinputpolydata_vp0 = vtkSmartPointer<vtkPolyData>::New();
+    vtkinputpolydata_vp0->SetPoints(vtkpoints_vp0);
+
+    // normal vector endpoints
+    vtkglyphfilter_vp0 = vtkSmartPointer<vtkVertexGlyphFilter>::New();
+    vtkglyphfilter_vp0->SetInputData(vtkinputpolydata_vp0);
+    vtkglyphfilter_vp0->Update();
+
+    vtkpointsmapper_vp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkpointsmapper_vp0->SetInputConnection(vtkglyphfilter_vp0->GetOutputPort());
+
+    vtkpointsactor_vp0 = vtkSmartPointer<vtkActor>::New();
+    vtkpointsactor_vp0->SetMapper(vtkpointsmapper_vp0);
+    vtkpointsactor_vp0->GetProperty()->SetPointSize(3);
+    vtkpointsactor_vp0->GetProperty()->SetColor(0.5,0.5,0.5);
+    vtkrenderer_vp0->AddActor(vtkpointsactor_vp0);
+
+    // Triangulate the grid points
+    vtkdelaunay2d_vp0 = vtkSmartPointer<vtkDelaunay2D>::New();
+    vtkdelaunay2d_vp0->SetInputData(vtkinputpolydata_vp0);
+    vtkdelaunay2d_vp0->Update();
+    vtkoutputpolydata_vp0 = vtkdelaunay2d_vp0->GetOutput();
+
 //    double bounds[6];
-//    vtkoutputpolydata->GetBounds(bounds);
-//
-////    // Find min and max z
-////    double minx = bounds[0];
-////    double maxx = bounds[1];
-////    double miny = bounds[2];
-////    double maxy = bounds[3];
-////    double minz = bounds[4];
-////    double maxz = bounds[5];
-//
-//    // Create the color map
-//    vtkcolorlookuptable = vtkSmartPointer<vtkLookupTable>::New();
-////    vtkcolorlookuptable->SetTableRange(minz, maxz);
-////    vtkcolorlookuptable->Build();
-//
-//    // Generate the colors for each point based on the color map
-//    vtkcolorchararray = vtkSmartPointer<vtkUnsignedCharArray>::New();
-//    vtkcolorchararray->SetNumberOfComponents(3);
-//    vtkcolorchararray->SetName("Colors");
-//
-//    //++std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
-//
+//    vtkoutputpolydata_vp0->GetBounds(bounds);
+
+//    // Find min and max z
+//    double minx = bounds[0];
+//    double maxx = bounds[1];
+//    double miny = bounds[2];
+//    double maxy = bounds[3];
+//    double minz = bounds[4];
+//    double maxz = bounds[5];
+
+//    vtkcolorlookuptable->SetTableRange(minz, maxz);
+//    vtkcolorlookuptable->Build();
+
+
+
+    //++std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
+
 ////    for(int i = 0; i < vtkoutputpolydata->GetNumberOfPoints(); i++)
 ////    {
 ////        double p[3];
@@ -411,81 +437,419 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
 ////    }
 //
 //    vtkoutputpolydata->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
-//
-//    // Create a mapper and actor
-//    vtkpolydatamapper = vtkSmartPointer<vtkPolyDataMapper>::New();
-//    vtkpolydatamapper->SetInputData(vtkoutputpolydata);
-//
-//
-//    vtkactor = vtkSmartPointer<vtkActor>::New();
-//    vtkactor->SetMapper(vtkpolydatamapper);
-//
-//    // Add the actor to the scene
-//    vtkrenderer->AddActor(vtkactor);
-//    // END vtk examples : colored elevation ============================================================================
-//
-//    // vtk examples : CubeAxesActor2D.cxx
-//    // Create a vtkOutlineFilter to draw the bounding box of the data set.
-//    // Also create the associated mapper and actor.
-//    vtkoutline = vtkSmartPointer<vtkOutlineFilter>::New();
-//    vtkoutline->SetInputConnection(vtkdelaunay2d->GetOutputPort());  // requires subclass of vtkAlgorithm
-//
-//
-//    vtkoutlinemapper = vtkSmartPointer<vtkPolyDataMapper>::New();
-//    vtkoutlinemapper->SetInputConnection(vtkoutline->GetOutputPort());
-//
-//    vtkoutlineactor = vtkSmartPointer<vtkActor>::New();
-//    vtkoutlineactor->SetMapper(vtkoutlinemapper.GetPointer());
-//    vtkoutlineactor->GetProperty()->SetColor(0., 0., 0.);
-//
-//    // add the actors to the renderer
-//    vtkrenderer->AddViewProp(vtkoutlineactor.GetPointer());
-//
-//    // Create a text property
-//    vtktextproperty = vtkSmartPointer<vtkTextProperty>::New();
-//    vtktextproperty->SetColor(1, 1, 1);
-//    vtktextproperty->ShadowOn();
-//    vtktextproperty->SetFontSize(20);
-//
-//    // Create a vtkCubeAxesActor2D.  Use the outer edges of the bounding box to
-//    // draw the axes.  Add the actor to the renderer.
-//    vtkcubeaxesactor2d = vtkSmartPointer<vtkCubeAxesActor2D>::New();
-//    vtkcubeaxesactor2d->SetInputConnection(vtkdelaunay2d->GetOutputPort());
-//    vtkcubeaxesactor2d->SetCamera(vtkrenderer->GetActiveCamera());
-//    vtkrenderer->ResetCamera();  // REQUIRED !!!
-//    vtkcubeaxesactor2d->SetLabelFormat("%6.4g");
-//    vtkcubeaxesactor2d->SetFlyModeToOuterEdges();
-//    //vtkcubeaxesactor2d->SetFlyModeToClosestTriad();
-//    //vtkcubeaxesactor2d->SetFlyModeToNone();
-//    vtkcubeaxesactor2d->SetAxisTitleTextProperty(vtktextproperty.GetPointer());
-//    vtkcubeaxesactor2d->SetAxisLabelTextProperty(vtktextproperty.GetPointer());
-//    vtkcubeaxesactor2d->SetXLabel("background fluid saturation");
-//    vtkcubeaxesactor2d->SetYLabel("background solid concentration");
-//    vtkcubeaxesactor2d->SetZLabel("saturated bulk modulus");
-//    vtkrenderer->AddViewProp(vtkcubeaxesactor2d.GetPointer());
-//
-//    // vtk examples : ScalarBarActor.cxx
-//    vtkscalarbaractor = vtkSmartPointer<vtkScalarBarActor>::New();
-//    vtkscalarbaractor->SetLookupTable(vtkcolorlookuptable);
-//    vtkscalarbaractor->SetTitle("Ksat");
-//    vtkscalarbaractor->SetLabelFormat("%6.4g");
-//    vtkscalarbaractor->SetTitleTextProperty(vtktextproperty.GetPointer());
-//    vtkscalarbaractor->SetLabelTextProperty(vtktextproperty.GetPointer());
-//    //vtkscalarbaractor->SetHeight(0.7);
-//    vtkscalarbaractor->SetUnconstrainedFontSize(true);
-//    vtkrenderer->AddActor2D(vtkscalarbaractor);
 
+    // Create a mapper and actor
+    vtkpolydatamapper_vp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkpolydatamapper_vp0->SetInputData(vtkoutputpolydata_vp0);
+
+    vtkactor_vp0 = vtkSmartPointer<vtkActor>::New();
+    vtkactor_vp0->SetMapper(vtkpolydatamapper_vp0);
+
+    // Add the actor to the scene
+    vtkrenderer_vp0->AddActor(vtkactor_vp0);
+
+    // ISO
+    vtkpoints_isovp0 = vtkSmartPointer<vtkPoints>::New();
+
+    // Add the grid points to a polydata object
+    vtkinputpolydata_isovp0 = vtkSmartPointer<vtkPolyData>::New();
+    vtkinputpolydata_isovp0->SetPoints(vtkpoints_isovp0);
+
+    // normal vector endpoints
+    vtkglyphfilter_isovp0 = vtkSmartPointer<vtkVertexGlyphFilter>::New();
+    vtkglyphfilter_isovp0->SetInputData(vtkinputpolydata_isovp0);
+    vtkglyphfilter_isovp0->Update();
+
+    vtkpointsmapper_isovp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkpointsmapper_isovp0->SetInputConnection(vtkglyphfilter_isovp0->GetOutputPort());
+
+    vtkpointsactor_isovp0 = vtkSmartPointer<vtkActor>::New();
+    vtkpointsactor_isovp0->SetMapper(vtkpointsmapper_isovp0);
+    vtkpointsactor_isovp0->GetProperty()->SetPointSize(3);
+    vtkpointsactor_isovp0->GetProperty()->SetColor(1.0,0.0,1.0);
+    vtkrenderer_vp0->AddActor(vtkpointsactor_isovp0);
+
+    // Triangulate the grid points
+    vtkdelaunay2d_isovp0 = vtkSmartPointer<vtkDelaunay2D>::New();
+    vtkdelaunay2d_isovp0->SetInputData(vtkinputpolydata_isovp0);
+    vtkdelaunay2d_isovp0->Update();
+    vtkoutputpolydata_isovp0 = vtkdelaunay2d_isovp0->GetOutput();
+
+//    double bounds[6];
+//    vtkoutputpolydata_vp0->GetBounds(bounds);
+
+    //++std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
+
+//    vtkoutputpolydata->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
+
+    // Create a mapper and actor
+    vtkpolydatamapper_isovp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkpolydatamapper_isovp0->SetInputData(vtkoutputpolydata_isovp0);
+
+    vtkactor_isovp0 = vtkSmartPointer<vtkActor>::New();
+    vtkactor_isovp0->SetMapper(vtkpolydatamapper_isovp0);
+
+    // Add the actor to the scene
+    vtkrenderer_vp0->AddActor(vtkactor_isovp0);
+    // END vtk examples : colored elevation ============================================================================
+
+    // vtk examples : CubeAxesActor2D.cxx
+    // Create a vtkOutlineFilter to draw the bounding box of the data set.
+    // Also create the associated mapper and actor.
+    vtkoutline_vp0 = vtkSmartPointer<vtkOutlineFilter>::New();
+    vtkoutline_vp0->SetInputConnection(vtkdelaunay2d_vp0->GetOutputPort());  // requires subclass of vtkAlgorithm
+
+    vtkoutlinemapper_vp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkoutlinemapper_vp0->SetInputConnection(vtkoutline_vp0->GetOutputPort());
+
+    vtkoutlineactor_vp0 = vtkSmartPointer<vtkActor>::New();
+    vtkoutlineactor_vp0->SetMapper(vtkoutlinemapper_vp0.GetPointer());
+    vtkoutlineactor_vp0->GetProperty()->SetColor(0., 0., 0.);
+
+    // add the actors to the renderer
+    vtkrenderer_vp0->AddViewProp(vtkoutlineactor_vp0.GetPointer());
+
+    // Create a vtkCubeAxesActor2D.  Use the outer edges of the bounding box to
+    // draw the axes.  Add the actor to the renderer.
+    vtkcubeaxesactor2d_vp0 = vtkSmartPointer<vtkCubeAxesActor2D>::New();
+    vtkcubeaxesactor2d_vp0->SetInputConnection(vtkdelaunay2d_vp0->GetOutputPort());
+    //vtkcubeaxesactor2d_vp0->SetCamera(vtkrenderer_vp0->GetActiveCamera());
+    vtkcubeaxesactor2d_vp0->SetCamera(vtkcamera);
+    vtkrenderer_vp0->ResetCamera();  // REQUIRED !!!
+    vtkcubeaxesactor2d_vp0->SetLabelFormat("%6.4g");
+    vtkcubeaxesactor2d_vp0->SetFlyModeToOuterEdges();
+    //vtkcubeaxesactor2d->SetFlyModeToClosestTriad();
+    //vtkcubeaxesactor2d->SetFlyModeToNone();
+    vtkcubeaxesactor2d_vp0->SetAxisTitleTextProperty(vtktextproperty.GetPointer());
+    vtkcubeaxesactor2d_vp0->SetAxisLabelTextProperty(vtktextproperty.GetPointer());
+    vtkcubeaxesactor2d_vp0->SetXLabel("background fluid saturation");
+    vtkcubeaxesactor2d_vp0->SetYLabel("background solid concentration");
+    vtkcubeaxesactor2d_vp0->SetZLabel("saturated bulk modulus");
+    vtkrenderer_vp0->AddViewProp(vtkcubeaxesactor2d_vp0.GetPointer());
+
+    // vtk examples : ScalarBarActor.cxx
+    vtkscalarbaractor_vp0 = vtkSmartPointer<vtkScalarBarActor>::New();
+    vtkscalarbaractor_vp0->SetLookupTable(vtkcolorlookuptable);
+    vtkscalarbaractor_vp0->SetTitle("V1");
+    vtkscalarbaractor_vp0->SetLabelFormat("%6.4g");
+    vtkscalarbaractor_vp0->SetTitleTextProperty(vtktextproperty.GetPointer());
+    vtkscalarbaractor_vp0->SetLabelTextProperty(vtktextproperty.GetPointer());
+    vtkscalarbaractor_vp0->SetOrientationToHorizontal();
+    vtkscalarbaractor_vp0->SetWidth(0.8);
+    vtkscalarbaractor_vp0->SetHeight(0.09);
+    vtkscalarbaractor_vp0->GetPositionCoordinate()->SetValue(0.1, 0.01);
+    vtkscalarbaractor_vp0->SetUnconstrainedFontSize(true);
+    vtkrenderer_vp0->AddActor2D(vtkscalarbaractor_vp0);
+
+    // =================================================================================================================
     qvtkopenglwidget_vs1 = new QVTKOpenGLWidget(this);
     vtkgenericopenglwindow_vs1 = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
     qvtkopenglwidget_vs1->SetRenderWindow(vtkgenericopenglwindow_vs1);
     vtkrenderwindow_vs1 = qvtkopenglwidget_vs1->GetRenderWindow();
 
-    //
+    // You can continue to use 'vtkrenderwindow' as a regular vtkRenderWindow
+    // including adding renderers, actors, etc.
+    vtkrenderer_vs1 = vtkSmartPointer<vtkRenderer>::New();
+    vtkrenderer_vs1->GradientBackgroundOn();
+    vtkrenderer_vs1->SetBackground(vtknamedcolors->GetColor3d("Black").GetData());
+    vtkrenderer_vs1->SetBackground2(vtknamedcolors->GetColor3d("DarkGray").GetData());
+    vtkrenderwindow_vs1->AddRenderer(vtkrenderer_vs1);
 
+    vtkrenderer_vs1->SetActiveCamera(vtkcamera);  // shared camera
+
+    vtkrenderwindowinteractor_vs1 = vtkSmartPointer<vtkRenderWindowInteractor>::New();
+    vtkrenderwindowinteractor_vs1 = vtkrenderwindow_vs1->GetInteractor();
+
+    vtkpoints_vs1 = vtkSmartPointer<vtkPoints>::New();
+
+    // Add the grid points to a polydata object
+    vtkinputpolydata_vs1 = vtkSmartPointer<vtkPolyData>::New();
+    vtkinputpolydata_vs1->SetPoints(vtkpoints_vs1);
+
+    // normal vector endpoints
+    vtkglyphfilter_vs1 = vtkSmartPointer<vtkVertexGlyphFilter>::New();
+    vtkglyphfilter_vs1->SetInputData(vtkinputpolydata_vs1);
+    vtkglyphfilter_vs1->Update();
+
+    vtkpointsmapper_vs1 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkpointsmapper_vs1->SetInputConnection(vtkglyphfilter_vs1->GetOutputPort());
+
+    vtkpointsactor_vs1 = vtkSmartPointer<vtkActor>::New();
+    vtkpointsactor_vs1->SetMapper(vtkpointsmapper_vs1);
+    vtkpointsactor_vs1->GetProperty()->SetPointSize(3);
+    vtkpointsactor_vs1->GetProperty()->SetColor(0.5,0.5,0.5);
+    vtkrenderer_vs1->AddActor(vtkpointsactor_vs1);
+
+    // Triangulate the grid points
+    vtkdelaunay2d_vs1 = vtkSmartPointer<vtkDelaunay2D>::New();
+    vtkdelaunay2d_vs1->SetInputData(vtkinputpolydata_vs1);
+    vtkdelaunay2d_vs1->Update();
+    vtkoutputpolydata_vs1 = vtkdelaunay2d_vs1->GetOutput();
+
+//    double bounds[6];
+//    vtkoutputpolydata_vp0->GetBounds(bounds);
+
+    //++std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
+
+//    vtkoutputpolydata->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
+
+    // Create a mapper and actor
+    vtkpolydatamapper_vs1 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkpolydatamapper_vs1->SetInputData(vtkoutputpolydata_vs1);
+
+    vtkactor_vs1 = vtkSmartPointer<vtkActor>::New();
+    vtkactor_vs1->SetMapper(vtkpolydatamapper_vs1);
+
+    // Add the actor to the scene
+    vtkrenderer_vs1->AddActor(vtkactor_vs1);
+
+    // ISO
+    vtkpoints_isovs1 = vtkSmartPointer<vtkPoints>::New();
+
+    // Add the grid points to a polydata object
+    vtkinputpolydata_isovs1 = vtkSmartPointer<vtkPolyData>::New();
+    vtkinputpolydata_isovs1->SetPoints(vtkpoints_isovs1);
+
+    // normal vector endpoints
+    vtkglyphfilter_isovs1 = vtkSmartPointer<vtkVertexGlyphFilter>::New();
+    vtkglyphfilter_isovs1->SetInputData(vtkinputpolydata_isovs1);
+    vtkglyphfilter_isovs1->Update();
+
+    vtkpointsmapper_isovs1 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkpointsmapper_isovs1->SetInputConnection(vtkglyphfilter_isovs1->GetOutputPort());
+
+    vtkpointsactor_isovs1 = vtkSmartPointer<vtkActor>::New();
+    vtkpointsactor_isovs1->SetMapper(vtkpointsmapper_isovs1);
+    vtkpointsactor_isovs1->GetProperty()->SetPointSize(3);
+    vtkpointsactor_isovs1->GetProperty()->SetColor(1.0,0.0,1.0);
+    vtkrenderer_vs1->AddActor(vtkpointsactor_isovs1);
+
+    // Triangulate the grid points
+    vtkdelaunay2d_isovs1 = vtkSmartPointer<vtkDelaunay2D>::New();
+    vtkdelaunay2d_isovs1->SetInputData(vtkinputpolydata_isovs1);
+    vtkdelaunay2d_isovs1->Update();
+    vtkoutputpolydata_isovs1 = vtkdelaunay2d_isovs1->GetOutput();
+
+//    double bounds[6];
+//    vtkoutputpolydata_vp0->GetBounds(bounds);
+
+    //++std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
+
+//    vtkoutputpolydata->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
+
+    // Create a mapper and actor
+    vtkpolydatamapper_isovs1 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkpolydatamapper_isovs1->SetInputData(vtkoutputpolydata_isovs1);
+
+    vtkactor_isovs1 = vtkSmartPointer<vtkActor>::New();
+    vtkactor_isovs1->SetMapper(vtkpolydatamapper_isovs1);
+
+    // Add the actor to the scene
+    vtkrenderer_vs1->AddActor(vtkactor_isovs1);
+    // END vtk examples : colored elevation ============================================================================
+
+    // vtk examples : CubeAxesActor2D.cxx
+    // Create a vtkOutlineFilter to draw the bounding box of the data set.
+    // Also create the associated mapper and actor.
+    vtkoutline_vs1 = vtkSmartPointer<vtkOutlineFilter>::New();
+    vtkoutline_vs1->SetInputConnection(vtkdelaunay2d_vs1->GetOutputPort());  // requires subclass of vtkAlgorithm
+
+    vtkoutlinemapper_vs1 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkoutlinemapper_vs1->SetInputConnection(vtkoutline_vs1->GetOutputPort());
+
+    vtkoutlineactor_vs1 = vtkSmartPointer<vtkActor>::New();
+    vtkoutlineactor_vs1->SetMapper(vtkoutlinemapper_vs1.GetPointer());
+    vtkoutlineactor_vs1->GetProperty()->SetColor(0., 0., 0.);
+
+    // add the actors to the renderer
+    vtkrenderer_vs1->AddViewProp(vtkoutlineactor_vs1.GetPointer());
+
+    // Create a vtkCubeAxesActor2D.  Use the outer edges of the bounding box to
+    // draw the axes.  Add the actor to the renderer.
+    vtkcubeaxesactor2d_vs1 = vtkSmartPointer<vtkCubeAxesActor2D>::New();
+    vtkcubeaxesactor2d_vs1->SetInputConnection(vtkdelaunay2d_vs1->GetOutputPort());
+    //vtkcubeaxesactor2d_vs1->SetCamera(vtkrenderer_vs1->GetActiveCamera());
+    vtkcubeaxesactor2d_vs1->SetCamera(vtkcamera);
+    vtkrenderer_vs1->ResetCamera();  // REQUIRED !!!
+    vtkcubeaxesactor2d_vs1->SetLabelFormat("%6.4g");
+    vtkcubeaxesactor2d_vs1->SetFlyModeToOuterEdges();
+    //vtkcubeaxesactor2d->SetFlyModeToClosestTriad();
+    //vtkcubeaxesactor2d->SetFlyModeToNone();
+    vtkcubeaxesactor2d_vs1->SetAxisTitleTextProperty(vtktextproperty.GetPointer());
+    vtkcubeaxesactor2d_vs1->SetAxisLabelTextProperty(vtktextproperty.GetPointer());
+    vtkcubeaxesactor2d_vs1->SetXLabel("background fluid saturation");
+    vtkcubeaxesactor2d_vs1->SetYLabel("background solid concentration");
+    vtkcubeaxesactor2d_vs1->SetZLabel("saturated bulk modulus");
+    vtkrenderer_vs1->AddViewProp(vtkcubeaxesactor2d_vs1.GetPointer());
+
+    // vtk examples : ScalarBarActor.cxx
+    vtkscalarbaractor_vs1 = vtkSmartPointer<vtkScalarBarActor>::New();
+    vtkscalarbaractor_vs1->SetLookupTable(vtkcolorlookuptable);
+    vtkscalarbaractor_vs1->SetTitle("V2");
+    vtkscalarbaractor_vs1->SetLabelFormat("%6.4g");
+    vtkscalarbaractor_vs1->SetTitleTextProperty(vtktextproperty.GetPointer());
+    vtkscalarbaractor_vs1->SetLabelTextProperty(vtktextproperty.GetPointer());
+    vtkscalarbaractor_vs1->SetOrientationToHorizontal();
+    vtkscalarbaractor_vs1->SetWidth(0.8);
+    vtkscalarbaractor_vs1->SetHeight(0.09);
+    vtkscalarbaractor_vs1->GetPositionCoordinate()->SetValue(0.1, 0.01);
+    vtkscalarbaractor_vs1->SetUnconstrainedFontSize(true);
+    vtkrenderer_vs1->AddActor2D(vtkscalarbaractor_vs1);
+
+    // =================================================================================================================
     qvtkopenglwidget_vs2 = new QVTKOpenGLWidget(this);
     vtkgenericopenglwindow_vs2 = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
     qvtkopenglwidget_vs2->SetRenderWindow(vtkgenericopenglwindow_vs2);
     vtkrenderwindow_vs2 = qvtkopenglwidget_vs2->GetRenderWindow();
+
+    // You can continue to use 'vtkrenderwindow' as a regular vtkRenderWindow
+    // including adding renderers, actors, etc.
+    vtkrenderer_vs2 = vtkSmartPointer<vtkRenderer>::New();
+    vtkrenderer_vs2->GradientBackgroundOn();
+    vtkrenderer_vs2->SetBackground(vtknamedcolors->GetColor3d("Black").GetData());
+    vtkrenderer_vs2->SetBackground2(vtknamedcolors->GetColor3d("DarkGray").GetData());
+    vtkrenderwindow_vs2->AddRenderer(vtkrenderer_vs2);
+
+    vtkrenderer_vs2->SetActiveCamera(vtkcamera);  // shared camera
+
+    vtkrenderwindowinteractor_vs2 = vtkSmartPointer<vtkRenderWindowInteractor>::New();
+    vtkrenderwindowinteractor_vs2 = vtkrenderwindow_vs2->GetInteractor();
+
+    vtkpoints_vs2 = vtkSmartPointer<vtkPoints>::New();
+
+    // Add the grid points to a polydata object
+    vtkinputpolydata_vs2 = vtkSmartPointer<vtkPolyData>::New();
+    vtkinputpolydata_vs2->SetPoints(vtkpoints_vs2);
+
+    // normal vector endpoints
+    vtkglyphfilter_vs2 = vtkSmartPointer<vtkVertexGlyphFilter>::New();
+    vtkglyphfilter_vs2->SetInputData(vtkinputpolydata_vs2);
+    vtkglyphfilter_vs2->Update();
+
+    vtkpointsmapper_vs2 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkpointsmapper_vs2->SetInputConnection(vtkglyphfilter_vs2->GetOutputPort());
+
+    vtkpointsactor_vs2 = vtkSmartPointer<vtkActor>::New();
+    vtkpointsactor_vs2->SetMapper(vtkpointsmapper_vs2);
+    vtkpointsactor_vs2->GetProperty()->SetPointSize(3);
+    vtkpointsactor_vs2->GetProperty()->SetColor(0.5,0.5,0.5);
+    vtkrenderer_vs2->AddActor(vtkpointsactor_vs2);
+
+    // Triangulate the grid points
+    vtkdelaunay2d_vs2 = vtkSmartPointer<vtkDelaunay2D>::New();
+    vtkdelaunay2d_vs2->SetInputData(vtkinputpolydata_vs2);
+    vtkdelaunay2d_vs2->Update();
+    vtkoutputpolydata_vs2 = vtkdelaunay2d_vs2->GetOutput();
+
+//    double bounds[6];
+//    vtkoutputpolydata_vp0->GetBounds(bounds);
+
+    //++std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
+
+//    vtkoutputpolydata->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
+
+    // Create a mapper and actor
+    vtkpolydatamapper_vs2 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkpolydatamapper_vs2->SetInputData(vtkoutputpolydata_vs2);
+
+    vtkactor_vs2 = vtkSmartPointer<vtkActor>::New();
+    vtkactor_vs2->SetMapper(vtkpolydatamapper_vs2);
+
+    // Add the actor to the scene
+    vtkrenderer_vs2->AddActor(vtkactor_vs2);
+
+    // ISO
+    vtkpoints_isovs2 = vtkSmartPointer<vtkPoints>::New();
+
+    // Add the grid points to a polydata object
+    vtkinputpolydata_isovs2 = vtkSmartPointer<vtkPolyData>::New();
+    vtkinputpolydata_isovs2->SetPoints(vtkpoints_isovs2);
+
+    // normal vector endpoints
+    vtkglyphfilter_isovs2 = vtkSmartPointer<vtkVertexGlyphFilter>::New();
+    vtkglyphfilter_isovs2->SetInputData(vtkinputpolydata_isovs2);
+    vtkglyphfilter_isovs2->Update();
+
+    vtkpointsmapper_isovs2 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkpointsmapper_isovs2->SetInputConnection(vtkglyphfilter_isovs2->GetOutputPort());
+
+    vtkpointsactor_isovs2 = vtkSmartPointer<vtkActor>::New();
+    vtkpointsactor_isovs2->SetMapper(vtkpointsmapper_isovs2);
+    vtkpointsactor_isovs2->GetProperty()->SetPointSize(3);
+    vtkpointsactor_isovs2->GetProperty()->SetColor(1.0,0.0,1.0);
+    vtkrenderer_vs2->AddActor(vtkpointsactor_isovs2);
+
+    // Triangulate the grid points
+    vtkdelaunay2d_isovs2 = vtkSmartPointer<vtkDelaunay2D>::New();
+    vtkdelaunay2d_isovs2->SetInputData(vtkinputpolydata_isovs2);
+    vtkdelaunay2d_isovs2->Update();
+    vtkoutputpolydata_isovs2 = vtkdelaunay2d_isovs2->GetOutput();
+
+//    double bounds[6];
+//    vtkoutputpolydata_vp0->GetBounds(bounds);
+
+    //++std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
+
+//    vtkoutputpolydata->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
+
+    // Create a mapper and actor
+    vtkpolydatamapper_isovs2 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkpolydatamapper_isovs2->SetInputData(vtkoutputpolydata_isovs2);
+
+    vtkactor_isovs2 = vtkSmartPointer<vtkActor>::New();
+    vtkactor_isovs2->SetMapper(vtkpolydatamapper_isovs2);
+
+    // Add the actor to the scene
+    vtkrenderer_vs2->AddActor(vtkactor_isovs2);
+    // END vtk examples : colored elevation ============================================================================
+
+    // vtk examples : CubeAxesActor2D.cxx
+    // Create a vtkOutlineFilter to draw the bounding box of the data set.
+    // Also create the associated mapper and actor.
+    vtkoutline_vs2 = vtkSmartPointer<vtkOutlineFilter>::New();
+    vtkoutline_vs2->SetInputConnection(vtkdelaunay2d_vs2->GetOutputPort());  // requires subclass of vtkAlgorithm
+
+    vtkoutlinemapper_vs2 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkoutlinemapper_vs2->SetInputConnection(vtkoutline_vs2->GetOutputPort());
+
+    vtkoutlineactor_vs2 = vtkSmartPointer<vtkActor>::New();
+    vtkoutlineactor_vs2->SetMapper(vtkoutlinemapper_vs2.GetPointer());
+    vtkoutlineactor_vs2->GetProperty()->SetColor(0., 0., 0.);
+
+    // add the actors to the renderer
+    vtkrenderer_vs2->AddViewProp(vtkoutlineactor_vs2.GetPointer());
+
+    // Create a vtkCubeAxesActor2D.  Use the outer edges of the bounding box to
+    // draw the axes.  Add the actor to the renderer.
+    vtkcubeaxesactor2d_vs2 = vtkSmartPointer<vtkCubeAxesActor2D>::New();
+    vtkcubeaxesactor2d_vs2->SetInputConnection(vtkdelaunay2d_vs2->GetOutputPort());
+    //vtkcubeaxesactor2d_vs2->SetCamera(vtkrenderer_vs2->GetActiveCamera());
+    vtkcubeaxesactor2d_vs2->SetCamera(vtkcamera);
+    vtkrenderer_vs2->ResetCamera();  // REQUIRED !!!
+    vtkcubeaxesactor2d_vs2->SetLabelFormat("%6.4g");
+    vtkcubeaxesactor2d_vs2->SetFlyModeToOuterEdges();
+    //vtkcubeaxesactor2d->SetFlyModeToClosestTriad();
+    //vtkcubeaxesactor2d->SetFlyModeToNone();
+    vtkcubeaxesactor2d_vs2->SetAxisTitleTextProperty(vtktextproperty.GetPointer());
+    vtkcubeaxesactor2d_vs2->SetAxisLabelTextProperty(vtktextproperty.GetPointer());
+    vtkcubeaxesactor2d_vs2->SetXLabel("background fluid saturation");
+    vtkcubeaxesactor2d_vs2->SetYLabel("background solid concentration");
+    vtkcubeaxesactor2d_vs2->SetZLabel("saturated bulk modulus");
+    vtkrenderer_vs2->AddViewProp(vtkcubeaxesactor2d_vs2.GetPointer());
+
+    // vtk examples : ScalarBarActor.cxx
+    vtkscalarbaractor_vs2 = vtkSmartPointer<vtkScalarBarActor>::New();
+    vtkscalarbaractor_vs2->SetLookupTable(vtkcolorlookuptable);
+    vtkscalarbaractor_vs2->SetTitle("V3");
+    vtkscalarbaractor_vs2->SetLabelFormat("%6.4g");
+    vtkscalarbaractor_vs2->SetTitleTextProperty(vtktextproperty.GetPointer());
+    vtkscalarbaractor_vs2->SetLabelTextProperty(vtktextproperty.GetPointer());
+    vtkscalarbaractor_vs2->SetOrientationToHorizontal();
+    vtkscalarbaractor_vs2->SetWidth(0.8);
+    vtkscalarbaractor_vs2->SetHeight(0.09);
+    vtkscalarbaractor_vs2->GetPositionCoordinate()->SetValue(0.1, 0.01);
+    vtkscalarbaractor_vs2->SetUnconstrainedFontSize(true);
+    vtkrenderer_vs2->AddActor2D(vtkscalarbaractor_vs2);
 
 
     // =================================================================================================================
@@ -510,6 +874,8 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->addWidget(splitter);
     setLayout(layout);
+
+    PrivateUpdatePlot();
 }
 
 MineralVelsView::~MineralVelsView() {
@@ -521,6 +887,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
     //
     switch(i) {
         case 0: { // Augite
+            mineral_density = mpc::data::AugiteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::AugiteC11<double>();
             mineral_C12 = mpc::data::AugiteC12<double>();
             mineral_C13 = mpc::data::AugiteC13<double>();
@@ -566,6 +935,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 1: { // Albite
+            mineral_density = mpc::data::AlbiteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::AlbiteC11<double>();
             mineral_C12 = mpc::data::AlbiteC12<double>();
             mineral_C13 = mpc::data::AlbiteC13<double>();
@@ -611,6 +983,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 2: { // Anorthite
+            mineral_density = mpc::data::AnorthiteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::AnorthiteC11<double>();
             mineral_C12 = mpc::data::AnorthiteC12<double>();
             mineral_C13 = mpc::data::AnorthiteC13<double>();
@@ -656,6 +1031,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 3: { // Labradorite
+            mineral_density = mpc::data::LabradoriteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::LabradoriteC11<double>();
             mineral_C12 = mpc::data::LabradoriteC12<double>();
             mineral_C13 = mpc::data::LabradoriteC13<double>();
@@ -701,6 +1079,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 4: { // Microcline
+            mineral_density = mpc::data::MicroclineDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::MicroclineC11<double>();
             mineral_C12 = mpc::data::MicroclineC12<double>();
             mineral_C13 = mpc::data::MicroclineC13<double>();
@@ -746,6 +1127,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 5: { // Oligoclase
+            mineral_density = mpc::data::OligoclaseDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::OligoclaseC11<double>();
             mineral_C12 = mpc::data::OligoclaseC12<double>();
             mineral_C13 = mpc::data::OligoclaseC13<double>();
@@ -791,6 +1175,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 6: { // Coesite
+            mineral_density = mpc::data::CoesiteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::CoesiteC11<double>();
             mineral_C12 = mpc::data::CoesiteC12<double>();
             mineral_C13 = mpc::data::CoesiteC13<double>();
@@ -836,6 +1223,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 7: { // Epidote
+            mineral_density = mpc::data::EpidoteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::EpidoteC11<double>();
             mineral_C12 = mpc::data::EpidoteC12<double>();
             mineral_C13 = mpc::data::EpidoteC13<double>();
@@ -881,6 +1271,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 8: { // Hornblende
+            mineral_density = mpc::data::HornblendeDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::HornblendeC11<double>();
             mineral_C12 = mpc::data::HornblendeC12<double>();
             mineral_C13 = mpc::data::HornblendeC13<double>();
@@ -926,6 +1319,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 9: { // Muscovite
+            mineral_density = mpc::data::MuscoviteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::MuscoviteC11<double>();
             mineral_C12 = mpc::data::MuscoviteC12<double>();
             mineral_C13 = mpc::data::MuscoviteC13<double>();
@@ -971,6 +1367,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 10: { // Gypsum
+            mineral_density = mpc::data::GypsumDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::GypsumC11<double>();
             mineral_C12 = mpc::data::GypsumC12<double>();
             mineral_C13 = mpc::data::GypsumC13<double>();
@@ -1016,6 +1415,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 11: { // Enstatite
+            mineral_density = mpc::data::EnstatiteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::EnstatiteC11<double>();
             mineral_C12 = mpc::data::EnstatiteC12<double>();
             mineral_C13 = mpc::data::EnstatiteC13<double>();
@@ -1061,6 +1463,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 12: { // Forsterite
+            mineral_density = mpc::data::ForsteriteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::ForsteriteC11<double>();
             mineral_C12 = mpc::data::ForsteriteC12<double>();
             mineral_C13 = mpc::data::ForsteriteC13<double>();
@@ -1106,6 +1511,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 13: { // Fayalite
+            mineral_density = mpc::data::FayaliteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::FayaliteC11<double>();
             mineral_C12 = mpc::data::FayaliteC12<double>();
             mineral_C13 = mpc::data::FayaliteC13<double>();
@@ -1151,6 +1559,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 14: { // Montecellite
+            mineral_density = mpc::data::MontecelliteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::MontecelliteC11<double>();
             mineral_C12 = mpc::data::MontecelliteC12<double>();
             mineral_C13 = mpc::data::MontecelliteC13<double>();
@@ -1196,6 +1607,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 15: { // Andalusite
+            mineral_density = mpc::data::AndalusiteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::AndalusiteC11<double>();
             mineral_C12 = mpc::data::AndalusiteC12<double>();
             mineral_C13 = mpc::data::AndalusiteC13<double>();
@@ -1241,6 +1655,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 16: { // Silimanite
+            mineral_density = mpc::data::SilimaniteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::SilimaniteC11<double>();
             mineral_C12 = mpc::data::SilimaniteC12<double>();
             mineral_C13 = mpc::data::SilimaniteC13<double>();
@@ -1286,6 +1703,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 17: { // Barite
+            mineral_density = mpc::data::BariteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::BariteC11<double>();
             mineral_C12 = mpc::data::BariteC12<double>();
             mineral_C13 = mpc::data::BariteC13<double>();
@@ -1331,6 +1751,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 18: { // Anhydrite
+            mineral_density = mpc::data::AnhydriteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::AnhydriteC11<double>();
             mineral_C12 = mpc::data::AnhydriteC12<double>();
             mineral_C13 = mpc::data::AnhydriteC13<double>();
@@ -1376,6 +1799,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 19: { // Dolomite
+            mineral_density = mpc::data::DolomiteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::DolomiteC11<double>();
             mineral_C12 = mpc::data::DolomiteC12<double>();
             mineral_C13 = mpc::data::DolomiteC13<double>();
@@ -1421,6 +1847,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 20: { // Rutile
+            mineral_density = mpc::data::RutileDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::RutileC11<double>();
             mineral_C12 = mpc::data::RutileC12<double>();
             mineral_C13 = mpc::data::RutileC13<double>();
@@ -1466,6 +1895,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 21: { // Zircon
+            mineral_density = mpc::data::ZirconDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::ZirconC11<double>();
             mineral_C12 = mpc::data::ZirconC12<double>();
             mineral_C13 = mpc::data::ZirconC13<double>();
@@ -1511,6 +1943,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 22: { // Corundum
+            mineral_density = mpc::data::CorundumDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::CorundumC11<double>();
             mineral_C12 = mpc::data::CorundumC12<double>();
             mineral_C13 = mpc::data::CorundumC13<double>();
@@ -1556,6 +1991,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 23: { // Calcite
+            mineral_density = mpc::data::CalciteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::CalciteC11<double>();
             mineral_C12 = mpc::data::CalciteC12<double>();
             mineral_C13 = mpc::data::CalciteC13<double>();
@@ -1601,6 +2039,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 24: { // Quartz
+            mineral_density = mpc::data::QuartzDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::QuartzC11<double>();
             mineral_C12 = mpc::data::QuartzC12<double>();
             mineral_C13 = mpc::data::QuartzC13<double>();
@@ -1646,6 +2087,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 25: { // Tourmaline
+            mineral_density = mpc::data::TourmalineDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::TourmalineC11<double>();
             mineral_C12 = mpc::data::TourmalineC12<double>();
             mineral_C13 = mpc::data::TourmalineC13<double>();
@@ -1691,6 +2135,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 26: { // Beryl
+            mineral_density = mpc::data::BerylDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::BerylC11<double>();
             mineral_C12 = mpc::data::BerylC12<double>();
             mineral_C13 = mpc::data::BerylC13<double>();
@@ -1736,6 +2183,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 27: { // Graphite
+            mineral_density = mpc::data::GraphiteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::GraphiteC11<double>();
             mineral_C12 = mpc::data::GraphiteC12<double>();
             mineral_C13 = mpc::data::GraphiteC13<double>();
@@ -1781,6 +2231,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 28: { // Wusite
+            mineral_density = mpc::data::WusiteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::WusiteC11<double>();
             mineral_C12 = mpc::data::WusiteC12<double>();
             mineral_C13 = mpc::data::WusiteC13<double>();
@@ -1826,6 +2279,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 29: { // Manganosite
+            mineral_density = mpc::data::ManganositeDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::ManganositeC11<double>();
             mineral_C12 = mpc::data::ManganositeC12<double>();
             mineral_C13 = mpc::data::ManganositeC13<double>();
@@ -1871,6 +2327,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 30: { // Periclase
+            mineral_density = mpc::data::PericlaseDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::PericlaseC11<double>();
             mineral_C12 = mpc::data::PericlaseC12<double>();
             mineral_C13 = mpc::data::PericlaseC13<double>();
@@ -1916,6 +2375,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 31: { // Magnetite
+            mineral_density = mpc::data::MagnetiteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::MagnetiteC11<double>();
             mineral_C12 = mpc::data::MagnetiteC12<double>();
             mineral_C13 = mpc::data::MagnetiteC13<double>();
@@ -1961,6 +2423,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 32: { // Chromite
+            mineral_density = mpc::data::ChromiteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::ChromiteC11<double>();
             mineral_C12 = mpc::data::ChromiteC12<double>();
             mineral_C13 = mpc::data::ChromiteC13<double>();
@@ -2006,6 +2471,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 33: { // Spinel
+            mineral_density = mpc::data::SpinelDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::SpinelC11<double>();
             mineral_C12 = mpc::data::SpinelC12<double>();
             mineral_C13 = mpc::data::SpinelC13<double>();
@@ -2051,6 +2519,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 34: { // Pyrite
+            mineral_density = mpc::data::PyriteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::PyriteC11<double>();
             mineral_C12 = mpc::data::PyriteC12<double>();
             mineral_C13 = mpc::data::PyriteC13<double>();
@@ -2096,6 +2567,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 35: { // Galena
+            mineral_density = mpc::data::GalenaDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::GalenaC11<double>();
             mineral_C12 = mpc::data::GalenaC12<double>();
             mineral_C13 = mpc::data::GalenaC13<double>();
@@ -2141,6 +2615,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 36: { // Sphalerite
+            mineral_density = mpc::data::SphaleriteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::SphaleriteC11<double>();
             mineral_C12 = mpc::data::SphaleriteC12<double>();
             mineral_C13 = mpc::data::SphaleriteC13<double>();
@@ -2186,6 +2663,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 37: { // Fluorite
+            mineral_density = mpc::data::FluoriteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::FluoriteC11<double>();
             mineral_C12 = mpc::data::FluoriteC12<double>();
             mineral_C13 = mpc::data::FluoriteC13<double>();
@@ -2231,6 +2711,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 38: { // Halite
+            mineral_density = mpc::data::HaliteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::HaliteC11<double>();
             mineral_C12 = mpc::data::HaliteC12<double>();
             mineral_C13 = mpc::data::HaliteC13<double>();
@@ -2276,6 +2759,9 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
             break;
         }
         case 39: { // Sylvite
+            mineral_density = mpc::data::SylviteDensity<double>();
+            mineral_K = mpc::data::AugiteBulkModulus<double>();
+            mineral_mu = mpc::data::AugiteShearModulus<double>();
             mineral_C11 = mpc::data::SylviteC11<double>();
             mineral_C12 = mpc::data::SylviteC12<double>();
             mineral_C13 = mpc::data::SylviteC13<double>();
@@ -2323,6 +2809,7 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         default: {}
 
     }  // end switch
+    // TODO: mineral_K and mineral_mu for each mineral
 
     PrivateUpdatePlot();
 }
@@ -2340,8 +2827,235 @@ void MineralVelsView::OnVelocitySurfaceComboBoxChanged(int i) {
 // private member functions
 void MineralVelsView::PrivateUpdatePlot() {
     // update the effective values and plot points
+    vtkpoints_vp0->Reset();
+    vtkpoints_vs1->Reset();
+    vtkpoints_vs2->Reset();
+    vtkpoints_isovp0->Reset();
+    vtkpoints_isovs1->Reset();
+    vtkpoints_isovs2->Reset();
+
 
     mpc::core::StiffnessTensor<double> stiffnesstensortype = mpc::core::StiffnessTensor<double>();
+    std::set<mpc::core::TensorRank4Component<double> > triclinic_symmetry_set{
+            mpc::core::TensorRank4Component<double>(mineral_C11, mpc::core::TensorRank4ComponentIndex(0,0,0,0)), // X00 >> (0000)
+            mpc::core::TensorRank4Component<double>(mineral_C12, mpc::core::TensorRank4ComponentIndex(0,0,1,1)), // X01 >> (0011), (1100)
+            mpc::core::TensorRank4Component<double>(mineral_C13, mpc::core::TensorRank4ComponentIndex(0,0,2,2)), // X02 >> (0022), (2200)
+            mpc::core::TensorRank4Component<double>(mineral_C14, mpc::core::TensorRank4ComponentIndex(0,0,1,2)), // X03 >> (0012), (0021), (1200), (2100)
+            mpc::core::TensorRank4Component<double>(mineral_C15, mpc::core::TensorRank4ComponentIndex(0,0,0,2)), // X04 >> (0002), (0020), (0200), (2000)
+            mpc::core::TensorRank4Component<double>(mineral_C16, mpc::core::TensorRank4ComponentIndex(0,0,0,1)), // X05 >> (0001), (0010), (0100), (1000)
+            mpc::core::TensorRank4Component<double>(mineral_C22, mpc::core::TensorRank4ComponentIndex(1,1,1,1)), // X11 >> (1111)
+            mpc::core::TensorRank4Component<double>(mineral_C23, mpc::core::TensorRank4ComponentIndex(1,1,2,2)), // X12 >> (1122), (2211)
+            mpc::core::TensorRank4Component<double>(mineral_C24, mpc::core::TensorRank4ComponentIndex(1,1,1,2)), // X13 >> (1112), (1121), (1211), (2111)
+            mpc::core::TensorRank4Component<double>(mineral_C25, mpc::core::TensorRank4ComponentIndex(1,1,0,2)), // X14 >> (1102), (1120), (0211), (2011)
+            mpc::core::TensorRank4Component<double>(mineral_C26, mpc::core::TensorRank4ComponentIndex(1,1,0,1)), // X15 >> (1101), (1110), (0111), (1011)
+            mpc::core::TensorRank4Component<double>(mineral_C33, mpc::core::TensorRank4ComponentIndex(2,2,2,2)), // X22 >> (2222)
+            mpc::core::TensorRank4Component<double>(mineral_C34, mpc::core::TensorRank4ComponentIndex(2,2,1,2)), // X23 >> (2212), (2221), (1222), (2122)
+            mpc::core::TensorRank4Component<double>(mineral_C35, mpc::core::TensorRank4ComponentIndex(2,2,0,2)), // X24 >> (2202), (2220), (0222), (2022)
+            mpc::core::TensorRank4Component<double>(mineral_C36, mpc::core::TensorRank4ComponentIndex(2,2,0,1)), // X25 >> (2201), (2210), (0122), (1022)
+            mpc::core::TensorRank4Component<double>(mineral_C44, mpc::core::TensorRank4ComponentIndex(1,2,1,2)), // X33 >> (1212), (1221), (2112), (2121)
+            mpc::core::TensorRank4Component<double>(mineral_C45, mpc::core::TensorRank4ComponentIndex(1,2,0,2)), // X34 >> (1202), (1220), (2102), (2120), (0212), (2012), (0221), (2021)
+            mpc::core::TensorRank4Component<double>(mineral_C46, mpc::core::TensorRank4ComponentIndex(1,2,0,1)), // X35 >> (1201), (1210), (2101), (2110), (0112), (1012), (0121), (1021)
+            mpc::core::TensorRank4Component<double>(mineral_C55, mpc::core::TensorRank4ComponentIndex(0,2,0,2)), // X44 >> (0202), (0220), (2002), (2020)
+            mpc::core::TensorRank4Component<double>(mineral_C56, mpc::core::TensorRank4ComponentIndex(0,2,0,1)), // X45 >> (0201), (0210), (2001), (2010), (0102), (1002), (0120), (1020)
+            mpc::core::TensorRank4Component<double>(mineral_C66, mpc::core::TensorRank4ComponentIndex(0,1,0,1)) // X55 >> (0101), (0110), (1001), (1010)
+    };
+
+    stiffnesstensortype.SetComponentsWithSymmetry<mpc::core::TriclinicSymmetryGroupType>(triclinic_symmetry_set);
+
+    //mpc::core::StiffnessTensor<double> isostiffnesstensortype = mpc::core::StiffnessTensor<double>();
+    // TODO: tensor invariants and isotropic velocity points
+    // TODO: green-christoffel and anisotropic velocity points
+
+    mpc::rockphysics::CompressionalWaveVelocityType<double> pvel_type = mpc::rockphysics::RockPhysicsTransforms<double,mpc::rockphysics::CompressionalWaveVelocityType<double> >::Compute(mpc::rockphysics::BulkModulusType<double>(mineral_K), mpc::rockphysics::ShearModulusType<double>(mineral_mu), mpc::rockphysics::DensityType<double>(mineral_density));
+
+    mpc::rockphysics::ShearWaveVelocityType<double> svel_type = mpc::rockphysics::RockPhysicsTransforms<double,mpc::rockphysics::ShearWaveVelocityType<double> >::Compute(mpc::rockphysics::ShearModulusType<double>(mineral_mu), mpc::rockphysics::DensityType<double>(mineral_density));
+
+    double pvel = pvel_type.value;  // RockPhysicsTransforms<T,U>
+    double svel = svel_type.value;  // RockPhysicsTransforms<T,U>
+
+    const double PI = mpc::utilities::PI<double>;
+    const double TWO_PI = 2.0 * PI;
+    const int DIVISOR = 16;
+    const double DBL_DIVISOR = double(DIVISOR);
+    // Euler transformation tensor arguments
+    double phi0 = 0.0;
+    double phi1 = 0.0;
+    double phi2 = 0.0;
+
+    mpc::transformation::EulerRotationX3X1X3<double> eulerRotation;  // function object
+    //mpc::transformation::Transformer<double,4> trans4_fo;  // function object
+    mpc::transformation::Transformer<double,1> trans1_fo;  // function object
+    blitz::Array<double,2> rot = eulerRotation(phi0, phi1, phi2);  // transformation tensor
+    blitz::Array<double,1> normal_vector_x1 = blitz::Array<double,1>(3);
+    normal_vector_x1 = 1, 0, 0;
+    blitz::Array<double,1> normal_vector_x2 = blitz::Array<double,1>(3);
+    normal_vector_x2 = 0, 1, 0;
+    blitz::Array<double,1> normal_vector_x3 = blitz::Array<double,1>(3);
+    normal_vector_x3 = 0, 0, 1;
+    blitz::Array<double,1> vel_vector = blitz::Array<double,1>(3);
+
+    mpc::mechanics::GreenChristoffel<double> greenchristoffel = mpc::mechanics::GreenChristoffel<double>();  // function object
+
+    std::array<double,3> phase_velocities{1.0, 1.0, 1.0};
+
+    double xx, yy, zz, mag;
+    double minvel = 0.0;  // TODO: use and array and then use std::min() and std::max()
+    double maxvel = 0.0;
+    int cntr = 0;
+
+    for (int i=0; i<DIVISOR; ++i) {
+        phi0 = (double(i)/DBL_DIVISOR) * TWO_PI;
+        for (int j=0; j<DIVISOR; ++j) {
+            phi1 = (double(j)/DBL_DIVISOR) * PI;  // note the max is pi not 2*pi
+            for (int k=0; k<DIVISOR; ++k) {
+                phi2 = (double(k)/DBL_DIVISOR) * TWO_PI;
+                rot = eulerRotation(phi0, phi1, phi2);  // transformation tensor
+                //blitz::Array<double,4> trans_tensor = trans4_fo(quartz_stiffness_tensor.tensor, rot);
+                //trans_tensor *= orientation_fraction;  // multiply each component by the volume fraction (orientation)
+                //average_stiffness_tensor.tensor += trans_tensor;
+                //rotated_normal_vector = trans1_fo(normal_vector, rot);
+                //mpc::utilities::Normalize(rotated_normal_vector);  // new normal
+                normal_vector_x1 = rot(blitz::Range::all(),0);
+                mpc::utilities::Normalize(normal_vector_x1);
+                normal_vector_x2 = rot(blitz::Range::all(),1);
+                mpc::utilities::Normalize(normal_vector_x2);
+                normal_vector_x3 = rot(blitz::Range::all(),2);
+                mpc::utilities::Normalize(normal_vector_x3);
+
+                vel_vector = normal_vector_x1 * pvel;
+
+                xx = normal_vector_x1(0) * pvel;
+                yy = normal_vector_x1(1) * pvel;
+                zz = normal_vector_x1(2) * pvel;
+                vtkpoints_isovp0->InsertNextPoint(xx, yy, zz);
+
+                vel_vector = normal_vector_x1 * svel;
+
+                xx = normal_vector_x1(0) * svel;
+                yy = normal_vector_x1(1) * svel;
+                zz = normal_vector_x1(2) * svel;
+                vtkpoints_isovs1->InsertNextPoint(xx, yy, zz);
+                vtkpoints_isovs2->InsertNextPoint(xx, yy, zz);
+
+                greenchristoffel.SetComponents(stiffnesstensortype, normal_vector_x1);
+                phase_velocities = greenchristoffel.PhaseVelocities(mineral_density);
+
+                vel_vector = normal_vector_x1 * phase_velocities[0];
+
+                xx = normal_vector_x1(0) * phase_velocities[0];
+                yy = normal_vector_x1(1) * phase_velocities[0];
+                zz = normal_vector_x1(2) * phase_velocities[0];
+                vtkpoints_vp0->InsertNextPoint(xx, yy, zz);
+                mag = mpc::utilities::Magnitude<double>(vel_vector);
+                if (mag<minvel) { minvel = mag; }
+                if (mag>maxvel) { maxvel = mag; }
+
+                xx = normal_vector_x1(0) * phase_velocities[1];
+                yy = normal_vector_x1(1) * phase_velocities[1];
+                zz = normal_vector_x1(2) * phase_velocities[1];
+                vtkpoints_vs1->InsertNextPoint(xx, yy, zz);
+
+                xx = normal_vector_x1(0) * phase_velocities[2];
+                yy = normal_vector_x1(1) * phase_velocities[2];
+                zz = normal_vector_x1(2) * phase_velocities[2];
+                vtkpoints_vs2->InsertNextPoint(xx, yy, zz);
+
+                ++cntr;
+            }
+        }
+    }  // end for
+    std::cout << "minvel : " << minvel << ", maxvel : " << maxvel << std::endl;
+
+    vtkinputpolydata_isovp0->SetPoints(vtkpoints_isovp0);
+    vtkinputpolydata_isovs1->SetPoints(vtkpoints_isovs1);
+    vtkinputpolydata_isovs2->SetPoints(vtkpoints_isovs2);
+    vtkinputpolydata_vp0->SetPoints(vtkpoints_vp0);
+    vtkinputpolydata_vs1->SetPoints(vtkpoints_vs1);
+    vtkinputpolydata_vs2->SetPoints(vtkpoints_vs2);
+
+    vtkglyphfilter_isovp0->SetInputData(vtkinputpolydata_isovp0);  // is this needed?
+    vtkglyphfilter_isovp0->Update();
+    vtkglyphfilter_isovs1->SetInputData(vtkinputpolydata_isovs1);  // is this needed?
+    vtkglyphfilter_isovs1->Update();
+    vtkglyphfilter_isovs2->SetInputData(vtkinputpolydata_isovs2);  // is this needed?
+    vtkglyphfilter_isovs2->Update();
+    vtkglyphfilter_vp0->SetInputData(vtkinputpolydata_vp0);  // is this needed?
+    vtkglyphfilter_vp0->Update();
+    vtkglyphfilter_vs1->SetInputData(vtkinputpolydata_vs1);  // is this needed?
+    vtkglyphfilter_vs1->Update();
+    vtkglyphfilter_vs2->SetInputData(vtkinputpolydata_vs2);  // is this needed?
+    vtkglyphfilter_vs2->Update();
+
+    vtkpointsmapper_isovp0->SetInputConnection(vtkglyphfilter_isovp0->GetOutputPort());  // is this needed?
+    vtkpointsmapper_isovs1->SetInputConnection(vtkglyphfilter_isovs1->GetOutputPort());  // is this needed?
+    vtkpointsmapper_isovs2->SetInputConnection(vtkglyphfilter_isovs2->GetOutputPort());  // is this needed?
+    vtkpointsmapper_vp0->SetInputConnection(vtkglyphfilter_vp0->GetOutputPort());  // is this needed?
+    vtkpointsmapper_vs1->SetInputConnection(vtkglyphfilter_vs1->GetOutputPort());  // is this needed?
+    vtkpointsmapper_vs2->SetInputConnection(vtkglyphfilter_vs2->GetOutputPort());  // is this needed?
+
+    vtkpointsactor_isovp0->SetMapper(vtkpointsmapper_isovp0);
+    vtkpointsactor_isovs1->SetMapper(vtkpointsmapper_isovs1);
+    vtkpointsactor_isovs2->SetMapper(vtkpointsmapper_isovs2);
+    vtkpointsactor_vp0->SetMapper(vtkpointsmapper_vp0);
+    vtkpointsactor_vs1->SetMapper(vtkpointsmapper_vs1);
+    vtkpointsactor_vs2->SetMapper(vtkpointsmapper_vs2);
+
+    vtkdelaunay2d_isovp0->SetInputData(vtkinputpolydata_isovp0);
+    vtkdelaunay2d_isovp0->Update();
+    vtkoutputpolydata_isovp0 = vtkdelaunay2d_isovp0->GetOutput();
+    vtkdelaunay2d_isovs1->SetInputData(vtkinputpolydata_isovs1);
+    vtkdelaunay2d_isovs1->Update();
+    vtkoutputpolydata_isovs1 = vtkdelaunay2d_isovs1->GetOutput();
+    vtkdelaunay2d_isovs2->SetInputData(vtkinputpolydata_isovs2);
+    vtkdelaunay2d_isovs2->Update();
+    vtkoutputpolydata_isovs2 = vtkdelaunay2d_isovs2->GetOutput();
+    vtkdelaunay2d_vp0->SetInputData(vtkinputpolydata_vp0);
+    vtkdelaunay2d_vp0->Update();
+    vtkoutputpolydata_vp0 = vtkdelaunay2d_vp0->GetOutput();
+    vtkdelaunay2d_vs1->SetInputData(vtkinputpolydata_vs1);
+    vtkdelaunay2d_vs1->Update();
+    vtkoutputpolydata_vs1 = vtkdelaunay2d_vs1->GetOutput();
+    vtkdelaunay2d_vs2->SetInputData(vtkinputpolydata_vs2);
+    vtkdelaunay2d_vs2->Update();
+    vtkoutputpolydata_vs2 = vtkdelaunay2d_vs2->GetOutput();
+
+    //double bounds_vp0[6];
+    //vtkoutputpolydata_vp0->GetBounds(bounds_vp0);
+
+    vtkcolorlookuptable->SetTableRange(minvel, maxvel);
+    vtkcolorlookuptable->Build();
+
+    std::cout << "number of rotations : " << cntr << std::endl;
+    std::cout << "There are " << vtkoutputpolydata_vp0->GetNumberOfPoints() << " points." << std::endl;
+
+////    for(int i = 0; i < vtkoutputpolydata->GetNumberOfPoints(); i++)
+////    {
+////        double p[3];
+////        vtkoutputpolydata->GetPoint(i,p);
+////        //std::cout << "point : " << i << ", x : " << p[0] << ", y : " << p[1] << ", z : " << p[2] << std::endl;
+////
+////        double dcolor[3];
+////        vtkcolorlookuptable->GetColor(p[2], dcolor);
+////
+////        unsigned char color[3];
+////        for(unsigned int j = 0; j < 3; j++)
+////        {
+////            color[j] = static_cast<unsigned char>(255.0 * dcolor[j]);
+////        }
+////
+////        //vtkcolorchararray->InsertNextTupleValue(color);  // VTK version < 7
+////        vtkcolorchararray->InsertNextTypedTuple(color);
+////    }
+//
+//    vtkoutputpolydata->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
+
+    //vtkpolydatamapper_isovp0->SetInputData(vtkoutputpolydata_isovp0);
+
+    //vtkactor_isovp0->SetMapper(vtkpolydatamapper_isovp0);
+
+    //vtkrenderer_vp0->ResetCamera();
+
+    //vtkscalarbaractor_vp0->SetLookupTable(vtkcolorlookuptable);
 
 }
 
