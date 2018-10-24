@@ -16,6 +16,8 @@
 #include "solidphaseview2.h"
 #include "mixinglawsview.h"
 #include "mineralvelsview.h"
+#include "transformationview.h"
+#include "greenchristoffelnormalvectorview.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
@@ -82,12 +84,27 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     menu->addAction(action_mineralvelsview);
 
 
-//    menu->addSeparator();
-//    // quit application
-//    QAction*  action_quit = new QAction("&quit", this);
-//    connect(action_quit, &QAction::triggered, this, &MainWindow::close);
-//    menu->addAction(action_quit);
+    // misc menu bar
+    QMenu* menu1 = menubar->addMenu("&Misc");
 
+    // transformation view
+    TransformationView* transformationview = new TransformationView(this);
+    stacked_widget->addWidget(transformationview);
+    // action and slot
+    QAction * action_transformationview = new QAction("transformation", this);
+    connect(action_transformationview, &QAction::triggered, this, &MainWindow::OnTransformationView);
+    menu1->addAction(action_transformationview);
+
+    // green-christoffel normal vector view
+    GreenChristoffelNormalVectorView* greenchristoffelview = new GreenChristoffelNormalVectorView(this);
+    stacked_widget->addWidget(greenchristoffelview);
+    // action and slot
+    QAction * action_greenchristoffelview = new QAction("Green-Christoffel", this);
+    connect(action_greenchristoffelview, &QAction::triggered, this, &MainWindow::OnGreenChristoffelNormalVectorView);
+    menu1->addAction(action_greenchristoffelview);
+
+
+    // status bar
     status_bar = QSharedPointer<QStatusBar>(new QStatusBar(this));
     setStatusBar(status_bar.get());
     status_bar->showMessage("done");
@@ -128,6 +145,19 @@ void MainWindow::OnMixingLawsView() {
 void MainWindow::OnMineralVelsView() {
     status_bar->showMessage("loading mineral vels ...");
     stacked_widget->setCurrentIndex(4);
+    status_bar->showMessage("done");
+}
+
+// misc
+void MainWindow::OnTransformationView() {
+    status_bar->showMessage("loading transformation ...");
+    stacked_widget->setCurrentIndex(5);
+    status_bar->showMessage("done");
+}
+
+void MainWindow::OnGreenChristoffelNormalVectorView() {
+    status_bar->showMessage("loading Green-Christoffel ...");
+    stacked_widget->setCurrentIndex(6);
     status_bar->showMessage("done");
 }
 

@@ -488,6 +488,7 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
 
     vtkactor_isovp0 = vtkSmartPointer<vtkActor>::New();
     vtkactor_isovp0->SetMapper(vtkpolydatamapper_isovp0);
+    vtkactor_isovp0->GetProperty()->SetRepresentationToWireframe();
 
     // Add the actor to the scene
     vtkrenderer_vp0->AddActor(vtkactor_isovp0);
@@ -643,6 +644,7 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
 
     vtkactor_isovs1 = vtkSmartPointer<vtkActor>::New();
     vtkactor_isovs1->SetMapper(vtkpolydatamapper_isovs1);
+    vtkactor_isovs1->GetProperty()->SetRepresentationToWireframe();
 
     // Add the actor to the scene
     vtkrenderer_vs1->AddActor(vtkactor_isovs1);
@@ -798,6 +800,7 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
 
     vtkactor_isovs2 = vtkSmartPointer<vtkActor>::New();
     vtkactor_isovs2->SetMapper(vtkpolydatamapper_isovs2);
+    vtkactor_isovs2->GetProperty()->SetRepresentationToWireframe();
 
     // Add the actor to the scene
     vtkrenderer_vs2->AddActor(vtkactor_isovs2);
@@ -936,8 +939,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 1: { // Albite
             mineral_density = mpc::data::AlbiteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::AlbiteBulkModulus<double>();
+            mineral_mu = mpc::data::AlbiteShearModulus<double>();
             mineral_C11 = mpc::data::AlbiteC11<double>();
             mineral_C12 = mpc::data::AlbiteC12<double>();
             mineral_C13 = mpc::data::AlbiteC13<double>();
@@ -984,8 +987,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 2: { // Anorthite
             mineral_density = mpc::data::AnorthiteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::AnorthiteBulkModulus<double>();
+            mineral_mu = mpc::data::AnorthiteShearModulus<double>();
             mineral_C11 = mpc::data::AnorthiteC11<double>();
             mineral_C12 = mpc::data::AnorthiteC12<double>();
             mineral_C13 = mpc::data::AnorthiteC13<double>();
@@ -1032,8 +1035,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 3: { // Labradorite
             mineral_density = mpc::data::LabradoriteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::LabradoriteBulkModulus<double>();
+            mineral_mu = mpc::data::LabradoriteShearModulus<double>();
             mineral_C11 = mpc::data::LabradoriteC11<double>();
             mineral_C12 = mpc::data::LabradoriteC12<double>();
             mineral_C13 = mpc::data::LabradoriteC13<double>();
@@ -1080,8 +1083,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 4: { // Microcline
             mineral_density = mpc::data::MicroclineDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::MicroclineBulkModulus<double>();
+            mineral_mu = mpc::data::MicroclineShearModulus<double>();
             mineral_C11 = mpc::data::MicroclineC11<double>();
             mineral_C12 = mpc::data::MicroclineC12<double>();
             mineral_C13 = mpc::data::MicroclineC13<double>();
@@ -1128,8 +1131,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 5: { // Oligoclase
             mineral_density = mpc::data::OligoclaseDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::OligoclaseBulkModulus<double>();
+            mineral_mu = mpc::data::OligoclaseShearModulus<double>();
             mineral_C11 = mpc::data::OligoclaseC11<double>();
             mineral_C12 = mpc::data::OligoclaseC12<double>();
             mineral_C13 = mpc::data::OligoclaseC13<double>();
@@ -1176,8 +1179,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 6: { // Coesite
             mineral_density = mpc::data::CoesiteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::CoesiteBulkModulus<double>();
+            mineral_mu = mpc::data::CoesiteShearModulus<double>();
             mineral_C11 = mpc::data::CoesiteC11<double>();
             mineral_C12 = mpc::data::CoesiteC12<double>();
             mineral_C13 = mpc::data::CoesiteC13<double>();
@@ -1224,8 +1227,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 7: { // Epidote
             mineral_density = mpc::data::EpidoteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::EpidoteBulkModulus<double>();
+            mineral_mu = mpc::data::EpidoteShearModulus<double>();
             mineral_C11 = mpc::data::EpidoteC11<double>();
             mineral_C12 = mpc::data::EpidoteC12<double>();
             mineral_C13 = mpc::data::EpidoteC13<double>();
@@ -1272,8 +1275,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 8: { // Hornblende
             mineral_density = mpc::data::HornblendeDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::HornblendeBulkModulus<double>();
+            mineral_mu = mpc::data::HornblendeShearModulus<double>();
             mineral_C11 = mpc::data::HornblendeC11<double>();
             mineral_C12 = mpc::data::HornblendeC12<double>();
             mineral_C13 = mpc::data::HornblendeC13<double>();
@@ -1320,8 +1323,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 9: { // Muscovite
             mineral_density = mpc::data::MuscoviteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::MuscoviteBulkModulus<double>();
+            mineral_mu = mpc::data::MuscoviteShearModulus<double>();
             mineral_C11 = mpc::data::MuscoviteC11<double>();
             mineral_C12 = mpc::data::MuscoviteC12<double>();
             mineral_C13 = mpc::data::MuscoviteC13<double>();
@@ -1368,8 +1371,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 10: { // Gypsum
             mineral_density = mpc::data::GypsumDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::GypsumBulkModulus<double>();
+            mineral_mu = mpc::data::GypsumShearModulus<double>();
             mineral_C11 = mpc::data::GypsumC11<double>();
             mineral_C12 = mpc::data::GypsumC12<double>();
             mineral_C13 = mpc::data::GypsumC13<double>();
@@ -1416,8 +1419,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 11: { // Enstatite
             mineral_density = mpc::data::EnstatiteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::EnstatiteBulkModulus<double>();
+            mineral_mu = mpc::data::EnstatiteShearModulus<double>();
             mineral_C11 = mpc::data::EnstatiteC11<double>();
             mineral_C12 = mpc::data::EnstatiteC12<double>();
             mineral_C13 = mpc::data::EnstatiteC13<double>();
@@ -1464,8 +1467,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 12: { // Forsterite
             mineral_density = mpc::data::ForsteriteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::ForsteriteBulkModulus<double>();
+            mineral_mu = mpc::data::ForsteriteShearModulus<double>();
             mineral_C11 = mpc::data::ForsteriteC11<double>();
             mineral_C12 = mpc::data::ForsteriteC12<double>();
             mineral_C13 = mpc::data::ForsteriteC13<double>();
@@ -1512,8 +1515,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 13: { // Fayalite
             mineral_density = mpc::data::FayaliteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::FayaliteBulkModulus<double>();
+            mineral_mu = mpc::data::FayaliteShearModulus<double>();
             mineral_C11 = mpc::data::FayaliteC11<double>();
             mineral_C12 = mpc::data::FayaliteC12<double>();
             mineral_C13 = mpc::data::FayaliteC13<double>();
@@ -1560,8 +1563,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 14: { // Montecellite
             mineral_density = mpc::data::MontecelliteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::MontecelliteBulkModulus<double>();
+            mineral_mu = mpc::data::MontecelliteShearModulus<double>();
             mineral_C11 = mpc::data::MontecelliteC11<double>();
             mineral_C12 = mpc::data::MontecelliteC12<double>();
             mineral_C13 = mpc::data::MontecelliteC13<double>();
@@ -1608,8 +1611,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 15: { // Andalusite
             mineral_density = mpc::data::AndalusiteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::AndalusiteBulkModulus<double>();
+            mineral_mu = mpc::data::AndalusiteShearModulus<double>();
             mineral_C11 = mpc::data::AndalusiteC11<double>();
             mineral_C12 = mpc::data::AndalusiteC12<double>();
             mineral_C13 = mpc::data::AndalusiteC13<double>();
@@ -1656,8 +1659,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 16: { // Silimanite
             mineral_density = mpc::data::SilimaniteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::SilimaniteBulkModulus<double>();
+            mineral_mu = mpc::data::SilimaniteShearModulus<double>();
             mineral_C11 = mpc::data::SilimaniteC11<double>();
             mineral_C12 = mpc::data::SilimaniteC12<double>();
             mineral_C13 = mpc::data::SilimaniteC13<double>();
@@ -1704,8 +1707,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 17: { // Barite
             mineral_density = mpc::data::BariteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::BariteBulkModulus<double>();
+            mineral_mu = mpc::data::BariteShearModulus<double>();
             mineral_C11 = mpc::data::BariteC11<double>();
             mineral_C12 = mpc::data::BariteC12<double>();
             mineral_C13 = mpc::data::BariteC13<double>();
@@ -1752,8 +1755,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 18: { // Anhydrite
             mineral_density = mpc::data::AnhydriteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::AnhydriteBulkModulus<double>();
+            mineral_mu = mpc::data::AnhydriteShearModulus<double>();
             mineral_C11 = mpc::data::AnhydriteC11<double>();
             mineral_C12 = mpc::data::AnhydriteC12<double>();
             mineral_C13 = mpc::data::AnhydriteC13<double>();
@@ -1800,8 +1803,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 19: { // Dolomite
             mineral_density = mpc::data::DolomiteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::DolomiteBulkModulus<double>();
+            mineral_mu = mpc::data::DolomiteShearModulus<double>();
             mineral_C11 = mpc::data::DolomiteC11<double>();
             mineral_C12 = mpc::data::DolomiteC12<double>();
             mineral_C13 = mpc::data::DolomiteC13<double>();
@@ -1848,8 +1851,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 20: { // Rutile
             mineral_density = mpc::data::RutileDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::RutileBulkModulus<double>();
+            mineral_mu = mpc::data::RutileShearModulus<double>();
             mineral_C11 = mpc::data::RutileC11<double>();
             mineral_C12 = mpc::data::RutileC12<double>();
             mineral_C13 = mpc::data::RutileC13<double>();
@@ -1896,8 +1899,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 21: { // Zircon
             mineral_density = mpc::data::ZirconDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::ZirconBulkModulus<double>();
+            mineral_mu = mpc::data::ZirconShearModulus<double>();
             mineral_C11 = mpc::data::ZirconC11<double>();
             mineral_C12 = mpc::data::ZirconC12<double>();
             mineral_C13 = mpc::data::ZirconC13<double>();
@@ -1944,8 +1947,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 22: { // Corundum
             mineral_density = mpc::data::CorundumDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::CorundumBulkModulus<double>();
+            mineral_mu = mpc::data::CorundumShearModulus<double>();
             mineral_C11 = mpc::data::CorundumC11<double>();
             mineral_C12 = mpc::data::CorundumC12<double>();
             mineral_C13 = mpc::data::CorundumC13<double>();
@@ -1992,8 +1995,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 23: { // Calcite
             mineral_density = mpc::data::CalciteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::CalciteBulkModulus<double>();
+            mineral_mu = mpc::data::CalciteShearModulus<double>();
             mineral_C11 = mpc::data::CalciteC11<double>();
             mineral_C12 = mpc::data::CalciteC12<double>();
             mineral_C13 = mpc::data::CalciteC13<double>();
@@ -2040,8 +2043,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 24: { // Quartz
             mineral_density = mpc::data::QuartzDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::QuartzBulkModulus<double>();
+            mineral_mu = mpc::data::QuartzShearModulus<double>();
             mineral_C11 = mpc::data::QuartzC11<double>();
             mineral_C12 = mpc::data::QuartzC12<double>();
             mineral_C13 = mpc::data::QuartzC13<double>();
@@ -2088,8 +2091,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 25: { // Tourmaline
             mineral_density = mpc::data::TourmalineDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::TourmalineBulkModulus<double>();
+            mineral_mu = mpc::data::TourmalineShearModulus<double>();
             mineral_C11 = mpc::data::TourmalineC11<double>();
             mineral_C12 = mpc::data::TourmalineC12<double>();
             mineral_C13 = mpc::data::TourmalineC13<double>();
@@ -2136,8 +2139,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 26: { // Beryl
             mineral_density = mpc::data::BerylDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::BerylBulkModulus<double>();
+            mineral_mu = mpc::data::BerylShearModulus<double>();
             mineral_C11 = mpc::data::BerylC11<double>();
             mineral_C12 = mpc::data::BerylC12<double>();
             mineral_C13 = mpc::data::BerylC13<double>();
@@ -2184,8 +2187,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 27: { // Graphite
             mineral_density = mpc::data::GraphiteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::GraphiteBulkModulus<double>();
+            mineral_mu = mpc::data::GraphiteShearModulus<double>();
             mineral_C11 = mpc::data::GraphiteC11<double>();
             mineral_C12 = mpc::data::GraphiteC12<double>();
             mineral_C13 = mpc::data::GraphiteC13<double>();
@@ -2232,8 +2235,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 28: { // Wusite
             mineral_density = mpc::data::WusiteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::WusiteBulkModulus<double>();
+            mineral_mu = mpc::data::WusiteShearModulus<double>();
             mineral_C11 = mpc::data::WusiteC11<double>();
             mineral_C12 = mpc::data::WusiteC12<double>();
             mineral_C13 = mpc::data::WusiteC13<double>();
@@ -2280,8 +2283,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 29: { // Manganosite
             mineral_density = mpc::data::ManganositeDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::ManganositeBulkModulus<double>();
+            mineral_mu = mpc::data::ManganositeShearModulus<double>();
             mineral_C11 = mpc::data::ManganositeC11<double>();
             mineral_C12 = mpc::data::ManganositeC12<double>();
             mineral_C13 = mpc::data::ManganositeC13<double>();
@@ -2328,8 +2331,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 30: { // Periclase
             mineral_density = mpc::data::PericlaseDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::PericlaseBulkModulus<double>();
+            mineral_mu = mpc::data::PericlaseShearModulus<double>();
             mineral_C11 = mpc::data::PericlaseC11<double>();
             mineral_C12 = mpc::data::PericlaseC12<double>();
             mineral_C13 = mpc::data::PericlaseC13<double>();
@@ -2376,8 +2379,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 31: { // Magnetite
             mineral_density = mpc::data::MagnetiteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::MagnetiteBulkModulus<double>();
+            mineral_mu = mpc::data::MagnetiteShearModulus<double>();
             mineral_C11 = mpc::data::MagnetiteC11<double>();
             mineral_C12 = mpc::data::MagnetiteC12<double>();
             mineral_C13 = mpc::data::MagnetiteC13<double>();
@@ -2424,8 +2427,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 32: { // Chromite
             mineral_density = mpc::data::ChromiteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::ChromiteBulkModulus<double>();
+            mineral_mu = mpc::data::ChromiteShearModulus<double>();
             mineral_C11 = mpc::data::ChromiteC11<double>();
             mineral_C12 = mpc::data::ChromiteC12<double>();
             mineral_C13 = mpc::data::ChromiteC13<double>();
@@ -2472,8 +2475,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 33: { // Spinel
             mineral_density = mpc::data::SpinelDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::SpinelBulkModulus<double>();
+            mineral_mu = mpc::data::SpinelShearModulus<double>();
             mineral_C11 = mpc::data::SpinelC11<double>();
             mineral_C12 = mpc::data::SpinelC12<double>();
             mineral_C13 = mpc::data::SpinelC13<double>();
@@ -2520,8 +2523,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 34: { // Pyrite
             mineral_density = mpc::data::PyriteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::PyriteBulkModulus<double>();
+            mineral_mu = mpc::data::PyriteShearModulus<double>();
             mineral_C11 = mpc::data::PyriteC11<double>();
             mineral_C12 = mpc::data::PyriteC12<double>();
             mineral_C13 = mpc::data::PyriteC13<double>();
@@ -2568,8 +2571,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 35: { // Galena
             mineral_density = mpc::data::GalenaDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::GalenaBulkModulus<double>();
+            mineral_mu = mpc::data::GalenaShearModulus<double>();
             mineral_C11 = mpc::data::GalenaC11<double>();
             mineral_C12 = mpc::data::GalenaC12<double>();
             mineral_C13 = mpc::data::GalenaC13<double>();
@@ -2616,8 +2619,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 36: { // Sphalerite
             mineral_density = mpc::data::SphaleriteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::SphaleriteBulkModulus<double>();
+            mineral_mu = mpc::data::SphaleriteShearModulus<double>();
             mineral_C11 = mpc::data::SphaleriteC11<double>();
             mineral_C12 = mpc::data::SphaleriteC12<double>();
             mineral_C13 = mpc::data::SphaleriteC13<double>();
@@ -2664,8 +2667,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 37: { // Fluorite
             mineral_density = mpc::data::FluoriteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::FluoriteBulkModulus<double>();
+            mineral_mu = mpc::data::FluoriteShearModulus<double>();
             mineral_C11 = mpc::data::FluoriteC11<double>();
             mineral_C12 = mpc::data::FluoriteC12<double>();
             mineral_C13 = mpc::data::FluoriteC13<double>();
@@ -2712,8 +2715,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 38: { // Halite
             mineral_density = mpc::data::HaliteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::HaliteBulkModulus<double>();
+            mineral_mu = mpc::data::HaliteShearModulus<double>();
             mineral_C11 = mpc::data::HaliteC11<double>();
             mineral_C12 = mpc::data::HaliteC12<double>();
             mineral_C13 = mpc::data::HaliteC13<double>();
@@ -2760,8 +2763,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         }
         case 39: { // Sylvite
             mineral_density = mpc::data::SylviteDensity<double>();
-            mineral_K = mpc::data::AugiteBulkModulus<double>();
-            mineral_mu = mpc::data::AugiteShearModulus<double>();
+            mineral_K = mpc::data::SylviteBulkModulus<double>();
+            mineral_mu = mpc::data::SylviteShearModulus<double>();
             mineral_C11 = mpc::data::SylviteC11<double>();
             mineral_C12 = mpc::data::SylviteC12<double>();
             mineral_C13 = mpc::data::SylviteC13<double>();
@@ -2910,11 +2913,6 @@ void MineralVelsView::PrivateUpdatePlot() {
             for (int k=0; k<DIVISOR; ++k) {
                 phi2 = (double(k)/DBL_DIVISOR) * TWO_PI;
                 rot = eulerRotation(phi0, phi1, phi2);  // transformation tensor
-                //blitz::Array<double,4> trans_tensor = trans4_fo(quartz_stiffness_tensor.tensor, rot);
-                //trans_tensor *= orientation_fraction;  // multiply each component by the volume fraction (orientation)
-                //average_stiffness_tensor.tensor += trans_tensor;
-                //rotated_normal_vector = trans1_fo(normal_vector, rot);
-                //mpc::utilities::Normalize(rotated_normal_vector);  // new normal
                 normal_vector_x1 = rot(blitz::Range::all(),0);
                 mpc::utilities::Normalize(normal_vector_x1);
                 normal_vector_x2 = rot(blitz::Range::all(),1);
@@ -2934,8 +2932,8 @@ void MineralVelsView::PrivateUpdatePlot() {
                 xx = normal_vector_x1(0) * svel;
                 yy = normal_vector_x1(1) * svel;
                 zz = normal_vector_x1(2) * svel;
-                vtkpoints_isovs1->InsertNextPoint(xx, yy, zz);
-                vtkpoints_isovs2->InsertNextPoint(xx, yy, zz);
+                //vtkpoints_isovs1->InsertNextPoint(xx, yy, zz);
+                //vtkpoints_isovs2->InsertNextPoint(xx, yy, zz);
 
                 greenchristoffel.SetComponents(stiffnesstensortype, normal_vector_x1);
                 phase_velocities = greenchristoffel.PhaseVelocities(mineral_density);
@@ -2945,7 +2943,7 @@ void MineralVelsView::PrivateUpdatePlot() {
                 xx = normal_vector_x1(0) * phase_velocities[0];
                 yy = normal_vector_x1(1) * phase_velocities[0];
                 zz = normal_vector_x1(2) * phase_velocities[0];
-                vtkpoints_vp0->InsertNextPoint(xx, yy, zz);
+                //vtkpoints_vp0->InsertNextPoint(xx, yy, zz);
                 mag = mpc::utilities::Magnitude<double>(vel_vector);
                 if (mag<minvel) { minvel = mag; }
                 if (mag>maxvel) { maxvel = mag; }
@@ -2953,80 +2951,80 @@ void MineralVelsView::PrivateUpdatePlot() {
                 xx = normal_vector_x1(0) * phase_velocities[1];
                 yy = normal_vector_x1(1) * phase_velocities[1];
                 zz = normal_vector_x1(2) * phase_velocities[1];
-                vtkpoints_vs1->InsertNextPoint(xx, yy, zz);
+                //vtkpoints_vs1->InsertNextPoint(xx, yy, zz);
 
                 xx = normal_vector_x1(0) * phase_velocities[2];
                 yy = normal_vector_x1(1) * phase_velocities[2];
                 zz = normal_vector_x1(2) * phase_velocities[2];
-                vtkpoints_vs2->InsertNextPoint(xx, yy, zz);
+                //vtkpoints_vs2->InsertNextPoint(xx, yy, zz);
 
                 ++cntr;
             }
         }
     }  // end for
-    std::cout << "minvel : " << minvel << ", maxvel : " << maxvel << std::endl;
+    //std::cout << "minvel : " << minvel << ", maxvel : " << maxvel << std::endl;
 
     vtkinputpolydata_isovp0->SetPoints(vtkpoints_isovp0);
-    vtkinputpolydata_isovs1->SetPoints(vtkpoints_isovs1);
-    vtkinputpolydata_isovs2->SetPoints(vtkpoints_isovs2);
-    vtkinputpolydata_vp0->SetPoints(vtkpoints_vp0);
-    vtkinputpolydata_vs1->SetPoints(vtkpoints_vs1);
-    vtkinputpolydata_vs2->SetPoints(vtkpoints_vs2);
+    //vtkinputpolydata_isovs1->SetPoints(vtkpoints_isovs1);
+    //vtkinputpolydata_isovs2->SetPoints(vtkpoints_isovs2);
+    //vtkinputpolydata_vp0->SetPoints(vtkpoints_vp0);
+    //vtkinputpolydata_vs1->SetPoints(vtkpoints_vs1);
+    //vtkinputpolydata_vs2->SetPoints(vtkpoints_vs2);
 
-    vtkglyphfilter_isovp0->SetInputData(vtkinputpolydata_isovp0);  // is this needed?
-    vtkglyphfilter_isovp0->Update();
-    vtkglyphfilter_isovs1->SetInputData(vtkinputpolydata_isovs1);  // is this needed?
-    vtkglyphfilter_isovs1->Update();
-    vtkglyphfilter_isovs2->SetInputData(vtkinputpolydata_isovs2);  // is this needed?
-    vtkglyphfilter_isovs2->Update();
-    vtkglyphfilter_vp0->SetInputData(vtkinputpolydata_vp0);  // is this needed?
-    vtkglyphfilter_vp0->Update();
-    vtkglyphfilter_vs1->SetInputData(vtkinputpolydata_vs1);  // is this needed?
-    vtkglyphfilter_vs1->Update();
-    vtkglyphfilter_vs2->SetInputData(vtkinputpolydata_vs2);  // is this needed?
-    vtkglyphfilter_vs2->Update();
+    //vtkglyphfilter_isovp0->SetInputData(vtkinputpolydata_isovp0);  // is this needed?
+    //vtkglyphfilter_isovp0->Update();
+    //vtkglyphfilter_isovs1->SetInputData(vtkinputpolydata_isovs1);  // is this needed?
+    //vtkglyphfilter_isovs1->Update();
+    //vtkglyphfilter_isovs2->SetInputData(vtkinputpolydata_isovs2);  // is this needed?
+    //vtkglyphfilter_isovs2->Update();
+    //vtkglyphfilter_vp0->SetInputData(vtkinputpolydata_vp0);  // is this needed?
+    //vtkglyphfilter_vp0->Update();
+    //vtkglyphfilter_vs1->SetInputData(vtkinputpolydata_vs1);  // is this needed?
+    //vtkglyphfilter_vs1->Update();
+    //vtkglyphfilter_vs2->SetInputData(vtkinputpolydata_vs2);  // is this needed?
+    //vtkglyphfilter_vs2->Update();
 
-    vtkpointsmapper_isovp0->SetInputConnection(vtkglyphfilter_isovp0->GetOutputPort());  // is this needed?
-    vtkpointsmapper_isovs1->SetInputConnection(vtkglyphfilter_isovs1->GetOutputPort());  // is this needed?
-    vtkpointsmapper_isovs2->SetInputConnection(vtkglyphfilter_isovs2->GetOutputPort());  // is this needed?
-    vtkpointsmapper_vp0->SetInputConnection(vtkglyphfilter_vp0->GetOutputPort());  // is this needed?
-    vtkpointsmapper_vs1->SetInputConnection(vtkglyphfilter_vs1->GetOutputPort());  // is this needed?
-    vtkpointsmapper_vs2->SetInputConnection(vtkglyphfilter_vs2->GetOutputPort());  // is this needed?
+    //vtkpointsmapper_isovp0->SetInputConnection(vtkglyphfilter_isovp0->GetOutputPort());  // is this needed?
+    //vtkpointsmapper_isovs1->SetInputConnection(vtkglyphfilter_isovs1->GetOutputPort());  // is this needed?
+    //vtkpointsmapper_isovs2->SetInputConnection(vtkglyphfilter_isovs2->GetOutputPort());  // is this needed?
+    //vtkpointsmapper_vp0->SetInputConnection(vtkglyphfilter_vp0->GetOutputPort());  // is this needed?
+    //vtkpointsmapper_vs1->SetInputConnection(vtkglyphfilter_vs1->GetOutputPort());  // is this needed?
+    //vtkpointsmapper_vs2->SetInputConnection(vtkglyphfilter_vs2->GetOutputPort());  // is this needed?
 
-    vtkpointsactor_isovp0->SetMapper(vtkpointsmapper_isovp0);
-    vtkpointsactor_isovs1->SetMapper(vtkpointsmapper_isovs1);
-    vtkpointsactor_isovs2->SetMapper(vtkpointsmapper_isovs2);
-    vtkpointsactor_vp0->SetMapper(vtkpointsmapper_vp0);
-    vtkpointsactor_vs1->SetMapper(vtkpointsmapper_vs1);
-    vtkpointsactor_vs2->SetMapper(vtkpointsmapper_vs2);
+    //vtkpointsactor_isovp0->SetMapper(vtkpointsmapper_isovp0);
+    //vtkpointsactor_isovs1->SetMapper(vtkpointsmapper_isovs1);
+    //vtkpointsactor_isovs2->SetMapper(vtkpointsmapper_isovs2);
+    //vtkpointsactor_vp0->SetMapper(vtkpointsmapper_vp0);
+    //vtkpointsactor_vs1->SetMapper(vtkpointsmapper_vs1);
+    //vtkpointsactor_vs2->SetMapper(vtkpointsmapper_vs2);
 
-    vtkdelaunay2d_isovp0->SetInputData(vtkinputpolydata_isovp0);
+    //vtkdelaunay2d_isovp0->SetInputData(vtkinputpolydata_isovp0);
     vtkdelaunay2d_isovp0->Update();
-    vtkoutputpolydata_isovp0 = vtkdelaunay2d_isovp0->GetOutput();
-    vtkdelaunay2d_isovs1->SetInputData(vtkinputpolydata_isovs1);
-    vtkdelaunay2d_isovs1->Update();
-    vtkoutputpolydata_isovs1 = vtkdelaunay2d_isovs1->GetOutput();
-    vtkdelaunay2d_isovs2->SetInputData(vtkinputpolydata_isovs2);
-    vtkdelaunay2d_isovs2->Update();
-    vtkoutputpolydata_isovs2 = vtkdelaunay2d_isovs2->GetOutput();
-    vtkdelaunay2d_vp0->SetInputData(vtkinputpolydata_vp0);
-    vtkdelaunay2d_vp0->Update();
-    vtkoutputpolydata_vp0 = vtkdelaunay2d_vp0->GetOutput();
-    vtkdelaunay2d_vs1->SetInputData(vtkinputpolydata_vs1);
-    vtkdelaunay2d_vs1->Update();
-    vtkoutputpolydata_vs1 = vtkdelaunay2d_vs1->GetOutput();
-    vtkdelaunay2d_vs2->SetInputData(vtkinputpolydata_vs2);
-    vtkdelaunay2d_vs2->Update();
-    vtkoutputpolydata_vs2 = vtkdelaunay2d_vs2->GetOutput();
+    //vtkoutputpolydata_isovp0 = vtkdelaunay2d_isovp0->GetOutput();
+    //vtkdelaunay2d_isovs1->SetInputData(vtkinputpolydata_isovs1);
+    //vtkdelaunay2d_isovs1->Update();
+    //vtkoutputpolydata_isovs1 = vtkdelaunay2d_isovs1->GetOutput();
+    //vtkdelaunay2d_isovs2->SetInputData(vtkinputpolydata_isovs2);
+    //vtkdelaunay2d_isovs2->Update();
+    //vtkoutputpolydata_isovs2 = vtkdelaunay2d_isovs2->GetOutput();
+    //vtkdelaunay2d_vp0->SetInputData(vtkinputpolydata_vp0);
+    //vtkdelaunay2d_vp0->Update();
+    //vtkoutputpolydata_vp0 = vtkdelaunay2d_vp0->GetOutput();
+    //vtkdelaunay2d_vs1->SetInputData(vtkinputpolydata_vs1);
+    //vtkdelaunay2d_vs1->Update();
+    //vtkoutputpolydata_vs1 = vtkdelaunay2d_vs1->GetOutput();
+    //vtkdelaunay2d_vs2->SetInputData(vtkinputpolydata_vs2);
+    //vtkdelaunay2d_vs2->Update();
+    //vtkoutputpolydata_vs2 = vtkdelaunay2d_vs2->GetOutput();
 
-    //double bounds_vp0[6];
-    //vtkoutputpolydata_vp0->GetBounds(bounds_vp0);
+    //--double bounds_vp0[6];
+    //--vtkoutputpolydata_vp0->GetBounds(bounds_vp0);
 
     vtkcolorlookuptable->SetTableRange(minvel, maxvel);
     vtkcolorlookuptable->Build();
 
-    std::cout << "number of rotations : " << cntr << std::endl;
-    std::cout << "There are " << vtkoutputpolydata_vp0->GetNumberOfPoints() << " points." << std::endl;
+    //std::cout << "number of rotations : " << cntr << std::endl;
+    //std::cout << "There are " << vtkoutputpolydata_vp0->GetNumberOfPoints() << " points." << std::endl;
 
 ////    for(int i = 0; i < vtkoutputpolydata->GetNumberOfPoints(); i++)
 ////    {

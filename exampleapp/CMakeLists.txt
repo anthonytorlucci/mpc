@@ -97,6 +97,9 @@ set(HEADER_FILES
         solidphaseview2.h
         mixinglawsview.h
         mineralvelsview.h
+        # misc
+        transformationview.h
+        greenchristoffelnormalvectorview.h
         )
 
 set(SOURCE_FILES
@@ -109,6 +112,9 @@ set(SOURCE_FILES
         solidphaseview2.cpp
         mixinglawsview.cpp
         mineralvelsview.cpp
+        # misc
+        transformationview.cpp
+        greenchristoffelnormalvectorview.cpp
         )
 
 
