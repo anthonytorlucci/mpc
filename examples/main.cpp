@@ -16,6 +16,8 @@
 #include "mpcx_mixinglaws.hpp"
 #include "mpcx_quartzvelsinX0X1plane.hpp"
 #include "mpcx_orientationdistribution.hpp"
+#include "mpcx_coordinatemapping.hpp"
+#include "mpcx_moreeulerangles.hpp"
 
 int main() {
     std::cout << "MPC EXAMPLES \n" << std::endl;
@@ -32,9 +34,11 @@ int main() {
     //mpcexamples::mpcRockPhysicsTransforms();
     //mpcexamples::mpcTensorInvariants();
     //mpcexamples::mpcGreenChristoffel();
-    mpcexamples::mpcMixingLaws();
+    //mpcexamples::mpcMixingLaws();
     //mpcexamples::mpcQuartzVelsInX0X1Plane();
     //mpcexamples::mpcOrientationDistribution();
+    mpcexamples::mpcCoordinateMapping();
+    //mpcexamples::mpcMoreEulerAngles();
 
     return 0;
 }

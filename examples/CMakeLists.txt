@@ -83,6 +83,8 @@ set(HEADER_FILES
         mpcx_mixinglaws.hpp
         mpcx_quartzvelsinX0X1plane.hpp
         mpcx_orientationdistribution.hpp
+        mpcx_coordinatemapping.hpp
+        mpcx_moreeulerangles.hpp
         )
 
 set(SOURCE_FILES
@@ -102,6 +104,8 @@ set(SOURCE_FILES
         mpcx_mixinglaws.cpp
         mpcx_quartzvelsinX0X1plane.cpp
         mpcx_orientationdistribution.cpp
+        mpcx_coordinatemapping.cpp
+        mpcx_moreeulerangles.cpp
         )
 add_executable(mpcexamples ${HEADER_FILES} ${SOURCE_FILES} )
 
