@@ -349,10 +349,7 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     // VTK views
     vtknamedcolors = vtkSmartPointer<vtkNamedColors>::New();
     vtkcolorlookuptable = vtkSmartPointer<vtkLookupTable>::New();
-    // Generate the colors for each point based on the color map
-    vtkcolorchararray = vtkSmartPointer<vtkUnsignedCharArray>::New();
-    vtkcolorchararray->SetNumberOfComponents(3);
-    vtkcolorchararray->SetName("Colors");
+
     // Create a text property
     vtktextproperty = vtkSmartPointer<vtkTextProperty>::New();
     vtktextproperty->SetColor(1, 1, 1);
@@ -589,8 +586,9 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
 
     vtkpolydatamapper_vp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
     vtkpolydatamapper_vp0->SetInputConnection(vtkreverse_vp0->GetOutputPort());  // input connection << vtkoutputpolydata ???
-    vtkpolydatamapper_vp0->SetInputData(vtkoutputpolydata_vp0);
+    ////vtkpolydatamapper_vp0->SetInputData(vtkoutputpolydata_vp0);
     //vtkpolydatamapper_vp0->ScalarVisibilityOff();
+    vtkpolydatamapper_vp0->ScalarVisibilityOn();
 
 
     vtkactor_vp0 = vtkSmartPointer<vtkActor>::New();
@@ -604,8 +602,9 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
 
     vtkpolydatamapper_vs1 = vtkSmartPointer<vtkPolyDataMapper>::New();
     vtkpolydatamapper_vs1->SetInputConnection(vtkreverse_vs1->GetOutputPort());  // input connection << vtkoutputpolydata ???
-    vtkpolydatamapper_vs1->SetInputData(vtkoutputpolydata_vs1);
+    ////vtkpolydatamapper_vs1->SetInputData(vtkoutputpolydata_vs1);
     //vtkpolydatamapper_vs1->ScalarVisibilityOff();
+    vtkpolydatamapper_vs1->ScalarVisibilityOn();
 
     vtkactor_vs1 = vtkSmartPointer<vtkActor>::New();
     vtkactor_vs1->SetMapper(vtkpolydatamapper_vs1);
@@ -618,8 +617,9 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
 
     vtkpolydatamapper_vs2 = vtkSmartPointer<vtkPolyDataMapper>::New();
     vtkpolydatamapper_vs2->SetInputConnection(vtkreverse_vs2->GetOutputPort());  // input connection << vtkoutputpolydata ???
-    vtkpolydatamapper_vs2->SetInputData(vtkoutputpolydata_vs2);
+    ////vtkpolydatamapper_vs2->SetInputData(vtkoutputpolydata_vs2);
     //vtkpolydatamapper_vs2->ScalarVisibilityOff();
+    vtkpolydatamapper_vs2->ScalarVisibilityOn();
 
     vtkactor_vs2 = vtkSmartPointer<vtkActor>::New();
     vtkactor_vs2->SetMapper(vtkpolydatamapper_vs2);
@@ -700,6 +700,11 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkcolorlookuptable->SetTableRange(minvel, maxvel);
     vtkcolorlookuptable->Build();
 
+    // Generate the colors for each point based on the color map
+    vtkcolorchararray_vp0 = vtkSmartPointer<vtkUnsignedCharArray>::New();
+    vtkcolorchararray_vp0->SetNumberOfComponents(3);
+    vtkcolorchararray_vp0->SetName("Colors0");
+
     vtkscalarbaractor_vp0 = vtkSmartPointer<vtkScalarBarActor>::New();
     vtkscalarbaractor_vp0->SetLookupTable(vtkcolorlookuptable);
     vtkscalarbaractor_vp0->SetTitle("V1");
@@ -713,6 +718,11 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkscalarbaractor_vp0->SetUnconstrainedFontSize(true);
     vtkrenderer_vp0->AddActor2D(vtkscalarbaractor_vp0);
 
+    // Generate the colors for each point based on the color map
+    vtkcolorchararray_vs1 = vtkSmartPointer<vtkUnsignedCharArray>::New();
+    vtkcolorchararray_vs1->SetNumberOfComponents(3);
+    vtkcolorchararray_vs1->SetName("Colors1");
+
     vtkscalarbaractor_vs1 = vtkSmartPointer<vtkScalarBarActor>::New();
     vtkscalarbaractor_vs1->SetLookupTable(vtkcolorlookuptable);
     vtkscalarbaractor_vs1->SetTitle("V1");
@@ -725,6 +735,11 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkscalarbaractor_vs1->GetPositionCoordinate()->SetValue(0.1, 0.01);
     vtkscalarbaractor_vs1->SetUnconstrainedFontSize(true);
     vtkrenderer_vs1->AddActor2D(vtkscalarbaractor_vs1);
+
+    // Generate the colors for each point based on the color map
+    vtkcolorchararray_vs2 = vtkSmartPointer<vtkUnsignedCharArray>::New();
+    vtkcolorchararray_vs2->SetNumberOfComponents(3);
+    vtkcolorchararray_vs2->SetName("Colors2");
 
     vtkscalarbaractor_vs2 = vtkSmartPointer<vtkScalarBarActor>::New();
     vtkscalarbaractor_vs2->SetLookupTable(vtkcolorlookuptable);
@@ -2723,6 +2738,7 @@ void MineralVelsView::PrivateSetPoints() {
     vtkpoints_vp0->Reset();
     vtkpoints_vs1->Reset();
     vtkpoints_vs2->Reset();
+
     mpc::core::StiffnessTensor<double> stiffnesstensortype = mpc::core::StiffnessTensor<double>();
     std::set<mpc::core::TensorRank4Component<double> > triclinic_symmetry_set{
             mpc::core::TensorRank4Component<double>(mineral_C11, mpc::core::TensorRank4ComponentIndex(0,0,0,0)), // X00 >> (0000)
@@ -2761,12 +2777,12 @@ void MineralVelsView::PrivateSetPoints() {
     vtkspheresource_isovs1->SetRadius(svel);
     vtkspheresource_isovs2->SetRadius(svel);
 
-    // TODO: green-christoffel and anisotropic velocity points
+    // green-christoffel and anisotropic velocity points
     mpc::mechanics::GreenChristoffel<double> greenchristoffel = mpc::mechanics::GreenChristoffel<double>();  // function object
 
     std::array<double,3> phase_velocities{1.0, 1.0, 1.0};
 
-    const int NUM_ELEMS = 16;
+    const int NUM_ELEMS = 32;
 
     const double PI = mpc::utilities::PI<double>;
     const double TWO_PI = 2.0 * PI;
@@ -2940,7 +2956,10 @@ void MineralVelsView::PrivateUpdatePlot() {
     vel_vector = 1,0,0;
     double mag = 0;
 
-    // vp0  TODO: YOU ARE HERE !!!
+    // vp0
+    vtkcolorchararray_vp0->Reset();
+    vtksurface_vp0->Update();
+    vtkcontoursurf_vp0->Update();
     vtkreverse_vp0->Update();
     vtkoutputpolydata_vp0 = PrivateTransformBack( vtkpoints_vp0, vtkreverse_vp0->GetOutput());
     for(int i = 0; i < vtkoutputpolydata_vp0->GetNumberOfPoints(); i++) {
@@ -2960,66 +2979,77 @@ void MineralVelsView::PrivateUpdatePlot() {
         }
 
         //vtkcolorchararray->InsertNextTupleValue(color);  // VTK version < 7
-        vtkcolorchararray->InsertNextTypedTuple(color);
+        vtkcolorchararray_vp0->InsertNextTypedTuple(color);
     }
 
-    vtkoutputpolydata_vp0->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
+    vtkoutputpolydata_vp0->GetPointData()->SetScalars(vtkcolorchararray_vp0);  // vtkPointData.h
+    vtkpolydatamapper_vp0->SetInputData(vtkoutputpolydata_vp0);
     vtkpolydatamapper_vp0->Update();
     vtkrenderer_vp0->ResetCamera();
 
-//    // vs1
-//    vtkcolorchararray->Reset();
-//    for(int i = 0; i < vtkoutputpolydata_vs1->GetNumberOfPoints(); i++) {
-//        double p[3];
-//        vtkoutputpolydata_vs1->GetPoint(i,p);
-//        //std::cout << "point : " << i << ", x : " << p[0] << ", y : " << p[1] << ", z : " << p[2] << std::endl;
-//        vel_vector = p[0], p[1], p[2];  // x,y,z
-//        mag = mpc::utilities::Magnitude<double>(vel_vector);
-//
-//        double dcolor[3];
-//        vtkcolorlookuptable->GetColor(mag, dcolor);
-//
-//        unsigned char color[3];
-//        for(unsigned int j = 0; j < 3; j++)
-//        {
-//            color[j] = static_cast<unsigned char>(255.0 * dcolor[j]);
-//        }
-//
-//        //vtkcolorchararray->InsertNextTupleValue(color);  // VTK version < 7
-//        vtkcolorchararray->InsertNextTypedTuple(color);
-//    }
-//
-//    vtkoutputpolydata_vs1->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
-//    vtkpolydatamapper_vs1->Update();
-//    vtkrenderer_vs1->ResetCamera();
-//
-//    // vs2
-//    vtkcolorchararray->Reset();
-//    for(int i = 0; i < vtkoutputpolydata_vs2->GetNumberOfPoints(); i++) {
-//        double p[3];
-//        vtkoutputpolydata_vs2->GetPoint(i,p);
-//        //std::cout << "point : " << i << ", x : " << p[0] << ", y : " << p[1] << ", z : " << p[2] << std::endl;
-//        vel_vector = p[0], p[1], p[2];  // x,y,z
-//        mag = mpc::utilities::Magnitude<double>(vel_vector);
-//
-//        double dcolor[3];
-//        vtkcolorlookuptable->GetColor(mag, dcolor);
-//
-//        unsigned char color[3];
-//        for(unsigned int j = 0; j < 3; j++)
-//        {
-//            color[j] = static_cast<unsigned char>(255.0 * dcolor[j]);
-//        }
-//
-//        //vtkcolorchararray->InsertNextTupleValue(color);  // VTK version < 7
-//        vtkcolorchararray->InsertNextTypedTuple(color);
-//    }
-//
-//    vtkoutputpolydata_vs2->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
-//    vtkpolydatamapper_vs2->Update();
-//    vtkrenderer_vs2->ResetCamera();
+
+    // vs1
+    vtkcolorchararray_vs1->Reset();
+    vtksurface_vs1->Update();
+    vtkcontoursurf_vs1->Update();
+    vtkreverse_vs1->Update();
+    vtkoutputpolydata_vs1 = PrivateTransformBack( vtkpoints_vs1, vtkreverse_vs1->GetOutput());
+    for(int i = 0; i < vtkoutputpolydata_vs1->GetNumberOfPoints(); i++) {
+        double p[3];
+        vtkoutputpolydata_vs1->GetPoint(i,p);
+        //std::cout << "point : " << i << ", x : " << p[0] << ", y : " << p[1] << ", z : " << p[2] << std::endl;
+        vel_vector = p[0], p[1], p[2];  // x,y,z
+        mag = mpc::utilities::Magnitude<double>(vel_vector);
+
+        double dcolor[3];
+        vtkcolorlookuptable->GetColor(mag, dcolor);
+
+        unsigned char color[3];
+        for(unsigned int j = 0; j < 3; j++)
+        {
+            color[j] = static_cast<unsigned char>(255.0 * dcolor[j]);
+        }
+
+        //vtkcolorchararray->InsertNextTupleValue(color);  // VTK version < 7
+        vtkcolorchararray_vs1->InsertNextTypedTuple(color);
+    }
+
+    vtkoutputpolydata_vs1->GetPointData()->SetScalars(vtkcolorchararray_vs1);  // vtkPointData.h
+    vtkpolydatamapper_vs1->SetInputData(vtkoutputpolydata_vs1);
+    vtkpolydatamapper_vs1->Update();
+    vtkrenderer_vs1->ResetCamera();
 
 
+    // vs2
+    vtkcolorchararray_vs2->Reset();
+    vtksurface_vs2->Update();
+    vtkcontoursurf_vs2->Update();
+    vtkreverse_vs2->Update();
+    vtkoutputpolydata_vs2 = PrivateTransformBack( vtkpoints_vs2, vtkreverse_vs2->GetOutput());
+    for(int i = 0; i < vtkoutputpolydata_vs2->GetNumberOfPoints(); i++) {
+        double p[3];
+        vtkoutputpolydata_vs2->GetPoint(i,p);
+        //std::cout << "point : " << i << ", x : " << p[0] << ", y : " << p[1] << ", z : " << p[2] << std::endl;
+        vel_vector = p[0], p[1], p[2];  // x,y,z
+        mag = mpc::utilities::Magnitude<double>(vel_vector);
+
+        double dcolor[3];
+        vtkcolorlookuptable->GetColor(mag, dcolor);
+
+        unsigned char color[3];
+        for(unsigned int j = 0; j < 3; j++)
+        {
+            color[j] = static_cast<unsigned char>(255.0 * dcolor[j]);
+        }
+
+        //vtkcolorchararray->InsertNextTupleValue(color);  // VTK version < 7
+        vtkcolorchararray_vs2->InsertNextTypedTuple(color);
+    }
+
+    vtkoutputpolydata_vs2->GetPointData()->SetScalars(vtkcolorchararray_vs2);  // vtkPointData.h
+    vtkpolydatamapper_vs2->SetInputData(vtkoutputpolydata_vs2);
+    vtkpolydatamapper_vs2->Update();
+    vtkrenderer_vs2->ResetCamera();
 
 }
 

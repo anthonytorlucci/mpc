@@ -137,7 +137,6 @@ private:
     // VTK
     vtkSmartPointer<vtkNamedColors> vtknamedcolors;
     vtkSmartPointer<vtkLookupTable> vtkcolorlookuptable;
-    vtkSmartPointer<vtkUnsignedCharArray> vtkcolorchararray;
     vtkSmartPointer<vtkTextProperty> vtktextproperty;
 
     vtkSmartPointer<vtkCamera> vtkcamera;  // TODO: shared camera?
@@ -168,6 +167,7 @@ private:
     vtkSmartPointer<vtkSphereSource> vtkspheresource_isovp0;
     vtkSmartPointer<vtkPolyDataMapper> vtkmapper_isovp0;
     vtkSmartPointer<vtkActor> vtkactor_isovp0;
+    vtkSmartPointer<vtkUnsignedCharArray> vtkcolorchararray_vp0;
 
     QVTKOpenGLWidget* qvtkopenglwidget_vs1;
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> vtkgenericopenglwindow_vs1;
@@ -194,6 +194,7 @@ private:
     vtkSmartPointer<vtkSphereSource> vtkspheresource_isovs1;
     vtkSmartPointer<vtkPolyDataMapper> vtkmapper_isovs1;
     vtkSmartPointer<vtkActor> vtkactor_isovs1;
+    vtkSmartPointer<vtkUnsignedCharArray> vtkcolorchararray_vs1;
 
     QVTKOpenGLWidget* qvtkopenglwidget_vs2;
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> vtkgenericopenglwindow_vs2;
@@ -220,6 +221,7 @@ private:
     vtkSmartPointer<vtkSphereSource> vtkspheresource_isovs2;
     vtkSmartPointer<vtkPolyDataMapper> vtkmapper_isovs2;
     vtkSmartPointer<vtkActor> vtkactor_isovs2;
+    vtkSmartPointer<vtkUnsignedCharArray> vtkcolorchararray_vs2;
 
 };
 
