@@ -15,6 +15,7 @@ var searchData=
   ['reducedtensorrank4componentindex_3c_20mpc_3a_3acore_3a_3atrigonal6symmetrygrouptype_20_3e',['ReducedTensorRank4ComponentIndex&lt; mpc::core::Trigonal6SymmetryGroupType &gt;',['../namespacempc_1_1core.html#ad1ff1df316ea57d13729b92536925713',1,'mpc::core']]],
   ['reducedtensorrank4componentindex_3c_20mpc_3a_3acore_3a_3atrigonal7symmetrygrouptype_20_3e',['ReducedTensorRank4ComponentIndex&lt; mpc::core::Trigonal7SymmetryGroupType &gt;',['../namespacempc_1_1core.html#a156205a65087ea1d9c9fb9dbcd1578a6',1,'mpc::core']]],
   ['ruesscompliancetensorcontraction',['RuessComplianceTensorContraction',['../namespacempc_1_1rockphysics.html#af0944164902bfb3aee857caed6c2d07f',1,'mpc::rockphysics']]],
+  ['ruesslowerbound',['RuessLowerBound',['../classmpc_1_1rockphysics_1_1_solid_phase.html#a3affb77f60c2967aa08833e703e0b932',1,'mpc::rockphysics::SolidPhase']]],
   ['rutilebulkmodulus',['RutileBulkModulus',['../namespacempc_1_1data.html#aa35acd7fdbe35e4b9d5f2654ab82985f',1,'mpc::data']]],
   ['rutilec11',['RutileC11',['../namespacempc_1_1data.html#afd6f2a6dfb90f0896ed3617974851c94',1,'mpc::data']]],
   ['rutilec12',['RutileC12',['../namespacempc_1_1data.html#ad1d4e3e3a9d1d390a470fd61d871a4da',1,'mpc::data']]],

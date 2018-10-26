@@ -6,6 +6,7 @@ var searchData=
   ['shearmodulustype',['ShearModulusType',['../structmpc_1_1rockphysics_1_1_shear_modulus_type.html',1,'mpc::rockphysics']]],
   ['shearwavevelocitytype',['ShearWaveVelocityType',['../structmpc_1_1rockphysics_1_1_shear_wave_velocity_type.html',1,'mpc::rockphysics']]],
   ['solidphase',['SolidPhase',['../classmpc_1_1rockphysics_1_1_solid_phase.html',1,'mpc::rockphysics']]],
+  ['sphericalcoordinatetype',['SphericalCoordinateType',['../structmpc_1_1utilities_1_1_spherical_coordinate_type.html',1,'mpc::utilities']]],
   ['stiffnessfromcompliancefunctionobject',['StiffnessFromComplianceFunctionObject',['../structmpc_1_1core_1_1_stiffness_from_compliance_function_object.html',1,'mpc::core']]],
   ['stiffnesstensor',['StiffnessTensor',['../structmpc_1_1core_1_1_stiffness_tensor.html',1,'mpc::core']]],
   ['stiffnesstype',['StiffnessType',['../structmpc_1_1core_1_1_stiffness_type.html',1,'mpc::core']]],

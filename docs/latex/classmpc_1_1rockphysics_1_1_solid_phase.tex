@@ -14,6 +14,10 @@ Inheritance diagram for mpc\+:\+:rockphysics\+:\+:Solid\+Phase$<$ T $>$\+:\begin
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{classmpc_1_1rockphysics_1_1_solid_phase_ad44503640c956a6c89cb71678dacd6b1}{Solid\+Phase}} (const std\+::vector$<$ std\+::tuple$<$ \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_bulk_modulus_type}{mpc\+::rockphysics\+::\+Bulk\+Modulus\+Type}}$<$ T $>$, \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_shear_modulus_type}{mpc\+::rockphysics\+::\+Shear\+Modulus\+Type}}$<$ T $>$, \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_density_type}{mpc\+::rockphysics\+::\+Density\+Type}}$<$ T $>$, \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_volume_fraction_type}{mpc\+::rockphysics\+::\+Volume\+Fraction\+Type}}$<$ T $>$ $>$ $>$ \&vec)
+\item 
+std\+::pair$<$ \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_bulk_modulus_type}{mpc\+::rockphysics\+::\+Bulk\+Modulus\+Type}}$<$ T $>$, \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_shear_modulus_type}{mpc\+::rockphysics\+::\+Shear\+Modulus\+Type}}$<$ T $>$ $>$ \mbox{\hyperlink{classmpc_1_1rockphysics_1_1_solid_phase_abd8c8414863cabddc4e30fc8364a5aef}{Voigt\+Upper\+Bound}} ()
+\item 
+std\+::pair$<$ \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_bulk_modulus_type}{mpc\+::rockphysics\+::\+Bulk\+Modulus\+Type}}$<$ T $>$, \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_shear_modulus_type}{mpc\+::rockphysics\+::\+Shear\+Modulus\+Type}}$<$ T $>$ $>$ \mbox{\hyperlink{classmpc_1_1rockphysics_1_1_solid_phase_a3affb77f60c2967aa08833e703e0b932}{Ruess\+Lower\+Bound}} ()
 \end{DoxyCompactItemize}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
@@ -29,7 +33,7 @@ class mpc\+::rockphysics\+::\+Solid\+Phase$<$ T $>$}
 
 
 
-Definition at line 384 of file scalarcomposites.\+hpp.
+Definition at line 385 of file scalarcomposites.\+hpp.
 
 
 
@@ -43,7 +47,7 @@ Definition at line 384 of file scalarcomposites.\+hpp.
 
 
 
-Definition at line 398 of file scalarcomposites.\+hpp.
+Definition at line 399 of file scalarcomposites.\+hpp.
 
 
 
@@ -57,7 +61,29 @@ static std\+::tuple$<$\mbox{\hyperlink{structmpc_1_1rockphysics_1_1_bulk_modulus
 
 
 
-Definition at line 401 of file scalarcomposites.\+hpp.
+Definition at line 402 of file scalarcomposites.\+hpp.
+
+\mbox{\Hypertarget{classmpc_1_1rockphysics_1_1_solid_phase_a3affb77f60c2967aa08833e703e0b932}\label{classmpc_1_1rockphysics_1_1_solid_phase_a3affb77f60c2967aa08833e703e0b932}} 
+\index{mpc\+::rockphysics\+::\+Solid\+Phase@{mpc\+::rockphysics\+::\+Solid\+Phase}!Ruess\+Lower\+Bound@{Ruess\+Lower\+Bound}}
+\index{Ruess\+Lower\+Bound@{Ruess\+Lower\+Bound}!mpc\+::rockphysics\+::\+Solid\+Phase@{mpc\+::rockphysics\+::\+Solid\+Phase}}
+\subsubsection{\texorpdfstring{Ruess\+Lower\+Bound()}{RuessLowerBound()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::pair$<$ \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_bulk_modulus_type}{mpc\+::rockphysics\+::\+Bulk\+Modulus\+Type}}$<$T$>$,\mbox{\hyperlink{structmpc_1_1rockphysics_1_1_shear_modulus_type}{mpc\+::rockphysics\+::\+Shear\+Modulus\+Type}}$<$T$>$ $>$ \mbox{\hyperlink{classmpc_1_1rockphysics_1_1_solid_phase}{mpc\+::rockphysics\+::\+Solid\+Phase}}$<$ T $>$\+::Ruess\+Lower\+Bound (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 473 of file scalarcomposites.\+hpp.
+
+\mbox{\Hypertarget{classmpc_1_1rockphysics_1_1_solid_phase_abd8c8414863cabddc4e30fc8364a5aef}\label{classmpc_1_1rockphysics_1_1_solid_phase_abd8c8414863cabddc4e30fc8364a5aef}} 
+\index{mpc\+::rockphysics\+::\+Solid\+Phase@{mpc\+::rockphysics\+::\+Solid\+Phase}!Voigt\+Upper\+Bound@{Voigt\+Upper\+Bound}}
+\index{Voigt\+Upper\+Bound@{Voigt\+Upper\+Bound}!mpc\+::rockphysics\+::\+Solid\+Phase@{mpc\+::rockphysics\+::\+Solid\+Phase}}
+\subsubsection{\texorpdfstring{Voigt\+Upper\+Bound()}{VoigtUpperBound()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::pair$<$ \mbox{\hyperlink{structmpc_1_1rockphysics_1_1_bulk_modulus_type}{mpc\+::rockphysics\+::\+Bulk\+Modulus\+Type}}$<$T$>$,\mbox{\hyperlink{structmpc_1_1rockphysics_1_1_shear_modulus_type}{mpc\+::rockphysics\+::\+Shear\+Modulus\+Type}}$<$T$>$ $>$ \mbox{\hyperlink{classmpc_1_1rockphysics_1_1_solid_phase}{mpc\+::rockphysics\+::\+Solid\+Phase}}$<$ T $>$\+::Voigt\+Upper\+Bound (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Definition at line 442 of file scalarcomposites.\+hpp.
 
 
 

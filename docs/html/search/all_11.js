@@ -67,6 +67,7 @@ var searchData=
   ['sphaleriteshearmodulus',['SphaleriteShearModulus',['../namespacempc_1_1data.html#a89e59f46d585e1438ba6504b945e1171',1,'mpc::data']]],
   ['sphaleritestiffnesstensor',['SphaleriteStiffnessTensor',['../namespacempc_1_1data.html#a032efffe1239af48e9d16ea2acbfd88b',1,'mpc::data']]],
   ['sphaleritesymmetryclass',['SphaleriteSymmetryClass',['../namespacempc_1_1data.html#a86fd71c8bff0ae24e586415d47116c47',1,'mpc::data']]],
+  ['sphericalcoordinatetype',['SphericalCoordinateType',['../structmpc_1_1utilities_1_1_spherical_coordinate_type.html',1,'mpc::utilities']]],
   ['spinelbulkmodulus',['SpinelBulkModulus',['../namespacempc_1_1data.html#a73dd9dbc34446f35dd74f0fdff365a2e',1,'mpc::data']]],
   ['spinelc11',['SpinelC11',['../namespacempc_1_1data.html#a8aacfda816418a9bc1ab2f929dd07d6a',1,'mpc::data']]],
   ['spinelc12',['SpinelC12',['../namespacempc_1_1data.html#a47095ac1f8a62911de507d88df59600b',1,'mpc::data']]],

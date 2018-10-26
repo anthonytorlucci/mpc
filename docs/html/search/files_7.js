@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['kroneckerdelta_2ehpp',['kroneckerdelta.hpp',['../kroneckerdelta_8hpp.html',1,'']]]
+  ['identitytensor_2ehpp',['identitytensor.hpp',['../identitytensor_8hpp.html',1,'']]],
+  ['innerproductor_2ehpp',['innerproductor.hpp',['../innerproductor_8hpp.html',1,'']]]
 ];

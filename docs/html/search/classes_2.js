@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['cartesiancoordinatetype',['CartesianCoordinateType',['../structmpc_1_1utilities_1_1_cartesian_coordinate_type.html',1,'mpc::utilities']]],
   ['ckroneckerdelta3functionobject',['CKroneckerDelta3FunctionObject',['../structmpc_1_1utilities_1_1_c_kronecker_delta3_function_object.html',1,'mpc::utilities']]],
   ['ckroneckerdelta3functionobject_3c_20t_2c_200_2c_200_20_3e',['CKroneckerDelta3FunctionObject&lt; T, 0, 0 &gt;',['../structmpc_1_1utilities_1_1_c_kronecker_delta3_function_object_3_01_t_00_010_00_010_01_4.html',1,'mpc::utilities']]],
   ['ckroneckerdelta3functionobject_3c_20t_2c_200_2c_201_20_3e',['CKroneckerDelta3FunctionObject&lt; T, 0, 1 &gt;',['../structmpc_1_1utilities_1_1_c_kronecker_delta3_function_object_3_01_t_00_010_00_011_01_4.html',1,'mpc::utilities']]],
@@ -17,9 +18,14 @@ var searchData=
   ['compressibilitymodulustype',['CompressibilityModulusType',['../structmpc_1_1rockphysics_1_1_compressibility_modulus_type.html',1,'mpc::rockphysics']]],
   ['compressionalmodulustype',['CompressionalModulusType',['../structmpc_1_1rockphysics_1_1_compressional_modulus_type.html',1,'mpc::rockphysics']]],
   ['compressionalwavevelocitytype',['CompressionalWaveVelocityType',['../structmpc_1_1rockphysics_1_1_compressional_wave_velocity_type.html',1,'mpc::rockphysics']]],
+  ['coordinatebasetype',['CoordinateBaseType',['../structmpc_1_1utilities_1_1_coordinate_base_type.html',1,'mpc::utilities']]],
+  ['coordinatemapping',['CoordinateMapping',['../structmpc_1_1utilities_1_1_coordinate_mapping.html',1,'mpc::utilities']]],
+  ['coordinatemapping_3c_20t_2c_20cartesiancoordinatetype_2c_20cylindricalcoordinatetype_20_3e',['CoordinateMapping&lt; T, CartesianCoordinateType, CylindricalCoordinateType &gt;',['../structmpc_1_1utilities_1_1_coordinate_mapping_3_01_t_00_01_cartesian_coordinate_type_00_01_cylindrical_coordinate_type_01_4.html',1,'mpc::utilities']]],
+  ['coordinatemapping_3c_20t_2c_20cartesiancoordinatetype_2c_20sphericalcoordinatetype_20_3e',['CoordinateMapping&lt; T, CartesianCoordinateType, SphericalCoordinateType &gt;',['../structmpc_1_1utilities_1_1_coordinate_mapping_3_01_t_00_01_cartesian_coordinate_type_00_01_spherical_coordinate_type_01_4.html',1,'mpc::utilities']]],
   ['csbase',['CSBase',['../structmpc_1_1core_1_1_c_s_base.html',1,'mpc::core']]],
   ['csenumerationinterface',['CSEnumerationInterface',['../structmpc_1_1core_1_1_c_s_enumeration_interface.html',1,'mpc::core']]],
   ['ctensorrank2componentindex',['CTensorRank2ComponentIndex',['../classmpc_1_1core_1_1_c_tensor_rank2_component_index.html',1,'mpc::core']]],
   ['ctensorrank4componentindex',['CTensorRank4ComponentIndex',['../classmpc_1_1core_1_1_c_tensor_rank4_component_index.html',1,'mpc::core']]],
-  ['cubicsymmetrygrouptype',['CubicSymmetryGroupType',['../structmpc_1_1core_1_1_cubic_symmetry_group_type.html',1,'mpc::core']]]
+  ['cubicsymmetrygrouptype',['CubicSymmetryGroupType',['../structmpc_1_1core_1_1_cubic_symmetry_group_type.html',1,'mpc::core']]],
+  ['cylindricalcoordinatetype',['CylindricalCoordinateType',['../structmpc_1_1utilities_1_1_cylindrical_coordinate_type.html',1,'mpc::utilities']]]
 ];

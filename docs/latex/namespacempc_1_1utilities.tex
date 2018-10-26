@@ -11,6 +11,8 @@ struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_accumulator_sum}{Accumulator\
 \item 
 struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_accumulator_sum_3_01_t_00_011_01_4}{Accumulator\+Sum$<$ T, 1 $>$}}
 \item 
+struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_cartesian_coordinate_type}{Cartesian\+Coordinate\+Type}}
+\item 
 struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_c_kronecker_delta3_function_object}{C\+Kronecker\+Delta3\+Function\+Object}}
 \item 
 struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_c_kronecker_delta3_function_object_3_01_t_00_010_00_010_01_4}{C\+Kronecker\+Delta3\+Function\+Object$<$ T, 0, 0 $>$}}
@@ -30,6 +32,16 @@ struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_c_kronecker_delta3_function_o
 struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_c_kronecker_delta3_function_object_3_01_t_00_012_00_011_01_4}{C\+Kronecker\+Delta3\+Function\+Object$<$ T, 2, 1 $>$}}
 \item 
 struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_c_kronecker_delta3_function_object_3_01_t_00_012_00_012_01_4}{C\+Kronecker\+Delta3\+Function\+Object$<$ T, 2, 2 $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_coordinate_base_type}{Coordinate\+Base\+Type}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_coordinate_mapping}{Coordinate\+Mapping}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_coordinate_mapping_3_01_t_00_01_cartesian_coordinate_type_00_01_cylindrical_coordinate_type_01_4}{Coordinate\+Mapping$<$ T, Cartesian\+Coordinate\+Type, Cylindrical\+Coordinate\+Type $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_coordinate_mapping_3_01_t_00_01_cartesian_coordinate_type_00_01_spherical_coordinate_type_01_4}{Coordinate\+Mapping$<$ T, Cartesian\+Coordinate\+Type, Spherical\+Coordinate\+Type $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_cylindrical_coordinate_type}{Cylindrical\+Coordinate\+Type}}
 \item 
 struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_eigen2_blitz_function_object}{Eigen2\+Blitz\+Function\+Object}}
 \item 
@@ -64,6 +76,8 @@ struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_print_tensor_components_3_01_
 struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_print_tensor_components_3_01_t_00_018_01_4}{Print\+Tensor\+Components$<$ T, 8 $>$}}
 \item 
 struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_print_tensor_components_3_01_t_00_019_01_4}{Print\+Tensor\+Components$<$ T, 9 $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_spherical_coordinate_type}{Spherical\+Coordinate\+Type}}
 \item 
 struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_unwrapper}{Unwrapper}}
 \item 
@@ -105,6 +119,8 @@ struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_weighted_harmonic_average_3_0
 {\footnotesize template$<$typename T $>$ }\\std\+::array$<$ std\+::complex$<$ T $>$, 2 $>$ \mbox{\hyperlink{namespacempc_1_1utilities_ad175f8823052a6c863ffb2e90e2b08ca}{Quadratic\+Solver}} (T a2, T a1, T a0)
 \item 
 {\footnotesize template$<$typename T $>$ }\\std\+::array$<$ std\+::complex$<$ T $>$, 3 $>$ \mbox{\hyperlink{namespacempc_1_1utilities_adbffd8dee20ff121f91cf6be9e19a1b3}{Cubic\+Solver}} (T a3, T a2, T a1, T a0)
+\item 
+{\footnotesize template$<$typename T $>$ }\\std\+::vector$<$ T $>$ \mbox{\hyperlink{namespacempc_1_1utilities_abb6b125ee38967fe00a7f47bf087b75a}{Linspace}} (T a, T b, size\+\_\+t N)
 \item 
 {\footnotesize template$<$typename T $>$ }\\blitz\+::\+Array$<$ T, 4 $>$ \mbox{\hyperlink{namespacempc_1_1utilities_a2a7788e9666343e76796346aa521fb4a}{Identity43}} ()
 \item 
@@ -500,6 +516,17 @@ blitz\+::\+Array$<$T,2$>$ mpc\+::utilities\+::\+Kronecker\+Delta (\begin{DoxyPar
 
 
 Definition at line 24 of file kroneckerdelta.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_abb6b125ee38967fe00a7f47bf087b75a}\label{namespacempc_1_1utilities_abb6b125ee38967fe00a7f47bf087b75a}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!Linspace@{Linspace}}
+\index{Linspace@{Linspace}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{Linspace()}{Linspace()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::vector$<$T$>$ mpc\+::utilities\+::\+Linspace (\begin{DoxyParamCaption}\item[{T}]{a,  }\item[{T}]{b,  }\item[{size\+\_\+t}]{N }\end{DoxyParamCaption})}
+
+
+
+Definition at line 24 of file functionsbase.\+hpp.
 
 \mbox{\Hypertarget{namespacempc_1_1utilities_a387fd6b2510b25009905e8121755c207}\label{namespacempc_1_1utilities_a387fd6b2510b25009905e8121755c207}} 
 \index{mpc\+::utilities@{mpc\+::utilities}!Magnitude@{Magnitude}}

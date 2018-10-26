@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ortho3drotation_2ehpp',['ortho3drotation.hpp',['../ortho3drotation_8hpp.html',1,'']]]
+  ['norm_2ehpp',['norm.hpp',['../norm_8hpp.html',1,'']]]
 ];

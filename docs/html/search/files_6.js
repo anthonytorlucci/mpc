@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['identitytensor_2ehpp',['identitytensor.hpp',['../identitytensor_8hpp.html',1,'']]],
-  ['innerproductor_2ehpp',['innerproductor.hpp',['../innerproductor_8hpp.html',1,'']]]
+  ['harmonicaverage_2ehpp',['harmonicaverage.hpp',['../harmonicaverage_8hpp.html',1,'']]],
+  ['hookeslaw_2ehpp',['hookeslaw.hpp',['../hookeslaw_8hpp.html',1,'']]]
 ];

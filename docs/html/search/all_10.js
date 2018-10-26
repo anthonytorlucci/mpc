@@ -32,6 +32,7 @@ var searchData=
   ['rockphysicstransforms_3c_20t_2c_20mpc_3a_3arockphysics_3a_3ayoungsmodulustype_3c_20t_20_3e_20_3e',['RockPhysicsTransforms&lt; T, mpc::rockphysics::YoungsModulusType&lt; T &gt; &gt;',['../structmpc_1_1rockphysics_1_1_rock_physics_transforms_3_01_t_00_01mpc_1_1rockphysics_1_1_youngs_modulus_type_3_01_t_01_4_01_4.html',1,'mpc::rockphysics']]],
   ['rockphysicstransformstypes_2ehpp',['rockphysicstransformstypes.hpp',['../rockphysicstransformstypes_8hpp.html',1,'']]],
   ['ruesscompliancetensorcontraction',['RuessComplianceTensorContraction',['../namespacempc_1_1rockphysics.html#af0944164902bfb3aee857caed6c2d07f',1,'mpc::rockphysics']]],
+  ['ruesslowerbound',['RuessLowerBound',['../classmpc_1_1rockphysics_1_1_solid_phase.html#a3affb77f60c2967aa08833e703e0b932',1,'mpc::rockphysics::SolidPhase']]],
   ['rutilebulkmodulus',['RutileBulkModulus',['../namespacempc_1_1data.html#aa35acd7fdbe35e4b9d5f2654ab82985f',1,'mpc::data']]],
   ['rutilec11',['RutileC11',['../namespacempc_1_1data.html#afd6f2a6dfb90f0896ed3617974851c94',1,'mpc::data']]],
   ['rutilec12',['RutileC12',['../namespacempc_1_1data.html#ad1d4e3e3a9d1d390a470fd61d871a4da',1,'mpc::data']]],
