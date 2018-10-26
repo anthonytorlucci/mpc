@@ -19,8 +19,6 @@
 #include <vtkPoints.h>
 #include <vtkPolyData.h>
 #include <vtkPolyDataMapper.h>
-#include <vtkDelaunay2D.h>
-#include <vtkDelaunay3D.h>
 #include <vtkLookupTable.h>
 #include <vtkUnsignedCharArray.h>
 #include <vtkActor.h>
@@ -31,6 +29,10 @@
 #include <vtkCubeAxesActor2D.h>
 #include <vtkScalarBarActor.h>
 #include <vtkCamera.h>
+#include <vtkSphereSource.h>
+#include <vtkSurfaceReconstructionFilter.h>
+#include <vtkContourFilter.h>
+#include <vtkReverseSense.h>
 
 // blitz
 #include <blitz/array.h>
@@ -49,7 +51,9 @@ public slots:
 
 private:
     // private member functions
+    void PrivateSetPoints();
     void PrivateUpdatePlot();
+    vtkSmartPointer<vtkPolyData> PrivateTransformBack(vtkSmartPointer<vtkPoints> pt, vtkSmartPointer<vtkPolyData> pd);
 
     const int numgridpoints = 21;
 
@@ -78,6 +82,8 @@ private:
     double mineral_density;
     double mineral_K;
     double mineral_mu;
+    double minvel = 0.0;  // used to get the min and max vels to set bounds
+    double maxvel = 0.0;
 
     // Qt widgets
     QLabel* mineral_label;
@@ -143,30 +149,25 @@ private:
     vtkSmartPointer<vtkRenderer> vtkrenderer_vp0;
     vtkSmartPointer<vtkPoints> vtkpoints_vp0;
     vtkSmartPointer<vtkPolyData> vtkinputpolydata_vp0;
+    vtkSmartPointer<vtkSurfaceReconstructionFilter> vtksurface_vp0;
+    vtkSmartPointer<vtkContourFilter> vtkcontoursurf_vp0;
+    vtkSmartPointer<vtkReverseSense> vtkreverse_vp0;
     vtkSmartPointer<vtkPolyData> vtkoutputpolydata_vp0;
-    vtkSmartPointer<vtkDelaunay2D> vtkdelaunay2d_vp0;
     vtkSmartPointer<vtkPolyDataMapper> vtkpolydatamapper_vp0;
     vtkSmartPointer<vtkActor> vtkactor_vp0;
     vtkSmartPointer<vtkRenderWindowInteractor> vtkrenderwindowinteractor_vp0;
     vtkSmartPointer<vtkVertexGlyphFilter> vtkglyphfilter_vp0;
     vtkSmartPointer<vtkPolyDataMapper> vtkpointsmapper_vp0;
     vtkSmartPointer<vtkActor> vtkpointsactor_vp0;
-    vtkSmartPointer<vtkOutlineFilter> vtkoutline_vp0;
-    vtkSmartPointer<vtkPolyDataMapper> vtkoutlinemapper_vp0;
-    vtkSmartPointer<vtkActor> vtkoutlineactor_vp0;
+//    vtkSmartPointer<vtkOutlineFilter> vtkoutline_vp0;
+//    vtkSmartPointer<vtkPolyDataMapper> vtkoutlinemapper_vp0;
+//    vtkSmartPointer<vtkActor> vtkoutlineactor_vp0;
     vtkSmartPointer<vtkCubeAxesActor2D> vtkcubeaxesactor2d_vp0;
     vtkSmartPointer<vtkScalarBarActor> vtkscalarbaractor_vp0;
     // iso
-    vtkSmartPointer<vtkPoints> vtkpoints_isovp0;
-    vtkSmartPointer<vtkPolyData> vtkinputpolydata_isovp0;
-    vtkSmartPointer<vtkVertexGlyphFilter> vtkglyphfilter_isovp0;
-    vtkSmartPointer<vtkPolyDataMapper> vtkpointsmapper_isovp0;
-    vtkSmartPointer<vtkActor> vtkpointsactor_isovp0;
-    vtkSmartPointer<vtkDelaunay2D> vtkdelaunay2d_isovp0;
-    vtkSmartPointer<vtkPolyData> vtkoutputpolydata_isovp0;
-    vtkSmartPointer<vtkPolyDataMapper> vtkpolydatamapper_isovp0;
+    vtkSmartPointer<vtkSphereSource> vtkspheresource_isovp0;
+    vtkSmartPointer<vtkPolyDataMapper> vtkmapper_isovp0;
     vtkSmartPointer<vtkActor> vtkactor_isovp0;
-
 
     QVTKOpenGLWidget* qvtkopenglwidget_vs1;
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> vtkgenericopenglwindow_vs1;
@@ -174,28 +175,24 @@ private:
     vtkSmartPointer<vtkRenderer> vtkrenderer_vs1;
     vtkSmartPointer<vtkPoints> vtkpoints_vs1;
     vtkSmartPointer<vtkPolyData> vtkinputpolydata_vs1;
+    vtkSmartPointer<vtkSurfaceReconstructionFilter> vtksurface_vs1;
+    vtkSmartPointer<vtkContourFilter> vtkcontoursurf_vs1;
+    vtkSmartPointer<vtkReverseSense> vtkreverse_vs1;
     vtkSmartPointer<vtkPolyData> vtkoutputpolydata_vs1;
-    vtkSmartPointer<vtkDelaunay2D> vtkdelaunay2d_vs1;
     vtkSmartPointer<vtkPolyDataMapper> vtkpolydatamapper_vs1;
     vtkSmartPointer<vtkActor> vtkactor_vs1;
     vtkSmartPointer<vtkRenderWindowInteractor> vtkrenderwindowinteractor_vs1;
     vtkSmartPointer<vtkVertexGlyphFilter> vtkglyphfilter_vs1;
     vtkSmartPointer<vtkPolyDataMapper> vtkpointsmapper_vs1;
     vtkSmartPointer<vtkActor> vtkpointsactor_vs1;
-    vtkSmartPointer<vtkOutlineFilter> vtkoutline_vs1;
-    vtkSmartPointer<vtkPolyDataMapper> vtkoutlinemapper_vs1;
-    vtkSmartPointer<vtkActor> vtkoutlineactor_vs1;
+//    vtkSmartPointer<vtkOutlineFilter> vtkoutline_vs1;
+//    vtkSmartPointer<vtkPolyDataMapper> vtkoutlinemapper_vs1;
+//    vtkSmartPointer<vtkActor> vtkoutlineactor_vs1;
     vtkSmartPointer<vtkCubeAxesActor2D> vtkcubeaxesactor2d_vs1;
     vtkSmartPointer<vtkScalarBarActor> vtkscalarbaractor_vs1;
     // iso
-    vtkSmartPointer<vtkPoints> vtkpoints_isovs1;
-    vtkSmartPointer<vtkPolyData> vtkinputpolydata_isovs1;
-    vtkSmartPointer<vtkVertexGlyphFilter> vtkglyphfilter_isovs1;
-    vtkSmartPointer<vtkPolyDataMapper> vtkpointsmapper_isovs1;
-    vtkSmartPointer<vtkActor> vtkpointsactor_isovs1;
-    vtkSmartPointer<vtkDelaunay2D> vtkdelaunay2d_isovs1;
-    vtkSmartPointer<vtkPolyData> vtkoutputpolydata_isovs1;
-    vtkSmartPointer<vtkPolyDataMapper> vtkpolydatamapper_isovs1;
+    vtkSmartPointer<vtkSphereSource> vtkspheresource_isovs1;
+    vtkSmartPointer<vtkPolyDataMapper> vtkmapper_isovs1;
     vtkSmartPointer<vtkActor> vtkactor_isovs1;
 
     QVTKOpenGLWidget* qvtkopenglwidget_vs2;
@@ -204,28 +201,24 @@ private:
     vtkSmartPointer<vtkRenderer> vtkrenderer_vs2;
     vtkSmartPointer<vtkPoints> vtkpoints_vs2;
     vtkSmartPointer<vtkPolyData> vtkinputpolydata_vs2;
+    vtkSmartPointer<vtkSurfaceReconstructionFilter> vtksurface_vs2;
+    vtkSmartPointer<vtkContourFilter> vtkcontoursurf_vs2;
+    vtkSmartPointer<vtkReverseSense> vtkreverse_vs2;
     vtkSmartPointer<vtkPolyData> vtkoutputpolydata_vs2;
-    vtkSmartPointer<vtkDelaunay2D> vtkdelaunay2d_vs2;
     vtkSmartPointer<vtkPolyDataMapper> vtkpolydatamapper_vs2;
     vtkSmartPointer<vtkActor> vtkactor_vs2;
     vtkSmartPointer<vtkRenderWindowInteractor> vtkrenderwindowinteractor_vs2;
     vtkSmartPointer<vtkVertexGlyphFilter> vtkglyphfilter_vs2;
     vtkSmartPointer<vtkPolyDataMapper> vtkpointsmapper_vs2;
     vtkSmartPointer<vtkActor> vtkpointsactor_vs2;
-    vtkSmartPointer<vtkOutlineFilter> vtkoutline_vs2;
-    vtkSmartPointer<vtkPolyDataMapper> vtkoutlinemapper_vs2;
-    vtkSmartPointer<vtkActor> vtkoutlineactor_vs2;
+//    vtkSmartPointer<vtkOutlineFilter> vtkoutline_vs2;
+//    vtkSmartPointer<vtkPolyDataMapper> vtkoutlinemapper_vs2;
+//    vtkSmartPointer<vtkActor> vtkoutlineactor_vs2;
     vtkSmartPointer<vtkCubeAxesActor2D> vtkcubeaxesactor2d_vs2;
     vtkSmartPointer<vtkScalarBarActor> vtkscalarbaractor_vs2;
     // iso
-    vtkSmartPointer<vtkPoints> vtkpoints_isovs2;
-    vtkSmartPointer<vtkPolyData> vtkinputpolydata_isovs2;
-    vtkSmartPointer<vtkVertexGlyphFilter> vtkglyphfilter_isovs2;
-    vtkSmartPointer<vtkPolyDataMapper> vtkpointsmapper_isovs2;
-    vtkSmartPointer<vtkActor> vtkpointsactor_isovs2;
-    vtkSmartPointer<vtkDelaunay2D> vtkdelaunay2d_isovs2;
-    vtkSmartPointer<vtkPolyData> vtkoutputpolydata_isovs2;
-    vtkSmartPointer<vtkPolyDataMapper> vtkpolydatamapper_isovs2;
+    vtkSmartPointer<vtkSphereSource> vtkspheresource_isovs2;
+    vtkSmartPointer<vtkPolyDataMapper> vtkmapper_isovs2;
     vtkSmartPointer<vtkActor> vtkactor_isovs2;
 
 };

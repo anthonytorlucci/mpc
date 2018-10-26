@@ -28,9 +28,11 @@ void mpcexamples::mpcCoordinateMapping() {
     std::cout << "" << std::endl;
     std::cout << std::boolalpha;
 
-    const int DIVISOR = 8;
-    const double DBL_DIVISOR = double(DIVISOR);
-    const int NUM_ROTATIONS = int(std::pow(DBL_DIVISOR,3));
+//    const int DIVISOR = 8;
+//    const double DBL_DIVISOR = double(DIVISOR);
+//    const int NUM_ROTATIONS = int(std::pow(DBL_DIVISOR,3));
+
+    const int NUM_ELEMS = 4;
 
     const double PI = mpc::utilities::PI<double>;
     const double TWO_PI = 2.0 * PI;
@@ -42,6 +44,7 @@ void mpcexamples::mpcCoordinateMapping() {
     double x = 0;
     double y = 0;
     double z = 0;
+    double xyarg = 0;
     double mag = 0;
     int cntr = 0;
 
@@ -67,11 +70,14 @@ void mpcexamples::mpcCoordinateMapping() {
     // =================================================================================================================
     /* (x,y) on a disk */
     std::cout << "mapping on a disk" << std::endl;
-    std::vector<double> small_radius_linspace = mpc::utilities::Linspace(0.0, 1.0, 8);
+    std::vector<double> small_radius_linspace = mpc::utilities::Linspace(0.0 + (1.0 / NUM_ELEMS), 1.0, NUM_ELEMS);  // (0,1]
 //    for (auto v : small_radius_linspace) {
 //        std::cout << v << std::endl;
 //    }
-    std::vector<double> azimuth_linspace = mpc::utilities::Linspace(0.0, TWO_PI, 8);
+    std::vector<double> azimuth_linspace = mpc::utilities::Linspace(0.0, TWO_PI - (TWO_PI/double(NUM_ELEMS)), NUM_ELEMS);  // [0,2pi)
+//    for (auto v : azimuth_linspace) {
+//        std::cout << v << std::endl;
+//    }
 
     for (auto rho : small_radius_linspace) {
         //
@@ -81,18 +87,21 @@ void mpcexamples::mpcCoordinateMapping() {
             x = std::get<0>(coords);
             y = std::get<1>(coords);
             //z = std::get<2>(coords);
-            z = sqrt(1.0 - std::pow(x,2) - std::pow(y,2));
+            xyarg = std::abs(1.0 - std::pow(x,2) - std::pow(y,2));
+            z = sqrt(xyarg);
             normal_vector = x, y, z;
+            std::cout << rho << ", " << theta << std::endl;
+            std::cout << xyarg << std::endl;
             std::cout << normal_vector << std::endl;
             mag = mpc::utilities::Magnitude(normal_vector);
-            std::cout << "magnitude : " << mag << std::endl;  // obviously, this should be one
+            //std::cout << "magnitude : " << mag << std::endl;  // obviously, this should be one
 
             // corresponding negative
             z *= -1.0;
             normal_vector = x, y, z;
             std::cout << normal_vector << std::endl;
             mag = mpc::utilities::Magnitude(normal_vector);
-            std::cout << "magnitude : " << mag << std::endl;  // obviously, this should be one
+            //std::cout << "magnitude : " << mag << std::endl;  // obviously, this should be one
         }
     }
 

@@ -3,6 +3,7 @@
 // c++
 #include <iostream>
 #include <cmath>
+#include <algorithm>  // std::sort
 
 // Qt
 #include <QDebug>
@@ -22,6 +23,8 @@
 #include <vtkTransform.h>
 #include <vtkAxesActor.h>
 #include <vtkProperty.h>
+#include <vtkTransform.h>
+#include <vtkTransformPolyDataFilter.h>
 
 
 // mpc
@@ -31,6 +34,8 @@
 #include <mpc/utilities/constants.hpp>
 #include <mpc/utilities/norm.hpp>
 #include <mpc/utilities/magnitude.hpp>
+#include <mpc/utilities/coordinatemapping.hpp>
+#include <mpc/utilities/functionsbase.hpp>
 
 #include <mpc/core/csrelationship.hpp>
 #include <mpc/core/stiffnesscompliance.hpp>
@@ -354,7 +359,7 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtktextproperty->ShadowOn();
     vtktextproperty->SetFontSize(20);
 
-    // =================================================================================================================
+    // RENDER ==========================================================================================================
     qvtkopenglwidget_vp0 = new QVTKOpenGLWidget(this);
     vtkgenericopenglwindow_vp0 = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
     qvtkopenglwidget_vp0->SetRenderWindow(vtkgenericopenglwindow_vp0);
@@ -373,176 +378,8 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkrenderwindowinteractor_vp0 = vtkSmartPointer<vtkRenderWindowInteractor>::New();
     vtkrenderwindowinteractor_vp0 = vtkrenderwindow_vp0->GetInteractor();
 
-    vtkpoints_vp0 = vtkSmartPointer<vtkPoints>::New();
 
-    // Add the grid points to a polydata object
-    vtkinputpolydata_vp0 = vtkSmartPointer<vtkPolyData>::New();
-    vtkinputpolydata_vp0->SetPoints(vtkpoints_vp0);
-
-    // normal vector endpoints
-    vtkglyphfilter_vp0 = vtkSmartPointer<vtkVertexGlyphFilter>::New();
-    vtkglyphfilter_vp0->SetInputData(vtkinputpolydata_vp0);
-    vtkglyphfilter_vp0->Update();
-
-    vtkpointsmapper_vp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
-    vtkpointsmapper_vp0->SetInputConnection(vtkglyphfilter_vp0->GetOutputPort());
-
-    vtkpointsactor_vp0 = vtkSmartPointer<vtkActor>::New();
-    vtkpointsactor_vp0->SetMapper(vtkpointsmapper_vp0);
-    vtkpointsactor_vp0->GetProperty()->SetPointSize(3);
-    vtkpointsactor_vp0->GetProperty()->SetColor(0.5,0.5,0.5);
-    vtkrenderer_vp0->AddActor(vtkpointsactor_vp0);
-
-    // Triangulate the grid points
-    vtkdelaunay2d_vp0 = vtkSmartPointer<vtkDelaunay2D>::New();
-    vtkdelaunay2d_vp0->SetInputData(vtkinputpolydata_vp0);
-    vtkdelaunay2d_vp0->Update();
-    vtkoutputpolydata_vp0 = vtkdelaunay2d_vp0->GetOutput();
-
-//    double bounds[6];
-//    vtkoutputpolydata_vp0->GetBounds(bounds);
-
-//    // Find min and max z
-//    double minx = bounds[0];
-//    double maxx = bounds[1];
-//    double miny = bounds[2];
-//    double maxy = bounds[3];
-//    double minz = bounds[4];
-//    double maxz = bounds[5];
-
-//    vtkcolorlookuptable->SetTableRange(minz, maxz);
-//    vtkcolorlookuptable->Build();
-
-
-
-    //++std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
-
-////    for(int i = 0; i < vtkoutputpolydata->GetNumberOfPoints(); i++)
-////    {
-////        double p[3];
-////        vtkoutputpolydata->GetPoint(i,p);
-////        //std::cout << "point : " << i << ", x : " << p[0] << ", y : " << p[1] << ", z : " << p[2] << std::endl;
-////
-////        double dcolor[3];
-////        vtkcolorlookuptable->GetColor(p[2], dcolor);
-////
-////        unsigned char color[3];
-////        for(unsigned int j = 0; j < 3; j++)
-////        {
-////            color[j] = static_cast<unsigned char>(255.0 * dcolor[j]);
-////        }
-////
-////        //vtkcolorchararray->InsertNextTupleValue(color);  // VTK version < 7
-////        vtkcolorchararray->InsertNextTypedTuple(color);
-////    }
-//
-//    vtkoutputpolydata->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
-
-    // Create a mapper and actor
-    vtkpolydatamapper_vp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
-    vtkpolydatamapper_vp0->SetInputData(vtkoutputpolydata_vp0);
-
-    vtkactor_vp0 = vtkSmartPointer<vtkActor>::New();
-    vtkactor_vp0->SetMapper(vtkpolydatamapper_vp0);
-
-    // Add the actor to the scene
-    vtkrenderer_vp0->AddActor(vtkactor_vp0);
-
-    // ISO
-    vtkpoints_isovp0 = vtkSmartPointer<vtkPoints>::New();
-
-    // Add the grid points to a polydata object
-    vtkinputpolydata_isovp0 = vtkSmartPointer<vtkPolyData>::New();
-    vtkinputpolydata_isovp0->SetPoints(vtkpoints_isovp0);
-
-    // normal vector endpoints
-    vtkglyphfilter_isovp0 = vtkSmartPointer<vtkVertexGlyphFilter>::New();
-    vtkglyphfilter_isovp0->SetInputData(vtkinputpolydata_isovp0);
-    vtkglyphfilter_isovp0->Update();
-
-    vtkpointsmapper_isovp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
-    vtkpointsmapper_isovp0->SetInputConnection(vtkglyphfilter_isovp0->GetOutputPort());
-
-    vtkpointsactor_isovp0 = vtkSmartPointer<vtkActor>::New();
-    vtkpointsactor_isovp0->SetMapper(vtkpointsmapper_isovp0);
-    vtkpointsactor_isovp0->GetProperty()->SetPointSize(3);
-    vtkpointsactor_isovp0->GetProperty()->SetColor(1.0,0.0,1.0);
-    vtkrenderer_vp0->AddActor(vtkpointsactor_isovp0);
-
-    // Triangulate the grid points
-    vtkdelaunay2d_isovp0 = vtkSmartPointer<vtkDelaunay2D>::New();
-    vtkdelaunay2d_isovp0->SetInputData(vtkinputpolydata_isovp0);
-    vtkdelaunay2d_isovp0->Update();
-    vtkoutputpolydata_isovp0 = vtkdelaunay2d_isovp0->GetOutput();
-
-//    double bounds[6];
-//    vtkoutputpolydata_vp0->GetBounds(bounds);
-
-    //++std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
-
-//    vtkoutputpolydata->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
-
-    // Create a mapper and actor
-    vtkpolydatamapper_isovp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
-    vtkpolydatamapper_isovp0->SetInputData(vtkoutputpolydata_isovp0);
-
-    vtkactor_isovp0 = vtkSmartPointer<vtkActor>::New();
-    vtkactor_isovp0->SetMapper(vtkpolydatamapper_isovp0);
-    vtkactor_isovp0->GetProperty()->SetRepresentationToWireframe();
-
-    // Add the actor to the scene
-    vtkrenderer_vp0->AddActor(vtkactor_isovp0);
-    // END vtk examples : colored elevation ============================================================================
-
-    // vtk examples : CubeAxesActor2D.cxx
-    // Create a vtkOutlineFilter to draw the bounding box of the data set.
-    // Also create the associated mapper and actor.
-    vtkoutline_vp0 = vtkSmartPointer<vtkOutlineFilter>::New();
-    vtkoutline_vp0->SetInputConnection(vtkdelaunay2d_vp0->GetOutputPort());  // requires subclass of vtkAlgorithm
-
-    vtkoutlinemapper_vp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
-    vtkoutlinemapper_vp0->SetInputConnection(vtkoutline_vp0->GetOutputPort());
-
-    vtkoutlineactor_vp0 = vtkSmartPointer<vtkActor>::New();
-    vtkoutlineactor_vp0->SetMapper(vtkoutlinemapper_vp0.GetPointer());
-    vtkoutlineactor_vp0->GetProperty()->SetColor(0., 0., 0.);
-
-    // add the actors to the renderer
-    vtkrenderer_vp0->AddViewProp(vtkoutlineactor_vp0.GetPointer());
-
-    // Create a vtkCubeAxesActor2D.  Use the outer edges of the bounding box to
-    // draw the axes.  Add the actor to the renderer.
-    vtkcubeaxesactor2d_vp0 = vtkSmartPointer<vtkCubeAxesActor2D>::New();
-    vtkcubeaxesactor2d_vp0->SetInputConnection(vtkdelaunay2d_vp0->GetOutputPort());
-    //vtkcubeaxesactor2d_vp0->SetCamera(vtkrenderer_vp0->GetActiveCamera());
-    vtkcubeaxesactor2d_vp0->SetCamera(vtkcamera);
-    vtkrenderer_vp0->ResetCamera();  // REQUIRED !!!
-    vtkcubeaxesactor2d_vp0->SetLabelFormat("%6.4g");
-    vtkcubeaxesactor2d_vp0->SetFlyModeToOuterEdges();
-    //vtkcubeaxesactor2d->SetFlyModeToClosestTriad();
-    //vtkcubeaxesactor2d->SetFlyModeToNone();
-    vtkcubeaxesactor2d_vp0->SetAxisTitleTextProperty(vtktextproperty.GetPointer());
-    vtkcubeaxesactor2d_vp0->SetAxisLabelTextProperty(vtktextproperty.GetPointer());
-    vtkcubeaxesactor2d_vp0->SetXLabel("background fluid saturation");
-    vtkcubeaxesactor2d_vp0->SetYLabel("background solid concentration");
-    vtkcubeaxesactor2d_vp0->SetZLabel("saturated bulk modulus");
-    vtkrenderer_vp0->AddViewProp(vtkcubeaxesactor2d_vp0.GetPointer());
-
-    // vtk examples : ScalarBarActor.cxx
-    vtkscalarbaractor_vp0 = vtkSmartPointer<vtkScalarBarActor>::New();
-    vtkscalarbaractor_vp0->SetLookupTable(vtkcolorlookuptable);
-    vtkscalarbaractor_vp0->SetTitle("V1");
-    vtkscalarbaractor_vp0->SetLabelFormat("%6.4g");
-    vtkscalarbaractor_vp0->SetTitleTextProperty(vtktextproperty.GetPointer());
-    vtkscalarbaractor_vp0->SetLabelTextProperty(vtktextproperty.GetPointer());
-    vtkscalarbaractor_vp0->SetOrientationToHorizontal();
-    vtkscalarbaractor_vp0->SetWidth(0.8);
-    vtkscalarbaractor_vp0->SetHeight(0.09);
-    vtkscalarbaractor_vp0->GetPositionCoordinate()->SetValue(0.1, 0.01);
-    vtkscalarbaractor_vp0->SetUnconstrainedFontSize(true);
-    vtkrenderer_vp0->AddActor2D(vtkscalarbaractor_vp0);
-
-    // =================================================================================================================
+    // vs1 ====
     qvtkopenglwidget_vs1 = new QVTKOpenGLWidget(this);
     vtkgenericopenglwindow_vs1 = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
     qvtkopenglwidget_vs1->SetRenderWindow(vtkgenericopenglwindow_vs1);
@@ -556,149 +393,14 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkrenderer_vs1->SetBackground2(vtknamedcolors->GetColor3d("DarkGray").GetData());
     vtkrenderwindow_vs1->AddRenderer(vtkrenderer_vs1);
 
-    vtkrenderer_vs1->SetActiveCamera(vtkcamera);  // shared camera
+    //-- only one camera vtkcamera = vtkrenderer_vp0->GetActiveCamera();
+    vtkrenderer_vs1->SetActiveCamera(vtkcamera);
 
-    vtkrenderwindowinteractor_vs1 = vtkSmartPointer<vtkRenderWindowInteractor>::New();
-    vtkrenderwindowinteractor_vs1 = vtkrenderwindow_vs1->GetInteractor();
+    // ?? vtkrenderwindowinteractor_vs1 = vtkSmartPointer<vtkRenderWindowInteractor>::New();
+    // ?? vtkrenderwindowinteractor_vs1 = vtkrenderwindow_vs1->GetInteractor();
 
-    vtkpoints_vs1 = vtkSmartPointer<vtkPoints>::New();
 
-    // Add the grid points to a polydata object
-    vtkinputpolydata_vs1 = vtkSmartPointer<vtkPolyData>::New();
-    vtkinputpolydata_vs1->SetPoints(vtkpoints_vs1);
-
-    // normal vector endpoints
-    vtkglyphfilter_vs1 = vtkSmartPointer<vtkVertexGlyphFilter>::New();
-    vtkglyphfilter_vs1->SetInputData(vtkinputpolydata_vs1);
-    vtkglyphfilter_vs1->Update();
-
-    vtkpointsmapper_vs1 = vtkSmartPointer<vtkPolyDataMapper>::New();
-    vtkpointsmapper_vs1->SetInputConnection(vtkglyphfilter_vs1->GetOutputPort());
-
-    vtkpointsactor_vs1 = vtkSmartPointer<vtkActor>::New();
-    vtkpointsactor_vs1->SetMapper(vtkpointsmapper_vs1);
-    vtkpointsactor_vs1->GetProperty()->SetPointSize(3);
-    vtkpointsactor_vs1->GetProperty()->SetColor(0.5,0.5,0.5);
-    vtkrenderer_vs1->AddActor(vtkpointsactor_vs1);
-
-    // Triangulate the grid points
-    vtkdelaunay2d_vs1 = vtkSmartPointer<vtkDelaunay2D>::New();
-    vtkdelaunay2d_vs1->SetInputData(vtkinputpolydata_vs1);
-    vtkdelaunay2d_vs1->Update();
-    vtkoutputpolydata_vs1 = vtkdelaunay2d_vs1->GetOutput();
-
-//    double bounds[6];
-//    vtkoutputpolydata_vp0->GetBounds(bounds);
-
-    //++std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
-
-//    vtkoutputpolydata->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
-
-    // Create a mapper and actor
-    vtkpolydatamapper_vs1 = vtkSmartPointer<vtkPolyDataMapper>::New();
-    vtkpolydatamapper_vs1->SetInputData(vtkoutputpolydata_vs1);
-
-    vtkactor_vs1 = vtkSmartPointer<vtkActor>::New();
-    vtkactor_vs1->SetMapper(vtkpolydatamapper_vs1);
-
-    // Add the actor to the scene
-    vtkrenderer_vs1->AddActor(vtkactor_vs1);
-
-    // ISO
-    vtkpoints_isovs1 = vtkSmartPointer<vtkPoints>::New();
-
-    // Add the grid points to a polydata object
-    vtkinputpolydata_isovs1 = vtkSmartPointer<vtkPolyData>::New();
-    vtkinputpolydata_isovs1->SetPoints(vtkpoints_isovs1);
-
-    // normal vector endpoints
-    vtkglyphfilter_isovs1 = vtkSmartPointer<vtkVertexGlyphFilter>::New();
-    vtkglyphfilter_isovs1->SetInputData(vtkinputpolydata_isovs1);
-    vtkglyphfilter_isovs1->Update();
-
-    vtkpointsmapper_isovs1 = vtkSmartPointer<vtkPolyDataMapper>::New();
-    vtkpointsmapper_isovs1->SetInputConnection(vtkglyphfilter_isovs1->GetOutputPort());
-
-    vtkpointsactor_isovs1 = vtkSmartPointer<vtkActor>::New();
-    vtkpointsactor_isovs1->SetMapper(vtkpointsmapper_isovs1);
-    vtkpointsactor_isovs1->GetProperty()->SetPointSize(3);
-    vtkpointsactor_isovs1->GetProperty()->SetColor(1.0,0.0,1.0);
-    vtkrenderer_vs1->AddActor(vtkpointsactor_isovs1);
-
-    // Triangulate the grid points
-    vtkdelaunay2d_isovs1 = vtkSmartPointer<vtkDelaunay2D>::New();
-    vtkdelaunay2d_isovs1->SetInputData(vtkinputpolydata_isovs1);
-    vtkdelaunay2d_isovs1->Update();
-    vtkoutputpolydata_isovs1 = vtkdelaunay2d_isovs1->GetOutput();
-
-//    double bounds[6];
-//    vtkoutputpolydata_vp0->GetBounds(bounds);
-
-    //++std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
-
-//    vtkoutputpolydata->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
-
-    // Create a mapper and actor
-    vtkpolydatamapper_isovs1 = vtkSmartPointer<vtkPolyDataMapper>::New();
-    vtkpolydatamapper_isovs1->SetInputData(vtkoutputpolydata_isovs1);
-
-    vtkactor_isovs1 = vtkSmartPointer<vtkActor>::New();
-    vtkactor_isovs1->SetMapper(vtkpolydatamapper_isovs1);
-    vtkactor_isovs1->GetProperty()->SetRepresentationToWireframe();
-
-    // Add the actor to the scene
-    vtkrenderer_vs1->AddActor(vtkactor_isovs1);
-    // END vtk examples : colored elevation ============================================================================
-
-    // vtk examples : CubeAxesActor2D.cxx
-    // Create a vtkOutlineFilter to draw the bounding box of the data set.
-    // Also create the associated mapper and actor.
-    vtkoutline_vs1 = vtkSmartPointer<vtkOutlineFilter>::New();
-    vtkoutline_vs1->SetInputConnection(vtkdelaunay2d_vs1->GetOutputPort());  // requires subclass of vtkAlgorithm
-
-    vtkoutlinemapper_vs1 = vtkSmartPointer<vtkPolyDataMapper>::New();
-    vtkoutlinemapper_vs1->SetInputConnection(vtkoutline_vs1->GetOutputPort());
-
-    vtkoutlineactor_vs1 = vtkSmartPointer<vtkActor>::New();
-    vtkoutlineactor_vs1->SetMapper(vtkoutlinemapper_vs1.GetPointer());
-    vtkoutlineactor_vs1->GetProperty()->SetColor(0., 0., 0.);
-
-    // add the actors to the renderer
-    vtkrenderer_vs1->AddViewProp(vtkoutlineactor_vs1.GetPointer());
-
-    // Create a vtkCubeAxesActor2D.  Use the outer edges of the bounding box to
-    // draw the axes.  Add the actor to the renderer.
-    vtkcubeaxesactor2d_vs1 = vtkSmartPointer<vtkCubeAxesActor2D>::New();
-    vtkcubeaxesactor2d_vs1->SetInputConnection(vtkdelaunay2d_vs1->GetOutputPort());
-    //vtkcubeaxesactor2d_vs1->SetCamera(vtkrenderer_vs1->GetActiveCamera());
-    vtkcubeaxesactor2d_vs1->SetCamera(vtkcamera);
-    vtkrenderer_vs1->ResetCamera();  // REQUIRED !!!
-    vtkcubeaxesactor2d_vs1->SetLabelFormat("%6.4g");
-    vtkcubeaxesactor2d_vs1->SetFlyModeToOuterEdges();
-    //vtkcubeaxesactor2d->SetFlyModeToClosestTriad();
-    //vtkcubeaxesactor2d->SetFlyModeToNone();
-    vtkcubeaxesactor2d_vs1->SetAxisTitleTextProperty(vtktextproperty.GetPointer());
-    vtkcubeaxesactor2d_vs1->SetAxisLabelTextProperty(vtktextproperty.GetPointer());
-    vtkcubeaxesactor2d_vs1->SetXLabel("background fluid saturation");
-    vtkcubeaxesactor2d_vs1->SetYLabel("background solid concentration");
-    vtkcubeaxesactor2d_vs1->SetZLabel("saturated bulk modulus");
-    vtkrenderer_vs1->AddViewProp(vtkcubeaxesactor2d_vs1.GetPointer());
-
-    // vtk examples : ScalarBarActor.cxx
-    vtkscalarbaractor_vs1 = vtkSmartPointer<vtkScalarBarActor>::New();
-    vtkscalarbaractor_vs1->SetLookupTable(vtkcolorlookuptable);
-    vtkscalarbaractor_vs1->SetTitle("V2");
-    vtkscalarbaractor_vs1->SetLabelFormat("%6.4g");
-    vtkscalarbaractor_vs1->SetTitleTextProperty(vtktextproperty.GetPointer());
-    vtkscalarbaractor_vs1->SetLabelTextProperty(vtktextproperty.GetPointer());
-    vtkscalarbaractor_vs1->SetOrientationToHorizontal();
-    vtkscalarbaractor_vs1->SetWidth(0.8);
-    vtkscalarbaractor_vs1->SetHeight(0.09);
-    vtkscalarbaractor_vs1->GetPositionCoordinate()->SetValue(0.1, 0.01);
-    vtkscalarbaractor_vs1->SetUnconstrainedFontSize(true);
-    vtkrenderer_vs1->AddActor2D(vtkscalarbaractor_vs1);
-
-    // =================================================================================================================
+    // vs2 ====
     qvtkopenglwidget_vs2 = new QVTKOpenGLWidget(this);
     vtkgenericopenglwindow_vs2 = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
     qvtkopenglwidget_vs2->SetRenderWindow(vtkgenericopenglwindow_vs2);
@@ -712,138 +414,321 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkrenderer_vs2->SetBackground2(vtknamedcolors->GetColor3d("DarkGray").GetData());
     vtkrenderwindow_vs2->AddRenderer(vtkrenderer_vs2);
 
-    vtkrenderer_vs2->SetActiveCamera(vtkcamera);  // shared camera
+    //-- only one camera vtkcamera = vtkrenderer_vp0->GetActiveCamera();
+    vtkrenderer_vs2->SetActiveCamera(vtkcamera);
 
-    vtkrenderwindowinteractor_vs2 = vtkSmartPointer<vtkRenderWindowInteractor>::New();
-    vtkrenderwindowinteractor_vs2 = vtkrenderwindow_vs2->GetInteractor();
+    // ?? vtkrenderwindowinteractor_vs2 = vtkSmartPointer<vtkRenderWindowInteractor>::New();
+    // ?? vtkrenderwindowinteractor_vs2 = vtkrenderwindow_vs2->GetInteractor();
 
+
+    // ISO =============================================================================================================
+    vtkspheresource_isovp0 = vtkSmartPointer<vtkSphereSource>::New();
+    vtkspheresource_isovp0->SetCenter(0,0,0);
+    vtkspheresource_isovp0->SetRadius(1);
+    vtkspheresource_isovp0->Update();
+
+    vtkmapper_isovp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkmapper_isovp0->SetInputConnection(vtkspheresource_isovp0->GetOutputPort());
+
+    vtkactor_isovp0 = vtkSmartPointer<vtkActor>::New();
+    vtkactor_isovp0->SetMapper(vtkmapper_isovp0);
+    vtkactor_isovp0->GetProperty()->SetRepresentationToWireframe();
+    vtkrenderer_vp0->AddActor(vtkactor_isovp0);
+
+    // vs1
+    vtkspheresource_isovs1 = vtkSmartPointer<vtkSphereSource>::New();
+    vtkspheresource_isovs1->SetCenter(0,0,0);
+    vtkspheresource_isovs1->SetRadius(1);
+    vtkspheresource_isovs1->Update();
+
+    vtkmapper_isovs1 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkmapper_isovs1->SetInputConnection(vtkspheresource_isovs1->GetOutputPort());
+
+    vtkactor_isovs1 = vtkSmartPointer<vtkActor>::New();
+    vtkactor_isovs1->SetMapper(vtkmapper_isovs1);
+    vtkactor_isovs1->GetProperty()->SetRepresentationToWireframe();
+    vtkrenderer_vs1->AddActor(vtkactor_isovs1);
+
+    // vs2
+    vtkspheresource_isovs2 = vtkSmartPointer<vtkSphereSource>::New();
+    vtkspheresource_isovs2->SetCenter(0,0,0);
+    vtkspheresource_isovs2->SetRadius(1);
+    vtkspheresource_isovs2->Update();
+
+    vtkmapper_isovs2 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkmapper_isovs2->SetInputConnection(vtkspheresource_isovs2->GetOutputPort());
+
+    vtkactor_isovs2 = vtkSmartPointer<vtkActor>::New();
+    vtkactor_isovs2->SetMapper(vtkmapper_isovs2);
+    vtkactor_isovs2->GetProperty()->SetRepresentationToWireframe();
+    vtkrenderer_vs2->AddActor(vtkactor_isovs2);
+
+    // ANISO POINTS ====================================================================================================
+    vtkpoints_vp0 = vtkSmartPointer<vtkPoints>::New();
+    vtkpoints_vs1 = vtkSmartPointer<vtkPoints>::New();
     vtkpoints_vs2 = vtkSmartPointer<vtkPoints>::New();
 
+    PrivateSetPoints();
+
     // Add the grid points to a polydata object
+    vtkinputpolydata_vp0 = vtkSmartPointer<vtkPolyData>::New();
+    vtkinputpolydata_vp0->SetPoints(vtkpoints_vp0);
+
+    vtkinputpolydata_vs1 = vtkSmartPointer<vtkPolyData>::New();
+    vtkinputpolydata_vs1->SetPoints(vtkpoints_vs1);
+
     vtkinputpolydata_vs2 = vtkSmartPointer<vtkPolyData>::New();
     vtkinputpolydata_vs2->SetPoints(vtkpoints_vs2);
 
-    // normal vector endpoints
-    vtkglyphfilter_vs2 = vtkSmartPointer<vtkVertexGlyphFilter>::New();
-    vtkglyphfilter_vs2->SetInputData(vtkinputpolydata_vs2);
-    vtkglyphfilter_vs2->Update();
+    // glyphs ==========================================================================================================
+//    // normal vector endpoints
+//    vtkglyphfilter_vp0 = vtkSmartPointer<vtkVertexGlyphFilter>::New();
+//    vtkglyphfilter_vp0->SetInputData(vtkinputpolydata_vp0);
+//    vtkglyphfilter_vp0->Update();
+//
+//    vtkpointsmapper_vp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
+//    vtkpointsmapper_vp0->SetInputConnection(vtkglyphfilter_vp0->GetOutputPort());
+//
+//    vtkpointsactor_vp0 = vtkSmartPointer<vtkActor>::New();
+//    vtkpointsactor_vp0->SetMapper(vtkpointsmapper_vp0);
+//    vtkpointsactor_vp0->GetProperty()->SetPointSize(3);
+//    vtkpointsactor_vp0->GetProperty()->SetColor(0.5,0.5,0.5);
+//    vtkrenderer_vp0->AddActor(vtkpointsactor_vp0);
+//
+//    // normal vector endpoints
+//    vtkglyphfilter_vs1 = vtkSmartPointer<vtkVertexGlyphFilter>::New();
+//    vtkglyphfilter_vs1->SetInputData(vtkinputpolydata_vs1);
+//    vtkglyphfilter_vs1->Update();
+//
+//    vtkpointsmapper_vs1 = vtkSmartPointer<vtkPolyDataMapper>::New();
+//    vtkpointsmapper_vs1->SetInputConnection(vtkglyphfilter_vs1->GetOutputPort());
+//
+//    vtkpointsactor_vs1 = vtkSmartPointer<vtkActor>::New();
+//    vtkpointsactor_vs1->SetMapper(vtkpointsmapper_vs1);
+//    vtkpointsactor_vs1->GetProperty()->SetPointSize(3);
+//    vtkpointsactor_vs1->GetProperty()->SetColor(0.5,0.5,0.5);
+//    vtkrenderer_vs1->AddActor(vtkpointsactor_vs1);
+//
+//    // normal vector endpoints
+//    vtkglyphfilter_vs2 = vtkSmartPointer<vtkVertexGlyphFilter>::New();
+//    vtkglyphfilter_vs2->SetInputData(vtkinputpolydata_vs2);
+//    vtkglyphfilter_vs2->Update();
+//
+//    vtkpointsmapper_vs2 = vtkSmartPointer<vtkPolyDataMapper>::New();
+//    vtkpointsmapper_vs2->SetInputConnection(vtkglyphfilter_vs2->GetOutputPort());
+//
+//    vtkpointsactor_vs2 = vtkSmartPointer<vtkActor>::New();
+//    vtkpointsactor_vs2->SetMapper(vtkpointsmapper_vs2);
+//    vtkpointsactor_vs2->GetProperty()->SetPointSize(3);
+//    vtkpointsactor_vs2->GetProperty()->SetColor(0.5,0.5,0.5);
+//    vtkrenderer_vs2->AddActor(vtkpointsactor_vs2);
 
-    vtkpointsmapper_vs2 = vtkSmartPointer<vtkPolyDataMapper>::New();
-    vtkpointsmapper_vs2->SetInputConnection(vtkglyphfilter_vs2->GetOutputPort());
 
-    vtkpointsactor_vs2 = vtkSmartPointer<vtkActor>::New();
-    vtkpointsactor_vs2->SetMapper(vtkpointsmapper_vs2);
-    vtkpointsactor_vs2->GetProperty()->SetPointSize(3);
-    vtkpointsactor_vs2->GetProperty()->SetColor(0.5,0.5,0.5);
-    vtkrenderer_vs2->AddActor(vtkpointsactor_vs2);
+    // Triangulate the grid points ( make a surface) ===================================================================
+    vtksurface_vp0 = vtkSmartPointer<vtkSurfaceReconstructionFilter>::New();
+    vtksurface_vp0->SetInputData(vtkinputpolydata_vp0);
 
-    // Triangulate the grid points
-    vtkdelaunay2d_vs2 = vtkSmartPointer<vtkDelaunay2D>::New();
-    vtkdelaunay2d_vs2->SetInputData(vtkinputpolydata_vs2);
-    vtkdelaunay2d_vs2->Update();
-    vtkoutputpolydata_vs2 = vtkdelaunay2d_vs2->GetOutput();
+    vtkcontoursurf_vp0 = vtkSmartPointer<vtkContourFilter>::New();
+    vtkcontoursurf_vp0->SetInputConnection(vtksurface_vp0->GetOutputPort());
+    vtkcontoursurf_vp0->SetValue(0, 0.0);
 
-//    double bounds[6];
-//    vtkoutputpolydata_vp0->GetBounds(bounds);
+    // Sometimes the contouring algorithm can create a volume whose gradient
+    // vector and ordering of polygon (using the right hand rule) are
+    // inconsistent. vtkReverseSense cures this problem.
+    vtkreverse_vp0 = vtkSmartPointer<vtkReverseSense>::New();
+    vtkreverse_vp0->SetInputConnection(vtkcontoursurf_vp0->GetOutputPort());
+    vtkreverse_vp0->ReverseCellsOn();
+    vtkreverse_vp0->ReverseNormalsOn();
+    vtkreverse_vp0->Update();
 
-    //++std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
+    // call after data provided
+    vtkoutputpolydata_vp0 = PrivateTransformBack( vtkpoints_vp0, vtkreverse_vp0->GetOutput());
+    //std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
 
-//    vtkoutputpolydata->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
+    vtksurface_vs1 = vtkSmartPointer<vtkSurfaceReconstructionFilter>::New();
+    vtksurface_vs1->SetInputData(vtkinputpolydata_vs1);
 
-    // Create a mapper and actor
+    vtkcontoursurf_vs1 = vtkSmartPointer<vtkContourFilter>::New();
+    vtkcontoursurf_vs1->SetInputConnection(vtksurface_vs1->GetOutputPort());
+    vtkcontoursurf_vs1->SetValue(0, 0.0);
+
+    // Sometimes the contouring algorithm can create a volume whose gradient
+    // vector and ordering of polygon (using the right hand rule) are
+    // inconsistent. vtkReverseSense cures this problem.
+    vtkreverse_vs1 = vtkSmartPointer<vtkReverseSense>::New();
+    vtkreverse_vs1->SetInputConnection(vtkcontoursurf_vs1->GetOutputPort());
+    vtkreverse_vs1->ReverseCellsOn();
+    vtkreverse_vs1->ReverseNormalsOn();
+    vtkreverse_vs1->Update();
+
+    // call after data provided
+    vtkoutputpolydata_vs1 = PrivateTransformBack( vtkpoints_vs1, vtkreverse_vs1->GetOutput());
+    //std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
+
+    vtksurface_vs2 = vtkSmartPointer<vtkSurfaceReconstructionFilter>::New();
+    vtksurface_vs2->SetInputData(vtkinputpolydata_vs2);
+
+    vtkcontoursurf_vs2 = vtkSmartPointer<vtkContourFilter>::New();
+    vtkcontoursurf_vs2->SetInputConnection(vtksurface_vs2->GetOutputPort());
+    vtkcontoursurf_vs2->SetValue(0, 0.0);
+
+    // Sometimes the contouring algorithm can create a volume whose gradient
+    // vector and ordering of polygon (using the right hand rule) are
+    // inconsistent. vtkReverseSense cures this problem.
+    vtkreverse_vs2 = vtkSmartPointer<vtkReverseSense>::New();
+    vtkreverse_vs2->SetInputConnection(vtkcontoursurf_vs2->GetOutputPort());
+    vtkreverse_vs2->ReverseCellsOn();
+    vtkreverse_vs2->ReverseNormalsOn();
+    vtkreverse_vs2->Update();
+
+    // call after data provided
+    vtkoutputpolydata_vs2 = PrivateTransformBack( vtkpoints_vs2, vtkreverse_vs2->GetOutput());
+    //std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
+
+    // surface mappers and actors ======================================================================================
+
+    vtkpolydatamapper_vp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkpolydatamapper_vp0->SetInputConnection(vtkreverse_vp0->GetOutputPort());  // input connection << vtkoutputpolydata ???
+    vtkpolydatamapper_vp0->SetInputData(vtkoutputpolydata_vp0);
+    //vtkpolydatamapper_vp0->ScalarVisibilityOff();
+
+
+    vtkactor_vp0 = vtkSmartPointer<vtkActor>::New();
+    vtkactor_vp0->SetMapper(vtkpolydatamapper_vp0);
+//    vtkactor_vp0->GetProperty()->SetDiffuseColor(1.0000, 0.3882, 0.2784);
+//    vtkactor_vp0->GetProperty()->SetSpecularColor(1, 1, 1);
+//    vtkactor_vp0->GetProperty()->SetSpecular(.4);
+//    vtkactor_vp0->GetProperty()->SetSpecularPower(50);
+    // Add the actor to the scene
+    vtkrenderer_vp0->AddActor(vtkactor_vp0);
+
+    vtkpolydatamapper_vs1 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkpolydatamapper_vs1->SetInputConnection(vtkreverse_vs1->GetOutputPort());  // input connection << vtkoutputpolydata ???
+    vtkpolydatamapper_vs1->SetInputData(vtkoutputpolydata_vs1);
+    //vtkpolydatamapper_vs1->ScalarVisibilityOff();
+
+    vtkactor_vs1 = vtkSmartPointer<vtkActor>::New();
+    vtkactor_vs1->SetMapper(vtkpolydatamapper_vs1);
+//    vtkactor_vs1->GetProperty()->SetDiffuseColor(1.0000, 0.3882, 0.2784);
+//    vtkactor_vs1->GetProperty()->SetSpecularColor(1, 1, 1);
+//    vtkactor_vs1->GetProperty()->SetSpecular(.4);
+//    vtkactor_vs1->GetProperty()->SetSpecularPower(50);
+    // Add the actor to the scene
+    vtkrenderer_vs1->AddActor(vtkactor_vs1);
+
     vtkpolydatamapper_vs2 = vtkSmartPointer<vtkPolyDataMapper>::New();
+    vtkpolydatamapper_vs2->SetInputConnection(vtkreverse_vs2->GetOutputPort());  // input connection << vtkoutputpolydata ???
     vtkpolydatamapper_vs2->SetInputData(vtkoutputpolydata_vs2);
+    //vtkpolydatamapper_vs2->ScalarVisibilityOff();
 
     vtkactor_vs2 = vtkSmartPointer<vtkActor>::New();
     vtkactor_vs2->SetMapper(vtkpolydatamapper_vs2);
-
+//    vtkactor_vs2->GetProperty()->SetDiffuseColor(1.0000, 0.3882, 0.2784);
+//    vtkactor_vs2->GetProperty()->SetSpecularColor(1, 1, 1);
+//    vtkactor_vs2->GetProperty()->SetSpecular(.4);
+//    vtkactor_vs2->GetProperty()->SetSpecularPower(50);
     // Add the actor to the scene
     vtkrenderer_vs2->AddActor(vtkactor_vs2);
 
-    // ISO
-    vtkpoints_isovs2 = vtkSmartPointer<vtkPoints>::New();
-
-    // Add the grid points to a polydata object
-    vtkinputpolydata_isovs2 = vtkSmartPointer<vtkPolyData>::New();
-    vtkinputpolydata_isovs2->SetPoints(vtkpoints_isovs2);
-
-    // normal vector endpoints
-    vtkglyphfilter_isovs2 = vtkSmartPointer<vtkVertexGlyphFilter>::New();
-    vtkglyphfilter_isovs2->SetInputData(vtkinputpolydata_isovs2);
-    vtkglyphfilter_isovs2->Update();
-
-    vtkpointsmapper_isovs2 = vtkSmartPointer<vtkPolyDataMapper>::New();
-    vtkpointsmapper_isovs2->SetInputConnection(vtkglyphfilter_isovs2->GetOutputPort());
-
-    vtkpointsactor_isovs2 = vtkSmartPointer<vtkActor>::New();
-    vtkpointsactor_isovs2->SetMapper(vtkpointsmapper_isovs2);
-    vtkpointsactor_isovs2->GetProperty()->SetPointSize(3);
-    vtkpointsactor_isovs2->GetProperty()->SetColor(1.0,0.0,1.0);
-    vtkrenderer_vs2->AddActor(vtkpointsactor_isovs2);
-
-    // Triangulate the grid points
-    vtkdelaunay2d_isovs2 = vtkSmartPointer<vtkDelaunay2D>::New();
-    vtkdelaunay2d_isovs2->SetInputData(vtkinputpolydata_isovs2);
-    vtkdelaunay2d_isovs2->Update();
-    vtkoutputpolydata_isovs2 = vtkdelaunay2d_isovs2->GetOutput();
-
-//    double bounds[6];
-//    vtkoutputpolydata_vp0->GetBounds(bounds);
-
-    //++std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
-
-//    vtkoutputpolydata->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
-
-    // Create a mapper and actor
-    vtkpolydatamapper_isovs2 = vtkSmartPointer<vtkPolyDataMapper>::New();
-    vtkpolydatamapper_isovs2->SetInputData(vtkoutputpolydata_isovs2);
-
-    vtkactor_isovs2 = vtkSmartPointer<vtkActor>::New();
-    vtkactor_isovs2->SetMapper(vtkpolydatamapper_isovs2);
-    vtkactor_isovs2->GetProperty()->SetRepresentationToWireframe();
-
-    // Add the actor to the scene
-    vtkrenderer_vs2->AddActor(vtkactor_isovs2);
-    // END vtk examples : colored elevation ============================================================================
-
-    // vtk examples : CubeAxesActor2D.cxx
+    // vtk examples : CubeAxesActor2D.cxx ==============================================================================
     // Create a vtkOutlineFilter to draw the bounding box of the data set.
     // Also create the associated mapper and actor.
-    vtkoutline_vs2 = vtkSmartPointer<vtkOutlineFilter>::New();
-    vtkoutline_vs2->SetInputConnection(vtkdelaunay2d_vs2->GetOutputPort());  // requires subclass of vtkAlgorithm
-
-    vtkoutlinemapper_vs2 = vtkSmartPointer<vtkPolyDataMapper>::New();
-    vtkoutlinemapper_vs2->SetInputConnection(vtkoutline_vs2->GetOutputPort());
-
-    vtkoutlineactor_vs2 = vtkSmartPointer<vtkActor>::New();
-    vtkoutlineactor_vs2->SetMapper(vtkoutlinemapper_vs2.GetPointer());
-    vtkoutlineactor_vs2->GetProperty()->SetColor(0., 0., 0.);
-
-    // add the actors to the renderer
-    vtkrenderer_vs2->AddViewProp(vtkoutlineactor_vs2.GetPointer());
+//    vtkoutline_vp0 = vtkSmartPointer<vtkOutlineFilter>::New();
+//    vtkoutline_vp0->SetInputConnection(vtkreverse_vp0->GetOutputPort());  // requires subclass of vtkAlgorithm
+//
+//    vtkoutlinemapper_vp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
+//    vtkoutlinemapper_vp0->SetInputConnection(vtkoutline_vp0->GetOutputPort());
+//
+//    vtkoutlineactor_vp0 = vtkSmartPointer<vtkActor>::New();
+//    vtkoutlineactor_vp0->SetMapper(vtkoutlinemapper_vp0.GetPointer());
+//    vtkoutlineactor_vp0->GetProperty()->SetColor(0., 0., 0.);
+//
+//    // add the actors to the renderer
+//    vtkrenderer_vp0->AddViewProp(vtkoutlineactor_vp0.GetPointer());
 
     // Create a vtkCubeAxesActor2D.  Use the outer edges of the bounding box to
     // draw the axes.  Add the actor to the renderer.
+    vtkcubeaxesactor2d_vp0 = vtkSmartPointer<vtkCubeAxesActor2D>::New();
+    vtkcubeaxesactor2d_vp0->SetInputConnection(vtkreverse_vp0->GetOutputPort());
+    //--vtkcubeaxesactor2d_vp0->SetCamera(vtkrenderer_vp0->GetActiveCamera());
+    vtkcubeaxesactor2d_vp0->SetCamera(vtkcamera);
+    vtkrenderer_vp0->ResetCamera();  // REQUIRED !!!
+    vtkcubeaxesactor2d_vp0->SetLabelFormat("%6.4g");
+    //vtkcubeaxesactor2d_vp0->SetFlyModeToOuterEdges();
+    //vtkcubeaxesactor2d->SetFlyModeToClosestTriad();
+    vtkcubeaxesactor2d_vp0->SetFlyModeToNone();
+    vtkcubeaxesactor2d_vp0->SetAxisTitleTextProperty(vtktextproperty.GetPointer());
+    vtkcubeaxesactor2d_vp0->SetAxisLabelTextProperty(vtktextproperty.GetPointer());
+    vtkcubeaxesactor2d_vp0->SetXLabel("X1");
+    vtkcubeaxesactor2d_vp0->SetYLabel("X2");
+    vtkcubeaxesactor2d_vp0->SetZLabel("X3");
+    vtkrenderer_vp0->AddViewProp(vtkcubeaxesactor2d_vp0.GetPointer());
+
+    vtkcubeaxesactor2d_vs1 = vtkSmartPointer<vtkCubeAxesActor2D>::New();
+    vtkcubeaxesactor2d_vs1->SetInputConnection(vtkreverse_vs1->GetOutputPort());
+    //--vtkcubeaxesactor2d_vp0->SetCamera(vtkrenderer_vp0->GetActiveCamera());
+    vtkcubeaxesactor2d_vs1->SetCamera(vtkcamera);
+    vtkrenderer_vs1->ResetCamera();  // REQUIRED !!!
+    vtkcubeaxesactor2d_vs1->SetLabelFormat("%6.4g");
+    //vtkcubeaxesactor2d_vp0->SetFlyModeToOuterEdges();
+    //vtkcubeaxesactor2d->SetFlyModeToClosestTriad();
+    vtkcubeaxesactor2d_vs1->SetFlyModeToNone();
+    vtkcubeaxesactor2d_vs1->SetAxisTitleTextProperty(vtktextproperty.GetPointer());
+    vtkcubeaxesactor2d_vs1->SetAxisLabelTextProperty(vtktextproperty.GetPointer());
+    vtkcubeaxesactor2d_vs1->SetXLabel("X1");
+    vtkcubeaxesactor2d_vs1->SetYLabel("X2");
+    vtkcubeaxesactor2d_vs1->SetZLabel("X3");
+    vtkrenderer_vs1->AddViewProp(vtkcubeaxesactor2d_vs1.GetPointer());
+
     vtkcubeaxesactor2d_vs2 = vtkSmartPointer<vtkCubeAxesActor2D>::New();
-    vtkcubeaxesactor2d_vs2->SetInputConnection(vtkdelaunay2d_vs2->GetOutputPort());
-    //vtkcubeaxesactor2d_vs2->SetCamera(vtkrenderer_vs2->GetActiveCamera());
+    vtkcubeaxesactor2d_vs2->SetInputConnection(vtkreverse_vs2->GetOutputPort());
+    //--vtkcubeaxesactor2d_vp0->SetCamera(vtkrenderer_vp0->GetActiveCamera());
     vtkcubeaxesactor2d_vs2->SetCamera(vtkcamera);
     vtkrenderer_vs2->ResetCamera();  // REQUIRED !!!
     vtkcubeaxesactor2d_vs2->SetLabelFormat("%6.4g");
-    vtkcubeaxesactor2d_vs2->SetFlyModeToOuterEdges();
+    //vtkcubeaxesactor2d_vp0->SetFlyModeToOuterEdges();
     //vtkcubeaxesactor2d->SetFlyModeToClosestTriad();
-    //vtkcubeaxesactor2d->SetFlyModeToNone();
+    vtkcubeaxesactor2d_vs2->SetFlyModeToNone();
     vtkcubeaxesactor2d_vs2->SetAxisTitleTextProperty(vtktextproperty.GetPointer());
     vtkcubeaxesactor2d_vs2->SetAxisLabelTextProperty(vtktextproperty.GetPointer());
-    vtkcubeaxesactor2d_vs2->SetXLabel("background fluid saturation");
-    vtkcubeaxesactor2d_vs2->SetYLabel("background solid concentration");
-    vtkcubeaxesactor2d_vs2->SetZLabel("saturated bulk modulus");
+    vtkcubeaxesactor2d_vs2->SetXLabel("X1");
+    vtkcubeaxesactor2d_vs2->SetYLabel("X2");
+    vtkcubeaxesactor2d_vs2->SetZLabel("X3");
     vtkrenderer_vs2->AddViewProp(vtkcubeaxesactor2d_vs2.GetPointer());
 
-    // vtk examples : ScalarBarActor.cxx
+    // vtk examples : ScalarBarActor.cxx ===============================================================================
+    vtkcolorlookuptable->SetTableRange(minvel, maxvel);
+    vtkcolorlookuptable->Build();
+
+    vtkscalarbaractor_vp0 = vtkSmartPointer<vtkScalarBarActor>::New();
+    vtkscalarbaractor_vp0->SetLookupTable(vtkcolorlookuptable);
+    vtkscalarbaractor_vp0->SetTitle("V1");
+    vtkscalarbaractor_vp0->SetLabelFormat("%6.4g");
+    vtkscalarbaractor_vp0->SetTitleTextProperty(vtktextproperty.GetPointer());
+    vtkscalarbaractor_vp0->SetLabelTextProperty(vtktextproperty.GetPointer());
+    vtkscalarbaractor_vp0->SetOrientationToHorizontal();
+    vtkscalarbaractor_vp0->SetWidth(0.8);
+    vtkscalarbaractor_vp0->SetHeight(0.09);
+    vtkscalarbaractor_vp0->GetPositionCoordinate()->SetValue(0.1, 0.01);
+    vtkscalarbaractor_vp0->SetUnconstrainedFontSize(true);
+    vtkrenderer_vp0->AddActor2D(vtkscalarbaractor_vp0);
+
+    vtkscalarbaractor_vs1 = vtkSmartPointer<vtkScalarBarActor>::New();
+    vtkscalarbaractor_vs1->SetLookupTable(vtkcolorlookuptable);
+    vtkscalarbaractor_vs1->SetTitle("V1");
+    vtkscalarbaractor_vs1->SetLabelFormat("%6.4g");
+    vtkscalarbaractor_vs1->SetTitleTextProperty(vtktextproperty.GetPointer());
+    vtkscalarbaractor_vs1->SetLabelTextProperty(vtktextproperty.GetPointer());
+    vtkscalarbaractor_vs1->SetOrientationToHorizontal();
+    vtkscalarbaractor_vs1->SetWidth(0.8);
+    vtkscalarbaractor_vs1->SetHeight(0.09);
+    vtkscalarbaractor_vs1->GetPositionCoordinate()->SetValue(0.1, 0.01);
+    vtkscalarbaractor_vs1->SetUnconstrainedFontSize(true);
+    vtkrenderer_vs1->AddActor2D(vtkscalarbaractor_vs1);
+
     vtkscalarbaractor_vs2 = vtkSmartPointer<vtkScalarBarActor>::New();
     vtkscalarbaractor_vs2->SetLookupTable(vtkcolorlookuptable);
-    vtkscalarbaractor_vs2->SetTitle("V3");
+    vtkscalarbaractor_vs2->SetTitle("V1");
     vtkscalarbaractor_vs2->SetLabelFormat("%6.4g");
     vtkscalarbaractor_vs2->SetTitleTextProperty(vtktextproperty.GetPointer());
     vtkscalarbaractor_vs2->SetLabelTextProperty(vtktextproperty.GetPointer());
@@ -853,6 +738,10 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkscalarbaractor_vs2->GetPositionCoordinate()->SetValue(0.1, 0.01);
     vtkscalarbaractor_vs2->SetUnconstrainedFontSize(true);
     vtkrenderer_vs2->AddActor2D(vtkscalarbaractor_vs2);
+
+
+
+
 
 
     // =================================================================================================================
@@ -2812,8 +2701,8 @@ void MineralVelsView::OnMineralComboBoxChanged(int i) {
         default: {}
 
     }  // end switch
-    // TODO: mineral_K and mineral_mu for each mineral
 
+    PrivateSetPoints();
     PrivateUpdatePlot();
 }
 
@@ -2822,22 +2711,18 @@ void MineralVelsView::OnVelocitySurfaceComboBoxChanged(int i) {
     // 0 : "phase velocity surface"
     // 1 : "group velocity surface"
     // 2 : "slowness surface"
-    PrivateUpdatePlot();
+//    PrivateSetPoints();
+//    PrivateUpdatePlot();
 }
 
 // member functions
 
 // private member functions
-void MineralVelsView::PrivateUpdatePlot() {
-    // update the effective values and plot points
+void MineralVelsView::PrivateSetPoints() {
+    // set vtk points for the 3 anisotropic vels
     vtkpoints_vp0->Reset();
     vtkpoints_vs1->Reset();
     vtkpoints_vs2->Reset();
-    vtkpoints_isovp0->Reset();
-    vtkpoints_isovs1->Reset();
-    vtkpoints_isovs2->Reset();
-
-
     mpc::core::StiffnessTensor<double> stiffnesstensortype = mpc::core::StiffnessTensor<double>();
     std::set<mpc::core::TensorRank4Component<double> > triclinic_symmetry_set{
             mpc::core::TensorRank4Component<double>(mineral_C11, mpc::core::TensorRank4ComponentIndex(0,0,0,0)), // X00 >> (0000)
@@ -2865,10 +2750,6 @@ void MineralVelsView::PrivateUpdatePlot() {
 
     stiffnesstensortype.SetComponentsWithSymmetry<mpc::core::TriclinicSymmetryGroupType>(triclinic_symmetry_set);
 
-    //mpc::core::StiffnessTensor<double> isostiffnesstensortype = mpc::core::StiffnessTensor<double>();
-    // TODO: tensor invariants and isotropic velocity points
-    // TODO: green-christoffel and anisotropic velocity points
-
     mpc::rockphysics::CompressionalWaveVelocityType<double> pvel_type = mpc::rockphysics::RockPhysicsTransforms<double,mpc::rockphysics::CompressionalWaveVelocityType<double> >::Compute(mpc::rockphysics::BulkModulusType<double>(mineral_K), mpc::rockphysics::ShearModulusType<double>(mineral_mu), mpc::rockphysics::DensityType<double>(mineral_density));
 
     mpc::rockphysics::ShearWaveVelocityType<double> svel_type = mpc::rockphysics::RockPhysicsTransforms<double,mpc::rockphysics::ShearWaveVelocityType<double> >::Compute(mpc::rockphysics::ShearModulusType<double>(mineral_mu), mpc::rockphysics::DensityType<double>(mineral_density));
@@ -2876,184 +2757,326 @@ void MineralVelsView::PrivateUpdatePlot() {
     double pvel = pvel_type.value;  // RockPhysicsTransforms<T,U>
     double svel = svel_type.value;  // RockPhysicsTransforms<T,U>
 
-    const double PI = mpc::utilities::PI<double>;
-    const double TWO_PI = 2.0 * PI;
-    const int DIVISOR = 16;
-    const double DBL_DIVISOR = double(DIVISOR);
-    // Euler transformation tensor arguments
-    double phi0 = 0.0;
-    double phi1 = 0.0;
-    double phi2 = 0.0;
+    vtkspheresource_isovp0->SetRadius(pvel);
+    vtkspheresource_isovs1->SetRadius(svel);
+    vtkspheresource_isovs2->SetRadius(svel);
 
-    mpc::transformation::EulerRotationX3X1X3<double> eulerRotation;  // function object
-    //mpc::transformation::Transformer<double,4> trans4_fo;  // function object
-    mpc::transformation::Transformer<double,1> trans1_fo;  // function object
-    blitz::Array<double,2> rot = eulerRotation(phi0, phi1, phi2);  // transformation tensor
-    blitz::Array<double,1> normal_vector_x1 = blitz::Array<double,1>(3);
-    normal_vector_x1 = 1, 0, 0;
-    blitz::Array<double,1> normal_vector_x2 = blitz::Array<double,1>(3);
-    normal_vector_x2 = 0, 1, 0;
-    blitz::Array<double,1> normal_vector_x3 = blitz::Array<double,1>(3);
-    normal_vector_x3 = 0, 0, 1;
-    blitz::Array<double,1> vel_vector = blitz::Array<double,1>(3);
-
+    // TODO: green-christoffel and anisotropic velocity points
     mpc::mechanics::GreenChristoffel<double> greenchristoffel = mpc::mechanics::GreenChristoffel<double>();  // function object
 
     std::array<double,3> phase_velocities{1.0, 1.0, 1.0};
 
-    double xx, yy, zz, mag;
-    double minvel = 0.0;  // TODO: use and array and then use std::min() and std::max()
-    double maxvel = 0.0;
+    const int NUM_ELEMS = 16;
+
+    const double PI = mpc::utilities::PI<double>;
+    const double TWO_PI = 2.0 * PI;
+    const double PI_OVER_TWO = 0.5 * PI;
+
+    double x, y, z, xx, yy, zz, mag, xyarg;
+    std::vector<double> vels(int(std::pow(NUM_ELEMS,2))+1);  // +1 for the additional x3
     int cntr = 0;
 
-    for (int i=0; i<DIVISOR; ++i) {
-        phi0 = (double(i)/DBL_DIVISOR) * TWO_PI;
-        for (int j=0; j<DIVISOR; ++j) {
-            phi1 = (double(j)/DBL_DIVISOR) * PI;  // note the max is pi not 2*pi
-            for (int k=0; k<DIVISOR; ++k) {
-                phi2 = (double(k)/DBL_DIVISOR) * TWO_PI;
-                rot = eulerRotation(phi0, phi1, phi2);  // transformation tensor
-                normal_vector_x1 = rot(blitz::Range::all(),0);
-                mpc::utilities::Normalize(normal_vector_x1);
-                normal_vector_x2 = rot(blitz::Range::all(),1);
-                mpc::utilities::Normalize(normal_vector_x2);
-                normal_vector_x3 = rot(blitz::Range::all(),2);
-                mpc::utilities::Normalize(normal_vector_x3);
 
-                vel_vector = normal_vector_x1 * pvel;
+    blitz::Array<double,1> normal_vector = blitz::Array<double,1>(3);
+    normal_vector = 1,0,0;
+    blitz::Array<double,1> vel_vector = blitz::Array<double,1>(3);
+    vel_vector = 1,0,0;  // vector = velocity * normal_vector
 
-                xx = normal_vector_x1(0) * pvel;
-                yy = normal_vector_x1(1) * pvel;
-                zz = normal_vector_x1(2) * pvel;
-                vtkpoints_isovp0->InsertNextPoint(xx, yy, zz);
+    mpc::utilities::CoordinateMapping<double,mpc::utilities::CartesianCoordinateType,mpc::utilities::CylindricalCoordinateType> coordinate_mapping_fo;
 
-                vel_vector = normal_vector_x1 * svel;
+    std::tuple<double,double,double> coords{};
 
-                xx = normal_vector_x1(0) * svel;
-                yy = normal_vector_x1(1) * svel;
-                zz = normal_vector_x1(2) * svel;
-                //vtkpoints_isovs1->InsertNextPoint(xx, yy, zz);
-                //vtkpoints_isovs2->InsertNextPoint(xx, yy, zz);
+    std::vector<double> small_radius_linspace = mpc::utilities::Linspace(0.0 + (1.0 / double(NUM_ELEMS)), 1.0, NUM_ELEMS);  // (0,1]
+//    for (auto v : small_radius_linspace) {
+//        std::cout << v << std::endl;
+//    }
+    std::vector<double> azimuth_linspace = mpc::utilities::Linspace(0.0, TWO_PI - (TWO_PI/double(NUM_ELEMS)), NUM_ELEMS);  // [0,2pi)
+//    for (auto v : azimuth_linspace) {
+//        std::cout << v << std::endl;
+//    }
 
-                greenchristoffel.SetComponents(stiffnesstensortype, normal_vector_x1);
-                phase_velocities = greenchristoffel.PhaseVelocities(mineral_density);
+    for (auto rho : small_radius_linspace) {
+        //
+        for (auto theta : azimuth_linspace) {
+            //
+            coords = coordinate_mapping_fo(rho,theta,0);  // set z to zero for the x-y plane
+            x = std::get<0>(coords);
+            y = std::get<1>(coords);
+            //z = std::get<2>(coords);
+            xyarg = std::abs(1.0 - std::pow(x,2) - std::pow(y,2));
+            z = sqrt(xyarg);
+            normal_vector = x, y, z;
+            //std::cout << normal_vector << std::endl;
+            //mag = mpc::utilities::Magnitude(normal_vector);
+            //std::cout << "magnitude : " << mag << std::endl;  // obviously, this should be one
 
-                vel_vector = normal_vector_x1 * phase_velocities[0];
+            greenchristoffel.SetComponents(stiffnesstensortype, normal_vector);
+            phase_velocities = greenchristoffel.PhaseVelocities(mineral_density);
 
-                xx = normal_vector_x1(0) * phase_velocities[0];
-                yy = normal_vector_x1(1) * phase_velocities[0];
-                zz = normal_vector_x1(2) * phase_velocities[0];
-                //vtkpoints_vp0->InsertNextPoint(xx, yy, zz);
-                mag = mpc::utilities::Magnitude<double>(vel_vector);
-                if (mag<minvel) { minvel = mag; }
-                if (mag>maxvel) { maxvel = mag; }
+            vel_vector = normal_vector * phase_velocities[0];
 
-                xx = normal_vector_x1(0) * phase_velocities[1];
-                yy = normal_vector_x1(1) * phase_velocities[1];
-                zz = normal_vector_x1(2) * phase_velocities[1];
-                //vtkpoints_vs1->InsertNextPoint(xx, yy, zz);
+//            xx = normal_vector_x1(0) * phase_velocities[0];
+//            yy = normal_vector_x1(1) * phase_velocities[0];
+//            zz = normal_vector_x1(2) * phase_velocities[0];
+            xx = vel_vector(0);
+            yy = vel_vector(1);
+            zz = vel_vector(2);
+            vtkpoints_vp0->InsertNextPoint(xx, yy, zz);
+            mag = mpc::utilities::Magnitude<double>(vel_vector);
+//            std::cout << std::endl;
+//            std::cout << "rho : " << rho << ", theta : " << theta << std::endl;
+//            std::cout << "x : " << x << ", y : " << y << ", z : " << z << ", mag : " << mag << std::endl;
+            vels[cntr] = mag;
 
-                xx = normal_vector_x1(0) * phase_velocities[2];
-                yy = normal_vector_x1(1) * phase_velocities[2];
-                zz = normal_vector_x1(2) * phase_velocities[2];
-                //vtkpoints_vs2->InsertNextPoint(xx, yy, zz);
+            vel_vector = normal_vector * phase_velocities[1];
+//            xx = normal_vector_x1(0) * phase_velocities[1];
+//            yy = normal_vector_x1(1) * phase_velocities[1];
+//            zz = normal_vector_x1(2) * phase_velocities[1];
+            xx = vel_vector(0);
+            yy = vel_vector(1);
+            zz = vel_vector(2);
+            vtkpoints_vs1->InsertNextPoint(xx, yy, zz);
 
-                ++cntr;
-            }
+            vel_vector = normal_vector * phase_velocities[2];
+//            xx = normal_vector_x1(0) * phase_velocities[2];
+//            yy = normal_vector_x1(1) * phase_velocities[2];
+//            zz = normal_vector_x1(2) * phase_velocities[2];
+            xx = vel_vector(0);
+            yy = vel_vector(1);
+            zz = vel_vector(2);
+            vtkpoints_vs2->InsertNextPoint(xx, yy, zz);
+
+
+
+            // corresponding negative !!!
+            z *= -1.0;
+            normal_vector = x, y, z;
+            //std::cout << normal_vector << std::endl;
+            //mag = mpc::utilities::Magnitude(normal_vector);
+            //std::cout << "magnitude : " << mag << std::endl;  // obviously, this should be one
+
+            greenchristoffel.SetComponents(stiffnesstensortype, normal_vector);
+            phase_velocities = greenchristoffel.PhaseVelocities(mineral_density);
+
+            vel_vector = normal_vector * phase_velocities[0];
+            xx = vel_vector(0);
+            yy = vel_vector(1);
+            zz = vel_vector(2);
+            vtkpoints_vp0->InsertNextPoint(xx, yy, zz);
+
+            vel_vector = normal_vector * phase_velocities[1];
+            xx = vel_vector(0);
+            yy = vel_vector(1);
+            zz = vel_vector(2);
+            vtkpoints_vs1->InsertNextPoint(xx, yy, zz);
+
+            vel_vector = normal_vector * phase_velocities[2];
+            xx = vel_vector(0);
+            yy = vel_vector(1);
+            zz = vel_vector(2);
+            vtkpoints_vs2->InsertNextPoint(xx, yy, zz);
+
+            //std::cout << "counter : " << cntr << std::endl;
+            ++cntr;
+
         }
-    }  // end for
-    //std::cout << "minvel : " << minvel << ", maxvel : " << maxvel << std::endl;
+    }
+    // finally add x3 normal vector
+    normal_vector = 0, 0, 1;
+    //std::cout << normal_vector << std::endl;
+    //mag = mpc::utilities::Magnitude(normal_vector);
+    //std::cout << "magnitude : " << mag << std::endl;  // obviously, this should be one
 
-    vtkinputpolydata_isovp0->SetPoints(vtkpoints_isovp0);
-    //vtkinputpolydata_isovs1->SetPoints(vtkpoints_isovs1);
-    //vtkinputpolydata_isovs2->SetPoints(vtkpoints_isovs2);
-    //vtkinputpolydata_vp0->SetPoints(vtkpoints_vp0);
-    //vtkinputpolydata_vs1->SetPoints(vtkpoints_vs1);
-    //vtkinputpolydata_vs2->SetPoints(vtkpoints_vs2);
+    greenchristoffel.SetComponents(stiffnesstensortype, normal_vector);
+    phase_velocities = greenchristoffel.PhaseVelocities(mineral_density);
 
-    //vtkglyphfilter_isovp0->SetInputData(vtkinputpolydata_isovp0);  // is this needed?
-    //vtkglyphfilter_isovp0->Update();
-    //vtkglyphfilter_isovs1->SetInputData(vtkinputpolydata_isovs1);  // is this needed?
-    //vtkglyphfilter_isovs1->Update();
-    //vtkglyphfilter_isovs2->SetInputData(vtkinputpolydata_isovs2);  // is this needed?
-    //vtkglyphfilter_isovs2->Update();
-    //vtkglyphfilter_vp0->SetInputData(vtkinputpolydata_vp0);  // is this needed?
-    //vtkglyphfilter_vp0->Update();
-    //vtkglyphfilter_vs1->SetInputData(vtkinputpolydata_vs1);  // is this needed?
-    //vtkglyphfilter_vs1->Update();
-    //vtkglyphfilter_vs2->SetInputData(vtkinputpolydata_vs2);  // is this needed?
-    //vtkglyphfilter_vs2->Update();
+    vel_vector = normal_vector * phase_velocities[0];
+    xx = vel_vector(0);
+    yy = vel_vector(1);
+    zz = vel_vector(2);
+    vtkpoints_vp0->InsertNextPoint(xx, yy, zz);
+    mag = mpc::utilities::Magnitude<double>(vel_vector);
+    vels[cntr] = mag;
 
-    //vtkpointsmapper_isovp0->SetInputConnection(vtkglyphfilter_isovp0->GetOutputPort());  // is this needed?
-    //vtkpointsmapper_isovs1->SetInputConnection(vtkglyphfilter_isovs1->GetOutputPort());  // is this needed?
-    //vtkpointsmapper_isovs2->SetInputConnection(vtkglyphfilter_isovs2->GetOutputPort());  // is this needed?
-    //vtkpointsmapper_vp0->SetInputConnection(vtkglyphfilter_vp0->GetOutputPort());  // is this needed?
-    //vtkpointsmapper_vs1->SetInputConnection(vtkglyphfilter_vs1->GetOutputPort());  // is this needed?
-    //vtkpointsmapper_vs2->SetInputConnection(vtkglyphfilter_vs2->GetOutputPort());  // is this needed?
+    vel_vector = normal_vector * phase_velocities[1];
+    xx = vel_vector(0);
+    yy = vel_vector(1);
+    zz = vel_vector(2);
+    vtkpoints_vs1->InsertNextPoint(xx, yy, zz);
 
-    //vtkpointsactor_isovp0->SetMapper(vtkpointsmapper_isovp0);
-    //vtkpointsactor_isovs1->SetMapper(vtkpointsmapper_isovs1);
-    //vtkpointsactor_isovs2->SetMapper(vtkpointsmapper_isovs2);
-    //vtkpointsactor_vp0->SetMapper(vtkpointsmapper_vp0);
-    //vtkpointsactor_vs1->SetMapper(vtkpointsmapper_vs1);
-    //vtkpointsactor_vs2->SetMapper(vtkpointsmapper_vs2);
+    vel_vector = normal_vector * phase_velocities[2];
+    xx = vel_vector(0);
+    yy = vel_vector(1);
+    zz = vel_vector(2);
+    vtkpoints_vs2->InsertNextPoint(xx, yy, zz);
 
-    //vtkdelaunay2d_isovp0->SetInputData(vtkinputpolydata_isovp0);
-    vtkdelaunay2d_isovp0->Update();
-    //vtkoutputpolydata_isovp0 = vtkdelaunay2d_isovp0->GetOutput();
-    //vtkdelaunay2d_isovs1->SetInputData(vtkinputpolydata_isovs1);
-    //vtkdelaunay2d_isovs1->Update();
-    //vtkoutputpolydata_isovs1 = vtkdelaunay2d_isovs1->GetOutput();
-    //vtkdelaunay2d_isovs2->SetInputData(vtkinputpolydata_isovs2);
-    //vtkdelaunay2d_isovs2->Update();
-    //vtkoutputpolydata_isovs2 = vtkdelaunay2d_isovs2->GetOutput();
-    //vtkdelaunay2d_vp0->SetInputData(vtkinputpolydata_vp0);
-    //vtkdelaunay2d_vp0->Update();
-    //vtkoutputpolydata_vp0 = vtkdelaunay2d_vp0->GetOutput();
-    //vtkdelaunay2d_vs1->SetInputData(vtkinputpolydata_vs1);
-    //vtkdelaunay2d_vs1->Update();
-    //vtkoutputpolydata_vs1 = vtkdelaunay2d_vs1->GetOutput();
-    //vtkdelaunay2d_vs2->SetInputData(vtkinputpolydata_vs2);
-    //vtkdelaunay2d_vs2->Update();
-    //vtkoutputpolydata_vs2 = vtkdelaunay2d_vs2->GetOutput();
+    // get/set min and max vels
+//    std::cout << "vels : " << std::endl;
+//    for (auto v : vels) {
+//        std::cout << v << std::endl;
+//    }
+    //std::sort(vels.begin(), vels.end());
+    minvel = *std::min_element(vels.begin(), vels.end());
+    maxvel = *std::max_element(vels.begin(), vels.end());
 
-    //--double bounds_vp0[6];
-    //--vtkoutputpolydata_vp0->GetBounds(bounds_vp0);
+    std::cout << "iso pvel : " << pvel << std::endl;
+    std::cout << "min vel : " << minvel << std::endl;
+    std::cout << "max vel : " << maxvel << std::endl;
+    std::cout << "" << std::endl;
+}
+
+void MineralVelsView::PrivateUpdatePlot() {
+    // update the effective values and plot surface
+
+    // TODO: turn off later ..
+    vtkactor_isovp0->SetVisibility(0);
+    vtkactor_isovs1->SetVisibility(0);
+    vtkactor_isovs2->SetVisibility(0);
 
     vtkcolorlookuptable->SetTableRange(minvel, maxvel);
     vtkcolorlookuptable->Build();
 
-    //std::cout << "number of rotations : " << cntr << std::endl;
-    //std::cout << "There are " << vtkoutputpolydata_vp0->GetNumberOfPoints() << " points." << std::endl;
+    blitz::Array<double,1> vel_vector = blitz::Array<double,1>(3);
+    vel_vector = 1,0,0;
+    double mag = 0;
 
-////    for(int i = 0; i < vtkoutputpolydata->GetNumberOfPoints(); i++)
-////    {
-////        double p[3];
-////        vtkoutputpolydata->GetPoint(i,p);
-////        //std::cout << "point : " << i << ", x : " << p[0] << ", y : " << p[1] << ", z : " << p[2] << std::endl;
-////
-////        double dcolor[3];
-////        vtkcolorlookuptable->GetColor(p[2], dcolor);
-////
-////        unsigned char color[3];
-////        for(unsigned int j = 0; j < 3; j++)
-////        {
-////            color[j] = static_cast<unsigned char>(255.0 * dcolor[j]);
-////        }
-////
-////        //vtkcolorchararray->InsertNextTupleValue(color);  // VTK version < 7
-////        vtkcolorchararray->InsertNextTypedTuple(color);
-////    }
+    // vp0  TODO: YOU ARE HERE !!!
+    vtkreverse_vp0->Update();
+    vtkoutputpolydata_vp0 = PrivateTransformBack( vtkpoints_vp0, vtkreverse_vp0->GetOutput());
+    for(int i = 0; i < vtkoutputpolydata_vp0->GetNumberOfPoints(); i++) {
+        double p[3];
+        vtkoutputpolydata_vp0->GetPoint(i,p);
+        //std::cout << "point : " << i << ", x : " << p[0] << ", y : " << p[1] << ", z : " << p[2] << std::endl;
+        vel_vector = p[0], p[1], p[2];  // x,y,z
+        mag = mpc::utilities::Magnitude<double>(vel_vector);
+
+        double dcolor[3];
+        vtkcolorlookuptable->GetColor(mag, dcolor);
+
+        unsigned char color[3];
+        for(unsigned int j = 0; j < 3; j++)
+        {
+            color[j] = static_cast<unsigned char>(255.0 * dcolor[j]);
+        }
+
+        //vtkcolorchararray->InsertNextTupleValue(color);  // VTK version < 7
+        vtkcolorchararray->InsertNextTypedTuple(color);
+    }
+
+    vtkoutputpolydata_vp0->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
+    vtkpolydatamapper_vp0->Update();
+    vtkrenderer_vp0->ResetCamera();
+
+//    // vs1
+//    vtkcolorchararray->Reset();
+//    for(int i = 0; i < vtkoutputpolydata_vs1->GetNumberOfPoints(); i++) {
+//        double p[3];
+//        vtkoutputpolydata_vs1->GetPoint(i,p);
+//        //std::cout << "point : " << i << ", x : " << p[0] << ", y : " << p[1] << ", z : " << p[2] << std::endl;
+//        vel_vector = p[0], p[1], p[2];  // x,y,z
+//        mag = mpc::utilities::Magnitude<double>(vel_vector);
 //
-//    vtkoutputpolydata->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
+//        double dcolor[3];
+//        vtkcolorlookuptable->GetColor(mag, dcolor);
+//
+//        unsigned char color[3];
+//        for(unsigned int j = 0; j < 3; j++)
+//        {
+//            color[j] = static_cast<unsigned char>(255.0 * dcolor[j]);
+//        }
+//
+//        //vtkcolorchararray->InsertNextTupleValue(color);  // VTK version < 7
+//        vtkcolorchararray->InsertNextTypedTuple(color);
+//    }
+//
+//    vtkoutputpolydata_vs1->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
+//    vtkpolydatamapper_vs1->Update();
+//    vtkrenderer_vs1->ResetCamera();
+//
+//    // vs2
+//    vtkcolorchararray->Reset();
+//    for(int i = 0; i < vtkoutputpolydata_vs2->GetNumberOfPoints(); i++) {
+//        double p[3];
+//        vtkoutputpolydata_vs2->GetPoint(i,p);
+//        //std::cout << "point : " << i << ", x : " << p[0] << ", y : " << p[1] << ", z : " << p[2] << std::endl;
+//        vel_vector = p[0], p[1], p[2];  // x,y,z
+//        mag = mpc::utilities::Magnitude<double>(vel_vector);
+//
+//        double dcolor[3];
+//        vtkcolorlookuptable->GetColor(mag, dcolor);
+//
+//        unsigned char color[3];
+//        for(unsigned int j = 0; j < 3; j++)
+//        {
+//            color[j] = static_cast<unsigned char>(255.0 * dcolor[j]);
+//        }
+//
+//        //vtkcolorchararray->InsertNextTupleValue(color);  // VTK version < 7
+//        vtkcolorchararray->InsertNextTypedTuple(color);
+//    }
+//
+//    vtkoutputpolydata_vs2->GetPointData()->SetScalars(vtkcolorchararray);  // vtkPointData.h
+//    vtkpolydatamapper_vs2->Update();
+//    vtkrenderer_vs2->ResetCamera();
 
-    //vtkpolydatamapper_isovp0->SetInputData(vtkoutputpolydata_isovp0);
 
-    //vtkactor_isovp0->SetMapper(vtkpolydatamapper_isovp0);
-
-    //vtkrenderer_vp0->ResetCamera();
-
-    //vtkscalarbaractor_vp0->SetLookupTable(vtkcolorlookuptable);
 
 }
 
+vtkSmartPointer<vtkPolyData> MineralVelsView::PrivateTransformBack(vtkSmartPointer<vtkPoints> pt, vtkSmartPointer<vtkPolyData> pd) {
+
+    // reference: https://www.vtk.org/Wiki/VTK/Examples/Cxx/Filtering/SurfaceFromUnorganizedPointsWithPostProc
+
+    // The reconstructed surface is transformed back to where the
+    // original points are. (Hopefully) it is only a similarity
+    // transformation.
+
+    // 1. Get bounding box of pt, get its minimum corner (left, bottom, least-z), at c0, pt_bounds
+
+    // 2. Get bounding box of surface pd, get its minimum corner (left, bottom, least-z), at c1, pd_bounds
+
+    // 3. compute scale as:
+    //       scale = (pt_bounds[1] - pt_bounds[0])/(pd_bounds[1] - pd_bounds[0]);
+
+    // 4. transform the surface by T := T(pt_bounds[0], [2], [4]).S(scale).T(-pd_bounds[0], -[2], -[4])
+
+
+
+    // 1.
+    double pt_bounds[6];  // (xmin,xmax, ymin,ymax, zmin,zmax)
+    pt->GetBounds(pt_bounds);
+
+
+    // 2.
+    double pd_bounds[6];  // (xmin,xmax, ymin,ymax, zmin,zmax)
+    pd->GetBounds(pd_bounds);
+
+//   // test, make sure it is isotropic
+//   std::cout<<(pt_bounds[1] - pt_bounds[0])/(pd_bounds[1] - pd_bounds[0])<<std::endl;
+//   std::cout<<(pt_bounds[3] - pt_bounds[2])/(pd_bounds[3] - pd_bounds[2])<<std::endl;
+//   std::cout<<(pt_bounds[5] - pt_bounds[4])/(pd_bounds[5] - pd_bounds[4])<<std::endl;
+//   // TEST
+
+
+    // 3
+    double scale = (pt_bounds[1] - pt_bounds[0])/(pd_bounds[1] - pd_bounds[0]);
+
+
+    // 4.
+    vtkSmartPointer<vtkTransform> transp = vtkSmartPointer<vtkTransform>::New();
+    transp->Translate(pt_bounds[0], pt_bounds[2], pt_bounds[4]);
+    transp->Scale(scale, scale, scale);
+    transp->Translate(- pd_bounds[0], - pd_bounds[2], - pd_bounds[4]);
+
+    vtkSmartPointer<vtkTransformPolyDataFilter> tpd = vtkSmartPointer<vtkTransformPolyDataFilter>::New();
+#if VTK_MAJOR_VERSION <= 5
+    tpd->SetInput(pd);
+#else
+    tpd->SetInputData(pd);
+#endif
+    tpd->SetTransform(transp);
+    tpd->Update();
+
+
+    return tpd->GetOutput();
+}
