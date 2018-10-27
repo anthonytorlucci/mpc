@@ -1,6 +1,9 @@
 #ifndef MPCEXAMPLEAPP_MIXINGLAWSVIEW_H
 #define MPCEXAMPLEAPP_MIXINGLAWSVIEW_H
 
+// c++
+#include <string>
+
 // Qt
 #include <QObject>
 #include <QWidget>
@@ -82,6 +85,18 @@ private:
     double solid_volume_fraction;  // solid_volume_fraction = 1-fluid_volume_fraction, i.e., solid_volume_fraction =  1-porosity
     double hill_weighting_coefficient;  // 0 -> Ruess lower bound; 1 -> Voigt upper bound
 
+    double zscale_K;     // 0 : "saturated bulk modulus"
+    double zscale_mu;    // 1 : "effective shear modulus"
+    double zscale_rho;   // 2 : "effective density"
+    double zscale_pvel;  // 3 : "effective p-wave velocity"
+    double zscale_svel;  // 4 : "effective s-wave velocity"
+    double zscale_vpvs;  // 5 : "effective Vp/Vs ratio"
+    double zscale_vsvp;  // 6 : "effective Vs/Vp ratio"
+    double zscale_nu;    // 7 : "effective Poisson's ratio"
+
+    std::string cubeaxesactor2d_str;  // changes based on rock property and zscale
+    std::string scalarbaractor_str;   // changes based on rock property and zscale
+
 
     // Qt widgets
     QLabel*    background_fluid_label;
@@ -146,9 +161,10 @@ private:
     vtkSmartPointer<vtkActor> vtkactor;
     vtkSmartPointer<vtkRenderWindowInteractor> vtkrenderwindowinteractor;
     vtkSmartPointer<vtkCamera> vtkcamera;
+    vtkSmartPointer<vtkTransform> vtkztransform;
     vtkSmartPointer<vtkVertexGlyphFilter> vtkglyphfilter;
-    vtkSmartPointer<vtkPolyDataMapper> pointsmapper;
-    vtkSmartPointer<vtkActor> pointsactor;
+    vtkSmartPointer<vtkPolyDataMapper> vtkpointsmapper;
+    vtkSmartPointer<vtkActor> vtkpointsactor;
     vtkSmartPointer<vtkOutlineFilter> vtkoutline;
     vtkSmartPointer<vtkPolyDataMapper> vtkoutlinemapper;
     vtkSmartPointer<vtkActor> vtkoutlineactor;

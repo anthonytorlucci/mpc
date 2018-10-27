@@ -2935,10 +2935,10 @@ void MineralVelsView::PrivateSetPoints() {
     minvel = *std::min_element(vels.begin(), vels.end());
     maxvel = *std::max_element(vels.begin(), vels.end());
 
-    std::cout << "iso pvel : " << pvel << std::endl;
-    std::cout << "min vel : " << minvel << std::endl;
-    std::cout << "max vel : " << maxvel << std::endl;
-    std::cout << "" << std::endl;
+//    std::cout << "iso pvel : " << pvel << std::endl;
+//    std::cout << "min vel : " << minvel << std::endl;
+//    std::cout << "max vel : " << maxvel << std::endl;
+//    std::cout << "" << std::endl;
 }
 
 void MineralVelsView::PrivateUpdatePlot() {

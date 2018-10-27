@@ -31,10 +31,10 @@ int main() {
     //mpcexamples::mpcHookesLawCSRelationship();
     //mpcexamples::mpcTransformation();
     //mpcexamples::mpcMineralData();
-    mpcexamples::mpcRockPhysicsTransforms();
+    //mpcexamples::mpcRockPhysicsTransforms();
     //mpcexamples::mpcTensorInvariants();
     //mpcexamples::mpcGreenChristoffel();
-    //mpcexamples::mpcMixingLaws();
+    mpcexamples::mpcMixingLaws();
     //mpcexamples::mpcQuartzVelsInX0X1Plane();
     //mpcexamples::mpcOrientationDistribution();
     //mpcexamples::mpcCoordinateMapping();

@@ -157,14 +157,14 @@ void mpcexamples::mpcMixingLaws() {
     // data
     // ref : Dvorkin, J., Guitierrez, M., Grana, D., 2014, Seismic Reflections of Rock Properties : Cambridge University Press.
     // p. 161, 170
-    const double sand_K = 16.334;     // (GPa)
-    const double sand_mu = 6.604;     // (GPa)
-    const double sand_rho = 2.24;     // (g/cm**3)
-
-
-    const double mudrock_K = 15.144;  // (GPa)
-    const double mudrock_mu = 4.064;  // (GPa)
-    const double mudrock_rho = 2.45;  // (g/cm**3)
+//    const double sand_K = 16.334;     // (GPa)
+//    const double sand_mu = 6.604;     // (GPa)
+//    const double sand_rho = 2.24;     // (g/cm**3)
+//
+//
+//    const double mudrock_K = 15.144;  // (GPa)
+//    const double mudrock_mu = 4.064;  // (GPa)
+//    const double mudrock_rho = 2.45;  // (g/cm**3)
 
 
 
