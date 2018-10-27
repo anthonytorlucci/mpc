@@ -1,7 +1,7 @@
 # mpcexamples
 mechanical properties of crystals and polycrystalline aggregates
 
-###introduction
+### introduction
 mpc is c++ header-only template library designed for the explicit calculation of the mechanical properties of a crystal or polycrystalline aggregate in a three-dimensional Cartesian space.  The library's primary purpose is to compute the static effective stiffness and compliance tensors of heterogeneous or composite materials and the corresponding velocities using the Green-Christoffel equation.
         
 The user should be familiar the basics of continuum mechanics, particularly solid mechanics including, at a minimum, tensor algebra.  These examples start by walking you through creating the core data structures that make mpc.  These core data structures are based on the concept of a tensor which is at the core of mechanics and thus form the core data structures for mpc.
@@ -16,8 +16,8 @@ or
 \]
 where \(\sigma_{ij}\) is the stress tensor, \(\epsilon_{kl}\) is the strain tensor, \(c_{ijkl}\) is the stiffness tensor, and \(s_{klij}\) is the compliance tensor.
 
-###core data structures
-####terminology and mpc conventions
+### core data structures
+#### terminology and mpc conventions
         
 While stress and strain can be measured in two dimensions and possibly any curvilinear coordinate system, this higher level of abstraction was considered beyond the scope of the project.  Therefore, all tensors are considered to be Cartesian tensors in a three-dimensional space.
         
@@ -26,7 +26,7 @@ Like most computational libraries, mpc has a few core data structures, most nota
 As previously mentioned, we will do our investigation in three-dimensional space calculating the stiffness and compliance of a representative volume; therefore, the indices will take the range i,j,... = 0,1,2. This is known as the *range convention*. Note that mpc is written in c++ and uses the c++ convention of zero-based indexing.  This is different from mathematical languages like fortran and the literature which uses the indices i,j,... = 1,2,3. The second convention to note, which we have already used, is the *summation convention* for which we define the *rank* of a tensor as the number of *free* indices - those indices which do not repeat. For example, the stiffness and compliance tensors are of rank four corresponding to the free indices *i*, *j*, *k*, and *l*. The stress and strain tensors are of rank two corresponding to the free indices *i* and *j*, or *k* and *l*. A vector is of rank one and written in suffix notation as \(v_i\) where *i* takes the range 0,1,2 in three dimensional space. Finally, a scalar value is a tensor of rank zero and written without a free index as \(\alpha\). Note that a tensor with a *dummy* index is also a scalar value, e.g. \(\alpha_{ii}\).  These *invariants* are very important in tensor analysis and will be discussed later.
         
         
-######TensorComponentIndex
+###### TensorComponentIndex
 Tensors in mpc are represented as multi-dimensional arrays in which each dimension corresponds to an index and the values in that dimension correspond to the range convention of the tensor. mpc defines this index with a template class:
 
     TensorRankNComponentIndex<N>
@@ -35,14 +35,14 @@ For example, the three component indices of a hydrostaic stress tensor would be:
 
 [mpcexamples::mpcTensorRank2ComponentIndex()](https://github.com/threecubed/mpc/blob/master/examples/mpcx_tensorrank2componentindex.cpp)
         
-'''cpp
+```cpp
 mpc::core::TensorRankNComponentIndex<2> index00 = mpc::core::TensorRankNComponentIndex<2>(0,0);
 mpc::core::TensorRankNComponentIndex<2> index11 = mpc::core::TensorRankNComponentIndex<2>(1,1);
 mpc::core::TensorRankNComponentIndex<2> index22 = mpc::core::TensorRankNComponentIndex<2>(2,2);
 std::cout << "index(0,0) : " << index00 << std::endl;
 std::cout << "index(1,1) : " << index11 << std::endl;
 std::cout << "index(2,2) : " << index22 << std::endl;
-'''
+```
         
 These correspond to the components of the stress tensor \(\sigma_{ii}\) for the range *i* = 0, 1, 2, obviously.
         
@@ -50,7 +50,7 @@ A tensor component index of rank 2 has two member functions defined in the class
         
         00 < 01 < 02 < 10 < 11 < 12 < 20 < 21 < 22
         
-'''cpp
+```cpp
 int first_index = index00.FirstIndex();
 std::cout << index00 << " FirstIndex() :  " << first_index << std::endl;
 int second_index=index00.SecondIndex();
@@ -61,32 +61,32 @@ std::cout << index00 << " <  " << index11 << " : " << (index00 < index11) << std
 std::cout << index00 << " >  " << index11 << " : " << (index00> index11) << std::endl;
 std::cout << index00 << " <= " << index11 << " : " << (index00 <=index11) << std::endl;
 std::cout << index00 << " >= " << index11 << " : " << (index00>= index11) << std::endl;
-'''
+```
 
 <code>TensorRankNComponentIndex<2></code> also provides an inline function to return the index value using the subscript operator.
 
-'''cpp
+```cpp
 std::cout << index00 << " index using operator [0] : " << index00[0] << std::endl;
 std::cout << index00 << " index using operator [1] : " << index00[1] << std::endl;
-'''
+```
 
 For convenience, mpc provides an alias for the second rank tensor component index with the using directive:
        
-'''cpp
+```cpp
 using TensorRank2ComponentIndex = TensorRankNComponentIndex<2>;
-'''
+```
         
 Writing a tensor component index with the alias may be easier to read. For example,
 
-'''cpp
+```cpp
 mpc::core::TensorRank2ComponentIndex index02usingalias = mpc::core::TensorRank2ComponentIndex(0,2);
-'''
+```
         
 Since the underlying data structure for mpc is a blitz array, it is often convenient to insert a value into the tensor member variable using <code>blitz::TinyVector<int,2></code> to refer to the index from the <code>TensorRankNComponent<2></code>.  The <code>TensorRankNComponentIndex<2></code> class provides a static member function to do just this...
         
-'''cpp
+```cpp
 blitz::TinyVector<int,2> blitz_index00 = mpc::core::TensorRankNComponentIndex<2>::ToBlitzTinyVector(index00);
-'''
+```
         
 The index itself is very powerful. Two additional functions are defined to get the number of aliases and the aliases themselves. For a second rank tensor aliases are defined as the symmetrical components. That is to say, <code>A(i,j) = A(j,i)</code>, and thus the nine components of a second rank tensor in 3 dimensional space reduces to just 6.
         
@@ -113,7 +113,7 @@ Some useful algorithms in the STL library for <code>std::set<T></code> are:
           set_difference()
           set_symmetrical_difference()
         
-<!-- (see Stroustrup, 2013, The C++ Programming Language, fourth ed.,  p. 947) -->
+>see Stroustrup, 2013, The C++ Programming Language, fourth ed.,  p. 947
         
 Note that the values in a set are ordered. Set tests for equality with another element already in the set using <code>std::less<Key></code>. An index has no natrual order, but mpc defines it like this
         
@@ -121,22 +121,22 @@ Note that the values in a set are ordered. Set tests for equality with another e
         
 Containers of <code>TensorRankNComponentIndex<N></code> can now be sorted or stored in ordered containers like <code>std::set<T></code>.
         
-'''cpp
+```cpp
 int num_aliases01 = mpc::core::TensorRank2IndexNumberOfAliases(index01);
 std::cout << "number of aliases for index00 : " << num_aliases00 << std::endl;
 std::set< mpc::core::TensorRank2ComponentIndex > set_aliases01 = mpc::core::TensorRank2IndexAliases(index01); // no aliases
 for (auto alias : set_aliases01) {
         std::cout << "rank2 alias of 01 : " << alias << std::endl;
 }
-'''
+```
         
 Currently, mpc provides two predicates (callable that returns a value testable as a bool - see [C++ named requirements: Predicate](https://en.cppreference.com/w/cpp/named_req/Predicate) ) for <code>TensorRankNCompoentIndex<N></code> where N is either 2 or 4: <code>...IsAlias(...)</code> and <code>...HasAlias(...)</code>. The definiton of aliases is defined by symmetry.
         
-'''cpp
+```cpp
 bool index01_has_alias = mpc::core::TensorRank2ComponentIndexHasAlias(index01);
 bool index01_is_alias_index10 = mpc::core::TensorRank2ComponentIndexIsAlias(index01, index10);
 mpc::core::TensorRank2ComponentIndex index01_reduced = mpc::core::ReducedTensorRank2ComponentIndex(index01);
-'''
+```
 
 ---
 
@@ -144,7 +144,7 @@ A component index for a tensor of rank 4 is also defined in <code>mpc/core/tenso
 
 [mpcexamples::mpcTensorRank4ComponentIndex()](https://github.com/threecubed/mpc/blob/master/examples/mpcx_tensorrank4componentindex.cpp)
         
-'''cpp
+```cpp
 mpc::core::TensorRankNComponentIndex<4> index0000 = mpc::core::TensorRankNComponentIndex<4>(0,0,0,0);
 std::cout << "index(0,0,0,0) : " << index0000 << std::endl;
 std::cout << "FirstIndex() :   " << index0000.FirstIndex() << std::endl;
@@ -155,36 +155,36 @@ std::cout << index0000 << " index using operator [0] : " << index0000[0] << std:
 std::cout << index0000 << " index using operator [1] : " << index0000[1] << std::endl;
 std::cout << index0000 << " index using operator [2] : " << index0000[2] << std::endl;
 std::cout << index0000 << " index using operator [3] : " << index0000[3] << std::endl;
-'''
+```
         
 Operators for fourth rank tensors same as those for second rank tensors...
         
-'''cpp
+```cpp
 std::cout << index0000 << " == " << index1111 << " : " << (index0000==index1111) << std::endl;
 std::cout << index0000 << " != " << index1111 << " : " << (index0000 !=index1111) << std::endl;
 std::cout << index0000 << " <  " << index1111 << " : " << (index0000 < index1111) << std::endl;
 std::cout << index0000 << " >  " << index1111 << " : " << (index0000> index1111) << std::endl;
 std::cout << index0000 << " <= " << index1111 << " : " << (index0000 <=index1111) << std::endl;
 std::cout << index0000 << " >= " << index1111 << " : " << (index0000>= index1111) << std::endl;
-'''
+```
           
 mpc provides an alias for the fourth rank tensor component index with the using directive:
           
-'''cpp
+```cpp
 using TensorRank4ComponentIndex = TensorRankNComponentIndex<4>;
-'''
+```
 
 which can be used like
 
-'''cpp
+```cpp
 mpc::core::TensorRank4ComponentIndex index0022usingalias = mpc::core::TensorRank4ComponentIndex(0,0,2,2);
-'''
+```
             
 Another example of creating <code>blitz::TinyVector<int,4></code> from a <pre>TensorRank4CompoentIndex</pre>.
             
-'''cpp
+```cpp
 blitz::TinyVector<int,4> blitz_indexXXXX = mpc::core::TensorRankNComponentIndex<4>::ToBlitzTinyVector(indexXXXX);
-'''
+```
             
 An index has no natrual order, but MPC defines it like this for 4th rank tensor component indices:
             
@@ -251,7 +251,7 @@ When working only a set of components, it is sometimes easiest to work with the 
           
 IMPORTANT!!!  Indices that should be zero valued according to the symmetry rules are NOT reduced.  Reduced indices have values that either equal or equal and opposite in sign;  indices whose values are derived from 2 (or more) other indices are left alone and reduced according to triclinic symmetry rules.  This concept of reduced indices is unique (as far as I know) to mpc and is still a work in progress.
           
-'''cpp
+```cpp
 mpc::core::TensorRank4ComponentIndex indexXXXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex(indexXXXX);
 //
 int p, q; // used to hold temporary values of the voigt indices
@@ -260,19 +260,19 @@ q = mpc::util::GetVoigtMatrixIndex(indexXXXX.ThirdIndex(), indexXXXX.FourthIndex
 indexXXXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex< mpc::core::TriclinicSymmetryGroupType >(indexXXXX);
 // polymorphic
 indexXXXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex< mpc::core::TriclinicSymmetryGroupType >(mpc::core::TensorRank2ComponentIndex(p,q));
-'''
+```
 
-######TensorComponent
+###### TensorComponent
 
 The next step is to build the tensor compoents using the tensor component index and assigning a value. The class <code>TensorRank2Component<T></code> is a template class that takes an argument that must be a floating point type, that is float, double, or long double.
             
 [mpcexamples::mpcTensorRank2Component()](https://github.com/threecubed/mpc/blob/master/examples/mpcx_tensorrank2component.cpp)
 
-'''cpp
+```cpp
 mpc::core::TensorRankNComponent<double,2> component00 = mpc::core::TensorRankNComponent<double,2>(11.0, mpc::core::TensorRank2ComponentIndex(0,0));
 // alias
 mpc::core::TensorRank2Component<double> component01 = mpc::core::TensorRank2Component<double>(12.0, mpc::core::TensorRank2ComponentIndex(0,1));
-'''
+```
 
 Comparison operators for tensor components are defined as
             
@@ -283,18 +283,18 @@ Comparison operators for tensor components are defined as
               "<=" : lhs component is less or equal to rhs component if lhs component index is less than or equal to rhs component index
               ">=" : lhs component is greater than or equal to rhs component if lhs component index is greater than or equal to rhs component index
             
-'''cpp
+```cpp
 std::cout << componentXX << " == " << component11 << " : " << (componentXX == component11) << std::endl;
 std::cout << componentXX << " != " << component11 << " : " << (componentXX != component11) << std::endl;
 std::cout << componentXX << " <  " << component11 << " : " << (componentXX < component11) << std::endl;
 std::cout << componentXX << " >  " << component11 << " : " << (componentXX > component11) << std::endl;
 std::cout << componentXX << " <= " << component11 << " : " << (componentXX <= component11) << std::endl;
 std::cout << componentXX << " >= " << component11 << " : " << (componentXX >= component11) << std::endl;
-'''
+```
             
 TensorComponent comparison operators < and> use the index member variable, not the value. Therefore, we can store <code>TensorRank2Component</code>s in a <code>std::set<T></code> and be guaranteed uniqueness.
             
-'''cpp
+```cpp
 std::set<mpc::core::TensorRankNComponent<double,2> > rank2_component_set {};
 rank2_component_set.insert(component00);
 rank2_component_set.insert(component01);
@@ -308,19 +308,19 @@ rank2_component_set.insert(component22);
 std::cout << "rank2_component_set.size() : " << rank2_component_set.size() << std::endl; // will not insert because index already exitsts
 rank2_component_set.insert(mpc::core::TensorRank2Component<double>(99.0, mpc::core::TensorRank2ComponentIndex(0,0)));
 std::cout << "rank2_component_set.size() after attempt to insert duplicate index : " << rank2_component_set.size() << std::endl;
-'''
+```
             
 Tensors of rank 4:
 
 [mpcexamples::mpcTensorRank4Component()](https://github.com/threecubed/mpc/blob/master/examples/mpcx_tensorrank4component.cpp)
             
-'''cpp
+```cpp
 mpc::core::TensorRank4Component<double> component0000 = mpc::core::TensorRank4Component<double>(1111.0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
-'''
+```
             
 One example of creating a blitz multidimensional array as a fourth rank tensor in 3D Cartesian space:
             
-'''cpp
+```cpp
 mpc::core::TensorRank4Component<double> component0000 = mpc::core::TensorRank4Component<double>(1111.0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
 mpc::core::TensorRank4Component<double> component0001 = mpc::core::TensorRank4Component<double>(1112.0, mpc::core::TensorRank4ComponentIndex(0,0,0,1));
 mpc::core::TensorRank4Component<double> component0002 = mpc::core::TensorRank4Component<double>(1113.0, mpc::core::TensorRank4ComponentIndex(0,0,0,2));
@@ -418,9 +418,9 @@ for (int i=0; i<ND3; ++i) {
                 }
         }
 }
-'''
+```
 
-######Symmetry
+###### Symmetry
 
 Now, for symmerty, specifically symmetry of 4th rank tensors corresponding to:
             
@@ -449,7 +449,7 @@ Each symmetry type is a subclass of <code>SymmetryGroupBase</code> and has (curr
               *         SymmetryGroupEnumeration symmetry_group_enumeration
               *         int number_of_independent_components
             
-'''cpp
+```cpp
 mpc::core::NoneSymmetryGroupType none_symmetry_type = mpc::core::NoneSymmetryGroupType();
 std::cout << "NoneSymmetryGroupType symmetry : " << none_symmetry_type.symmetry_group_enumeration << std::endl;
 std::cout << "NoneSymmetryGroupType number of independent components : " << none_symmetry_type.number_of_independent_components << std::endl;
@@ -486,20 +486,20 @@ std::cout << "CubicSymmetryGroupType number of independent components : " << cub
 mpc::core::IsotropicSymmetryGroupType isotropic_symmetry_type=mpc::core::IsotropicSymmetryGroupType();
 std::cout << "IsotropicSymmetryGroupType symmetry : " << isotropic_symmetry_type.symmetry_group_enumeration << std::endl;
 std::cout << "IsotropicSymmetryGroupType number of independent components : " << isotropic_symmetry_type.number_of_independent_components << std::endl;
-'''
+```
                 
 Symmetry type predicates... Type predicates or type traits are boolean functions on types [ref]...
                 
 Note that these predicates are convenience functions derived from the more general:
                 
-'''cpp
+```cpp
 template <typename S, int N>
 constexpr inline bool SymmetryGroupTypeHasNIndependentComponents();
-'''
+```
 
 For example
 
-'''cpp
+```cpp
 // has 21 components
 std::cout << "NoneSymmetryGroupType has 21 independent components ?         " << mpc::core::SymmetryGroupTypeHas21IndependentComponents<mpc::core::NoneSymmetryGroupType>() << std::endl;
 std::cout << "TriclinicSymmetryGroupType has 21 independent components ?    " << mpc::core::SymmetryGroupTypeHas21IndependentComponents<mpc::core::TriclinicSymmetryGroupType>() << std::endl;
@@ -543,4 +543,4 @@ std::cout << "CubicSymmetryGroupType has 9 independent components ?         " <<
 std::cout << "IsotropicSymmetryGroupType has 9 independent components ?     " << mpc::core::SymmetryGroupTypeHas9IndependentComponents<mpc::core::IsotropicSymmetryGroupType>() << std::endl;
 // has 7 components
 ...
-'''
+```
