@@ -1,32 +1,546 @@
 # mpcexamples
 mechanical properties of crystals and polycrystalline aggregates
 
-### mpcexamples::mpcTensorRank2ComponentIndex();
+###introduction
+mpc is c++ header-only template library designed for the explicit calculation of the mechanical properties of a crystal or polycrystalline aggregate in a three-dimensional Cartesian space.  The library's primary purpose is to compute the static effective stiffness and compliance tensors of heterogeneous or composite materials and the corresponding velocities using the Green-Christoffel equation.
+        
+The user should be familiar the basics of continuum mechanics, particularly solid mechanics including, at a minimum, tensor algebra.  These examples start by walking you through creating the core data structures that make mpc.  These core data structures are based on the concept of a tensor which is at the core of mechanics and thus form the core data structures for mpc.
+        
+We assume that the material obeys Hooke's law; that is, there exists a linear relationship between the stress applied to the material and the corresponding strain.  Hooke's law is written is concise suffix notation as
+\[
+\sigma_{ij} = c_{ijkl} \epsilon_{kl}
+\]
+or
+\[
+\epsilon_{kl} = s_{klij} \sigma_{ij}
+\]
+where \(\sigma_{ij}\) is the stress tensor, \(\epsilon_{kl}\) is the strain tensor, \(c_{ijkl}\) is the stiffness tensor, and \(s_{klij}\) is the compliance tensor.
 
-### mpcexamples::mpcTensorRank4ComponentIndex();
+###core data structures
+####terminology and mpc conventions
+        
+While stress and strain can be measured in two dimensions and possibly any curvilinear coordinate system, this higher level of abstraction was considered beyond the scope of the project.  Therefore, all tensors are considered to be Cartesian tensors in a three-dimensional space.
+        
+Like most computational libraries, mpc has a few core data structures, most notably, the <span style="font-family:Courier New; font-size:4em;">Stiffness Tensor</span> class and <span style="font-family:Courier New; font-size:4em;">Compliance Tensor</span> class which are used ubiquitously throughout the library to describe the mathematical objects, the stiffness tensor and compliance tensor, respectively.  Before we can use these classes, we must discuss the terminology of tensors used in the library and the abstract data types that form the foundation of the library generated from these concepts.
+        
+As previously mentioned, we will do our investigation in three-dimensional space calculating the stiffness and compliance of a representative volume; therefore, the indices will take the range i,j,... = 0,1,2. This is known as the *range convention*. Note that mpc is written in c++ and uses the c++ convention of zero-based indexing.  This is different from mathematical languages like fortran and the literature which uses the indices i,j,... = 1,2,3. The second convention to note, which we have already used, is the *summation convention* for which we define the *rank* of a tensor as the number of *free* indices - those indices which do not repeat. For example, the stiffness and compliance tensors are of rank four corresponding to the free indices *i*, *j*, *k*, and *l*. The stress and strain tensors are of rank two corresponding to the free indices *i* and *j*, or *k* and *l*. A vector is of rank one and written in suffix notation as \(v_i\) where *i* takes the range 0,1,2 in three dimensional space. Finally, a scalar value is a tensor of rank zero and written without a free index as \(\alpha\). Note that a tensor with a *dummy* index is also a scalar value, e.g. \(\alpha_{ii}\).  These *invariants* are very important in tensor analysis and will be discussed later.
+        
+        
+######TensorComponentIndex
+Tensors in mpc are represented as multi-dimensional arrays in which each dimension corresponds to an index and the values in that dimension correspond to the range convention of the tensor. mpc defines this index with a template class:
 
-### mpcexamples::mpcTensorRank2Component();
+    TensorRankNComponentIndex<N>
+    
+For example, the three component indices of a hydrostaic stress tensor would be:
 
-### mpcexamples::mpcTensorRank4Component();
+[mpcexamples::mpcTensorRank2ComponentIndex()](https://github.com/threecubed/mpc/blob/master/examples/mpcx_tensorrank2componentindex.cpp)
+        
+'''cpp
+mpc::core::TensorRankNComponentIndex<2> index00 = mpc::core::TensorRankNComponentIndex<2>(0,0);
+mpc::core::TensorRankNComponentIndex<2> index11 = mpc::core::TensorRankNComponentIndex<2>(1,1);
+mpc::core::TensorRankNComponentIndex<2> index22 = mpc::core::TensorRankNComponentIndex<2>(2,2);
+std::cout << "index(0,0) : " << index00 << std::endl;
+std::cout << "index(1,1) : " << index11 << std::endl;
+std::cout << "index(2,2) : " << index22 << std::endl;
+'''
+        
+These correspond to the components of the stress tensor \(\sigma_{ii}\) for the range *i* = 0, 1, 2, obviously.
+        
+A tensor component index of rank 2 has two member functions defined in the class: FirstIndex() and SecondIndex() which retrieve the index values from the first index and the second index, respectively. These are also constexpr functions and can be called at compile time and therefore known to the compiler and can be used in other constexpr functions, but NOT as template parameter values. In addition, there are four non-member functions that overload the operators "==", "!=", "<", and ">" for comparison. The less than and greater than operators don't really make sense for an index, but are necessary because std::less<Key> is the default comparson operator used in std::set, an STL container used ubiquitously throughout the MPC library.  Therefore, mpc defines index ordering as:
+        
+        00 < 01 < 02 < 10 < 11 < 12 < 20 < 21 < 22
+        
+'''cpp
+int first_index = index00.FirstIndex();
+std::cout << index00 << " FirstIndex() :  " << first_index << std::endl;
+int second_index=index00.SecondIndex();
+std::cout << index00 << " SecondIndex() : " << second_index << std::endl;
+std::cout << index00 << " == " << index11 << " : " << (index00 == index11) << std::endl;
+std::cout << index00 << " != " << index11 << " : " << (index00 != index11) << std::endl;
+std::cout << index00 << " <  " << index11 << " : " << (index00 < index11) << std::endl;
+std::cout << index00 << " >  " << index11 << " : " << (index00> index11) << std::endl;
+std::cout << index00 << " <= " << index11 << " : " << (index00 <=index11) << std::endl;
+std::cout << index00 << " >= " << index11 << " : " << (index00>= index11) << std::endl;
+'''
 
-### mpcexamples::mpcSymmetryTypes();
+<code>TensorRankNComponentIndex<2></code> also provides an inline function to return the index value using the subscript operator.
 
-### mpcexamples::mpcSymmetryMatrixRepresentation();
+'''cpp
+std::cout << index00 << " index using operator [0] : " << index00[0] << std::endl;
+std::cout << index00 << " index using operator [1] : " << index00[1] << std::endl;
+'''
 
-### mpcexamples::mpcHookesLawCSRelationship();
+For convenience, mpc provides an alias for the second rank tensor component index with the using directive:
+       
+'''cpp
+using TensorRank2ComponentIndex = TensorRankNComponentIndex<2>;
+'''
+        
+Writing a tensor component index with the alias may be easier to read. For example,
 
-### mpcexamples::mpcTransformation();
+'''cpp
+mpc::core::TensorRank2ComponentIndex index02usingalias = mpc::core::TensorRank2ComponentIndex(0,2);
+'''
+        
+Since the underlying data structure for mpc is a blitz array, it is often convenient to insert a value into the tensor member variable using <code>blitz::TinyVector<int,2></code> to refer to the index from the <code>TensorRankNComponent<2></code>.  The <code>TensorRankNComponentIndex<2></code> class provides a static member function to do just this...
+        
+'''cpp
+blitz::TinyVector<int,2> blitz_index00 = mpc::core::TensorRankNComponentIndex<2>::ToBlitzTinyVector(index00);
+'''
+        
+The index itself is very powerful. Two additional functions are defined to get the number of aliases and the aliases themselves. For a second rank tensor aliases are defined as the symmetrical components. That is to say, <code>A(i,j) = A(j,i)</code>, and thus the nine components of a second rank tensor in 3 dimensional space reduces to just 6.
+        
+          Definition of aliases in mpc for a second rank
+          symmetrical tensor:
+        
+          X00 >> (11)
+          X01 >> (01), (10)
+          X02 >> (02), (20)
+          X10 >> (01), (10)
+          X11 >> (22)
+          X12 >> (12), (21)
+          X20 >> (02), (20)
+          X21 >> (12), (21)
+          X22 >> (22)
+        
+Let's combine indices in a <code>std::set<T></code> which itself is powerful tool and has some interesting properties and algorithms. The next section illustrates useful functions that take advantage of these properties and algorithms. Why use <code>std::set<T></code> and not <code>std::vector<T></code>? A set will automatically check if the value being inserted is already present. We want all components in a set to be unique becauase they map to one and only one component in the actual tensor.
+        
+Some useful algorithms in the STL library for <code>std::set<T></code> are:
+        
+          includes()
+          set_union()
+          set_intersection()
+          set_difference()
+          set_symmetrical_difference()
+        
+<!-- (see Stroustrup, 2013, The C++ Programming Language, fourth ed.,  p. 947) -->
+        
+Note that the values in a set are ordered. Set tests for equality with another element already in the set using <code>std::less<Key></code>. An index has no natrual order, but mpc defines it like this
+        
+        00 < 01 < 02 < 10 < 11 < 12 < 20 < 21 < 22
+        
+Containers of <code>TensorRankNComponentIndex<N></code> can now be sorted or stored in ordered containers like <code>std::set<T></code>.
+        
+'''cpp
+int num_aliases01 = mpc::core::TensorRank2IndexNumberOfAliases(index01);
+std::cout << "number of aliases for index00 : " << num_aliases00 << std::endl;
+std::set< mpc::core::TensorRank2ComponentIndex > set_aliases01 = mpc::core::TensorRank2IndexAliases(index01); // no aliases
+for (auto alias : set_aliases01) {
+        std::cout << "rank2 alias of 01 : " << alias << std::endl;
+}
+'''
+        
+Currently, mpc provides two predicates (callable that returns a value testable as a bool - see [C++ named requirements: Predicate](https://en.cppreference.com/w/cpp/named_req/Predicate) ) for <code>TensorRankNCompoentIndex<N></code> where N is either 2 or 4: <code>...IsAlias(...)</code> and <code>...HasAlias(...)</code>. The definiton of aliases is defined by symmetry.
+        
+'''cpp
+bool index01_has_alias = mpc::core::TensorRank2ComponentIndexHasAlias(index01);
+bool index01_is_alias_index10 = mpc::core::TensorRank2ComponentIndexIsAlias(index01, index10);
+mpc::core::TensorRank2ComponentIndex index01_reduced = mpc::core::ReducedTensorRank2ComponentIndex(index01);
+'''
 
-### mpcexamples::mpcMineralData();
+---
 
-### mpcexamples::mpcRockPhysicsTransforms();
+A component index for a tensor of rank 4 is also defined in <code>mpc/core/tensorcomponentindex.h</code> and can be constructed in a similar manner to a tensor component of rank 2.  It also has a constexpr constructor and constexpr member functions to retrieve the index values.
 
-### mpcexamples::mpcTensorInvariants();
+[mpcexamples::mpcTensorRank4ComponentIndex()](https://github.com/threecubed/mpc/blob/master/examples/mpcx_tensorrank4componentindex.cpp)
+        
+'''cpp
+mpc::core::TensorRankNComponentIndex<4> index0000 = mpc::core::TensorRankNComponentIndex<4>(0,0,0,0);
+std::cout << "index(0,0,0,0) : " << index0000 << std::endl;
+std::cout << "FirstIndex() :   " << index0000.FirstIndex() << std::endl;
+std::cout << "SecondIndex() :  " << index0000.SecondIndex() << std::endl;
+std::cout << "ThirdIndex() :   " << index0000.ThirdIndex() << std::endl;
+std::cout << "FourthIndex() :  " << index0000.FourthIndex() << std::endl;
+std::cout << index0000 << " index using operator [0] : " << index0000[0] << std::endl;
+std::cout << index0000 << " index using operator [1] : " << index0000[1] << std::endl;
+std::cout << index0000 << " index using operator [2] : " << index0000[2] << std::endl;
+std::cout << index0000 << " index using operator [3] : " << index0000[3] << std::endl;
+'''
+        
+Operators for fourth rank tensors same as those for second rank tensors...
+        
+'''cpp
+std::cout << index0000 << " == " << index1111 << " : " << (index0000==index1111) << std::endl;
+std::cout << index0000 << " != " << index1111 << " : " << (index0000 !=index1111) << std::endl;
+std::cout << index0000 << " <  " << index1111 << " : " << (index0000 < index1111) << std::endl;
+std::cout << index0000 << " >  " << index1111 << " : " << (index0000> index1111) << std::endl;
+std::cout << index0000 << " <= " << index1111 << " : " << (index0000 <=index1111) << std::endl;
+std::cout << index0000 << " >= " << index1111 << " : " << (index0000>= index1111) << std::endl;
+'''
+          
+mpc provides an alias for the fourth rank tensor component index with the using directive:
+          
+'''cpp
+using TensorRank4ComponentIndex = TensorRankNComponentIndex<4>;
+'''
 
-### mpcexamples::mpcGreenChristoffel();
+which can be used like
 
-### mpcexamples::mpcMixingLaws();
+'''cpp
+mpc::core::TensorRank4ComponentIndex index0022usingalias = mpc::core::TensorRank4ComponentIndex(0,0,2,2);
+'''
+            
+Another example of creating <code>blitz::TinyVector<int,4></code> from a <pre>TensorRank4CompoentIndex</pre>.
+            
+'''cpp
+blitz::TinyVector<int,4> blitz_indexXXXX = mpc::core::TensorRankNComponentIndex<4>::ToBlitzTinyVector(indexXXXX);
+'''
+            
+An index has no natrual order, but MPC defines it like this for 4th rank tensor component indices:
+            
+            0000 < 0001 < 0002 < 0010 < 0011 < ... < 2220 < 2221 < 2222
+            
+Containers of <code>TensorRankNComponentIndex<N></code> can now be sorted or stored in ordered containers like <code>std::set<T></code>.
+              
+For fourth rank tensors, symmetry is a bit more complicated.  We must define what we mean by symmetrical.
+              
+              (triclinic symmetry; all other symmmetries are
+              considered specializations of triclinic)
 
-### mpcexamples::mpcQuartzVelsInX0X1Plane();
+              c(i,j,k,l) = c(j,i,k,l) = c(i,j,l,k) = c(l,k,i,j)
 
-### mpcexamples::mpcOrientationDistribution();
+              X11 >> (1111)
+              X12 >> (1122), (2211)
+              X13 >> (1133), (3311)
+              X14 >> (1123), (1132), (2311), (3211)
+              X15 >> (1113), (1131), (1311), (3111)
+              X16 >> (1112), (1121), (1211), (2111)
+              X22 >> (2222)
+              X23 >> (2233), (3322)
+              X24 >> (2223), (2232), (2322), (3222)
+              X25 >> (2213), (2231), (1322), (3122)
+              X26 >> (2212), (2221), (1222), (2122)
+              X33 >> (3333)
+              X34 >> (3323), (3332), (2333), (3233)
+              X35 >> (3313), (3331), (1333), (3133)
+              X36 >> (3312), (3321), (1233), (2133)
+              X44 >> (2323), (2332), (3223), (3232)
+              X45 >> (2313), (2331), (3213), (3231), (1323), (3123), (1332), (3132)
+              X46 >> (2312), (2321), (3212), (3221), (1223), (2123), (1232), (2132)
+              X55 >> (1313), (1331), (3113), (3131)
+              X56 >> (1312), (1321), (3112), (3121), (1213), (2113), (1231), (2131)
+              X66 >> (1212), (1221), (2112), (2121)
+            
+NOTE that the above is in one-based index notation to match the literature. mpc uses zero-based indexing for the rest of us who aren't exclusively MATLAB and/or fortran programmers:
+            
+            X00 >> (0000)
+            X01 >> (0011), (1100)
+            X02 >> (0022), (2200)
+            X03 >> (0012), (0021), (1200), (2100)
+            X04 >> (0002), (0020), (0200), (2000)
+            X05 >> (0001), (0010), (0100), (1000)
+            X11 >> (1111)
+            X12 >> (1122), (2211)
+            X13 >> (1112), (1121), (1211), (2111)
+            X14 >> (1102), (1120), (0211), (2011)
+            X15 >> (1101), (1110), (0111), (1011)
+            X22 >> (2222)
+            X23 >> (2212), (2221), (1222), (2122)
+            X24 >> (2202), (2220), (0222), (2022)
+            X25 >> (2201), (2210), (0122), (1022)
+            X33 >> (1212), (1221), (2112), (2121)
+            X34 >> (1202), (1220), (2102), (2120), (0212), (2012), (0221), (2021)
+            X35 >> (1201), (1210), (2101), (2110), (0112), (1012), (0121), (1021)
+            X44 >> (0202), (0220), (2002), (2020)
+            X45 >> (0201), (0210), (2001), (2010), (0102), (1002), (0120), (1020)
+            X55 >> (0101), (0110), (1001), (1010)
+          
+A more detailed discussion of symmetry as it pertains to the mechanical properties of crystals, specifically elasticity, is postponed until later.  I assume the user has some knowledge of this concept as it is fundamental to any research in solid mechanics. An entire section is devoted to this subject as it pertains to MPC, i.e., how mpc uses these properties and encapsulates them in their own classes...
+          
+When working only a set of components, it is sometimes easiest to work with the "reduced" indices.  A "reduced" index depends on its symmetry.  The idea is extract the least index from a set of indices that should be equal or equal and opposite in sign.  These sets are referred to as groupings or links in mpc.
+          
+IMPORTANT!!!  Indices that should be zero valued according to the symmetry rules are NOT reduced.  Reduced indices have values that either equal or equal and opposite in sign;  indices whose values are derived from 2 (or more) other indices are left alone and reduced according to triclinic symmetry rules.  This concept of reduced indices is unique (as far as I know) to mpc and is still a work in progress.
+          
+'''cpp
+mpc::core::TensorRank4ComponentIndex indexXXXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex(indexXXXX);
+//
+int p, q; // used to hold temporary values of the voigt indices
+p = mpc::util::GetVoigtMatrixIndex(indexXXXX.FirstIndex(), indexXXXX.SecondIndex());
+q = mpc::util::GetVoigtMatrixIndex(indexXXXX.ThirdIndex(), indexXXXX.FourthIndex());
+indexXXXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex< mpc::core::TriclinicSymmetryGroupType >(indexXXXX);
+// polymorphic
+indexXXXX_reduced = mpc::core::ReducedTensorRank4ComponentIndex< mpc::core::TriclinicSymmetryGroupType >(mpc::core::TensorRank2ComponentIndex(p,q));
+'''
+
+######TensorComponent
+
+The next step is to build the tensor compoents using the tensor component index and assigning a value. The class <code>TensorRank2Component<T></code> is a template class that takes an argument that must be a floating point type, that is float, double, or long double.
+            
+[mpcexamples::mpcTensorRank2Component()](https://github.com/threecubed/mpc/blob/master/examples/mpcx_tensorrank2component.cpp)
+
+'''cpp
+mpc::core::TensorRankNComponent<double,2> component00 = mpc::core::TensorRankNComponent<double,2>(11.0, mpc::core::TensorRank2ComponentIndex(0,0));
+// alias
+mpc::core::TensorRank2Component<double> component01 = mpc::core::TensorRank2Component<double>(12.0, mpc::core::TensorRank2ComponentIndex(0,1));
+'''
+
+Comparison operators for tensor components are defined as
+            
+              "==" : two components are equal if the index AND the value are equal
+              "!=" : two components are not equal if the index OR the value are not equal
+              "<"  : lhs component is less than rhs component if lhs component index is less than rhs component index
+              ">"  : lhs component is greater than rhs component if lhs component index is greater than rhs component index
+              "<=" : lhs component is less or equal to rhs component if lhs component index is less than or equal to rhs component index
+              ">=" : lhs component is greater than or equal to rhs component if lhs component index is greater than or equal to rhs component index
+            
+'''cpp
+std::cout << componentXX << " == " << component11 << " : " << (componentXX == component11) << std::endl;
+std::cout << componentXX << " != " << component11 << " : " << (componentXX != component11) << std::endl;
+std::cout << componentXX << " <  " << component11 << " : " << (componentXX < component11) << std::endl;
+std::cout << componentXX << " >  " << component11 << " : " << (componentXX > component11) << std::endl;
+std::cout << componentXX << " <= " << component11 << " : " << (componentXX <= component11) << std::endl;
+std::cout << componentXX << " >= " << component11 << " : " << (componentXX >= component11) << std::endl;
+'''
+            
+TensorComponent comparison operators < and> use the index member variable, not the value. Therefore, we can store <code>TensorRank2Component</code>s in a <code>std::set<T></code> and be guaranteed uniqueness.
+            
+'''cpp
+std::set<mpc::core::TensorRankNComponent<double,2> > rank2_component_set {};
+rank2_component_set.insert(component00);
+rank2_component_set.insert(component01);
+rank2_component_set.insert(component02);
+rank2_component_set.insert(component10);
+rank2_component_set.insert(component11);
+rank2_component_set.insert(component12);
+rank2_component_set.insert(component20);
+rank2_component_set.insert(component21);
+rank2_component_set.insert(component22);
+std::cout << "rank2_component_set.size() : " << rank2_component_set.size() << std::endl; // will not insert because index already exitsts
+rank2_component_set.insert(mpc::core::TensorRank2Component<double>(99.0, mpc::core::TensorRank2ComponentIndex(0,0)));
+std::cout << "rank2_component_set.size() after attempt to insert duplicate index : " << rank2_component_set.size() << std::endl;
+'''
+            
+Tensors of rank 4:
+
+[mpcexamples::mpcTensorRank4Component()](https://github.com/threecubed/mpc/blob/master/examples/mpcx_tensorrank4component.cpp)
+            
+'''cpp
+mpc::core::TensorRank4Component<double> component0000 = mpc::core::TensorRank4Component<double>(1111.0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
+'''
+            
+One example of creating a blitz multidimensional array as a fourth rank tensor in 3D Cartesian space:
+            
+'''cpp
+mpc::core::TensorRank4Component<double> component0000 = mpc::core::TensorRank4Component<double>(1111.0, mpc::core::TensorRank4ComponentIndex(0,0,0,0));
+mpc::core::TensorRank4Component<double> component0001 = mpc::core::TensorRank4Component<double>(1112.0, mpc::core::TensorRank4ComponentIndex(0,0,0,1));
+mpc::core::TensorRank4Component<double> component0002 = mpc::core::TensorRank4Component<double>(1113.0, mpc::core::TensorRank4ComponentIndex(0,0,0,2));
+mpc::core::TensorRank4Component<double> component0010 = mpc::core::TensorRank4Component<double>(1121.0, mpc::core::TensorRank4ComponentIndex(0,0,1,0));
+mpc::core::TensorRank4Component<double> component0011 = mpc::core::TensorRank4Component<double>(1122.0, mpc::core::TensorRank4ComponentIndex(0,0,1,1));
+mpc::core::TensorRank4Component<double> component0012 = mpc::core::TensorRank4Component<double>(1123.0, mpc::core::TensorRank4ComponentIndex(0,0,1,2));
+mpc::core::TensorRank4Component<double> component0020 = mpc::core::TensorRank4Component<double>(1131.0, mpc::core::TensorRank4ComponentIndex(0,0,2,0));
+mpc::core::TensorRank4Component<double> component0021 = mpc::core::TensorRank4Component<double>(1132.0, mpc::core::TensorRank4ComponentIndex(0,0,2,1));
+mpc::core::TensorRank4Component<double> component0022 = mpc::core::TensorRank4Component<double>(1133.0, mpc::core::TensorRank4ComponentIndex(0,0,2,2));
+mpc::core::TensorRank4Component<double> component0100 = mpc::core::TensorRank4Component<double>(1211.0, mpc::core::TensorRank4ComponentIndex(0,1,0,0));
+mpc::core::TensorRank4Component<double> component0101 = mpc::core::TensorRank4Component<double>(1212.0, mpc::core::TensorRank4ComponentIndex(0,1,0,1));
+mpc::core::TensorRank4Component<double> component0102 = mpc::core::TensorRank4Component<double>(1213.0, mpc::core::TensorRank4ComponentIndex(0,1,0,2));
+mpc::core::TensorRank4Component<double> component0110 = mpc::core::TensorRank4Component<double>(1221.0, mpc::core::TensorRank4ComponentIndex(0,1,1,0));
+mpc::core::TensorRank4Component<double> component0111 = mpc::core::TensorRank4Component<double>(1222.0, mpc::core::TensorRank4ComponentIndex(0,1,1,1));
+mpc::core::TensorRank4Component<double> component0112 = mpc::core::TensorRank4Component<double>(1223.0, mpc::core::TensorRank4ComponentIndex(0,1,1,2));
+mpc::core::TensorRank4Component<double> component0120 = mpc::core::TensorRank4Component<double>(1231.0, mpc::core::TensorRank4ComponentIndex(0,1,2,0));
+mpc::core::TensorRank4Component<double> component0121 = mpc::core::TensorRank4Component<double>(1232.0, mpc::core::TensorRank4ComponentIndex(0,1,2,1));
+mpc::core::TensorRank4Component<double> component0122 = mpc::core::TensorRank4Component<double>(1233.0, mpc::core::TensorRank4ComponentIndex(0,1,2,2));
+mpc::core::TensorRank4Component<double> component0200 = mpc::core::TensorRank4Component<double>(1311.0, mpc::core::TensorRank4ComponentIndex(0,2,0,0));
+mpc::core::TensorRank4Component<double> component0201 = mpc::core::TensorRank4Component<double>(1312.0, mpc::core::TensorRank4ComponentIndex(0,2,0,1));
+mpc::core::TensorRank4Component<double> component0202 = mpc::core::TensorRank4Component<double>(1313.0, mpc::core::TensorRank4ComponentIndex(0,2,0,2));
+mpc::core::TensorRank4Component<double> component0210 = mpc::core::TensorRank4Component<double>(1321.0, mpc::core::TensorRank4ComponentIndex(0,2,1,0));
+mpc::core::TensorRank4Component<double> component0211 = mpc::core::TensorRank4Component<double>(1322.0, mpc::core::TensorRank4ComponentIndex(0,2,1,1));
+mpc::core::TensorRank4Component<double> component0212 = mpc::core::TensorRank4Component<double>(1323.0, mpc::core::TensorRank4ComponentIndex(0,2,1,2));
+mpc::core::TensorRank4Component<double> component0220 = mpc::core::TensorRank4Component<double>(1331.0, mpc::core::TensorRank4ComponentIndex(0,2,2,0));
+mpc::core::TensorRank4Component<double> component0221 = mpc::core::TensorRank4Component<double>(1332.0, mpc::core::TensorRank4ComponentIndex(0,2,2,1));
+mpc::core::TensorRank4Component<double> component0222 = mpc::core::TensorRank4Component<double>(1333.0, mpc::core::TensorRank4ComponentIndex(0,2,2,2));
+mpc::core::TensorRank4Component<double> component1000 = mpc::core::TensorRank4Component<double>(2111.0, mpc::core::TensorRank4ComponentIndex(1,0,0,0));
+mpc::core::TensorRank4Component<double> component1001 = mpc::core::TensorRank4Component<double>(2112.0, mpc::core::TensorRank4ComponentIndex(1,0,0,1));
+mpc::core::TensorRank4Component<double> component1002 = mpc::core::TensorRank4Component<double>(2113.0, mpc::core::TensorRank4ComponentIndex(1,0,0,2));
+mpc::core::TensorRank4Component<double> component1010 = mpc::core::TensorRank4Component<double>(2121.0, mpc::core::TensorRank4ComponentIndex(1,0,1,0));
+mpc::core::TensorRank4Component<double> component1011 = mpc::core::TensorRank4Component<double>(2122.0, mpc::core::TensorRank4ComponentIndex(1,0,1,1));
+mpc::core::TensorRank4Component<double> component1012 = mpc::core::TensorRank4Component<double>(2123.0, mpc::core::TensorRank4ComponentIndex(1,0,1,2));
+mpc::core::TensorRank4Component<double> component1020 = mpc::core::TensorRank4Component<double>(2131.0, mpc::core::TensorRank4ComponentIndex(1,0,2,0));
+mpc::core::TensorRank4Component<double> component1021 = mpc::core::TensorRank4Component<double>(2132.0, mpc::core::TensorRank4ComponentIndex(1,0,2,1));
+mpc::core::TensorRank4Component<double> component1022 = mpc::core::TensorRank4Component<double>(2133.0, mpc::core::TensorRank4ComponentIndex(1,0,2,2));
+mpc::core::TensorRank4Component<double> component1100 = mpc::core::TensorRank4Component<double>(2211.0, mpc::core::TensorRank4ComponentIndex(1,1,0,0));
+mpc::core::TensorRank4Component<double> component1101 = mpc::core::TensorRank4Component<double>(2212.0, mpc::core::TensorRank4ComponentIndex(1,1,0,1));
+mpc::core::TensorRank4Component<double> component1102 = mpc::core::TensorRank4Component<double>(2213.0, mpc::core::TensorRank4ComponentIndex(1,1,0,2));
+mpc::core::TensorRank4Component<double> component1110 = mpc::core::TensorRank4Component<double>(2221.0, mpc::core::TensorRank4ComponentIndex(1,1,1,0));
+mpc::core::TensorRank4Component<double> component1111 = mpc::core::TensorRank4Component<double>(2222.0, mpc::core::TensorRank4ComponentIndex(1,1,1,1));
+mpc::core::TensorRank4Component<double> component1112 = mpc::core::TensorRank4Component<double>(2223.0, mpc::core::TensorRank4ComponentIndex(1,1,1,2));
+mpc::core::TensorRank4Component<double> component1120 = mpc::core::TensorRank4Component<double>(2231.0, mpc::core::TensorRank4ComponentIndex(1,1,2,0));
+mpc::core::TensorRank4Component<double> component1121 = mpc::core::TensorRank4Component<double>(2232.0, mpc::core::TensorRank4ComponentIndex(1,1,2,1));
+mpc::core::TensorRank4Component<double> component1122 = mpc::core::TensorRank4Component<double>(2233.0, mpc::core::TensorRank4ComponentIndex(1,1,2,2));
+mpc::core::TensorRank4Component<double> component1200 = mpc::core::TensorRank4Component<double>(2311.0, mpc::core::TensorRank4ComponentIndex(1,2,0,0));
+mpc::core::TensorRank4Component<double> component1201 = mpc::core::TensorRank4Component<double>(2312.0, mpc::core::TensorRank4ComponentIndex(1,2,0,1));
+mpc::core::TensorRank4Component<double> component1202 = mpc::core::TensorRank4Component<double>(2313.0, mpc::core::TensorRank4ComponentIndex(1,2,0,2));
+mpc::core::TensorRank4Component<double> component1210 = mpc::core::TensorRank4Component<double>(2321.0, mpc::core::TensorRank4ComponentIndex(1,2,1,0));
+mpc::core::TensorRank4Component<double> component1211 = mpc::core::TensorRank4Component<double>(2322.0, mpc::core::TensorRank4ComponentIndex(1,2,1,1));
+mpc::core::TensorRank4Component<double> component1212 = mpc::core::TensorRank4Component<double>(2323.0, mpc::core::TensorRank4ComponentIndex(1,2,1,2));
+mpc::core::TensorRank4Component<double> component1220 = mpc::core::TensorRank4Component<double>(2331.0, mpc::core::TensorRank4ComponentIndex(1,2,2,0));
+mpc::core::TensorRank4Component<double> component1221 = mpc::core::TensorRank4Component<double>(2332.0, mpc::core::TensorRank4ComponentIndex(1,2,2,1));
+mpc::core::TensorRank4Component<double> component1222 = mpc::core::TensorRank4Component<double>(2333.0, mpc::core::TensorRank4ComponentIndex(1,2,2,2));
+mpc::core::TensorRank4Component<double> component2000 = mpc::core::TensorRank4Component<double>(3111.0, mpc::core::TensorRank4ComponentIndex(2,0,0,0));
+mpc::core::TensorRank4Component<double> component2001 = mpc::core::TensorRank4Component<double>(3112.0, mpc::core::TensorRank4ComponentIndex(2,0,0,1));
+mpc::core::TensorRank4Component<double> component2002 = mpc::core::TensorRank4Component<double>(3113.0, mpc::core::TensorRank4ComponentIndex(2,0,0,2));
+mpc::core::TensorRank4Component<double> component2010 = mpc::core::TensorRank4Component<double>(3121.0, mpc::core::TensorRank4ComponentIndex(2,0,1,0));
+mpc::core::TensorRank4Component<double> component2011 = mpc::core::TensorRank4Component<double>(3122.0, mpc::core::TensorRank4ComponentIndex(2,0,1,1));
+mpc::core::TensorRank4Component<double> component2012 = mpc::core::TensorRank4Component<double>(3123.0, mpc::core::TensorRank4ComponentIndex(2,0,1,2));
+mpc::core::TensorRank4Component<double> component2020 = mpc::core::TensorRank4Component<double>(3131.0, mpc::core::TensorRank4ComponentIndex(2,0,2,0));
+mpc::core::TensorRank4Component<double> component2021 = mpc::core::TensorRank4Component<double>(3132.0, mpc::core::TensorRank4ComponentIndex(2,0,2,1));
+mpc::core::TensorRank4Component<double> component2022 = mpc::core::TensorRank4Component<double>(3133.0, mpc::core::TensorRank4ComponentIndex(2,0,2,2));
+mpc::core::TensorRank4Component<double> component2100 = mpc::core::TensorRank4Component<double>(3211.0, mpc::core::TensorRank4ComponentIndex(2,1,0,0));
+mpc::core::TensorRank4Component<double> component2101 = mpc::core::TensorRank4Component<double>(3212.0, mpc::core::TensorRank4ComponentIndex(2,1,0,1));
+mpc::core::TensorRank4Component<double> component2102 = mpc::core::TensorRank4Component<double>(3213.0, mpc::core::TensorRank4ComponentIndex(2,1,0,2));
+mpc::core::TensorRank4Component<double> component2110 = mpc::core::TensorRank4Component<double>(3221.0, mpc::core::TensorRank4ComponentIndex(2,1,1,0));
+mpc::core::TensorRank4Component<double> component2111 = mpc::core::TensorRank4Component<double>(3222.0, mpc::core::TensorRank4ComponentIndex(2,1,1,1));
+mpc::core::TensorRank4Component<double> component2112 = mpc::core::TensorRank4Component<double>(3223.0, mpc::core::TensorRank4ComponentIndex(2,1,1,2));
+mpc::core::TensorRank4Component<double> component2120 = mpc::core::TensorRank4Component<double>(3231.0, mpc::core::TensorRank4ComponentIndex(2,1,2,0));
+mpc::core::TensorRank4Component<double> component2121 = mpc::core::TensorRank4Component<double>(3232.0, mpc::core::TensorRank4ComponentIndex(2,1,2,1));
+mpc::core::TensorRank4Component<double> component2122 = mpc::core::TensorRank4Component<double>(3233.0, mpc::core::TensorRank4ComponentIndex(2,1,2,2));
+mpc::core::TensorRank4Component<double> component2200 = mpc::core::TensorRank4Component<double>(3311.0, mpc::core::TensorRank4ComponentIndex(2,2,0,0));
+mpc::core::TensorRank4Component<double> component2201 = mpc::core::TensorRank4Component<double>(3312.0, mpc::core::TensorRank4ComponentIndex(2,2,0,1));
+mpc::core::TensorRank4Component<double> component2202 = mpc::core::TensorRank4Component<double>(3313.0, mpc::core::TensorRank4ComponentIndex(2,2,0,2));
+mpc::core::TensorRank4Component<double> component2210 = mpc::core::TensorRank4Component<double>(3321.0, mpc::core::TensorRank4ComponentIndex(2,2,1,0));
+mpc::core::TensorRank4Component<double> component2211 = mpc::core::TensorRank4Component<double>(3322.0, mpc::core::TensorRank4ComponentIndex(2,2,1,1));
+mpc::core::TensorRank4Component<double> component2212 = mpc::core::TensorRank4Component<double>(3323.0, mpc::core::TensorRank4ComponentIndex(2,2,1,2));
+mpc::core::TensorRank4Component<double> component2220 = mpc::core::TensorRank4Component<double>(3331.0, mpc::core::TensorRank4ComponentIndex(2,2,2,0));
+mpc::core::TensorRank4Component<double> component2221 = mpc::core::TensorRank4Component<double>(3332.0, mpc::core::TensorRank4ComponentIndex(2,2,2,1));
+mpc::core::TensorRank4Component<double> component2222 = mpc::core::TensorRank4Component<double>(3333.0, mpc::core::TensorRank4ComponentIndex(2,2,2,2));
+
+const int ND3 = 3;
+// 3-dimensional space
+const int RANK4 = 4;
+blitz::Array<float,RANK4> tensor4_in_3d = blitz::Array<float,RANK4>(ND3, ND3, ND3, ND3, blitz::ColumnMajorArray<4>());
+int counter = 0;
+for (int i=0; i<ND3; ++i) {
+        for (int j=0; j<ND3; ++j) {
+                for (int k=0; k<ND3; ++k) {
+                        for (int l=0; l<ND3; ++l) {
+                                tensor4_in_3d(i,j,k,l) = mpc::core::TensorRank4Component<float>(counter, mpc::core::TensorRank4ComponentIndex(i,j,k,l)).Value();
+                                ++counter;
+                         }
+                }
+        }
+}
+'''
+
+######Symmetry
+
+Now, for symmerty, specifically symmetry of 4th rank tensors corresponding to:
+            
+            c(i,j,k,l) = c(j,i,k,l) = c(i,j,l,k) = c(l,k,i,j)
+            
+            
+that is, triclinic symmetry. Additional symmetry groups are specializations of triclinic symmetry...
+            
+            SymmetryGroupEnumeration and corresponding SymmetryGroupType class
+              *     NONE             >> NoneSymmetryGroupType
+              *     TRICLINIC        >> TriclinciSymmetryGroupType
+              *     MONOCLINIC_X2    >> MonoclinicX2SymmetryGroupType
+              *     MONOCLINIC_X3    >> MonoclinicX3SymmetryGroupType
+              *     ORTHORHOMBIC     >> OrthorhombicSymemtryGroupType
+              *     HEXAGONAL        >> HexagonalSymmetryType
+              *     TETRAGONAL7      >> Tetragonal7SymmetryType
+              *     TETRAGONAL6      >> Tetragonal6SymmetryType
+              *     TRIGONAL7        >> Trigonal7SymmetryType
+              *     TRIGONAL6        >> Trigonal6SymmetryType
+              *     CUBIC            >> CubicSymmetryType
+              *     ISOTROPIC        >> IsotropicSymmetryType
+            
+Each symmetry type is a subclass of <code>SymmetryGroupBase</code> and has (currently) two
+              data members:
+            
+              *         SymmetryGroupEnumeration symmetry_group_enumeration
+              *         int number_of_independent_components
+            
+'''cpp
+mpc::core::NoneSymmetryGroupType none_symmetry_type = mpc::core::NoneSymmetryGroupType();
+std::cout << "NoneSymmetryGroupType symmetry : " << none_symmetry_type.symmetry_group_enumeration << std::endl;
+std::cout << "NoneSymmetryGroupType number of independent components : " << none_symmetry_type.number_of_independent_components << std::endl;
+mpc::core::TriclinicSymmetryGroupType triclinic_symmetry_type=mpc::core::TriclinicSymmetryGroupType();
+std::cout << "TriclinicSymmetryGroupType symmetry : " << triclinic_symmetry_type.symmetry_group_enumeration << std::endl;
+std::cout << "TriclinicSymmetryGroupType number of independent components : " << triclinic_symmetry_type.number_of_independent_components << std::endl;
+mpc::core::MonoclinicX2SymmetryGroupType monoclinicX2_symmetry_type=mpc::core::MonoclinicX2SymmetryGroupType();
+std::cout << "MonoclinicX2SymmetryGroupType symmetry : " << monoclinicX2_symmetry_type.symmetry_group_enumeration << std::endl;
+std::cout << "MonoclinicX2SymmetryGroupType number of independent components : " << monoclinicX2_symmetry_type.number_of_independent_components << std::endl;
+mpc::core::MonoclinicX3SymmetryGroupType monoclinicX3_symmetry_type=mpc::core::MonoclinicX3SymmetryGroupType();
+std::cout << "MonoclinicX3SymmetryGroupType symmetry : " << monoclinicX3_symmetry_type.symmetry_group_enumeration << std::endl;
+std::cout << "MonoclinicX3SymmetryGroupType number of independent components : " << monoclinicX3_symmetry_type.number_of_independent_components << std::endl;
+mpc::core::OrthorhombicSymmetryGroupType orthorhombic_symmetry_type=mpc::core::OrthorhombicSymmetryGroupType();
+std::cout << "OrthorhombicSymmetryGroupType symmetry : " << orthorhombic_symmetry_type.symmetry_group_enumeration << std::endl;
+std::cout << "OrthorhombicSymmetryGroupType number of independent components : " << orthorhombic_symmetry_type.number_of_independent_components << std::endl;
+mpc::core::HexagonalSymmetryGroupType hexagonal_symmetry_type=mpc::core::HexagonalSymmetryGroupType();
+std::cout << "HexagonalSymmetryGroupType symmetry : " << hexagonal_symmetry_type.symmetry_group_enumeration << std::endl;
+std::cout << "HexagonalSymmetryGroupType number of independent components : " << hexagonal_symmetry_type.number_of_independent_components << std::endl;
+mpc::core::Tetragonal7SymmetryGroupType tetragonal7_symmetry_type=mpc::core::Tetragonal7SymmetryGroupType();
+std::cout << "Tetragonal7SymmetryGroupType symmetry : " << tetragonal7_symmetry_type.symmetry_group_enumeration << std::endl;
+std::cout << "Tetragonal7SymmetryGroupType number of independent components : " << tetragonal7_symmetry_type.number_of_independent_components << std::endl;
+mpc::core::Tetragonal6SymmetryGroupType tetragonal6_symmetry_type=mpc::core::Tetragonal6SymmetryGroupType();
+std::cout << "Tetragonal6SymmetryGroupType symmetry : " << tetragonal6_symmetry_type.symmetry_group_enumeration << std::endl;
+std::cout << "Tetragonal6SymmetryGroupType number of independent components : " << tetragonal6_symmetry_type.number_of_independent_components << std::endl;
+mpc::core::Trigonal7SymmetryGroupType trigonal7_symmetry_type=mpc::core::Trigonal7SymmetryGroupType();
+std::cout << "Trigonal7SymmetryGroupType symmetry : " << trigonal7_symmetry_type.symmetry_group_enumeration << std::endl;
+std::cout << "Trigonal7SymmetryGroupType number of independent components : " << trigonal7_symmetry_type.number_of_independent_components << std::endl;
+mpc::core::Trigonal6SymmetryGroupType trigonal6_symmetry_type=mpc::core::Trigonal6SymmetryGroupType();
+std::cout << "Trigonal6SymmetryGroupType symmetry : " << trigonal6_symmetry_type.symmetry_group_enumeration << std::endl;
+std::cout << "Trigonal6SymmetryGroupType number of independent components : " << trigonal6_symmetry_type.number_of_independent_components << std::endl;
+mpc::core::CubicSymmetryGroupType cubic_symmetry_type=mpc::core::CubicSymmetryGroupType();
+std::cout << "CubicSymmetryGroupType symmetry : " << cubic_symmetry_type.symmetry_group_enumeration << std::endl;
+std::cout << "CubicSymmetryGroupType number of independent components : " << cubic_symmetry_type.number_of_independent_components << std::endl;
+mpc::core::IsotropicSymmetryGroupType isotropic_symmetry_type=mpc::core::IsotropicSymmetryGroupType();
+std::cout << "IsotropicSymmetryGroupType symmetry : " << isotropic_symmetry_type.symmetry_group_enumeration << std::endl;
+std::cout << "IsotropicSymmetryGroupType number of independent components : " << isotropic_symmetry_type.number_of_independent_components << std::endl;
+'''
+                
+Symmetry type predicates... Type predicates or type traits are boolean functions on types [ref]...
+                
+Note that these predicates are convenience functions derived from the more general:
+                
+'''cpp
+template <typename S, int N>
+constexpr inline bool SymmetryGroupTypeHasNIndependentComponents();
+'''
+
+For example
+
+'''cpp
+// has 21 components
+std::cout << "NoneSymmetryGroupType has 21 independent components ?         " << mpc::core::SymmetryGroupTypeHas21IndependentComponents<mpc::core::NoneSymmetryGroupType>() << std::endl;
+std::cout << "TriclinicSymmetryGroupType has 21 independent components ?    " << mpc::core::SymmetryGroupTypeHas21IndependentComponents<mpc::core::TriclinicSymmetryGroupType>() << std::endl;
+std::cout << "MonoclinicX3SymmetryGroupType has 21 independent components ? " << mpc::core::SymmetryGroupTypeHas21IndependentComponents<mpc::core::MonoclinicX3SymmetryGroupType>() << std::endl;
+std::cout << "MonoclinicX2SymmetryGroupType has 21 independent components ? " << mpc::core::SymmetryGroupTypeHas21IndependentComponents<mpc::core::MonoclinicX2SymmetryGroupType>() << std::endl;
+std::cout << "OrthorhombicSymmetryGroupType has 21 independent components ? " << mpc::core::SymmetryGroupTypeHas21IndependentComponents<mpc::core::OrthorhombicSymmetryGroupType>() << std::endl;
+std::cout << "HexagonalSymmetryGroupType has 21 independent components ?    " << mpc::core::SymmetryGroupTypeHas21IndependentComponents<mpc::core::HexagonalSymmetryGroupType>() << std::endl;
+std::cout << "Tetragonal7SymmetryGroupType has 21 independent components ?  " << mpc::core::SymmetryGroupTypeHas21IndependentComponents<mpc::core::Tetragonal7SymmetryGroupType>() << std::endl;
+std::cout << "Tetragonal6SymmetryGroupType has 21 independent components ?  " << mpc::core::SymmetryGroupTypeHas21IndependentComponents<mpc::core::Tetragonal6SymmetryGroupType>() << std::endl;
+std::cout << "Trigonal7SymmetryGroupType has 21 independent components ?    " << mpc::core::SymmetryGroupTypeHas21IndependentComponents<mpc::core::Trigonal7SymmetryGroupType>() << std::endl;
+std::cout << "Trigonal6SymmetryGroupType has 21 independent components ?    " << mpc::core::SymmetryGroupTypeHas21IndependentComponents<mpc::core::Trigonal6SymmetryGroupType>() << std::endl;
+std::cout << "CubicSymmetryGroupType has 21 independent components ?        " << mpc::core::SymmetryGroupTypeHas21IndependentComponents<mpc::core::CubicSymmetryGroupType>() << std::endl;
+std::cout << "IsotropicSymmetryGroupType has 21 independent components ?    " << mpc::core::SymmetryGroupTypeHas21IndependentComponents<mpc::core::IsotropicSymmetryGroupType>() << std::endl;
+// has 13 components
+std::cout << "" << std::endl;
+std::cout << "NoneSymmetryGroupType has 13 independent components ?         " << mpc::core::SymmetryGroupTypeHas13IndependentComponents<mpc::core::NoneSymmetryGroupType>() << std::endl;
+std::cout << "TriclinicSymmetryGroupType has 13 independent components ?    " << mpc::core::SymmetryGroupTypeHas13IndependentComponents<mpc::core::TriclinicSymmetryGroupType>() << std::endl;
+std::cout << "MonoclinicX3SymmetryGroupType has 13 independent components ? " << mpc::core::SymmetryGroupTypeHas13IndependentComponents<mpc::core::MonoclinicX3SymmetryGroupType>() << std::endl;
+std::cout << "MonoclinicX2SymmetryGroupType has 13 independent components ? " << mpc::core::SymmetryGroupTypeHas13IndependentComponents<mpc::core::MonoclinicX2SymmetryGroupType>() << std::endl;
+std::cout << "OrthorhombicSymmetryGroupType has 13 independent components ? " << mpc::core::SymmetryGroupTypeHas13IndependentComponents<mpc::core::OrthorhombicSymmetryGroupType>() << std::endl;
+std::cout << "HexagonalSymmetryGroupType has 13 independent components ?    " << mpc::core::SymmetryGroupTypeHas13IndependentComponents<mpc::core::HexagonalSymmetryGroupType>() << std::endl;
+std::cout << "Tetragonal7SymmetryGroupType has 13 independent components ?  " << mpc::core::SymmetryGroupTypeHas13IndependentComponents<mpc::core::Tetragonal7SymmetryGroupType>() << std::endl;
+std::cout << "Tetragonal6SymmetryGroupType has 13 independent components ?  " << mpc::core::SymmetryGroupTypeHas13IndependentComponents<mpc::core::Tetragonal6SymmetryGroupType>() << std::endl;
+std::cout << "Trigonal7SymmetryGroupType has 13 independent components ?    " << mpc::core::SymmetryGroupTypeHas13IndependentComponents<mpc::core::Trigonal7SymmetryGroupType>() << std::endl;
+std::cout << "Trigonal6SymmetryGroupType has 13 independent components ?    " << mpc::core::SymmetryGroupTypeHas13IndependentComponents<mpc::core::Trigonal6SymmetryGroupType>() << std::endl;
+std::cout << "CubicSymmetryGroupType has 13 independent components ?        " << mpc::core::SymmetryGroupTypeHas13IndependentComponents<mpc::core::CubicSymmetryGroupType>() << std::endl;
+std::cout << "IsotropicSymmetryGroupType has 13 independent components ?    " << mpc::core::SymmetryGroupTypeHas13IndependentComponents<mpc::core::IsotropicSymmetryGroupType>() << std::endl;
+// has 9 components
+std::cout << "" << std::endl;
+std::cout << "NoneSymmetryGroupType has 9 independent components ?          " << mpc::core::SymmetryGroupTypeHas9IndependentComponents<mpc::core::NoneSymmetryGroupType>() << std::endl;
+std::cout << "TriclinicSymmetryGroupType has 9 independent components ?     " << mpc::core::SymmetryGroupTypeHas9IndependentComponents<mpc::core::TriclinicSymmetryGroupType>() << std::endl;
+std::cout << "MonoclinicX3SymmetryGroupType has 9 independent components ?  " << mpc::core::SymmetryGroupTypeHas9IndependentComponents<mpc::core::MonoclinicX3SymmetryGroupType>() << std::endl;
+std::cout << "MonoclinicX2SymmetryGroupType has 9 independent components ?  " << mpc::core::SymmetryGroupTypeHas9IndependentComponents<mpc::core::MonoclinicX2SymmetryGroupType>() << std::endl;
+std::cout << "OrthorhombicSymmetryGroupType has 9 independent components ?  " << mpc::core::SymmetryGroupTypeHas9IndependentComponents<mpc::core::OrthorhombicSymmetryGroupType>() << std::endl;
+std::cout << "HexagonalSymmetryGroupType has 9 independent components ?     " << mpc::core::SymmetryGroupTypeHas9IndependentComponents<mpc::core::HexagonalSymmetryGroupType>() << std::endl;
+std::cout << "Tetragonal7SymmetryGroupType has 9 independent components ?   " << mpc::core::SymmetryGroupTypeHas9IndependentComponents<mpc::core::Tetragonal7SymmetryGroupType>() << std::endl;
+std::cout << "Tetragonal6SymmetryGroupType has 9 independent components ?   " << mpc::core::SymmetryGroupTypeHas9IndependentComponents<mpc::core::Tetragonal6SymmetryGroupType>() << std::endl;
+std::cout << "Trigonal7SymmetryGroupType has 9 independent components ?     " << mpc::core::SymmetryGroupTypeHas9IndependentComponents<mpc::core::Trigonal7SymmetryGroupType>() << std::endl;
+std::cout << "Trigonal6SymmetryGroupType has 9 independent components ?     " << mpc::core::SymmetryGroupTypeHas9IndependentComponents<mpc::core::Trigonal6SymmetryGroupType>() << std::endl;
+std::cout << "CubicSymmetryGroupType has 9 independent components ?         " << mpc::core::SymmetryGroupTypeHas9IndependentComponents<mpc::core::CubicSymmetryGroupType>() << std::endl;
+std::cout << "IsotropicSymmetryGroupType has 9 independent components ?     " << mpc::core::SymmetryGroupTypeHas9IndependentComponents<mpc::core::IsotropicSymmetryGroupType>() << std::endl;
+// has 7 components
+...
+'''
