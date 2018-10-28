@@ -1,8 +1,0 @@
-#ifndef MPCEXAMPLES_TENSORRANK2COMPONENTINDEX_HPP
-#define MPCEXAMPLES_TENSORRANK2COMPONENTINDEX_HPP
-
-namespace mpcexamples {
-void mpcTensorRank2ComponentIndex();
-} // namespace mpcexamples
-
-#endif // MPCEXAMPLES_TENSORRANK2COMPONENTINDEX_HPP
