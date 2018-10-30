@@ -25,6 +25,7 @@ namespace mpc {
             // TODO: make input_array const?
             // same as L2-norm
             blitz::Array<T,1> tmp(input_array.shape()); // use std::copy<>???
+            tmp = input_array;
             T mag = mpc::utilities::Magnitude<T>(input_array);
 
             //  blitz::TinyVector<T,1> ishp = input_array.shape();  // shape of the input array

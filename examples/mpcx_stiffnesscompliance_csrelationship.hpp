@@ -1,0 +1,8 @@
+#ifndef MPCEXAMPLES_STIFFNESSCOMPLIANCE_CSRELATIONSHIP_HPP
+#define MPCEXAMPLES_STIFFNESSCOMPLIANCE_CSRELATIONSHIP_HPP
+
+namespace mpcexamples {
+    void mpcStiffnessComplianceCSRelationship();
+} // namespace mpcexamples
+
+#endif // MPCEXAMPLES_STIFFNESSCOMPLIANCE_CSRELATIONSHIP_HPP

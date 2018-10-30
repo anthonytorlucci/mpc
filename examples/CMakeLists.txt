@@ -3,6 +3,11 @@ project(mpcexamples)
 
 set(CMAKE_CXX_STANDARD 17)
 
+# VTK
+find_package(VTK REQUIRED)
+include(${VTK_USE_FILE})
+include_directories(${VTK_INCLUDE_DIRS})
+
 # blitz++
 #-------
 # https://github.com/bkclark/pimcpp/blob/master/CMake/FindBlitz%2B%2B.cmake
@@ -62,50 +67,84 @@ include_directories(
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 
 set(ALL_LIBS
+        ${VTK_LIBRARIES}
         ${BLITZ_LIBRARIES}
         Eigen3::Eigen
         )
 
 set(HEADER_FILES
         parametervaluetest.hpp
+        arraysandtensors.hpp
+        # utilities
+        mpcx_constants.hpp
+        mpcx_printtensorcomponents.hpp
+        mpcx_accumulator.hpp
+        mpcx_innerproductor.hpp
+        mpcx_arithmeticaverage.hpp
+        mpcx_harmonicaverage.hpp
+        mpcx_kdeltaidentitytensor.hpp
+        mpcx_magandnorm.hpp
+        mpcx_coordinatemapping.hpp
+        # core
         mpcx_tensorrank2componentindex.hpp
         mpcx_tensorrank4componentindex.hpp
         mpcx_tensorrank2component.hpp
         mpcx_tensorrank4component.hpp
         mpcx_symmetrytypes.hpp
-        mpcx_symmetrymatrixrepresentation.hpp
-        mpcx_hookeslaw_csrelationship.hpp
-        mpcx_transformation.hpp
+        mpcx_stiffnesscompliance_csrelationship.hpp
+        # data
         mpcx_mineraldata.hpp
+        mpcx_symmetrymatrixrepresentation.hpp
+        # rockphysics
         mpcx_rockphysicstransforms.hpp
         mpcx_tensorinvariants.hpp
-        mpcx_greenchristoffel.hpp
+        mpcx_fluidphase.hpp
+        mpcx_solidphase.hpp
         mpcx_mixinglaws.hpp
+        # transformation
+        mpcx_eulerangles.hpp
+        mpcx_transformation.hpp
+        # mechanics
+        mpcx_greenchristoffel.hpp
         mpcx_quartzvelsinX0X1plane.hpp
         mpcx_orientationdistribution.hpp
-        mpcx_coordinatemapping.hpp
-        mpcx_moreeulerangles.hpp
         )
 
 set(SOURCE_FILES
         main.cpp
+        # utilities
+        mpcx_constants.cpp
+        mpcx_printtensorcomponents.cpp
+        mpcx_accumulator.cpp
+        mpcx_innerproductor.cpp
+        mpcx_arithmeticaverage.cpp
+        mpcx_harmonicaverage.cpp
+        mpcx_kdeltaidentitytensor.cpp
+        mpcx_magandnorm.cpp
+        mpcx_coordinatemapping.cpp
+        # core
         mpcx_tensorrank2componentindex.cpp
         mpcx_tensorrank4componentindex.cpp
         mpcx_tensorrank2component.cpp
         mpcx_tensorrank4component.cpp
         mpcx_symmetrytypes.cpp
-        mpcx_symmetrymatrixrepresentation.cpp
-        mpcx_hookeslaw_csrelationship.cpp
-        mpcx_transformation.cpp
+        mpcx_stiffnesscompliance_csrelationship.cpp
+        # data
         mpcx_mineraldata.cpp
+        mpcx_symmetrymatrixrepresentation.cpp
+        # rockphysics
         mpcx_rockphysicstransforms.cpp
         mpcx_tensorinvariants.cpp
-        mpcx_greenchristoffel.cpp
+        mpcx_fluidphase.cpp
+        mpcx_solidphase.cpp
         mpcx_mixinglaws.cpp
+        # transformation
+        mpcx_eulerangles.cpp
+        mpcx_transformation.cpp
+        # mechanics
+        mpcx_greenchristoffel.cpp
         mpcx_quartzvelsinX0X1plane.cpp
         mpcx_orientationdistribution.cpp
-        mpcx_coordinatemapping.cpp
-        mpcx_moreeulerangles.cpp
         )
 add_executable(mpcexamples ${HEADER_FILES} ${SOURCE_FILES} )
 

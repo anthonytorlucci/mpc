@@ -1165,7 +1165,7 @@ void MixingLawsView::PrivateUpdatePlot() {
             composite_VsVp_ratio = composite_swave_velocity / composite_pwave_velocity;
 
             mpc::rockphysics::PoissonsRatioType<double> nu_type = mpc::rockphysics::RockPhysicsTransforms<double,mpc::rockphysics::PoissonsRatioType<double> >::Compute(K_type, mu_type);
-            double composite_poissons_ratio = nu_type.value;
+            composite_poissons_ratio = nu_type.value;
 
 
             // IMPORTANT !!!  TODO: zscale???
