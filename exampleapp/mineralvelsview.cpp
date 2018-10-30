@@ -85,6 +85,13 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     mineral_C56 = mpc::data::QuartzC56<double>();
     mineral_C66 = mpc::data::QuartzC66<double>();
 
+    minvel_vp0 = 0.0;  // used to get the min and max vels to set bounds
+    maxvel_vp0 = 0.0;  // used to get the min and max vels to set bounds
+    minvel_vs1 = 0.0;  // used to get the min and max vels to set bounds
+    maxvel_vs1 = 0.0;  // used to get the min and max vels to set bounds
+    minvel_vs2 = 0.0;  // used to get the min and max vels to set bounds
+    maxvel_vs2 = 0.0;  // used to get the min and max vels to set bounds
+
     // mpc
 
     // controls widget
@@ -348,7 +355,9 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
 
     // VTK views
     vtknamedcolors = vtkSmartPointer<vtkNamedColors>::New();
-    vtkcolorlookuptable = vtkSmartPointer<vtkLookupTable>::New();
+    vtkcolorlookuptable_vp0 = vtkSmartPointer<vtkLookupTable>::New();
+    vtkcolorlookuptable_vs1 = vtkSmartPointer<vtkLookupTable>::New();
+    vtkcolorlookuptable_vs2 = vtkSmartPointer<vtkLookupTable>::New();
 
     // Create a text property
     vtktextproperty = vtkSmartPointer<vtkTextProperty>::New();
@@ -697,8 +706,8 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkrenderer_vs2->AddViewProp(vtkcubeaxesactor2d_vs2.GetPointer());
 
     // vtk examples : ScalarBarActor.cxx ===============================================================================
-    vtkcolorlookuptable->SetTableRange(minvel, maxvel);
-    vtkcolorlookuptable->Build();
+    vtkcolorlookuptable_vp0->SetTableRange(minvel_vp0, maxvel_vp0);
+    vtkcolorlookuptable_vp0->Build();
 
     // Generate the colors for each point based on the color map
     vtkcolorchararray_vp0 = vtkSmartPointer<vtkUnsignedCharArray>::New();
@@ -706,7 +715,7 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkcolorchararray_vp0->SetName("Colors0");
 
     vtkscalarbaractor_vp0 = vtkSmartPointer<vtkScalarBarActor>::New();
-    vtkscalarbaractor_vp0->SetLookupTable(vtkcolorlookuptable);
+    vtkscalarbaractor_vp0->SetLookupTable(vtkcolorlookuptable_vp0);
     vtkscalarbaractor_vp0->SetTitle("V1");
     vtkscalarbaractor_vp0->SetLabelFormat("%6.4g");
     vtkscalarbaractor_vp0->SetTitleTextProperty(vtktextproperty.GetPointer());
@@ -718,14 +727,17 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkscalarbaractor_vp0->SetUnconstrainedFontSize(true);
     vtkrenderer_vp0->AddActor2D(vtkscalarbaractor_vp0);
 
+    vtkcolorlookuptable_vs1->SetTableRange(minvel_vs1, maxvel_vs1);
+    vtkcolorlookuptable_vs1->Build();
+
     // Generate the colors for each point based on the color map
     vtkcolorchararray_vs1 = vtkSmartPointer<vtkUnsignedCharArray>::New();
     vtkcolorchararray_vs1->SetNumberOfComponents(3);
     vtkcolorchararray_vs1->SetName("Colors1");
 
     vtkscalarbaractor_vs1 = vtkSmartPointer<vtkScalarBarActor>::New();
-    vtkscalarbaractor_vs1->SetLookupTable(vtkcolorlookuptable);
-    vtkscalarbaractor_vs1->SetTitle("V1");
+    vtkscalarbaractor_vs1->SetLookupTable(vtkcolorlookuptable_vs1);
+    vtkscalarbaractor_vs1->SetTitle("V2");
     vtkscalarbaractor_vs1->SetLabelFormat("%6.4g");
     vtkscalarbaractor_vs1->SetTitleTextProperty(vtktextproperty.GetPointer());
     vtkscalarbaractor_vs1->SetLabelTextProperty(vtktextproperty.GetPointer());
@@ -736,14 +748,17 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkscalarbaractor_vs1->SetUnconstrainedFontSize(true);
     vtkrenderer_vs1->AddActor2D(vtkscalarbaractor_vs1);
 
+    vtkcolorlookuptable_vs2->SetTableRange(minvel_vs2, maxvel_vs2);
+    vtkcolorlookuptable_vs2->Build();
+
     // Generate the colors for each point based on the color map
     vtkcolorchararray_vs2 = vtkSmartPointer<vtkUnsignedCharArray>::New();
     vtkcolorchararray_vs2->SetNumberOfComponents(3);
     vtkcolorchararray_vs2->SetName("Colors2");
 
     vtkscalarbaractor_vs2 = vtkSmartPointer<vtkScalarBarActor>::New();
-    vtkscalarbaractor_vs2->SetLookupTable(vtkcolorlookuptable);
-    vtkscalarbaractor_vs2->SetTitle("V1");
+    vtkscalarbaractor_vs2->SetLookupTable(vtkcolorlookuptable_vs2);
+    vtkscalarbaractor_vs2->SetTitle("V3");
     vtkscalarbaractor_vs2->SetLabelFormat("%6.4g");
     vtkscalarbaractor_vs2->SetTitleTextProperty(vtktextproperty.GetPointer());
     vtkscalarbaractor_vs2->SetLabelTextProperty(vtktextproperty.GetPointer());
@@ -753,9 +768,6 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkscalarbaractor_vs2->GetPositionCoordinate()->SetValue(0.1, 0.01);
     vtkscalarbaractor_vs2->SetUnconstrainedFontSize(true);
     vtkrenderer_vs2->AddActor2D(vtkscalarbaractor_vs2);
-
-
-
 
 
 
@@ -2782,14 +2794,16 @@ void MineralVelsView::PrivateSetPoints() {
 
     std::array<double,3> phase_velocities{1.0, 1.0, 1.0};
 
-    const int NUM_ELEMS = 32;
+    const int NUM_ELEMS = 64;
 
     const double PI = mpc::utilities::PI<double>;
     const double TWO_PI = 2.0 * PI;
     const double PI_OVER_TWO = 0.5 * PI;
 
     double x, y, z, xx, yy, zz, mag, xyarg;
-    std::vector<double> vels(int(std::pow(NUM_ELEMS,2))+1);  // +1 for the additional x3
+    std::vector<double> vels_vp0(int(std::pow(NUM_ELEMS,2))+1);  // +1 for the additional x3
+    std::vector<double> vels_vs1(int(std::pow(NUM_ELEMS,2))+1);  // +1 for the additional x3
+    std::vector<double> vels_vs2(int(std::pow(NUM_ELEMS,2))+1);  // +1 for the additional x3
     int cntr = 0;
 
 
@@ -2842,7 +2856,7 @@ void MineralVelsView::PrivateSetPoints() {
 //            std::cout << std::endl;
 //            std::cout << "rho : " << rho << ", theta : " << theta << std::endl;
 //            std::cout << "x : " << x << ", y : " << y << ", z : " << z << ", mag : " << mag << std::endl;
-            vels[cntr] = mag;
+            vels_vp0[cntr] = mag;
 
             vel_vector = normal_vector * phase_velocities[1];
 //            xx = normal_vector_x1(0) * phase_velocities[1];
@@ -2852,6 +2866,8 @@ void MineralVelsView::PrivateSetPoints() {
             yy = vel_vector(1);
             zz = vel_vector(2);
             vtkpoints_vs1->InsertNextPoint(xx, yy, zz);
+            mag = mpc::utilities::Magnitude<double>(vel_vector);
+            vels_vs1[cntr] = mag;
 
             vel_vector = normal_vector * phase_velocities[2];
 //            xx = normal_vector_x1(0) * phase_velocities[2];
@@ -2861,7 +2877,8 @@ void MineralVelsView::PrivateSetPoints() {
             yy = vel_vector(1);
             zz = vel_vector(2);
             vtkpoints_vs2->InsertNextPoint(xx, yy, zz);
-
+            mag = mpc::utilities::Magnitude<double>(vel_vector);
+            vels_vs2[cntr] = mag;
 
 
             // corresponding negative !!!
@@ -2912,19 +2929,23 @@ void MineralVelsView::PrivateSetPoints() {
     zz = vel_vector(2);
     vtkpoints_vp0->InsertNextPoint(xx, yy, zz);
     mag = mpc::utilities::Magnitude<double>(vel_vector);
-    vels[cntr] = mag;
+    vels_vp0[cntr] = mag;
 
     vel_vector = normal_vector * phase_velocities[1];
     xx = vel_vector(0);
     yy = vel_vector(1);
     zz = vel_vector(2);
     vtkpoints_vs1->InsertNextPoint(xx, yy, zz);
+    mag = mpc::utilities::Magnitude<double>(vel_vector);
+    vels_vs1[cntr] = mag;
 
     vel_vector = normal_vector * phase_velocities[2];
     xx = vel_vector(0);
     yy = vel_vector(1);
     zz = vel_vector(2);
     vtkpoints_vs2->InsertNextPoint(xx, yy, zz);
+    mag = mpc::utilities::Magnitude<double>(vel_vector);
+    vels_vs2[cntr] = mag;
 
     // get/set min and max vels
 //    std::cout << "vels : " << std::endl;
@@ -2932,8 +2953,14 @@ void MineralVelsView::PrivateSetPoints() {
 //        std::cout << v << std::endl;
 //    }
     //std::sort(vels.begin(), vels.end());
-    minvel = *std::min_element(vels.begin(), vels.end());
-    maxvel = *std::max_element(vels.begin(), vels.end());
+    minvel_vp0 = *std::min_element(vels_vp0.begin(), vels_vp0.end());
+    maxvel_vp0 = *std::max_element(vels_vp0.begin(), vels_vp0.end());
+
+    minvel_vs1 = *std::min_element(vels_vs1.begin(), vels_vs1.end());
+    maxvel_vs1 = *std::max_element(vels_vs1.begin(), vels_vs1.end());
+
+    minvel_vs2 = *std::min_element(vels_vs2.begin(), vels_vs2.end());
+    maxvel_vs2 = *std::max_element(vels_vs2.begin(), vels_vs2.end());
 
 //    std::cout << "iso pvel : " << pvel << std::endl;
 //    std::cout << "min vel : " << minvel << std::endl;
@@ -2949,8 +2976,8 @@ void MineralVelsView::PrivateUpdatePlot() {
     vtkactor_isovs1->SetVisibility(0);
     vtkactor_isovs2->SetVisibility(0);
 
-    vtkcolorlookuptable->SetTableRange(minvel, maxvel);
-    vtkcolorlookuptable->Build();
+    vtkcolorlookuptable_vp0->SetTableRange(minvel_vp0, maxvel_vp0);
+    vtkcolorlookuptable_vp0->Build();
 
     blitz::Array<double,1> vel_vector = blitz::Array<double,1>(3);
     vel_vector = 1,0,0;
@@ -2970,7 +2997,7 @@ void MineralVelsView::PrivateUpdatePlot() {
         mag = mpc::utilities::Magnitude<double>(vel_vector);
 
         double dcolor[3];
-        vtkcolorlookuptable->GetColor(mag, dcolor);
+        vtkcolorlookuptable_vp0->GetColor(mag, dcolor);
 
         unsigned char color[3];
         for(unsigned int j = 0; j < 3; j++)
@@ -2989,6 +3016,8 @@ void MineralVelsView::PrivateUpdatePlot() {
 
 
     // vs1
+    vtkcolorlookuptable_vs1->SetTableRange(minvel_vs1, maxvel_vs1);
+    vtkcolorlookuptable_vs1->Build();
     vtkcolorchararray_vs1->Reset();
     vtksurface_vs1->Update();
     vtkcontoursurf_vs1->Update();
@@ -3002,7 +3031,7 @@ void MineralVelsView::PrivateUpdatePlot() {
         mag = mpc::utilities::Magnitude<double>(vel_vector);
 
         double dcolor[3];
-        vtkcolorlookuptable->GetColor(mag, dcolor);
+        vtkcolorlookuptable_vs1->GetColor(mag, dcolor);
 
         unsigned char color[3];
         for(unsigned int j = 0; j < 3; j++)
@@ -3021,6 +3050,8 @@ void MineralVelsView::PrivateUpdatePlot() {
 
 
     // vs2
+    vtkcolorlookuptable_vs2->SetTableRange(minvel_vs2, maxvel_vs2);
+    vtkcolorlookuptable_vs2->Build();
     vtkcolorchararray_vs2->Reset();
     vtksurface_vs2->Update();
     vtkcontoursurf_vs2->Update();
@@ -3034,7 +3065,7 @@ void MineralVelsView::PrivateUpdatePlot() {
         mag = mpc::utilities::Magnitude<double>(vel_vector);
 
         double dcolor[3];
-        vtkcolorlookuptable->GetColor(mag, dcolor);
+        vtkcolorlookuptable_vs2->GetColor(mag, dcolor);
 
         unsigned char color[3];
         for(unsigned int j = 0; j < 3; j++)

@@ -82,8 +82,12 @@ private:
     double mineral_density;
     double mineral_K;
     double mineral_mu;
-    double minvel = 0.0;  // used to get the min and max vels to set bounds
-    double maxvel = 0.0;
+    double minvel_vp0;  // used to get the min and max vels to set bounds
+    double maxvel_vp0;
+    double minvel_vs1;  // used to get the min and max vels to set bounds
+    double maxvel_vs1;
+    double minvel_vs2;  // used to get the min and max vels to set bounds
+    double maxvel_vs2;
 
     // Qt widgets
     QLabel* mineral_label;
@@ -136,7 +140,6 @@ private:
 
     // VTK
     vtkSmartPointer<vtkNamedColors> vtknamedcolors;
-    vtkSmartPointer<vtkLookupTable> vtkcolorlookuptable;
     vtkSmartPointer<vtkTextProperty> vtktextproperty;
 
     vtkSmartPointer<vtkCamera> vtkcamera;  // TODO: shared camera?
@@ -163,6 +166,7 @@ private:
 //    vtkSmartPointer<vtkActor> vtkoutlineactor_vp0;
     vtkSmartPointer<vtkCubeAxesActor2D> vtkcubeaxesactor2d_vp0;
     vtkSmartPointer<vtkScalarBarActor> vtkscalarbaractor_vp0;
+    vtkSmartPointer<vtkLookupTable> vtkcolorlookuptable_vp0;
     // iso
     vtkSmartPointer<vtkSphereSource> vtkspheresource_isovp0;
     vtkSmartPointer<vtkPolyDataMapper> vtkmapper_isovp0;
@@ -190,6 +194,7 @@ private:
 //    vtkSmartPointer<vtkActor> vtkoutlineactor_vs1;
     vtkSmartPointer<vtkCubeAxesActor2D> vtkcubeaxesactor2d_vs1;
     vtkSmartPointer<vtkScalarBarActor> vtkscalarbaractor_vs1;
+    vtkSmartPointer<vtkLookupTable> vtkcolorlookuptable_vs1;
     // iso
     vtkSmartPointer<vtkSphereSource> vtkspheresource_isovs1;
     vtkSmartPointer<vtkPolyDataMapper> vtkmapper_isovs1;
@@ -217,6 +222,7 @@ private:
 //    vtkSmartPointer<vtkActor> vtkoutlineactor_vs2;
     vtkSmartPointer<vtkCubeAxesActor2D> vtkcubeaxesactor2d_vs2;
     vtkSmartPointer<vtkScalarBarActor> vtkscalarbaractor_vs2;
+    vtkSmartPointer<vtkLookupTable> vtkcolorlookuptable_vs2;
     // iso
     vtkSmartPointer<vtkSphereSource> vtkspheresource_isovs2;
     vtkSmartPointer<vtkPolyDataMapper> vtkmapper_isovs2;
