@@ -517,7 +517,7 @@ SolidPhaseView2::SolidPhaseView2(QWidget *parent) {
     line_effmu_00->GetPen()->SetLineType(vtkPen::DASH_LINE);
 
     vtkchart_effmu->SetShowLegend(true);
-    vtkchart_effmu->GetAxis(vtkAxis::BOTTOM)->SetTitle("mudrock volume fraction");
+    vtkchart_effmu->GetAxis(vtkAxis::BOTTOM)->SetTitle("background volume fraction");
     vtkchart_effmu->GetAxis(vtkAxis::LEFT)->SetTitle("effective shear modulus (GPa)");
 
     qvtkopenglwidget_rho = new QVTKOpenGLWidget(this);
@@ -541,7 +541,7 @@ SolidPhaseView2::SolidPhaseView2(QWidget *parent) {
 
 
     vtkchart_effrho->SetShowLegend(true);
-    vtkchart_effrho->GetAxis(vtkAxis::BOTTOM)->SetTitle("mudrock volume fraction");
+    vtkchart_effrho->GetAxis(vtkAxis::BOTTOM)->SetTitle("background volume fraction");
     vtkchart_effrho->GetAxis(vtkAxis::LEFT)->SetTitle("effective density (g/cm**3)");
 
 
