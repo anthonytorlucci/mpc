@@ -35,26 +35,34 @@
 //#include <vtkActor.h>
 
 #include <QVTKOpenGLWidget.h>
-
+#include <vtkAxis.h>
 
 // mpc
 #include <mpc/rockphysics/rockphysicstransformstypes.hpp>
 #include <mpc/rockphysics/rockphysicstransforms.hpp>
 #include <mpc/rockphysics/scalarcomposites.hpp>
-#include <vtkAxis.h>
+#include <mpc/data/mineraldataproperties.hpp>
 
 
 SolidPhaseView2::SolidPhaseView2(QWidget *parent) {
     // constructor
 
-    auto solid_mixture_sand_tuple = std::make_tuple(mpc::rockphysics::BulkModulusType<double>(sand_K), mpc::rockphysics::ShearModulusType<double>(sand_mu), mpc::rockphysics::DensityType<double>(sand_rho), mpc::rockphysics::VolumeFractionType<double>(0.0));
+    background_K = mpc::data::QuartzBulkModulus<double>();
+    background_mu = mpc::data::QuartzShearModulus<double>();
+    background_rho = mpc::data::QuartzDensity<double>();
 
-    auto solid_mixture_mudrock_tuple = std::make_tuple(mpc::rockphysics::BulkModulusType<double>(mudrock_K), mpc::rockphysics::ShearModulusType<double>(mudrock_mu), mpc::rockphysics::DensityType<double>(mudrock_rho), mpc::rockphysics::VolumeFractionType<double>(1.0));
+    foreground_K = mpc::data::MuscoviteBulkModulus<double>();
+    foreground_mu = mpc::data::MuscoviteShearModulus<double>();
+    foreground_rho = mpc::data::MuscoviteDensity<double>();
+
+    auto solid_mixture_background_tuple = std::make_tuple(mpc::rockphysics::BulkModulusType<double>(background_K), mpc::rockphysics::ShearModulusType<double>(background_mu), mpc::rockphysics::DensityType<double>(background_rho), mpc::rockphysics::VolumeFractionType<double>(0.0));
+
+    auto solid_mixture_foreground_tuple = std::make_tuple(mpc::rockphysics::BulkModulusType<double>(foreground_K), mpc::rockphysics::ShearModulusType<double>(foreground_mu), mpc::rockphysics::DensityType<double>(foreground_rho), mpc::rockphysics::VolumeFractionType<double>(1.0));
 
 
     std::vector< std::tuple<mpc::rockphysics::BulkModulusType<double>, mpc::rockphysics::ShearModulusType<double>, mpc::rockphysics::DensityType<double>, mpc::rockphysics::VolumeFractionType<double> > > sand_mudrock_mixture_vec{
-            solid_mixture_sand_tuple,
-            solid_mixture_mudrock_tuple
+            solid_mixture_background_tuple,
+            solid_mixture_foreground_tuple
     };
 
     mpc::rockphysics::SolidPhase<double> sand_mudrock_mixture = mpc::rockphysics::SolidPhase(sand_mudrock_mixture_vec);
@@ -64,46 +72,126 @@ SolidPhaseView2::SolidPhaseView2(QWidget *parent) {
     interactive_checkbox = new QCheckBox(this);
     interactive_checkbox->setText("initeractive");
     interactive_checkbox->setChecked(true);
-    // sand widget
-    QWidget* sand_widget = new QWidget(this);
-    QComboBox* sand_combobox = new QComboBox(this);
-    sand_combobox->addItem("sand");
-    QLabel* sand_bulkmodulus_label = new QLabel(this);
-    sand_bulkmodulus_label->setText("bulk modulus: " + QString::number(sand_K));
-    QLabel* sand_shearmodulus_label = new QLabel(this);
-    sand_shearmodulus_label->setText("shear modulus: " + QString::number(sand_mu));
-    QLabel* sand_density_label = new QLabel(this);
-    sand_density_label->setText("density: " + QString::number(sand_rho));
-    QHBoxLayout* sand_widget_layout = new QHBoxLayout(this);
-    sand_widget_layout->addWidget(sand_combobox);
-    sand_widget_layout->addWidget(sand_bulkmodulus_label);
-    sand_widget_layout->addWidget(sand_shearmodulus_label);
-    sand_widget_layout->addWidget(sand_density_label);
-    sand_widget_layout->addStretch(1);
-    sand_widget->setLayout(sand_widget_layout);
-    //  mudrock widget
-    QWidget* mudrock_widget = new QWidget(this);
-    QComboBox* mudrock_combobox = new QComboBox(this);
-    mudrock_combobox->addItem("mudrock");
-    QLabel* mudrock_bulkmodulus_label = new QLabel(this);
-    mudrock_bulkmodulus_label->setText("bulk modulus: " + QString::number(mudrock_K));
-    QLabel* mudrock_shearmodulus_label = new QLabel(this);
-    mudrock_shearmodulus_label->setText("shear modulus: " + QString::number(mudrock_mu));
-    QLabel* mudrock_density_label = new QLabel(this);
-    mudrock_density_label->setText("density: " + QString::number(mudrock_rho));
-    QHBoxLayout* mudrock_widget_layout = new QHBoxLayout(this);
-    mudrock_widget_layout->addWidget(mudrock_combobox);
-    mudrock_widget_layout->addWidget(mudrock_bulkmodulus_label);
-    mudrock_widget_layout->addWidget(mudrock_shearmodulus_label);
-    mudrock_widget_layout->addWidget(mudrock_density_label);
-    mudrock_widget_layout->addStretch(1);
-    mudrock_widget->setLayout(mudrock_widget_layout);
+    // background widget
+    QWidget* background_widget = new QWidget(this);
+    QComboBox* background_solid_combobox = new QComboBox(this);
+    background_solid_combobox->addItem(QStringLiteral("Augite"));
+    background_solid_combobox->addItem(QStringLiteral("Albite"));
+    background_solid_combobox->addItem(QStringLiteral("Anorthite"));
+    background_solid_combobox->addItem(QStringLiteral("Labradorite"));
+    background_solid_combobox->addItem(QStringLiteral("Microcline"));
+    background_solid_combobox->addItem(QStringLiteral("Oligoclase"));
+    background_solid_combobox->addItem(QStringLiteral("Coesite"));
+    background_solid_combobox->addItem(QStringLiteral("Epidote"));
+    background_solid_combobox->addItem(QStringLiteral("Hornblende"));
+    background_solid_combobox->addItem(QStringLiteral("Muscovite"));
+    background_solid_combobox->addItem(QStringLiteral("Gypsum"));
+    background_solid_combobox->addItem(QStringLiteral("Enstatite"));
+    background_solid_combobox->addItem(QStringLiteral("Forsterite"));
+    background_solid_combobox->addItem(QStringLiteral("Fayalite"));
+    background_solid_combobox->addItem(QStringLiteral("Montecellite"));
+    background_solid_combobox->addItem(QStringLiteral("Andalusite"));
+    background_solid_combobox->addItem(QStringLiteral("Silimanite"));
+    background_solid_combobox->addItem(QStringLiteral("Barite"));
+    background_solid_combobox->addItem(QStringLiteral("Anhydrite"));
+    background_solid_combobox->addItem(QStringLiteral("Dolomite"));
+    background_solid_combobox->addItem(QStringLiteral("Rutile"));
+    background_solid_combobox->addItem(QStringLiteral("Zircon"));
+    background_solid_combobox->addItem(QStringLiteral("Corundum"));
+    background_solid_combobox->addItem(QStringLiteral("Calcite"));
+    background_solid_combobox->addItem(QStringLiteral("Quartz"));
+    background_solid_combobox->addItem(QStringLiteral("Tourmaline"));
+    background_solid_combobox->addItem(QStringLiteral("Beryl"));
+    background_solid_combobox->addItem(QStringLiteral("Graphite"));
+    background_solid_combobox->addItem(QStringLiteral("Wusite"));
+    background_solid_combobox->addItem(QStringLiteral("Manganosite"));
+    background_solid_combobox->addItem(QStringLiteral("Periclase"));
+    background_solid_combobox->addItem(QStringLiteral("Magnetite"));
+    background_solid_combobox->addItem(QStringLiteral("Chromite"));
+    background_solid_combobox->addItem(QStringLiteral("Spinel"));
+    background_solid_combobox->addItem(QStringLiteral("Pyrite"));
+    background_solid_combobox->addItem(QStringLiteral("Galena"));
+    background_solid_combobox->addItem(QStringLiteral("Sphalerite"));
+    background_solid_combobox->addItem(QStringLiteral("Fluorite"));
+    background_solid_combobox->addItem(QStringLiteral("Halite"));
+    background_solid_combobox->addItem(QStringLiteral("Sylvite"));
+    background_solid_combobox->setCurrentIndex(24);
+    QLabel* background_bulkmodulus_label = new QLabel(this);
+    background_bulkmodulus_label->setText("bulk modulus: " + QString::number(background_K));
+    QLabel* background_shearmodulus_label = new QLabel(this);
+    background_shearmodulus_label->setText("shear modulus: " + QString::number(background_mu));
+    QLabel* background_density_label = new QLabel(this);
+    background_density_label->setText("density: " + QString::number(background_rho));
+    QHBoxLayout* background_widget_layout = new QHBoxLayout(this);
+    background_widget_layout->addWidget(background_solid_combobox);
+    background_widget_layout->addWidget(background_bulkmodulus_label);
+    background_widget_layout->addWidget(background_shearmodulus_label);
+    background_widget_layout->addWidget(background_density_label);
+    background_widget_layout->addStretch(1);
+    background_widget->setLayout(background_widget_layout);
+    //  foreground widget
+    QWidget* foreground_widget = new QWidget(this);
+    QComboBox* foreground_solid_combobox = new QComboBox(this);
+    foreground_solid_combobox->addItem(QStringLiteral("Augite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Albite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Anorthite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Labradorite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Microcline"));
+    foreground_solid_combobox->addItem(QStringLiteral("Oligoclase"));
+    foreground_solid_combobox->addItem(QStringLiteral("Coesite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Epidote"));
+    foreground_solid_combobox->addItem(QStringLiteral("Hornblende"));
+    foreground_solid_combobox->addItem(QStringLiteral("Muscovite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Gypsum"));
+    foreground_solid_combobox->addItem(QStringLiteral("Enstatite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Forsterite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Fayalite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Montecellite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Andalusite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Silimanite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Barite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Anhydrite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Dolomite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Rutile"));
+    foreground_solid_combobox->addItem(QStringLiteral("Zircon"));
+    foreground_solid_combobox->addItem(QStringLiteral("Corundum"));
+    foreground_solid_combobox->addItem(QStringLiteral("Calcite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Quartz"));
+    foreground_solid_combobox->addItem(QStringLiteral("Tourmaline"));
+    foreground_solid_combobox->addItem(QStringLiteral("Beryl"));
+    foreground_solid_combobox->addItem(QStringLiteral("Graphite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Wusite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Manganosite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Periclase"));
+    foreground_solid_combobox->addItem(QStringLiteral("Magnetite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Chromite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Spinel"));
+    foreground_solid_combobox->addItem(QStringLiteral("Pyrite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Galena"));
+    foreground_solid_combobox->addItem(QStringLiteral("Sphalerite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Fluorite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Halite"));
+    foreground_solid_combobox->addItem(QStringLiteral("Sylvite"));
+    foreground_solid_combobox->setCurrentIndex(9);
+    QLabel* foreground_bulkmodulus_label = new QLabel(this);
+    foreground_bulkmodulus_label->setText("bulk modulus: " + QString::number(foreground_K));
+    QLabel* foreground_shearmodulus_label = new QLabel(this);
+    foreground_shearmodulus_label->setText("shear modulus: " + QString::number(foreground_mu));
+    QLabel* foreground_density_label = new QLabel(this);
+    foreground_density_label->setText("density: " + QString::number(foreground_rho));
+    QHBoxLayout* foreground_widget_layout = new QHBoxLayout(this);
+    foreground_widget_layout->addWidget(foreground_solid_combobox);
+    foreground_widget_layout->addWidget(foreground_bulkmodulus_label);
+    foreground_widget_layout->addWidget(foreground_shearmodulus_label);
+    foreground_widget_layout->addWidget(foreground_density_label);
+    foreground_widget_layout->addStretch(1);
+    foreground_widget->setLayout(foreground_widget_layout);
 
 
     QVBoxLayout* controls_widget_layout = new QVBoxLayout(this);
     controls_widget_layout->addWidget(interactive_checkbox);
-    controls_widget_layout->addWidget(sand_widget);
-    controls_widget_layout->addWidget(mudrock_widget);
+    controls_widget_layout->addWidget(background_widget);
+    controls_widget_layout->addWidget(foreground_widget);
     controls_widget->setLayout(controls_widget_layout);
 
     // VTK
@@ -149,7 +237,7 @@ SolidPhaseView2::SolidPhaseView2(QWidget *parent) {
     vtkSmartPointer<vtkTable> table = vtkSmartPointer<vtkTable>::New();
 
     vtkSmartPointer<vtkFloatArray> arr_sand_volumefraction = vtkSmartPointer<vtkFloatArray>::New();
-    arr_sand_volumefraction->SetName("mudrock volume fraction");  // X-axis
+    arr_sand_volumefraction->SetName("background volume fraction");  // X-axis
     table->AddColumn(arr_sand_volumefraction);  // column 0
 
     vtkSmartPointer<vtkFloatArray> arr_effective_K = vtkSmartPointer<vtkFloatArray>::New();
@@ -215,10 +303,10 @@ SolidPhaseView2::SolidPhaseView2(QWidget *parent) {
 
     // Fill in the table ...
     int num_points = 51;  // number of points sampled along the brine saturation axis
-    float sample_interval = 1.0 / (num_points - 1);
+    double sample_interval = 1.0 / (num_points - 1);
     table->SetNumberOfRows(num_points);
 
-    std::vector<double> vf_vec_values{1.0, 0.0};
+    std::vector<double> vf_vec_values{0.0, 1.0};
     double effective_bulkmodulus = 1.0;
     double effective_bulkmodulus_vrh10 = 1.0;
     double effective_bulkmodulus_vrh08 = 1.0;
@@ -243,7 +331,7 @@ SolidPhaseView2::SolidPhaseView2(QWidget *parent) {
 
     for (int i=0; i<num_points; ++i) {
         table->SetValue(i, 0, i*sample_interval);
-        vf_vec_values = std::vector<double>({ 1.0 - (i*sample_interval), i*sample_interval });
+        vf_vec_values = std::vector<double>({ i*sample_interval, 1.0 - (i*sample_interval) });
 
         sand_mudrock_mixture.VolumeFractionTypeVector(vf_vec_values);
         kmu_upper = sand_mudrock_mixture.VoigtUpperBound();
@@ -363,7 +451,7 @@ SolidPhaseView2::SolidPhaseView2(QWidget *parent) {
     line_effK_00->GetPen()->SetLineType(vtkPen::DASH_LINE);
 
     vtkchart_effK->SetShowLegend(true);
-    vtkchart_effK->GetAxis(vtkAxis::BOTTOM)->SetTitle("mudrock volume fraction");
+    vtkchart_effK->GetAxis(vtkAxis::BOTTOM)->SetTitle("background volume fraction");
     vtkchart_effK->GetAxis(vtkAxis::LEFT)->SetTitle("effective bulk modulus (GPa)");
 
     qvtkopenglwidget_mu = new QVTKOpenGLWidget(this);

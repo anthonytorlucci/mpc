@@ -81,15 +81,19 @@ namespace mpc {
             std::array<T,3> PhaseVelocities(T density) {
                 // TODO: assert tensor is not all zero components or throw exception?
                 // TODO: assert density is not zero or throw exception?
+                /*
+                 * det | gamma(i,k) - G * delta(i,k) | = 0
+                 *     where G = rho * V**2
+                 */
                 Eigen::Matrix<T,3,3> gctensor = mpc::utilities::Blitz2Eigen<T,3,3,2>(tensor);
                 //std::cout << gctensor << std::endl;
                 //Eigen::SelfAdjointEigenSolver< Eigen::Matrix<T,3,3> > eigensolver(gctensor);
                 Eigen::EigenSolver< Eigen::Matrix<T,3,3> > eigensolver(gctensor); // https://eigen.tuxfamily.org/dox/classEigen_1_1EigenSolver.html#adc446bcb60572758fa64515f2825db62
                 auto rho_vel_squared = eigensolver.eigenvalues();
                 //std::cout << vels << std::endl;
-                T pvel0 = std::sqrt(rho_vel_squared(0).real()) / density;
-                T pvel1 = std::sqrt(rho_vel_squared(1).real()) / density;
-                T pvel2 = std::sqrt(rho_vel_squared(2).real()) / density;
+                T pvel0 = std::sqrt(rho_vel_squared(0).real() / density);
+                T pvel1 = std::sqrt(rho_vel_squared(1).real() / density);
+                T pvel2 = std::sqrt(rho_vel_squared(2).real() / density);
                 std::array<T,3> pvels{pvel0, pvel1, pvel2};
                 auto itr1 = pvels.begin();  // std::array<T,3>::iterator
                 auto itr2 = pvels.end();    // std::array<T,3>::iterator

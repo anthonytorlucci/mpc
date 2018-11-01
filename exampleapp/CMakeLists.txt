@@ -91,9 +91,7 @@ include_directories(/Users/atorlucci/projectsCLion/mpc/src)
 set(HEADER_FILES
         mainwindow.h
         homepage.h
-        fluidphaseview.h
         fluidphaseview2.h
-        solidphaseview.h
         solidphaseview2.h
         mixinglawsview.h
         mineralvelsview.h
@@ -106,9 +104,7 @@ set(SOURCE_FILES
         main.cpp
         mainwindow.cpp
         homepage.cpp
-        fluidphaseview.cpp
         fluidphaseview2.cpp
-        solidphaseview.cpp
         solidphaseview2.cpp
         mixinglawsview.cpp
         mineralvelsview.cpp

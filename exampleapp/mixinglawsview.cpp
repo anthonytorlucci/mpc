@@ -138,7 +138,7 @@ MixingLawsView::MixingLawsView(QWidget *parent) {
     // solids box
     QGroupBox* solids_groupbox = new QGroupBox("solids", this);
     background_solid_label = new QLabel(this);
-    background_solid_label->setText("background fluid");
+    background_solid_label->setText("background solid");
     background_solid_combobox = new QComboBox(this);
     background_solid_combobox->addItem(QStringLiteral("Augite"));
     background_solid_combobox->addItem(QStringLiteral("Albite"));
@@ -1150,8 +1150,8 @@ void MixingLawsView::PrivateUpdatePlot() {
             composite_shearmodulus = solid_effective_shearmodulus;  // no influence from fluid
             composite_density = 0.5 * (solid_effective_density + fluid_effective_density);
 
-            std::cout << "porosity" << porosity_slider->value()*0.01 << std::endl;
-            std::cout << "composite bulkmodulus" << composite_saturated_bulkmodulus << std::endl;
+            //std::cout << "porosity : " << porosity_slider->value()*0.01 << std::endl;
+            //std::cout << "composite bulkmodulus : " << composite_saturated_bulkmodulus << std::endl;
             mpc::rockphysics::BulkModulusType<double> K_type = mpc::rockphysics::BulkModulusType<double>(composite_saturated_bulkmodulus);
             mpc::rockphysics::ShearModulusType<double> mu_type = mpc::rockphysics::ShearModulusType<double>(solid_effective_shearmodulus);
             mpc::rockphysics::DensityType<double> rho_type = mpc::rockphysics::DensityType<double>(0.5 * (solid_effective_density + fluid_effective_density));
@@ -1168,7 +1168,7 @@ void MixingLawsView::PrivateUpdatePlot() {
             composite_poissons_ratio = nu_type.value;
 
 
-            // IMPORTANT !!!  TODO: zscale???
+            // IMPORTANT !!!
             xx = double(m) / double((numgridpoints - 1));  // background fluid saturation
             yy = double(n) / double((numgridpoints - 1));  // background solid concentration
             // TODO: redesign with switch outside for loop?

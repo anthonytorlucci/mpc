@@ -25,6 +25,9 @@
 #include <vtkProperty.h>
 #include <vtkTransform.h>
 #include <vtkTransformPolyDataFilter.h>
+#include <vtkLinearSubdivisionFilter.h>
+#include <vtkLoopSubdivisionFilter.h>
+#include <vtkButterflySubdivisionFilter.h>
 
 
 // mpc
@@ -354,6 +357,7 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     controls_widget->setLayout(controls_widget_layout);
 
     // VTK views
+    number_of_subdivisions = 2;
     vtknamedcolors = vtkSmartPointer<vtkNamedColors>::New();
     vtkcolorlookuptable_vp0 = vtkSmartPointer<vtkLookupTable>::New();
     vtkcolorlookuptable_vs1 = vtkSmartPointer<vtkLookupTable>::New();
@@ -432,42 +436,69 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkspheresource_isovp0->SetCenter(0,0,0);
     vtkspheresource_isovp0->SetRadius(1);
     vtkspheresource_isovp0->Update();
+    vtksubdivisionfilter_vp0 = vtkSmartPointer<vtkButterflySubdivisionFilter>::New();
+    // resample (dubdivide) isotropic sphere source
+    // https://www.vtk.org/Wiki/VTK/Examples/Cxx/Meshes/Subdivision
+//    dynamic_cast<vtkButterflySubdivisionFilter *> (vtksubdivisionfilter_vp0.GetPointer())->SetNumberOfSubdivisions(number_of_subdivisions);
+//    vtksubdivisionfilter_vp0->SetInputData(vtkspheresource_isovp0->GetOutput());
+//    vtksubdivisionfilter_vp0->Update();
 
     vtkmapper_isovp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
     vtkmapper_isovp0->SetInputConnection(vtkspheresource_isovp0->GetOutputPort());
+    //vtkmapper_isovp0->SetInputConnection(vtksubdivisionfilter_vp0->GetOutputPort());
 
     vtkactor_isovp0 = vtkSmartPointer<vtkActor>::New();
     vtkactor_isovp0->SetMapper(vtkmapper_isovp0);
     vtkactor_isovp0->GetProperty()->SetRepresentationToWireframe();
     vtkrenderer_vp0->AddActor(vtkactor_isovp0);
 
+
+
     // vs1
     vtkspheresource_isovs1 = vtkSmartPointer<vtkSphereSource>::New();
     vtkspheresource_isovs1->SetCenter(0,0,0);
     vtkspheresource_isovs1->SetRadius(1);
     vtkspheresource_isovs1->Update();
+    vtksubdivisionfilter_vs1 = vtkSmartPointer<vtkButterflySubdivisionFilter>::New();
+//    dynamic_cast<vtkButterflySubdivisionFilter *> (vtksubdivisionfilter_vs1.GetPointer())->SetNumberOfSubdivisions(number_of_subdivisions);
+//    vtksubdivisionfilter_vs1->SetInputData(vtkspheresource_isovs1->GetOutput());
+//    vtksubdivisionfilter_vs1->Update();
 
     vtkmapper_isovs1 = vtkSmartPointer<vtkPolyDataMapper>::New();
     vtkmapper_isovs1->SetInputConnection(vtkspheresource_isovs1->GetOutputPort());
+//    vtkmapper_isovp0->SetInputConnection(vtksubdivisionfilter_vp0->GetOutputPort());
 
     vtkactor_isovs1 = vtkSmartPointer<vtkActor>::New();
     vtkactor_isovs1->SetMapper(vtkmapper_isovs1);
     vtkactor_isovs1->GetProperty()->SetRepresentationToWireframe();
     vtkrenderer_vs1->AddActor(vtkactor_isovs1);
 
+
+
     // vs2
     vtkspheresource_isovs2 = vtkSmartPointer<vtkSphereSource>::New();
     vtkspheresource_isovs2->SetCenter(0,0,0);
     vtkspheresource_isovs2->SetRadius(1);
     vtkspheresource_isovs2->Update();
+    vtksubdivisionfilter_vs2 = vtkSmartPointer<vtkButterflySubdivisionFilter>::New();
+//    dynamic_cast<vtkButterflySubdivisionFilter *> (vtksubdivisionfilter_vs2.GetPointer())->SetNumberOfSubdivisions(number_of_subdivisions);
+//    vtksubdivisionfilter_vs2->SetInputData(vtkspheresource_isovs2->GetOutput());
+//    vtksubdivisionfilter_vs2->Update();
 
     vtkmapper_isovs2 = vtkSmartPointer<vtkPolyDataMapper>::New();
     vtkmapper_isovs2->SetInputConnection(vtkspheresource_isovs2->GetOutputPort());
+//    vtkmapper_isovp0->SetInputConnection(vtksubdivisionfilter_vp0->GetOutputPort());
 
     vtkactor_isovs2 = vtkSmartPointer<vtkActor>::New();
     vtkactor_isovs2->SetMapper(vtkmapper_isovs2);
     vtkactor_isovs2->GetProperty()->SetRepresentationToWireframe();
     vtkrenderer_vs2->AddActor(vtkactor_isovs2);
+
+
+
+
+
+
 
     // ANISO POINTS ====================================================================================================
     vtkpoints_vp0 = vtkSmartPointer<vtkPoints>::New();
@@ -2789,6 +2820,19 @@ void MineralVelsView::PrivateSetPoints() {
     vtkspheresource_isovs1->SetRadius(svel);
     vtkspheresource_isovs2->SetRadius(svel);
 
+//    // resample (dubdivide) isotropic sphere source
+//    // https://www.vtk.org/Wiki/VTK/Examples/Cxx/Meshes/Subdivision
+//    dynamic_cast<vtkButterflySubdivisionFilter *> (vtksubdivisionfilter_vp0.GetPointer())->SetNumberOfSubdivisions(number_of_subdivisions);
+//    dynamic_cast<vtkButterflySubdivisionFilter *> (vtksubdivisionfilter_vs1.GetPointer())->SetNumberOfSubdivisions(number_of_subdivisions);
+//    dynamic_cast<vtkButterflySubdivisionFilter *> (vtksubdivisionfilter_vs2.GetPointer())->SetNumberOfSubdivisions(number_of_subdivisions);
+
+//    vtksubdivisionfilter_vp0->SetInputData(vtkspheresource_isovp0->GetOutput());
+//    vtksubdivisionfilter_vp0->Update();
+//    vtksubdivisionfilter_vs1->SetInputData(vtkspheresource_isovs1->GetOutput());
+//    vtksubdivisionfilter_vs1->Update();
+//    vtksubdivisionfilter_vs2->SetInputData(vtkspheresource_isovs2->GetOutput());
+//    vtksubdivisionfilter_vs2->Update();
+
     // green-christoffel and anisotropic velocity points
     mpc::mechanics::GreenChristoffel<double> greenchristoffel = mpc::mechanics::GreenChristoffel<double>();  // function object
 
@@ -2970,12 +3014,11 @@ void MineralVelsView::PrivateSetPoints() {
 
 void MineralVelsView::PrivateUpdatePlot() {
     // update the effective values and plot surface
+    vtkactor_isovp0->SetVisibility(0);  // hide the iso sphere
+    vtkactor_isovs1->SetVisibility(0);  // hide the iso sphere
+    vtkactor_isovs2->SetVisibility(0);  // hide the iso sphere
 
-    // TODO: turn off later ..
-    vtkactor_isovp0->SetVisibility(0);
-    vtkactor_isovs1->SetVisibility(0);
-    vtkactor_isovs2->SetVisibility(0);
-
+    //
     vtkcolorlookuptable_vp0->SetTableRange(minvel_vp0, maxvel_vp0);
     vtkcolorlookuptable_vp0->Build();
 
