@@ -21,6 +21,7 @@ private slots:
     void OnSolidPhaseView();
     void OnMixingLawsView();
     void OnMineralVelsView();
+
     // misc
     void OnTransformationView();
     void OnGreenChristoffelNormalVectorView();
