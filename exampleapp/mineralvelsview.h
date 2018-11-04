@@ -34,6 +34,7 @@
 #include <vtkContourFilter.h>
 #include <vtkReverseSense.h>
 #include <vtkPolyDataAlgorithm.h>
+#include <vtkLinearSubdivisionFilter.h>
 
 // blitz
 #include <blitz/array.h>
@@ -143,6 +144,7 @@ private:
     int number_of_subdivisions;  // number of subdivisions for the isotropic sphere
     vtkSmartPointer<vtkNamedColors> vtknamedcolors;
     vtkSmartPointer<vtkTextProperty> vtktextproperty;
+    vtkSmartPointer<vtkTextProperty> vtktextpropertyaxes;
 
     vtkSmartPointer<vtkCamera> vtkcamera;  // TODO: shared camera?
 
@@ -173,7 +175,7 @@ private:
     vtkSmartPointer<vtkPolyDataMapper> vtkmapper_isovp0;
     vtkSmartPointer<vtkActor> vtkactor_isovp0;
     vtkSmartPointer<vtkUnsignedCharArray> vtkcolorchararray_vp0;
-    vtkSmartPointer<vtkPolyDataAlgorithm> vtksubdivisionfilter_vp0;
+    vtkSmartPointer<vtkLinearSubdivisionFilter> vtksubdivisionfilter_vp0;
 
     QVTKOpenGLWidget* qvtkopenglwidget_vs1;
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> vtkgenericopenglwindow_vs1;
@@ -202,7 +204,7 @@ private:
     vtkSmartPointer<vtkPolyDataMapper> vtkmapper_isovs1;
     vtkSmartPointer<vtkActor> vtkactor_isovs1;
     vtkSmartPointer<vtkUnsignedCharArray> vtkcolorchararray_vs1;
-    vtkSmartPointer<vtkPolyDataAlgorithm> vtksubdivisionfilter_vs1;
+    vtkSmartPointer<vtkLinearSubdivisionFilter> vtksubdivisionfilter_vs1;
 
     QVTKOpenGLWidget* qvtkopenglwidget_vs2;
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> vtkgenericopenglwindow_vs2;
@@ -231,7 +233,7 @@ private:
     vtkSmartPointer<vtkPolyDataMapper> vtkmapper_isovs2;
     vtkSmartPointer<vtkActor> vtkactor_isovs2;
     vtkSmartPointer<vtkUnsignedCharArray> vtkcolorchararray_vs2;
-    vtkSmartPointer<vtkPolyDataAlgorithm> vtksubdivisionfilter_vs2;
+    vtkSmartPointer<vtkLinearSubdivisionFilter> vtksubdivisionfilter_vs2;
 
 };
 

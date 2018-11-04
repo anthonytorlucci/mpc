@@ -32,6 +32,7 @@
 #include <vtkSphereSource.h>
 #include <vtkPolyDataMapper.h>
 #include <vtkActor.h>
+#include <vtkChartLegend.h>
 
 #include <QVTKOpenGLWidget.h>
 
@@ -79,66 +80,104 @@ FluidPhaseView2::FluidPhaseView2(QWidget *parent) {
 
     // Qt Controls Widget
     QWidget* controls_widget = new QWidget(this);
-    interactive_checkbox = new QCheckBox(this);
-    interactive_checkbox->setText("initeractive");
-    interactive_checkbox->setChecked(true);
-    // background fluid widget
-    QWidget* background_fluid_widget = new QWidget(this);
-    QComboBox* background_fluid_combobox = new QComboBox(this);
+    // fluids box
+    QGroupBox* fluids_groupbox = new QGroupBox("fluids", this);
+    background_fluid_label = new QLabel(this);
+    background_fluid_label->setText("background fluid");
+    background_fluid_combobox = new QComboBox(this);
     background_fluid_combobox->addItem("brine");
-    QLabel* background_fluid_bulkmodulus_label = new QLabel(this);
-    background_fluid_bulkmodulus_label->setText("bulk modulus: " + QString::number(brine_K));
-    QLabel* background_fluid_shearmodulus_label = new QLabel(this);
-    background_fluid_shearmodulus_label->setText("shear modulus: " + QString::number(0.0));
-    QLabel* background_fluid_density_label = new QLabel(this);
-    background_fluid_density_label->setText("density: " + QString::number(brine_rho));
-    QHBoxLayout* background_fluid_widget_layout = new QHBoxLayout(this);
-    background_fluid_widget_layout->addWidget(background_fluid_combobox);
-    background_fluid_widget_layout->addWidget(background_fluid_bulkmodulus_label);
-    background_fluid_widget_layout->addWidget(background_fluid_shearmodulus_label);
-    background_fluid_widget_layout->addWidget(background_fluid_density_label);
-    background_fluid_widget_layout->addStretch(1);
-    background_fluid_widget->setLayout(background_fluid_widget_layout);
-    //  fluid0 widget
-    QWidget* fluid0_widget = new QWidget(this);
-    QComboBox* fluid0_combobox = new QComboBox(this);
-    fluid0_combobox->addItem("oil");
-    QLabel* fluid0_bulkmodulus_label = new QLabel(this);
-    fluid0_bulkmodulus_label->setText("bulk modulus: " + QString::number(oil_K));
-    QLabel* fluid0_shearmodulus_label = new QLabel(this);
-    fluid0_shearmodulus_label->setText("shear modulus: " + QString::number(0.0));
-    QLabel* fluid0_density_label = new QLabel(this);
-    fluid0_density_label->setText("density: " + QString::number(oil_rho));
-    QHBoxLayout* fluid0_widget_layout = new QHBoxLayout(this);
-    fluid0_widget_layout->addWidget(fluid0_combobox);
-    fluid0_widget_layout->addWidget(fluid0_bulkmodulus_label);
-    fluid0_widget_layout->addWidget(fluid0_shearmodulus_label);
-    fluid0_widget_layout->addWidget(fluid0_density_label);
-    fluid0_widget_layout->addStretch(1);
-    fluid0_widget->setLayout(fluid0_widget_layout);
-    //  fluid1 widget
-    QWidget* fluid1_widget = new QWidget(this);
-    QComboBox* fluid1_combobox = new QComboBox(this);
-    fluid1_combobox->addItem("gas");
-    QLabel* fluid1_bulkmodulus_label = new QLabel(this);
-    fluid1_bulkmodulus_label->setText("bulk modulus: " + QString::number(gas_K));
-    QLabel* fluid1_shearmodulus_label = new QLabel(this);
-    fluid1_shearmodulus_label->setText("shear modulus: " + QString::number(0.0));
-    QLabel* fluid1_density_label = new QLabel(this);
-    fluid1_density_label->setText("density: " + QString::number(gas_rho));
-    QHBoxLayout* fluid1_widget_layout = new QHBoxLayout(this);
-    fluid1_widget_layout->addWidget(fluid1_combobox);
-    fluid1_widget_layout->addWidget(fluid1_bulkmodulus_label);
-    fluid1_widget_layout->addWidget(fluid1_shearmodulus_label);
-    fluid1_widget_layout->addWidget(fluid1_density_label);
-    fluid1_widget_layout->addStretch(1);
-    fluid1_widget->setLayout(fluid1_widget_layout);
+    background_fluid_bulkmodulus_label = new QLabel(this);
+    background_fluid_bulkmodulus_label->setText("bulk modulus");
+    background_fluid_bulkmodulus_value_lineedit = new QLineEdit(this);
+    background_fluid_bulkmodulus_value_lineedit->setText(QString::number(brine_K));
+    background_fluid_bulkmodulus_value_lineedit->setAlignment(Qt::AlignCenter);
+    background_fluid_bulkmodulus_value_lineedit->setReadOnly(true);
+    background_fluid_shearmodulus_label = new QLabel(this);
+    background_fluid_shearmodulus_label->setText("shear modulus");
+    background_fluid_shearmodulus_value_lineedit = new QLineEdit(this);
+    background_fluid_shearmodulus_value_lineedit->setText(QString::number(0.0));
+    background_fluid_shearmodulus_value_lineedit->setAlignment(Qt::AlignCenter);
+    background_fluid_shearmodulus_value_lineedit->setReadOnly(true);
+    background_fluid_density_label = new QLabel(this);
+    background_fluid_density_label->setText("density");
+    background_fluid_density_value_lineedit = new QLineEdit(this);
+    background_fluid_density_value_lineedit->setText(QString::number(brine_rho));
+    background_fluid_density_value_lineedit->setAlignment(Qt::AlignCenter);
+    background_fluid_density_value_lineedit->setReadOnly(true);
+    foreground_fluid1_label = new QLabel(this);
+    foreground_fluid1_label->setText("foreground fluid (1)");
+    foreground_fluid1_combobox = new QComboBox(this);
+    foreground_fluid1_combobox->addItem("oil");
+    foreground_fluid1_bulkmodulus_label = new QLabel(this);
+    foreground_fluid1_bulkmodulus_label->setText("bulk modulus");
+    foreground_fluid1_bulkmodulus_value_lineedit = new QLineEdit(this);
+    foreground_fluid1_bulkmodulus_value_lineedit->setText(QString::number(oil_K));
+    foreground_fluid1_bulkmodulus_value_lineedit->setAlignment(Qt::AlignCenter);
+    foreground_fluid1_bulkmodulus_value_lineedit->setReadOnly(true);
+    foreground_fluid1_shearmodulus_label = new QLabel(this);
+    foreground_fluid1_shearmodulus_label->setText("shear modulus");
+    foreground_fluid1_shearmodulus_value_lineedit = new QLineEdit(this);
+    foreground_fluid1_shearmodulus_value_lineedit->setText(QString::number(0.0));
+    foreground_fluid1_shearmodulus_value_lineedit->setAlignment(Qt::AlignCenter);
+    foreground_fluid1_shearmodulus_value_lineedit->setReadOnly(true);
+    foreground_fluid1_density_label = new QLabel(this);
+    foreground_fluid1_density_label->setText("density");
+    foreground_fluid1_density_value_lineedit = new QLineEdit(this);
+    foreground_fluid1_density_value_lineedit->setText(QString::number(oil_rho));
+    foreground_fluid1_density_value_lineedit->setAlignment(Qt::AlignCenter);
+    foreground_fluid1_density_value_lineedit->setReadOnly(true);
+
+    foreground_fluid2_label = new QLabel(this);
+    foreground_fluid2_label->setText("foreground fluid (2)");
+    foreground_fluid2_combobox = new QComboBox(this);
+    foreground_fluid2_combobox->addItem("oil");
+    foreground_fluid2_bulkmodulus_label = new QLabel(this);
+    foreground_fluid2_bulkmodulus_label->setText("bulk modulus");
+    foreground_fluid2_bulkmodulus_value_lineedit = new QLineEdit(this);
+    foreground_fluid2_bulkmodulus_value_lineedit->setText(QString::number(gas_K));
+    foreground_fluid2_bulkmodulus_value_lineedit->setAlignment(Qt::AlignCenter);
+    foreground_fluid2_bulkmodulus_value_lineedit->setReadOnly(true);
+    foreground_fluid2_shearmodulus_label = new QLabel(this);
+    foreground_fluid2_shearmodulus_label->setText("shear modulus");
+    foreground_fluid2_shearmodulus_value_lineedit = new QLineEdit(this);
+    foreground_fluid2_shearmodulus_value_lineedit->setText(QString::number(0.0));
+    foreground_fluid2_shearmodulus_value_lineedit->setAlignment(Qt::AlignCenter);
+    foreground_fluid2_shearmodulus_value_lineedit->setReadOnly(true);
+    foreground_fluid2_density_label = new QLabel(this);
+    foreground_fluid2_density_label->setText("density");
+    foreground_fluid2_density_value_lineedit = new QLineEdit(this);
+    foreground_fluid2_density_value_lineedit->setText(QString::number(gas_rho));
+    foreground_fluid2_density_value_lineedit->setAlignment(Qt::AlignCenter);
+    foreground_fluid2_density_value_lineedit->setReadOnly(true);
+    QGridLayout* fluids_groupbox_layout = new QGridLayout(this);
+    fluids_groupbox_layout->addWidget(background_fluid_label, 0, 0);
+    fluids_groupbox_layout->addWidget(background_fluid_combobox, 0, 1);
+    fluids_groupbox_layout->addWidget(background_fluid_bulkmodulus_label, 0, 2);
+    fluids_groupbox_layout->addWidget(background_fluid_bulkmodulus_value_lineedit, 0, 3);
+    fluids_groupbox_layout->addWidget(background_fluid_shearmodulus_label, 0, 4);
+    fluids_groupbox_layout->addWidget(background_fluid_shearmodulus_value_lineedit, 0, 5);
+    fluids_groupbox_layout->addWidget(background_fluid_density_label, 0, 6);
+    fluids_groupbox_layout->addWidget(background_fluid_density_value_lineedit, 0, 7);
+    fluids_groupbox_layout->addWidget(foreground_fluid1_label, 1, 0);
+    fluids_groupbox_layout->addWidget(foreground_fluid1_combobox, 1, 1);
+    fluids_groupbox_layout->addWidget(foreground_fluid1_bulkmodulus_label, 1, 2);
+    fluids_groupbox_layout->addWidget(foreground_fluid1_bulkmodulus_value_lineedit, 1, 3);
+    fluids_groupbox_layout->addWidget(foreground_fluid1_shearmodulus_label, 1, 4);
+    fluids_groupbox_layout->addWidget(foreground_fluid1_shearmodulus_value_lineedit, 1, 5);
+    fluids_groupbox_layout->addWidget(foreground_fluid1_density_label, 1, 6);
+    fluids_groupbox_layout->addWidget(foreground_fluid1_density_value_lineedit, 1, 7);
+    fluids_groupbox_layout->addWidget(foreground_fluid2_label, 2, 0);
+    fluids_groupbox_layout->addWidget(foreground_fluid2_combobox, 2, 1);
+    fluids_groupbox_layout->addWidget(foreground_fluid2_bulkmodulus_label, 2, 2);
+    fluids_groupbox_layout->addWidget(foreground_fluid2_bulkmodulus_value_lineedit, 2, 3);
+    fluids_groupbox_layout->addWidget(foreground_fluid2_shearmodulus_label, 2, 4);
+    fluids_groupbox_layout->addWidget(foreground_fluid2_shearmodulus_value_lineedit, 2, 5);
+    fluids_groupbox_layout->addWidget(foreground_fluid2_density_label, 2, 6);
+    fluids_groupbox_layout->addWidget(foreground_fluid2_density_value_lineedit, 2, 7);
+    fluids_groupbox->setLayout(fluids_groupbox_layout);
 
     QVBoxLayout* controls_widget_layout = new QVBoxLayout(this);
-    controls_widget_layout->addWidget(interactive_checkbox);
-    controls_widget_layout->addWidget(background_fluid_widget);
-    controls_widget_layout->addWidget(fluid0_widget);
-    controls_widget_layout->addWidget(fluid1_widget);
+    controls_widget_layout->addWidget(fluids_groupbox);
     controls_widget->setLayout(controls_widget_layout);
 
     // VTK
@@ -238,9 +277,16 @@ FluidPhaseView2::FluidPhaseView2(QWidget *parent) {
     // For dotted line, ...
     //line->GetPen()->SetLineType(vtkPen::DASH_LINE);
 
+    vtkSmartPointer<vtkChartLegend> vtkchartlegend_effK = vtkchart_effK->GetLegend();
+    vtkchartlegend_effK->GetLabelProperties()->SetFontSize(font_size);
     vtkchart_effK->SetShowLegend(true);
     vtkchart_effK->GetAxis(vtkAxis::BOTTOM)->SetTitle("brine saturation");
+    vtkchart_effK->GetAxis(vtkAxis::BOTTOM)->GetLabelProperties()->SetFontSize(font_size);
+    vtkchart_effK->GetAxis(vtkAxis::BOTTOM)->GetTitleProperties()->SetFontSize(font_size);
     vtkchart_effK->GetAxis(vtkAxis::LEFT)->SetTitle("effective bulk modulus (GPa)");
+    vtkchart_effK->GetAxis(vtkAxis::LEFT)->GetLabelProperties()->SetFontSize(font_size);
+    vtkchart_effK->GetAxis(vtkAxis::LEFT)->GetTitleProperties()->SetFontSize(font_size);
+
 
     qvtkopenglwidget_mu = new QVTKOpenGLWidget(this);
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> vtkgenericopenglwindow_mu = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
@@ -268,9 +314,15 @@ FluidPhaseView2::FluidPhaseView2(QWidget *parent) {
     // For dotted line, ...
     //line->GetPen()->SetLineType(vtkPen::DASH_LINE);
 
+    vtkSmartPointer<vtkChartLegend> vtkchartlegend_effmu = vtkchart_effmu->GetLegend();
+    vtkchartlegend_effmu->GetLabelProperties()->SetFontSize(font_size);
     vtkchart_effmu->SetShowLegend(true);
     vtkchart_effmu->GetAxis(vtkAxis::BOTTOM)->SetTitle("brine saturation");
+    vtkchart_effmu->GetAxis(vtkAxis::BOTTOM)->GetLabelProperties()->SetFontSize(font_size);
+    vtkchart_effmu->GetAxis(vtkAxis::BOTTOM)->GetTitleProperties()->SetFontSize(font_size);
     vtkchart_effmu->GetAxis(vtkAxis::LEFT)->SetTitle("effective shear modulus (GPa)");
+    vtkchart_effmu->GetAxis(vtkAxis::LEFT)->GetLabelProperties()->SetFontSize(font_size);
+    vtkchart_effmu->GetAxis(vtkAxis::LEFT)->GetTitleProperties()->SetFontSize(font_size);
 
     qvtkopenglwidget_rho = new QVTKOpenGLWidget(this);
     vtkSmartPointer<vtkGenericOpenGLRenderWindow> vtkgenericopenglwindow_rho = vtkSmartPointer<vtkGenericOpenGLRenderWindow>::New();
@@ -298,10 +350,15 @@ FluidPhaseView2::FluidPhaseView2(QWidget *parent) {
     // For dotted line, ...
     //line->GetPen()->SetLineType(vtkPen::DASH_LINE);
 
+    vtkSmartPointer<vtkChartLegend> vtkchartlegend_effrho = vtkchart_effrho->GetLegend();
+    vtkchartlegend_effrho->GetLabelProperties()->SetFontSize(font_size);
     vtkchart_effrho->SetShowLegend(true);
     vtkchart_effrho->GetAxis(vtkAxis::BOTTOM)->SetTitle("brine saturation");
+    vtkchart_effrho->GetAxis(vtkAxis::BOTTOM)->GetLabelProperties()->SetFontSize(font_size);
+    vtkchart_effrho->GetAxis(vtkAxis::BOTTOM)->GetTitleProperties()->SetFontSize(font_size);
     vtkchart_effrho->GetAxis(vtkAxis::LEFT)->SetTitle("effective density (g/cm**3)");
-
+    vtkchart_effrho->GetAxis(vtkAxis::LEFT)->GetLabelProperties()->SetFontSize(font_size);
+    vtkchart_effrho->GetAxis(vtkAxis::LEFT)->GetTitleProperties()->SetFontSize(font_size);
 
     // VTK views widget
 //    QWidget* views_widget = new QWidget(this);
@@ -324,7 +381,6 @@ FluidPhaseView2::FluidPhaseView2(QWidget *parent) {
     splitter->addWidget(views_tabwidget);
 
     /* === signals/slots === */
-    connect(interactive_checkbox, SIGNAL(stateChanged(int)), this, SLOT(OnInteractiveCheckBoxStateChanged(int)));
 
 
     // this
@@ -339,62 +395,6 @@ FluidPhaseView2::~FluidPhaseView2() {
 }
 
 // slots
-void FluidPhaseView2::OnInteractiveCheckBoxStateChanged(int) {
-    // if interactive unchecked, set the bounds of each plot manually
-    // implemented mainly for taking consistent screen captures
-    if (interactive_checkbox->isChecked()) {
-        //
-        //vtkchart_effK->SetDrawAxesAtOrigin(true);
-        vtkchart_effK->GetAxis(vtkAxis::LEFT)->SetRange(0, 2.8);
-        vtkchart_effK->GetAxis(vtkAxis::LEFT)->SetBehavior(vtkAxis::FIXED);
-        vtkchart_effK->GetAxis(vtkAxis::BOTTOM)->SetRange(0, 1.0);
-        vtkchart_effK->GetAxis(vtkAxis::BOTTOM)->SetBehavior(vtkAxis::FIXED);
-        vtkchart_effK->RecalculateBounds();
-        vtkchart_effK->Update();
 
-        //vtkchart_effmu->SetDrawAxesAtOrigin(true);
-        vtkchart_effmu->GetAxis(vtkAxis::LEFT)->SetRange(-1.0, 1.0);
-        vtkchart_effmu->GetAxis(vtkAxis::LEFT)->SetBehavior(vtkAxis::FIXED);
-        vtkchart_effmu->GetAxis(vtkAxis::BOTTOM)->SetRange(0, 1.0);
-        vtkchart_effmu->GetAxis(vtkAxis::BOTTOM)->SetBehavior(vtkAxis::FIXED);
-        vtkchart_effmu->RecalculateBounds();
-        vtkchart_effmu->Update();
-
-        //vtkchart_effrho->SetDrawAxesAtOrigin(true);
-        vtkchart_effrho->GetAxis(vtkAxis::LEFT)->SetRange(0.15, 1.05);
-        vtkchart_effrho->GetAxis(vtkAxis::LEFT)->SetBehavior(vtkAxis::FIXED);
-        vtkchart_effrho->GetAxis(vtkAxis::BOTTOM)->SetRange(0, 1.0);
-        vtkchart_effrho->GetAxis(vtkAxis::BOTTOM)->SetBehavior(vtkAxis::FIXED);
-        vtkchart_effrho->RecalculateBounds();
-        vtkchart_effrho->Update();
-
-    } else {
-        //
-        //vtkchart_effK->SetDrawAxesAtOrigin(true);
-        vtkchart_effK->GetAxis(vtkAxis::LEFT)->SetBehavior(vtkAxis::AUTO);
-        vtkchart_effK->GetAxis(vtkAxis::LEFT)->AutoScale();
-        vtkchart_effK->GetAxis(vtkAxis::BOTTOM)->SetBehavior(vtkAxis::AUTO);
-        vtkchart_effK->GetAxis(vtkAxis::BOTTOM)->AutoScale();
-        vtkchart_effK->RecalculateBounds();
-        vtkchart_effK->Update();
-
-        //vtkchart_effmu->SetDrawAxesAtOrigin(true);
-        vtkchart_effmu->GetAxis(vtkAxis::LEFT)->SetBehavior(vtkAxis::AUTO);
-        vtkchart_effmu->GetAxis(vtkAxis::LEFT)->AutoScale();
-        vtkchart_effmu->GetAxis(vtkAxis::BOTTOM)->SetBehavior(vtkAxis::AUTO);
-        vtkchart_effmu->GetAxis(vtkAxis::BOTTOM)->AutoScale();
-        vtkchart_effmu->RecalculateBounds();
-        vtkchart_effmu->Update();
-
-        //vtkchart_effrho->SetDrawAxesAtOrigin(true);
-        vtkchart_effrho->GetAxis(vtkAxis::LEFT)->SetBehavior(vtkAxis::AUTO);
-        vtkchart_effrho->GetAxis(vtkAxis::LEFT)->AutoScale();
-        vtkchart_effrho->GetAxis(vtkAxis::BOTTOM)->SetBehavior(vtkAxis::AUTO);
-        vtkchart_effrho->GetAxis(vtkAxis::BOTTOM)->AutoScale();
-        vtkchart_effrho->RecalculateBounds();
-        vtkchart_effrho->Update();
-
-    }
-}
 
 // member functions

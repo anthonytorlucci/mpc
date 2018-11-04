@@ -357,7 +357,7 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     controls_widget->setLayout(controls_widget_layout);
 
     // VTK views
-    number_of_subdivisions = 2;
+    number_of_subdivisions = 1;
     vtknamedcolors = vtkSmartPointer<vtkNamedColors>::New();
     vtkcolorlookuptable_vp0 = vtkSmartPointer<vtkLookupTable>::New();
     vtkcolorlookuptable_vs1 = vtkSmartPointer<vtkLookupTable>::New();
@@ -436,12 +436,6 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkspheresource_isovp0->SetCenter(0,0,0);
     vtkspheresource_isovp0->SetRadius(1);
     vtkspheresource_isovp0->Update();
-    vtksubdivisionfilter_vp0 = vtkSmartPointer<vtkButterflySubdivisionFilter>::New();
-    // resample (dubdivide) isotropic sphere source
-    // https://www.vtk.org/Wiki/VTK/Examples/Cxx/Meshes/Subdivision
-//    dynamic_cast<vtkButterflySubdivisionFilter *> (vtksubdivisionfilter_vp0.GetPointer())->SetNumberOfSubdivisions(number_of_subdivisions);
-//    vtksubdivisionfilter_vp0->SetInputData(vtkspheresource_isovp0->GetOutput());
-//    vtksubdivisionfilter_vp0->Update();
 
     vtkmapper_isovp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
     vtkmapper_isovp0->SetInputConnection(vtkspheresource_isovp0->GetOutputPort());
@@ -449,9 +443,13 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
 
     vtkactor_isovp0 = vtkSmartPointer<vtkActor>::New();
     vtkactor_isovp0->SetMapper(vtkmapper_isovp0);
-    vtkactor_isovp0->GetProperty()->SetRepresentationToWireframe();
+    vtkactor_isovp0->GetProperty()->SetDiffuseColor(0.5, 0.5, 0.5);
+    vtkactor_isovp0->GetProperty()->SetSpecularColor(1, 1, 1);
+    vtkactor_isovp0->GetProperty()->SetSpecular(.4);
+    vtkactor_isovp0->GetProperty()->SetSpecularPower(50);
+    vtkactor_isovp0->GetProperty()->SetOpacity(0.65);
+    //vtkactor_isovp0->GetProperty()->SetRepresentationToWireframe();
     vtkrenderer_vp0->AddActor(vtkactor_isovp0);
-
 
 
     // vs1
@@ -459,10 +457,6 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkspheresource_isovs1->SetCenter(0,0,0);
     vtkspheresource_isovs1->SetRadius(1);
     vtkspheresource_isovs1->Update();
-    vtksubdivisionfilter_vs1 = vtkSmartPointer<vtkButterflySubdivisionFilter>::New();
-//    dynamic_cast<vtkButterflySubdivisionFilter *> (vtksubdivisionfilter_vs1.GetPointer())->SetNumberOfSubdivisions(number_of_subdivisions);
-//    vtksubdivisionfilter_vs1->SetInputData(vtkspheresource_isovs1->GetOutput());
-//    vtksubdivisionfilter_vs1->Update();
 
     vtkmapper_isovs1 = vtkSmartPointer<vtkPolyDataMapper>::New();
     vtkmapper_isovs1->SetInputConnection(vtkspheresource_isovs1->GetOutputPort());
@@ -470,9 +464,13 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
 
     vtkactor_isovs1 = vtkSmartPointer<vtkActor>::New();
     vtkactor_isovs1->SetMapper(vtkmapper_isovs1);
-    vtkactor_isovs1->GetProperty()->SetRepresentationToWireframe();
+    vtkactor_isovs1->GetProperty()->SetDiffuseColor(0.5, 0.5, 0.5);
+    vtkactor_isovs1->GetProperty()->SetSpecularColor(1, 1, 1);
+    vtkactor_isovs1->GetProperty()->SetSpecular(.4);
+    vtkactor_isovs1->GetProperty()->SetSpecularPower(50);
+    vtkactor_isovs1->GetProperty()->SetOpacity(0.65);
+    //vtkactor_isovs1->GetProperty()->SetRepresentationToWireframe();
     vtkrenderer_vs1->AddActor(vtkactor_isovs1);
-
 
 
     // vs2
@@ -480,10 +478,6 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkspheresource_isovs2->SetCenter(0,0,0);
     vtkspheresource_isovs2->SetRadius(1);
     vtkspheresource_isovs2->Update();
-    vtksubdivisionfilter_vs2 = vtkSmartPointer<vtkButterflySubdivisionFilter>::New();
-//    dynamic_cast<vtkButterflySubdivisionFilter *> (vtksubdivisionfilter_vs2.GetPointer())->SetNumberOfSubdivisions(number_of_subdivisions);
-//    vtksubdivisionfilter_vs2->SetInputData(vtkspheresource_isovs2->GetOutput());
-//    vtksubdivisionfilter_vs2->Update();
 
     vtkmapper_isovs2 = vtkSmartPointer<vtkPolyDataMapper>::New();
     vtkmapper_isovs2->SetInputConnection(vtkspheresource_isovs2->GetOutputPort());
@@ -491,13 +485,13 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
 
     vtkactor_isovs2 = vtkSmartPointer<vtkActor>::New();
     vtkactor_isovs2->SetMapper(vtkmapper_isovs2);
-    vtkactor_isovs2->GetProperty()->SetRepresentationToWireframe();
+    vtkactor_isovs2->GetProperty()->SetDiffuseColor(0.5, 0.5, 0.5);
+    vtkactor_isovs2->GetProperty()->SetSpecularColor(1, 1, 1);
+    vtkactor_isovs2->GetProperty()->SetSpecular(.4);
+    vtkactor_isovs2->GetProperty()->SetSpecularPower(50);
+    vtkactor_isovs2->GetProperty()->SetOpacity(0.65);
+    //vtkactor_isovs2->GetProperty()->SetRepresentationToWireframe();
     vtkrenderer_vs2->AddActor(vtkactor_isovs2);
-
-
-
-
-
 
 
     // ANISO POINTS ====================================================================================================
@@ -578,8 +572,14 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkreverse_vp0->ReverseNormalsOn();
     vtkreverse_vp0->Update();
 
+    vtksubdivisionfilter_vp0 = vtkSmartPointer<vtkLinearSubdivisionFilter>::New();
+    vtksubdivisionfilter_vp0->SetNumberOfSubdivisions(number_of_subdivisions);
+    vtksubdivisionfilter_vp0->SetInputData(vtkreverse_vp0->GetOutput());
+    vtksubdivisionfilter_vp0->Update();
+
     // call after data provided
-    vtkoutputpolydata_vp0 = PrivateTransformBack( vtkpoints_vp0, vtkreverse_vp0->GetOutput());
+    //  vtkoutputpolydata_vp0 = PrivateTransformBack( vtkpoints_vp0, vtkreverse_vp0->GetOutput());
+    vtkoutputpolydata_vp0 = PrivateTransformBack( vtkpoints_vp0, vtksubdivisionfilter_vp0->GetOutput());
     //std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
 
     vtksurface_vs1 = vtkSmartPointer<vtkSurfaceReconstructionFilter>::New();
@@ -598,8 +598,14 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkreverse_vs1->ReverseNormalsOn();
     vtkreverse_vs1->Update();
 
+    vtksubdivisionfilter_vs1 = vtkSmartPointer<vtkLinearSubdivisionFilter>::New();
+    vtksubdivisionfilter_vs1->SetNumberOfSubdivisions(number_of_subdivisions);
+    vtksubdivisionfilter_vs1->SetInputData(vtkreverse_vs1->GetOutput());
+    vtksubdivisionfilter_vs1->Update();
+
     // call after data provided
-    vtkoutputpolydata_vs1 = PrivateTransformBack( vtkpoints_vs1, vtkreverse_vs1->GetOutput());
+    //  vtkoutputpolydata_vs1 = PrivateTransformBack( vtkpoints_vs1, vtkreverse_vs1->GetOutput());
+    vtkoutputpolydata_vs1 = PrivateTransformBack( vtkpoints_vs1, vtksubdivisionfilter_vs1->GetOutput());
     //std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
 
     vtksurface_vs2 = vtkSmartPointer<vtkSurfaceReconstructionFilter>::New();
@@ -618,14 +624,21 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkreverse_vs2->ReverseNormalsOn();
     vtkreverse_vs2->Update();
 
+    vtksubdivisionfilter_vs2 = vtkSmartPointer<vtkLinearSubdivisionFilter>::New();
+    vtksubdivisionfilter_vs2->SetNumberOfSubdivisions(number_of_subdivisions);
+    vtksubdivisionfilter_vs2->SetInputData(vtkreverse_vs2->GetOutput());
+    vtksubdivisionfilter_vs2->Update();
+
     // call after data provided
-    vtkoutputpolydata_vs2 = PrivateTransformBack( vtkpoints_vs2, vtkreverse_vs2->GetOutput());
+    //  vtkoutputpolydata_vs2 = PrivateTransformBack( vtkpoints_vs2, vtkreverse_vs2->GetOutput());
+    vtkoutputpolydata_vs2 = PrivateTransformBack( vtkpoints_vs2, vtksubdivisionfilter_vs2->GetOutput());
     //std::cout << "There are " << vtkoutputpolydata->GetNumberOfPoints() << " points." << std::endl;
 
     // surface mappers and actors ======================================================================================
 
     vtkpolydatamapper_vp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
-    vtkpolydatamapper_vp0->SetInputConnection(vtkreverse_vp0->GetOutputPort());  // input connection << vtkoutputpolydata ???
+    //  vtkpolydatamapper_vp0->SetInputConnection(vtkreverse_vp0->GetOutputPort());
+    vtkpolydatamapper_vp0->SetInputConnection(vtksubdivisionfilter_vp0->GetOutputPort());
     ////vtkpolydatamapper_vp0->SetInputData(vtkoutputpolydata_vp0);
     //vtkpolydatamapper_vp0->ScalarVisibilityOff();
     vtkpolydatamapper_vp0->ScalarVisibilityOn();
@@ -633,40 +646,33 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
 
     vtkactor_vp0 = vtkSmartPointer<vtkActor>::New();
     vtkactor_vp0->SetMapper(vtkpolydatamapper_vp0);
-//    vtkactor_vp0->GetProperty()->SetDiffuseColor(1.0000, 0.3882, 0.2784);
-//    vtkactor_vp0->GetProperty()->SetSpecularColor(1, 1, 1);
-//    vtkactor_vp0->GetProperty()->SetSpecular(.4);
-//    vtkactor_vp0->GetProperty()->SetSpecularPower(50);
+    vtkactor_vp0->GetProperty()->SetRepresentationToWireframe();
     // Add the actor to the scene
     vtkrenderer_vp0->AddActor(vtkactor_vp0);
 
     vtkpolydatamapper_vs1 = vtkSmartPointer<vtkPolyDataMapper>::New();
-    vtkpolydatamapper_vs1->SetInputConnection(vtkreverse_vs1->GetOutputPort());  // input connection << vtkoutputpolydata ???
+    //  vtkpolydatamapper_vs1->SetInputConnection(vtkreverse_vs1->GetOutputPort());
+    vtkpolydatamapper_vs1->SetInputConnection(vtksubdivisionfilter_vs1->GetOutputPort());
     ////vtkpolydatamapper_vs1->SetInputData(vtkoutputpolydata_vs1);
     //vtkpolydatamapper_vs1->ScalarVisibilityOff();
     vtkpolydatamapper_vs1->ScalarVisibilityOn();
 
     vtkactor_vs1 = vtkSmartPointer<vtkActor>::New();
     vtkactor_vs1->SetMapper(vtkpolydatamapper_vs1);
-//    vtkactor_vs1->GetProperty()->SetDiffuseColor(1.0000, 0.3882, 0.2784);
-//    vtkactor_vs1->GetProperty()->SetSpecularColor(1, 1, 1);
-//    vtkactor_vs1->GetProperty()->SetSpecular(.4);
-//    vtkactor_vs1->GetProperty()->SetSpecularPower(50);
+    vtkactor_vs1->GetProperty()->SetRepresentationToWireframe();
     // Add the actor to the scene
     vtkrenderer_vs1->AddActor(vtkactor_vs1);
 
     vtkpolydatamapper_vs2 = vtkSmartPointer<vtkPolyDataMapper>::New();
-    vtkpolydatamapper_vs2->SetInputConnection(vtkreverse_vs2->GetOutputPort());  // input connection << vtkoutputpolydata ???
+    //  vtkpolydatamapper_vs2->SetInputConnection(vtkreverse_vs2->GetOutputPort());
+    vtkpolydatamapper_vs2->SetInputConnection(vtksubdivisionfilter_vs2->GetOutputPort());
     ////vtkpolydatamapper_vs2->SetInputData(vtkoutputpolydata_vs2);
     //vtkpolydatamapper_vs2->ScalarVisibilityOff();
     vtkpolydatamapper_vs2->ScalarVisibilityOn();
 
     vtkactor_vs2 = vtkSmartPointer<vtkActor>::New();
     vtkactor_vs2->SetMapper(vtkpolydatamapper_vs2);
-//    vtkactor_vs2->GetProperty()->SetDiffuseColor(1.0000, 0.3882, 0.2784);
-//    vtkactor_vs2->GetProperty()->SetSpecularColor(1, 1, 1);
-//    vtkactor_vs2->GetProperty()->SetSpecular(.4);
-//    vtkactor_vs2->GetProperty()->SetSpecularPower(50);
+    vtkactor_vs2->GetProperty()->SetRepresentationToWireframe();
     // Add the actor to the scene
     vtkrenderer_vs2->AddActor(vtkactor_vs2);
 
@@ -686,6 +692,12 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
 //    // add the actors to the renderer
 //    vtkrenderer_vp0->AddViewProp(vtkoutlineactor_vp0.GetPointer());
 
+    vtktextpropertyaxes = vtkSmartPointer<vtkTextProperty>::New();
+    vtktextpropertyaxes->SetColor(1, 1, 1);
+    vtktextpropertyaxes->ShadowOn();
+    vtktextpropertyaxes->SetFontSize(20);
+    vtktextpropertyaxes->ItalicOn();
+
     // Create a vtkCubeAxesActor2D.  Use the outer edges of the bounding box to
     // draw the axes.  Add the actor to the renderer.
     vtkcubeaxesactor2d_vp0 = vtkSmartPointer<vtkCubeAxesActor2D>::New();
@@ -693,15 +705,16 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     //--vtkcubeaxesactor2d_vp0->SetCamera(vtkrenderer_vp0->GetActiveCamera());
     vtkcubeaxesactor2d_vp0->SetCamera(vtkcamera);
     vtkrenderer_vp0->ResetCamera();  // REQUIRED !!!
-    vtkcubeaxesactor2d_vp0->SetLabelFormat("%6.4g");
+    //vtkcubeaxesactor2d_vp0->SetLabelFormat("%6.4g");
     //vtkcubeaxesactor2d_vp0->SetFlyModeToOuterEdges();
     //vtkcubeaxesactor2d->SetFlyModeToClosestTriad();
     vtkcubeaxesactor2d_vp0->SetFlyModeToNone();
-    vtkcubeaxesactor2d_vp0->SetAxisTitleTextProperty(vtktextproperty.GetPointer());
-    vtkcubeaxesactor2d_vp0->SetAxisLabelTextProperty(vtktextproperty.GetPointer());
-    vtkcubeaxesactor2d_vp0->SetXLabel("X1");
-    vtkcubeaxesactor2d_vp0->SetYLabel("X2");
-    vtkcubeaxesactor2d_vp0->SetZLabel("X3");
+    vtkcubeaxesactor2d_vp0->SetAxisTitleTextProperty(vtktextpropertyaxes.GetPointer());
+    vtkcubeaxesactor2d_vp0->SetAxisLabelTextProperty(vtktextpropertyaxes.GetPointer());
+    vtkcubeaxesactor2d_vp0->SetXLabel("X1 (km/s)");
+    vtkcubeaxesactor2d_vp0->SetYLabel("X2 (km/s)");
+    vtkcubeaxesactor2d_vp0->SetZLabel("X3 (km/s)");
+    vtkcubeaxesactor2d_vp0->SetFontFactor(2.5);
     vtkrenderer_vp0->AddViewProp(vtkcubeaxesactor2d_vp0.GetPointer());
 
     vtkcubeaxesactor2d_vs1 = vtkSmartPointer<vtkCubeAxesActor2D>::New();
@@ -709,15 +722,16 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     //--vtkcubeaxesactor2d_vp0->SetCamera(vtkrenderer_vp0->GetActiveCamera());
     vtkcubeaxesactor2d_vs1->SetCamera(vtkcamera);
     vtkrenderer_vs1->ResetCamera();  // REQUIRED !!!
-    vtkcubeaxesactor2d_vs1->SetLabelFormat("%6.4g");
+    //vtkcubeaxesactor2d_vs1->SetLabelFormat("%6.4g");
     //vtkcubeaxesactor2d_vp0->SetFlyModeToOuterEdges();
     //vtkcubeaxesactor2d->SetFlyModeToClosestTriad();
     vtkcubeaxesactor2d_vs1->SetFlyModeToNone();
-    vtkcubeaxesactor2d_vs1->SetAxisTitleTextProperty(vtktextproperty.GetPointer());
-    vtkcubeaxesactor2d_vs1->SetAxisLabelTextProperty(vtktextproperty.GetPointer());
-    vtkcubeaxesactor2d_vs1->SetXLabel("X1");
-    vtkcubeaxesactor2d_vs1->SetYLabel("X2");
-    vtkcubeaxesactor2d_vs1->SetZLabel("X3");
+    vtkcubeaxesactor2d_vs1->SetAxisTitleTextProperty(vtktextpropertyaxes.GetPointer());
+    vtkcubeaxesactor2d_vs1->SetAxisLabelTextProperty(vtktextpropertyaxes.GetPointer());
+    vtkcubeaxesactor2d_vs1->SetXLabel("X1 (km/s)");
+    vtkcubeaxesactor2d_vs1->SetYLabel("X2 (km/s)");
+    vtkcubeaxesactor2d_vs1->SetZLabel("X3 (km/s)");
+    vtkcubeaxesactor2d_vs1->SetFontFactor(2.5);
     vtkrenderer_vs1->AddViewProp(vtkcubeaxesactor2d_vs1.GetPointer());
 
     vtkcubeaxesactor2d_vs2 = vtkSmartPointer<vtkCubeAxesActor2D>::New();
@@ -725,15 +739,16 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     //--vtkcubeaxesactor2d_vp0->SetCamera(vtkrenderer_vp0->GetActiveCamera());
     vtkcubeaxesactor2d_vs2->SetCamera(vtkcamera);
     vtkrenderer_vs2->ResetCamera();  // REQUIRED !!!
-    vtkcubeaxesactor2d_vs2->SetLabelFormat("%6.4g");
+    //vtkcubeaxesactor2d_vs2->SetLabelFormat("%6.4g");
     //vtkcubeaxesactor2d_vp0->SetFlyModeToOuterEdges();
     //vtkcubeaxesactor2d->SetFlyModeToClosestTriad();
     vtkcubeaxesactor2d_vs2->SetFlyModeToNone();
-    vtkcubeaxesactor2d_vs2->SetAxisTitleTextProperty(vtktextproperty.GetPointer());
-    vtkcubeaxesactor2d_vs2->SetAxisLabelTextProperty(vtktextproperty.GetPointer());
-    vtkcubeaxesactor2d_vs2->SetXLabel("X1");
-    vtkcubeaxesactor2d_vs2->SetYLabel("X2");
-    vtkcubeaxesactor2d_vs2->SetZLabel("X3");
+    vtkcubeaxesactor2d_vs2->SetAxisTitleTextProperty(vtktextpropertyaxes.GetPointer());
+    vtkcubeaxesactor2d_vs2->SetAxisLabelTextProperty(vtktextpropertyaxes.GetPointer());
+    vtkcubeaxesactor2d_vs2->SetXLabel("X1 (km/s)");
+    vtkcubeaxesactor2d_vs2->SetYLabel("X2 (km/s)");
+    vtkcubeaxesactor2d_vs2->SetZLabel("X3 (km/s)");
+    vtkcubeaxesactor2d_vs2->SetFontFactor(2.5);
     vtkrenderer_vs2->AddViewProp(vtkcubeaxesactor2d_vs2.GetPointer());
 
     // vtk examples : ScalarBarActor.cxx ===============================================================================
@@ -747,8 +762,8 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
 
     vtkscalarbaractor_vp0 = vtkSmartPointer<vtkScalarBarActor>::New();
     vtkscalarbaractor_vp0->SetLookupTable(vtkcolorlookuptable_vp0);
-    vtkscalarbaractor_vp0->SetTitle("V1");
-    vtkscalarbaractor_vp0->SetLabelFormat("%6.4g");
+    vtkscalarbaractor_vp0->SetTitle("V1 (km/s)");
+    //vtkscalarbaractor_vp0->SetLabelFormat("%6.4g");
     vtkscalarbaractor_vp0->SetTitleTextProperty(vtktextproperty.GetPointer());
     vtkscalarbaractor_vp0->SetLabelTextProperty(vtktextproperty.GetPointer());
     vtkscalarbaractor_vp0->SetOrientationToHorizontal();
@@ -768,8 +783,8 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
 
     vtkscalarbaractor_vs1 = vtkSmartPointer<vtkScalarBarActor>::New();
     vtkscalarbaractor_vs1->SetLookupTable(vtkcolorlookuptable_vs1);
-    vtkscalarbaractor_vs1->SetTitle("V2");
-    vtkscalarbaractor_vs1->SetLabelFormat("%6.4g");
+    vtkscalarbaractor_vs1->SetTitle("V2 (km/s)");
+    //vtkscalarbaractor_vs1->SetLabelFormat("%6.4g");
     vtkscalarbaractor_vs1->SetTitleTextProperty(vtktextproperty.GetPointer());
     vtkscalarbaractor_vs1->SetLabelTextProperty(vtktextproperty.GetPointer());
     vtkscalarbaractor_vs1->SetOrientationToHorizontal();
@@ -789,8 +804,8 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
 
     vtkscalarbaractor_vs2 = vtkSmartPointer<vtkScalarBarActor>::New();
     vtkscalarbaractor_vs2->SetLookupTable(vtkcolorlookuptable_vs2);
-    vtkscalarbaractor_vs2->SetTitle("V3");
-    vtkscalarbaractor_vs2->SetLabelFormat("%6.4g");
+    vtkscalarbaractor_vs2->SetTitle("V3 (km/s)");
+    //vtkscalarbaractor_vs2->SetLabelFormat("%6.4g");
     vtkscalarbaractor_vs2->SetTitleTextProperty(vtktextproperty.GetPointer());
     vtkscalarbaractor_vs2->SetLabelTextProperty(vtktextproperty.GetPointer());
     vtkscalarbaractor_vs2->SetOrientationToHorizontal();
@@ -2820,19 +2835,6 @@ void MineralVelsView::PrivateSetPoints() {
     vtkspheresource_isovs1->SetRadius(svel);
     vtkspheresource_isovs2->SetRadius(svel);
 
-//    // resample (dubdivide) isotropic sphere source
-//    // https://www.vtk.org/Wiki/VTK/Examples/Cxx/Meshes/Subdivision
-//    dynamic_cast<vtkButterflySubdivisionFilter *> (vtksubdivisionfilter_vp0.GetPointer())->SetNumberOfSubdivisions(number_of_subdivisions);
-//    dynamic_cast<vtkButterflySubdivisionFilter *> (vtksubdivisionfilter_vs1.GetPointer())->SetNumberOfSubdivisions(number_of_subdivisions);
-//    dynamic_cast<vtkButterflySubdivisionFilter *> (vtksubdivisionfilter_vs2.GetPointer())->SetNumberOfSubdivisions(number_of_subdivisions);
-
-//    vtksubdivisionfilter_vp0->SetInputData(vtkspheresource_isovp0->GetOutput());
-//    vtksubdivisionfilter_vp0->Update();
-//    vtksubdivisionfilter_vs1->SetInputData(vtkspheresource_isovs1->GetOutput());
-//    vtksubdivisionfilter_vs1->Update();
-//    vtksubdivisionfilter_vs2->SetInputData(vtkspheresource_isovs2->GetOutput());
-//    vtksubdivisionfilter_vs2->Update();
-
     // green-christoffel and anisotropic velocity points
     mpc::mechanics::GreenChristoffel<double> greenchristoffel = mpc::mechanics::GreenChristoffel<double>();  // function object
 
@@ -3014,9 +3016,9 @@ void MineralVelsView::PrivateSetPoints() {
 
 void MineralVelsView::PrivateUpdatePlot() {
     // update the effective values and plot surface
-    vtkactor_isovp0->SetVisibility(0);  // hide the iso sphere
-    vtkactor_isovs1->SetVisibility(0);  // hide the iso sphere
-    vtkactor_isovs2->SetVisibility(0);  // hide the iso sphere
+    //vtkactor_isovp0->SetVisibility(0);  // hide the iso sphere
+    //vtkactor_isovs1->SetVisibility(0);  // hide the iso sphere
+    //vtkactor_isovs2->SetVisibility(0);  // hide the iso sphere
 
     //
     vtkcolorlookuptable_vp0->SetTableRange(minvel_vp0, maxvel_vp0);
@@ -3031,7 +3033,9 @@ void MineralVelsView::PrivateUpdatePlot() {
     vtksurface_vp0->Update();
     vtkcontoursurf_vp0->Update();
     vtkreverse_vp0->Update();
-    vtkoutputpolydata_vp0 = PrivateTransformBack( vtkpoints_vp0, vtkreverse_vp0->GetOutput());
+    vtksubdivisionfilter_vp0->Update();
+    //vtkoutputpolydata_vp0 = PrivateTransformBack( vtkpoints_vp0, vtkreverse_vp0->GetOutput());
+    vtkoutputpolydata_vp0 = PrivateTransformBack( vtkpoints_vp0, vtksubdivisionfilter_vp0->GetOutput());
     for(int i = 0; i < vtkoutputpolydata_vp0->GetNumberOfPoints(); i++) {
         double p[3];
         vtkoutputpolydata_vp0->GetPoint(i,p);
@@ -3054,6 +3058,7 @@ void MineralVelsView::PrivateUpdatePlot() {
 
     vtkoutputpolydata_vp0->GetPointData()->SetScalars(vtkcolorchararray_vp0);  // vtkPointData.h
     vtkpolydatamapper_vp0->SetInputData(vtkoutputpolydata_vp0);
+    vtkpolydatamapper_vp0->Modified();
     vtkpolydatamapper_vp0->Update();
     vtkrenderer_vp0->ResetCamera();
 
@@ -3065,7 +3070,9 @@ void MineralVelsView::PrivateUpdatePlot() {
     vtksurface_vs1->Update();
     vtkcontoursurf_vs1->Update();
     vtkreverse_vs1->Update();
-    vtkoutputpolydata_vs1 = PrivateTransformBack( vtkpoints_vs1, vtkreverse_vs1->GetOutput());
+    vtksubdivisionfilter_vs1->Update();
+    //vtkoutputpolydata_vs1 = PrivateTransformBack( vtkpoints_vs1, vtkreverse_vs1->GetOutput());
+    vtkoutputpolydata_vs1 = PrivateTransformBack( vtkpoints_vs1, vtksubdivisionfilter_vs1->GetOutput());
     for(int i = 0; i < vtkoutputpolydata_vs1->GetNumberOfPoints(); i++) {
         double p[3];
         vtkoutputpolydata_vs1->GetPoint(i,p);
@@ -3088,6 +3095,7 @@ void MineralVelsView::PrivateUpdatePlot() {
 
     vtkoutputpolydata_vs1->GetPointData()->SetScalars(vtkcolorchararray_vs1);  // vtkPointData.h
     vtkpolydatamapper_vs1->SetInputData(vtkoutputpolydata_vs1);
+    vtkpolydatamapper_vs1->Modified();
     vtkpolydatamapper_vs1->Update();
     vtkrenderer_vs1->ResetCamera();
 
@@ -3099,7 +3107,9 @@ void MineralVelsView::PrivateUpdatePlot() {
     vtksurface_vs2->Update();
     vtkcontoursurf_vs2->Update();
     vtkreverse_vs2->Update();
-    vtkoutputpolydata_vs2 = PrivateTransformBack( vtkpoints_vs2, vtkreverse_vs2->GetOutput());
+    vtksubdivisionfilter_vs2->Update();
+    //vtkoutputpolydata_vs2 = PrivateTransformBack( vtkpoints_vs2, vtkreverse_vs2->GetOutput());
+    vtkoutputpolydata_vs2 = PrivateTransformBack( vtkpoints_vs2, vtksubdivisionfilter_vs2->GetOutput());
     for(int i = 0; i < vtkoutputpolydata_vs2->GetNumberOfPoints(); i++) {
         double p[3];
         vtkoutputpolydata_vs2->GetPoint(i,p);
@@ -3122,6 +3132,7 @@ void MineralVelsView::PrivateUpdatePlot() {
 
     vtkoutputpolydata_vs2->GetPointData()->SetScalars(vtkcolorchararray_vs2);  // vtkPointData.h
     vtkpolydatamapper_vs2->SetInputData(vtkoutputpolydata_vs2);
+    vtkpolydatamapper_vs2->Modified();
     vtkpolydatamapper_vs2->Update();
     vtkrenderer_vs2->ResetCamera();
 

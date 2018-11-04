@@ -6,6 +6,7 @@
 #include <QComboBox>
 #include <QLabel>
 #include <QCheckBox>
+#include <QLineEdit>
 
 #include <QVTKOpenGLWidget.h>
 #include <vtkSmartPointer.h>
@@ -13,13 +14,9 @@
 #include <vtkRenderer.h>
 #include <vtkChartXY.h>
 #include <vtkContextView.h>
+#include <vtkTextProperty.h>
 
 // http://www.labvib.ufc.br/P_Free/DIR/Patterns/WinMyProjet3_Dialog_Charts.pdf
-
-//class vtkRenderWindow;
-//class vtkRnederer;
-//class vtkContextView;
-//class vtkChartXY;
 
 class FluidPhaseView2 : public QWidget {
 Q_OBJECT
@@ -30,7 +27,7 @@ public:
 signals:
 
 public slots:
-    void OnInteractiveCheckBoxStateChanged(int);
+
 
 private:
     // data
@@ -45,18 +42,45 @@ private:
     const double brine_K = 2.6819;  // GPa
     const double brine_rho = 1.0194;  // g/cm**3
 
+
+    const int font_size = 18;
     // variables
 
 
     // Qt widgets
-    QCheckBox* interactive_checkbox;
+    QLabel*    background_fluid_label;
+    QComboBox* background_fluid_combobox;
+    QLabel*    background_fluid_bulkmodulus_label;
+    QLineEdit* background_fluid_bulkmodulus_value_lineedit;
+    QLabel*    background_fluid_shearmodulus_label;
+    QLineEdit* background_fluid_shearmodulus_value_lineedit;
+    QLabel*    background_fluid_density_label;
+    QLineEdit* background_fluid_density_value_lineedit;
 
+    QLabel*    foreground_fluid1_label;
+    QComboBox* foreground_fluid1_combobox;
+    QLabel*    foreground_fluid1_bulkmodulus_label;
+    QLineEdit* foreground_fluid1_bulkmodulus_value_lineedit;
+    QLabel*    foreground_fluid1_shearmodulus_label;
+    QLineEdit* foreground_fluid1_shearmodulus_value_lineedit;
+    QLabel*    foreground_fluid1_density_label;
+    QLineEdit* foreground_fluid1_density_value_lineedit;
+
+    QLabel*    foreground_fluid2_label;
+    QComboBox* foreground_fluid2_combobox;
+    QLabel*    foreground_fluid2_bulkmodulus_label;
+    QLineEdit* foreground_fluid2_bulkmodulus_value_lineedit;
+    QLabel*    foreground_fluid2_shearmodulus_label;
+    QLineEdit* foreground_fluid2_shearmodulus_value_lineedit;
+    QLabel*    foreground_fluid2_density_label;
+    QLineEdit* foreground_fluid2_density_value_lineedit;
 
     // VTK
     QVTKOpenGLWidget* qvtkopenglwidget_K;
     vtkSmartPointer<vtkRenderWindow> vtkrenderwindow_K;
     //vtkSmartPointer<vtkRenderer> vtkrenderer;
     vtkSmartPointer<vtkContextView> vtkcontextview_effK;
+
     vtkSmartPointer<vtkChartXY> vtkchart_effK;
 
     QVTKOpenGLWidget* qvtkopenglwidget_mu;
