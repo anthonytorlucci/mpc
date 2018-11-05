@@ -435,7 +435,29 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkspheresource_isovp0 = vtkSmartPointer<vtkSphereSource>::New();
     vtkspheresource_isovp0->SetCenter(0,0,0);
     vtkspheresource_isovp0->SetRadius(1);
+    vtkspheresource_isovp0->SetThetaResolution(24);
+    vtkspheresource_isovp0->SetPhiResolution(24);
     vtkspheresource_isovp0->Update();
+    /* print out some information about the sphere parameters */
+//    std::cout << "GetThetaResolution()         : " << vtkspheresource_isovp0->GetThetaResolution() << std::endl;
+//    std::cout << "GetThetaResolutionMinValue() : " << vtkspheresource_isovp0->GetThetaResolutionMinValue() << std::endl;
+//    std::cout << "GetThetaResolutionMaxValue() : " << vtkspheresource_isovp0->GetThetaResolutionMaxValue() << std::endl;
+//    std::cout << "GetStartTheta()              : " << vtkspheresource_isovp0->GetStartTheta() << std::endl;
+//    std::cout << "GetStartThetaMinValue()      : " << vtkspheresource_isovp0->GetStartThetaMinValue() << std::endl;
+//    std::cout << "GetStartThetaMaxValue()      : " << vtkspheresource_isovp0->GetStartThetaMaxValue() << std::endl;
+//    std::cout << "GetEndTheta()                : " << vtkspheresource_isovp0->GetEndTheta() << std::endl;
+//    std::cout << "GetEndThetaMinValue()        : " << vtkspheresource_isovp0->GetEndThetaMinValue() << std::endl;
+//    std::cout << "GetEndThetaMaxValue()        : " << vtkspheresource_isovp0->GetEndThetaMaxValue() << std::endl;
+//    std::cout << "GetPhiResolution()           : " << vtkspheresource_isovp0->GetPhiResolution() << std::endl;
+//    std::cout << "GetPhiResolutionMinValue()   : " << vtkspheresource_isovp0->GetPhiResolutionMinValue() << std::endl;
+//    std::cout << "GetPhiResolutionMaxValue()   : " << vtkspheresource_isovp0->GetPhiResolutionMaxValue() << std::endl;
+//    std::cout << "GetStartPhi()                : " << vtkspheresource_isovp0->GetStartPhi() << std::endl;
+//    std::cout << "GetStartPhiMinValue()        : " << vtkspheresource_isovp0->GetStartPhiMinValue() << std::endl;
+//    std::cout << "GetStartPhiMaxValue()        : " << vtkspheresource_isovp0->GetStartPhiMaxValue() << std::endl;
+//    std::cout << "GetEndPhi()                  : " << vtkspheresource_isovp0->GetEndPhi() << std::endl;
+//    std::cout << "GetEndPhiMinValue()          : " << vtkspheresource_isovp0->GetEndPhiMinValue() << std::endl;
+//    std::cout << "GetEndPhiMaxValue()          : " << vtkspheresource_isovp0->GetEndPhiMaxValue() << std::endl;
+
 
     vtkmapper_isovp0 = vtkSmartPointer<vtkPolyDataMapper>::New();
     vtkmapper_isovp0->SetInputConnection(vtkspheresource_isovp0->GetOutputPort());
@@ -444,9 +466,9 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkactor_isovp0 = vtkSmartPointer<vtkActor>::New();
     vtkactor_isovp0->SetMapper(vtkmapper_isovp0);
     vtkactor_isovp0->GetProperty()->SetDiffuseColor(0.5, 0.5, 0.5);
-    vtkactor_isovp0->GetProperty()->SetSpecularColor(1, 1, 1);
-    vtkactor_isovp0->GetProperty()->SetSpecular(.4);
-    vtkactor_isovp0->GetProperty()->SetSpecularPower(50);
+//    vtkactor_isovp0->GetProperty()->SetSpecularColor(1, 1, 1);
+//    vtkactor_isovp0->GetProperty()->SetSpecular(.4);
+//    vtkactor_isovp0->GetProperty()->SetSpecularPower(50);
     vtkactor_isovp0->GetProperty()->SetOpacity(0.65);
     //vtkactor_isovp0->GetProperty()->SetRepresentationToWireframe();
     vtkrenderer_vp0->AddActor(vtkactor_isovp0);
@@ -456,6 +478,8 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkspheresource_isovs1 = vtkSmartPointer<vtkSphereSource>::New();
     vtkspheresource_isovs1->SetCenter(0,0,0);
     vtkspheresource_isovs1->SetRadius(1);
+    vtkspheresource_isovs1->SetThetaResolution(24);
+    vtkspheresource_isovs1->SetPhiResolution(24);
     vtkspheresource_isovs1->Update();
 
     vtkmapper_isovs1 = vtkSmartPointer<vtkPolyDataMapper>::New();
@@ -465,9 +489,9 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkactor_isovs1 = vtkSmartPointer<vtkActor>::New();
     vtkactor_isovs1->SetMapper(vtkmapper_isovs1);
     vtkactor_isovs1->GetProperty()->SetDiffuseColor(0.5, 0.5, 0.5);
-    vtkactor_isovs1->GetProperty()->SetSpecularColor(1, 1, 1);
-    vtkactor_isovs1->GetProperty()->SetSpecular(.4);
-    vtkactor_isovs1->GetProperty()->SetSpecularPower(50);
+//    vtkactor_isovs1->GetProperty()->SetSpecularColor(1, 1, 1);
+//    vtkactor_isovs1->GetProperty()->SetSpecular(.4);
+//    vtkactor_isovs1->GetProperty()->SetSpecularPower(50);
     vtkactor_isovs1->GetProperty()->SetOpacity(0.65);
     //vtkactor_isovs1->GetProperty()->SetRepresentationToWireframe();
     vtkrenderer_vs1->AddActor(vtkactor_isovs1);
@@ -477,6 +501,8 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkspheresource_isovs2 = vtkSmartPointer<vtkSphereSource>::New();
     vtkspheresource_isovs2->SetCenter(0,0,0);
     vtkspheresource_isovs2->SetRadius(1);
+    vtkspheresource_isovs2->SetThetaResolution(24);
+    vtkspheresource_isovs2->SetPhiResolution(24);
     vtkspheresource_isovs2->Update();
 
     vtkmapper_isovs2 = vtkSmartPointer<vtkPolyDataMapper>::New();
@@ -486,9 +512,9 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkactor_isovs2 = vtkSmartPointer<vtkActor>::New();
     vtkactor_isovs2->SetMapper(vtkmapper_isovs2);
     vtkactor_isovs2->GetProperty()->SetDiffuseColor(0.5, 0.5, 0.5);
-    vtkactor_isovs2->GetProperty()->SetSpecularColor(1, 1, 1);
-    vtkactor_isovs2->GetProperty()->SetSpecular(.4);
-    vtkactor_isovs2->GetProperty()->SetSpecularPower(50);
+//    vtkactor_isovs2->GetProperty()->SetSpecularColor(1, 1, 1);
+//    vtkactor_isovs2->GetProperty()->SetSpecular(.4);
+//    vtkactor_isovs2->GetProperty()->SetSpecularPower(50);
     vtkactor_isovs2->GetProperty()->SetOpacity(0.65);
     //vtkactor_isovs2->GetProperty()->SetRepresentationToWireframe();
     vtkrenderer_vs2->AddActor(vtkactor_isovs2);
@@ -714,7 +740,7 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkcubeaxesactor2d_vp0->SetXLabel("X1 (km/s)");
     vtkcubeaxesactor2d_vp0->SetYLabel("X2 (km/s)");
     vtkcubeaxesactor2d_vp0->SetZLabel("X3 (km/s)");
-    vtkcubeaxesactor2d_vp0->SetFontFactor(2.5);
+    vtkcubeaxesactor2d_vp0->SetFontFactor(3.0);
     vtkrenderer_vp0->AddViewProp(vtkcubeaxesactor2d_vp0.GetPointer());
 
     vtkcubeaxesactor2d_vs1 = vtkSmartPointer<vtkCubeAxesActor2D>::New();
@@ -731,7 +757,7 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkcubeaxesactor2d_vs1->SetXLabel("X1 (km/s)");
     vtkcubeaxesactor2d_vs1->SetYLabel("X2 (km/s)");
     vtkcubeaxesactor2d_vs1->SetZLabel("X3 (km/s)");
-    vtkcubeaxesactor2d_vs1->SetFontFactor(2.5);
+    vtkcubeaxesactor2d_vs1->SetFontFactor(3.0);
     vtkrenderer_vs1->AddViewProp(vtkcubeaxesactor2d_vs1.GetPointer());
 
     vtkcubeaxesactor2d_vs2 = vtkSmartPointer<vtkCubeAxesActor2D>::New();
@@ -748,7 +774,7 @@ MineralVelsView::MineralVelsView(QWidget *parent) {
     vtkcubeaxesactor2d_vs2->SetXLabel("X1 (km/s)");
     vtkcubeaxesactor2d_vs2->SetYLabel("X2 (km/s)");
     vtkcubeaxesactor2d_vs2->SetZLabel("X3 (km/s)");
-    vtkcubeaxesactor2d_vs2->SetFontFactor(2.5);
+    vtkcubeaxesactor2d_vs2->SetFontFactor(3.0);
     vtkrenderer_vs2->AddViewProp(vtkcubeaxesactor2d_vs2.GetPointer());
 
     // vtk examples : ScalarBarActor.cxx ===============================================================================

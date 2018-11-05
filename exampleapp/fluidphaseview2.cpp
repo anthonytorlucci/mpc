@@ -279,7 +279,7 @@ FluidPhaseView2::FluidPhaseView2(QWidget *parent) {
 
     vtkSmartPointer<vtkChartLegend> vtkchartlegend_effK = vtkchart_effK->GetLegend();
     vtkchartlegend_effK->GetLabelProperties()->SetFontSize(font_size);
-    vtkchart_effK->SetShowLegend(true);
+    vtkchart_effK->SetShowLegend(false);
     vtkchart_effK->GetAxis(vtkAxis::BOTTOM)->SetTitle("brine saturation");
     vtkchart_effK->GetAxis(vtkAxis::BOTTOM)->GetLabelProperties()->SetFontSize(font_size);
     vtkchart_effK->GetAxis(vtkAxis::BOTTOM)->GetTitleProperties()->SetFontSize(font_size);
@@ -316,7 +316,7 @@ FluidPhaseView2::FluidPhaseView2(QWidget *parent) {
 
     vtkSmartPointer<vtkChartLegend> vtkchartlegend_effmu = vtkchart_effmu->GetLegend();
     vtkchartlegend_effmu->GetLabelProperties()->SetFontSize(font_size);
-    vtkchart_effmu->SetShowLegend(true);
+    vtkchart_effmu->SetShowLegend(false);
     vtkchart_effmu->GetAxis(vtkAxis::BOTTOM)->SetTitle("brine saturation");
     vtkchart_effmu->GetAxis(vtkAxis::BOTTOM)->GetLabelProperties()->SetFontSize(font_size);
     vtkchart_effmu->GetAxis(vtkAxis::BOTTOM)->GetTitleProperties()->SetFontSize(font_size);
@@ -352,7 +352,7 @@ FluidPhaseView2::FluidPhaseView2(QWidget *parent) {
 
     vtkSmartPointer<vtkChartLegend> vtkchartlegend_effrho = vtkchart_effrho->GetLegend();
     vtkchartlegend_effrho->GetLabelProperties()->SetFontSize(font_size);
-    vtkchart_effrho->SetShowLegend(true);
+    vtkchart_effrho->SetShowLegend(false);
     vtkchart_effrho->GetAxis(vtkAxis::BOTTOM)->SetTitle("brine saturation");
     vtkchart_effrho->GetAxis(vtkAxis::BOTTOM)->GetLabelProperties()->SetFontSize(font_size);
     vtkchart_effrho->GetAxis(vtkAxis::BOTTOM)->GetTitleProperties()->SetFontSize(font_size);
