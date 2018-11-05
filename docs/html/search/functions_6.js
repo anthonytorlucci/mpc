@@ -31,6 +31,8 @@ var searchData=
   ['getruessbulkandshearmodulusfromcompliance',['GetRuessBulkAndShearModulusFromCompliance',['../namespacempc_1_1rockphysics.html#aaf1fb571ea01068c87bf84edab69dcaf',1,'mpc::rockphysics']]],
   ['getvoigtbulkandshearmodulusfromstiffnesstensor',['GetVoigtBulkAndShearModulusFromStiffnessTensor',['../namespacempc_1_1rockphysics.html#a902a5b076610546b106099671ae0a16a',1,'mpc::rockphysics']]],
   ['getvoigtmatrixindex',['GetVoigtMatrixIndex',['../namespacempc_1_1utilities.html#ab6036c49506f59bdc9d5e522df98f24a',1,'mpc::utilities']]],
+  ['grams2kilograms',['grams2kilograms',['../namespacempc_1_1utilities.html#ae61a687e707b0a0e951881d3f56c0e99',1,'mpc::utilities']]],
+  ['grams2pounds',['grams2pounds',['../namespacempc_1_1utilities.html#aaee66b89101ea36ef03bb9b8d4e7e4f1',1,'mpc::utilities']]],
   ['graphitebulkmodulus',['GraphiteBulkModulus',['../namespacempc_1_1data.html#a8d3fe38b39965b0531fca845efc473a1',1,'mpc::data']]],
   ['graphitec11',['GraphiteC11',['../namespacempc_1_1data.html#a81cbaf579766460ce33ed545dedd8f97',1,'mpc::data']]],
   ['graphitec12',['GraphiteC12',['../namespacempc_1_1data.html#a68fccf70e7512250766f422d5fc9c567',1,'mpc::data']]],

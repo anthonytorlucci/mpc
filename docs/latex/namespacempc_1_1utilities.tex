@@ -49,6 +49,28 @@ struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_eigen2_blitz_function_object_
 \item 
 struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_eigen2_blitz_function_object_3_01_t_00_01_m_00_01_n_00_012_01_4}{Eigen2\+Blitz\+Function\+Object$<$ T, M, N, 2 $>$}}
 \item 
+struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_identity_tensor_function_object}{Identity\+Tensor\+Function\+Object}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_identity_tensor_function_object_3_01_t_00_01_dim_00_0110_01_4}{Identity\+Tensor\+Function\+Object$<$ T, Dim, 10 $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_identity_tensor_function_object_3_01_t_00_01_dim_00_0111_01_4}{Identity\+Tensor\+Function\+Object$<$ T, Dim, 11 $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_identity_tensor_function_object_3_01_t_00_01_dim_00_012_01_4}{Identity\+Tensor\+Function\+Object$<$ T, Dim, 2 $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_identity_tensor_function_object_3_01_t_00_01_dim_00_013_01_4}{Identity\+Tensor\+Function\+Object$<$ T, Dim, 3 $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_identity_tensor_function_object_3_01_t_00_01_dim_00_014_01_4}{Identity\+Tensor\+Function\+Object$<$ T, Dim, 4 $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_identity_tensor_function_object_3_01_t_00_01_dim_00_015_01_4}{Identity\+Tensor\+Function\+Object$<$ T, Dim, 5 $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_identity_tensor_function_object_3_01_t_00_01_dim_00_016_01_4}{Identity\+Tensor\+Function\+Object$<$ T, Dim, 6 $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_identity_tensor_function_object_3_01_t_00_01_dim_00_017_01_4}{Identity\+Tensor\+Function\+Object$<$ T, Dim, 7 $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_identity_tensor_function_object_3_01_t_00_01_dim_00_018_01_4}{Identity\+Tensor\+Function\+Object$<$ T, Dim, 8 $>$}}
+\item 
+struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_identity_tensor_function_object_3_01_t_00_01_dim_00_019_01_4}{Identity\+Tensor\+Function\+Object$<$ T, Dim, 9 $>$}}
+\item 
 struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_inner_productor}{Inner\+Productor}}
 \item 
 struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_inner_productor_3_01_t_00_011_01_4}{Inner\+Productor$<$ T, 1 $>$}}
@@ -122,7 +144,9 @@ struct \mbox{\hyperlink{structmpc_1_1utilities_1_1_weighted_harmonic_average_3_0
 \item 
 {\footnotesize template$<$typename T $>$ }\\std\+::vector$<$ T $>$ \mbox{\hyperlink{namespacempc_1_1utilities_abb6b125ee38967fe00a7f47bf087b75a}{Linspace}} (T a, T b, size\+\_\+t N)
 \item 
-{\footnotesize template$<$typename T $>$ }\\blitz\+::\+Array$<$ T, 4 $>$ \mbox{\hyperlink{namespacempc_1_1utilities_a2a7788e9666343e76796346aa521fb4a}{Identity43}} ()
+{\footnotesize template$<$typename T , int Dim, int Rank$>$ }\\blitz\+::\+Array$<$ T, Rank $>$ \mbox{\hyperlink{namespacempc_1_1utilities_a9fb6465091d6aeb8c9b16807c3bb7c72}{Identity\+Tensor}} ()
+\item 
+{\footnotesize template$<$typename T $>$ }\\blitz\+::\+Array$<$ T, 4 $>$ \mbox{\hyperlink{namespacempc_1_1utilities_a96edb2d899d84f585e1ca4fb2cdb15f4}{Identity\+Tensor4\+\_\+d3}} ()
 \item 
 {\footnotesize template$<$typename T , int N$>$ }\\blitz\+::\+Array$<$ T, 2 $>$ \mbox{\hyperlink{namespacempc_1_1utilities_aee39ac77e4aad3a854879829eed39b37}{Kronecker\+Delta}} ()
 \item 
@@ -191,6 +215,68 @@ std\+::pair$<$ int, int $>$ \mbox{\hyperlink{namespacempc_1_1utilities_a3068edcf
 {\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{namespacempc_1_1utilities_a86772b476b0e0aa1567f42c8a9aa7a3c}{Swap\+Columns}} (blitz\+::\+Array$<$ T, 2 $>$ \&a, int c1, int c2)
 \item 
 {\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{namespacempc_1_1utilities_a7dc82dae028a331f955ec8a5aa3599a4}{Swap\+Rows}} (blitz\+::\+Array$<$ T, 2 $>$ \&a, int r1, int r2)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_ae61a687e707b0a0e951881d3f56c0e99}{grams2kilograms}} (T val)
+\begin{DoxyCompactList}\small\item\em converts the input quantity grams to kilograms \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_ae04157378455df2cf7b5c7e1df0f0b73}{kilograms2grams}} (T val)
+\begin{DoxyCompactList}\small\item\em converts the input quantity kilograms to grams \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a2aba7ace8ddd90e43d4532cc3decc7d3}{kilograms2pounds}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a2c2a93627483d29fb5ecaa11be521680}{pounds2kilograms}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_aaee66b89101ea36ef03bb9b8d4e7e4f1}{grams2pounds}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_acf64151746ffeb74a8a8889d9c4dfd1e}{pounds2grams}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_aa0b241eebaf3058ec563fd6be9c00009}{meters2inches}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a7976143deef719413c2ff1447d7fec42}{meters2feet}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a8852f021788cc48d045e975e16c0382f}{centimeters2inches}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_ab344f73d9ed97735b823ecf6569355b1}{centimeter2feet}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a736267b7c5d34ebf9dbfd75e9b4ceccd}{centimeters2meters}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a6779c38d6af8d9946e53f061feb8d774}{meters2centimeters}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a210071ae7c4eeea2c7269246fe901ac8}{inches2centimeters}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a267f12c10d16584dbf3cb0b0ddba8bc3}{inches2meters}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a6865996c35cf22c64dcfec367de015d1}{feet2centimeters}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a20f0094ce9908b1196a4b0c93d268915}{feet2meters}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a7fca77ca1465be0d44ed1a8e003a4b6e}{kilometers2miles}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a458eadeb7c7c3bb539d2d1740789b4d3}{miles2kilometers}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a33bbcb9c7dbaf0c3a898ece6b9dc3c18}{meterspersecond2feetpersecond}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a828f7c56f37be383853827b0c3cc14df}{feetpersecond2meterspersecond}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_af01ea239316f5eb90284cd5cf1f01919}{milesperfhour2kilometersperhour}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_ab14e5cdfd57941629a121328c7971cc3}{milesperhour2meterspersecond}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_aeca95aa677140f98a53ae3b5033ea892}{milesperhour2feetpersecond}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_af5e0b246cdb2b38936454bc4406777cc}{meterssquared2centimeterssquared}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a28fae5a86f93cbc52ae411d49842dd85}{meterssquared2feetsquared}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_ac73a70f3a631e074d3fc17b1df7e8d51}{cubicmeter2cubicfoot}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_ad3d1fe7b84dc93ee23990c1f5eb06465}{cubicfoot2cubicmeter}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a692da73ca8f5b1784035029b4ef88790}{cubicmeter2cubiccentimeter}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a4bff0fd9e5e1ca5607209f7d1f48c4fb}{cubiccentimeter2cubicmeter}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a2e19dbeb14683c7f286d573587ffa3f8}{cubicfoot2cubiccentimeter}} (T val)
+\item 
+{\footnotesize template$<$typename T $>$ }\\constexpr T \mbox{\hyperlink{namespacempc_1_1utilities_a3dcb46dc0e3f7ff4709e37a0fd2d5b6f}{cubiccentimeter2cubicfoot}} (T val)
 \end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
@@ -210,6 +296,39 @@ Eigen\+::\+Matrix$<$T,M,N$>$ mpc\+::utilities\+::\+Blitz2\+Eigen (\begin{DoxyPar
 
 
 Definition at line 23 of file blitz2eigen.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_ab344f73d9ed97735b823ecf6569355b1}\label{namespacempc_1_1utilities_ab344f73d9ed97735b823ecf6569355b1}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!centimeter2feet@{centimeter2feet}}
+\index{centimeter2feet@{centimeter2feet}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{centimeter2feet()}{centimeter2feet()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::centimeter2feet (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 145 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_a8852f021788cc48d045e975e16c0382f}\label{namespacempc_1_1utilities_a8852f021788cc48d045e975e16c0382f}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!centimeters2inches@{centimeters2inches}}
+\index{centimeters2inches@{centimeters2inches}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{centimeters2inches()}{centimeters2inches()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::centimeters2inches (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 134 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_a736267b7c5d34ebf9dbfd75e9b4ceccd}\label{namespacempc_1_1utilities_a736267b7c5d34ebf9dbfd75e9b4ceccd}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!centimeters2meters@{centimeters2meters}}
+\index{centimeters2meters@{centimeters2meters}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{centimeters2meters()}{centimeters2meters()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::centimeters2meters (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 156 of file unitconversion.\+hpp.
 
 \mbox{\Hypertarget{namespacempc_1_1utilities_acb1091d4fd58c0821eeeba68a43146ac}\label{namespacempc_1_1utilities_acb1091d4fd58c0821eeeba68a43146ac}} 
 \index{mpc\+::utilities@{mpc\+::utilities}!C\+Get\+First\+Index\+From\+Voigt\+Matrix@{C\+Get\+First\+Index\+From\+Voigt\+Matrix}}
@@ -453,6 +572,72 @@ constexpr T mpc\+::utilities\+::\+C\+Kronecker\+Delta3 (\begin{DoxyParamCaption}
 
 Definition at line 121 of file kroneckerdelta.\+hpp.
 
+\mbox{\Hypertarget{namespacempc_1_1utilities_a3dcb46dc0e3f7ff4709e37a0fd2d5b6f}\label{namespacempc_1_1utilities_a3dcb46dc0e3f7ff4709e37a0fd2d5b6f}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!cubiccentimeter2cubicfoot@{cubiccentimeter2cubicfoot}}
+\index{cubiccentimeter2cubicfoot@{cubiccentimeter2cubicfoot}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{cubiccentimeter2cubicfoot()}{cubiccentimeter2cubicfoot()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::cubiccentimeter2cubicfoot (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 392 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_a4bff0fd9e5e1ca5607209f7d1f48c4fb}\label{namespacempc_1_1utilities_a4bff0fd9e5e1ca5607209f7d1f48c4fb}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!cubiccentimeter2cubicmeter@{cubiccentimeter2cubicmeter}}
+\index{cubiccentimeter2cubicmeter@{cubiccentimeter2cubicmeter}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{cubiccentimeter2cubicmeter()}{cubiccentimeter2cubicmeter()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::cubiccentimeter2cubicmeter (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 369 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_a2e19dbeb14683c7f286d573587ffa3f8}\label{namespacempc_1_1utilities_a2e19dbeb14683c7f286d573587ffa3f8}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!cubicfoot2cubiccentimeter@{cubicfoot2cubiccentimeter}}
+\index{cubicfoot2cubiccentimeter@{cubicfoot2cubiccentimeter}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{cubicfoot2cubiccentimeter()}{cubicfoot2cubiccentimeter()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::cubicfoot2cubiccentimeter (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 380 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_ad3d1fe7b84dc93ee23990c1f5eb06465}\label{namespacempc_1_1utilities_ad3d1fe7b84dc93ee23990c1f5eb06465}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!cubicfoot2cubicmeter@{cubicfoot2cubicmeter}}
+\index{cubicfoot2cubicmeter@{cubicfoot2cubicmeter}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{cubicfoot2cubicmeter()}{cubicfoot2cubicmeter()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::cubicfoot2cubicmeter (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 347 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_a692da73ca8f5b1784035029b4ef88790}\label{namespacempc_1_1utilities_a692da73ca8f5b1784035029b4ef88790}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!cubicmeter2cubiccentimeter@{cubicmeter2cubiccentimeter}}
+\index{cubicmeter2cubiccentimeter@{cubicmeter2cubiccentimeter}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{cubicmeter2cubiccentimeter()}{cubicmeter2cubiccentimeter()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::cubicmeter2cubiccentimeter (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 358 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_ac73a70f3a631e074d3fc17b1df7e8d51}\label{namespacempc_1_1utilities_ac73a70f3a631e074d3fc17b1df7e8d51}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!cubicmeter2cubicfoot@{cubicmeter2cubicfoot}}
+\index{cubicmeter2cubicfoot@{cubicmeter2cubicfoot}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{cubicmeter2cubicfoot()}{cubicmeter2cubicfoot()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::cubicmeter2cubicfoot (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 336 of file unitconversion.\+hpp.
+
 \mbox{\Hypertarget{namespacempc_1_1utilities_adbffd8dee20ff121f91cf6be9e19a1b3}\label{namespacempc_1_1utilities_adbffd8dee20ff121f91cf6be9e19a1b3}} 
 \index{mpc\+::utilities@{mpc\+::utilities}!Cubic\+Solver@{Cubic\+Solver}}
 \index{Cubic\+Solver@{Cubic\+Solver}!mpc\+::utilities@{mpc\+::utilities}}
@@ -475,6 +660,39 @@ blitz\+::\+Array$<$T,D$>$ mpc\+::utilities\+::\+Eigen2\+Blitz (\begin{DoxyParamC
 
 Definition at line 69 of file eigen2blitz.\+hpp.
 
+\mbox{\Hypertarget{namespacempc_1_1utilities_a6865996c35cf22c64dcfec367de015d1}\label{namespacempc_1_1utilities_a6865996c35cf22c64dcfec367de015d1}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!feet2centimeters@{feet2centimeters}}
+\index{feet2centimeters@{feet2centimeters}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{feet2centimeters()}{feet2centimeters()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::feet2centimeters (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 200 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_a20f0094ce9908b1196a4b0c93d268915}\label{namespacempc_1_1utilities_a20f0094ce9908b1196a4b0c93d268915}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!feet2meters@{feet2meters}}
+\index{feet2meters@{feet2meters}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{feet2meters()}{feet2meters()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::feet2meters (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 211 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_a828f7c56f37be383853827b0c3cc14df}\label{namespacempc_1_1utilities_a828f7c56f37be383853827b0c3cc14df}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!feetpersecond2meterspersecond@{feetpersecond2meterspersecond}}
+\index{feetpersecond2meterspersecond@{feetpersecond2meterspersecond}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{feetpersecond2meterspersecond()}{feetpersecond2meterspersecond()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::feetpersecond2meterspersecond (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 257 of file unitconversion.\+hpp.
+
 \mbox{\Hypertarget{namespacempc_1_1utilities_a3068edcfc9812e8161b332a659ededaa}\label{namespacempc_1_1utilities_a3068edcfc9812e8161b332a659ededaa}} 
 \index{mpc\+::utilities@{mpc\+::utilities}!Get\+Index\+From\+Voigt\+Matrix@{Get\+Index\+From\+Voigt\+Matrix}}
 \index{Get\+Index\+From\+Voigt\+Matrix@{Get\+Index\+From\+Voigt\+Matrix}!mpc\+::utilities@{mpc\+::utilities}}
@@ -495,16 +713,128 @@ Definition at line 220 of file matrixnotation.\+hpp.
 
 Definition at line 208 of file matrixnotation.\+hpp.
 
-\mbox{\Hypertarget{namespacempc_1_1utilities_a2a7788e9666343e76796346aa521fb4a}\label{namespacempc_1_1utilities_a2a7788e9666343e76796346aa521fb4a}} 
-\index{mpc\+::utilities@{mpc\+::utilities}!Identity43@{Identity43}}
-\index{Identity43@{Identity43}!mpc\+::utilities@{mpc\+::utilities}}
-\subsubsection{\texorpdfstring{Identity43()}{Identity43()}}
+\mbox{\Hypertarget{namespacempc_1_1utilities_ae61a687e707b0a0e951881d3f56c0e99}\label{namespacempc_1_1utilities_ae61a687e707b0a0e951881d3f56c0e99}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!grams2kilograms@{grams2kilograms}}
+\index{grams2kilograms@{grams2kilograms}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{grams2kilograms()}{grams2kilograms()}}
 {\footnotesize\ttfamily template$<$typename T $>$ \\
-blitz\+::\+Array$<$T,4$>$ mpc\+::utilities\+::\+Identity43 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+T mpc\+::utilities\+::grams2kilograms (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
 
 
 
-Definition at line 27 of file identitytensor.\+hpp.
+converts the input quantity grams to kilograms 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & input quantity in grams\\
+\hline
+\end{DoxyParams}
+\begin{DoxyWarning}{Warning}
+not type safe! 
+\end{DoxyWarning}
+
+
+Definition at line 39 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_aaee66b89101ea36ef03bb9b8d4e7e4f1}\label{namespacempc_1_1utilities_aaee66b89101ea36ef03bb9b8d4e7e4f1}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!grams2pounds@{grams2pounds}}
+\index{grams2pounds@{grams2pounds}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{grams2pounds()}{grams2pounds()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::grams2pounds (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 87 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_a9fb6465091d6aeb8c9b16807c3bb7c72}\label{namespacempc_1_1utilities_a9fb6465091d6aeb8c9b16807c3bb7c72}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!Identity\+Tensor@{Identity\+Tensor}}
+\index{Identity\+Tensor@{Identity\+Tensor}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{Identity\+Tensor()}{IdentityTensor()}}
+{\footnotesize\ttfamily template$<$typename T , int Dim, int Rank$>$ \\
+blitz\+::\+Array$<$T,Rank$>$ mpc\+::utilities\+::\+Identity\+Tensor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 124 of file identitytensor.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_a96edb2d899d84f585e1ca4fb2cdb15f4}\label{namespacempc_1_1utilities_a96edb2d899d84f585e1ca4fb2cdb15f4}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!Identity\+Tensor4\+\_\+d3@{Identity\+Tensor4\+\_\+d3}}
+\index{Identity\+Tensor4\+\_\+d3@{Identity\+Tensor4\+\_\+d3}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{Identity\+Tensor4\+\_\+d3()}{IdentityTensor4\_d3()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+blitz\+::\+Array$<$T,4$>$ mpc\+::utilities\+::\+Identity\+Tensor4\+\_\+d3 (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line 131 of file identitytensor.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_a210071ae7c4eeea2c7269246fe901ac8}\label{namespacempc_1_1utilities_a210071ae7c4eeea2c7269246fe901ac8}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!inches2centimeters@{inches2centimeters}}
+\index{inches2centimeters@{inches2centimeters}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{inches2centimeters()}{inches2centimeters()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::inches2centimeters (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 178 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_a267f12c10d16584dbf3cb0b0ddba8bc3}\label{namespacempc_1_1utilities_a267f12c10d16584dbf3cb0b0ddba8bc3}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!inches2meters@{inches2meters}}
+\index{inches2meters@{inches2meters}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{inches2meters()}{inches2meters()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::inches2meters (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 189 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_ae04157378455df2cf7b5c7e1df0f0b73}\label{namespacempc_1_1utilities_ae04157378455df2cf7b5c7e1df0f0b73}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!kilograms2grams@{kilograms2grams}}
+\index{kilograms2grams@{kilograms2grams}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{kilograms2grams()}{kilograms2grams()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T mpc\+::utilities\+::kilograms2grams (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+converts the input quantity kilograms to grams 
+
+
+\begin{DoxyParams}{Parameters}
+{\em val} & input quantity in kilograms\\
+\hline
+\end{DoxyParams}
+\begin{DoxyWarning}{Warning}
+not type safe! 
+\end{DoxyWarning}
+
+
+Definition at line 51 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_a2aba7ace8ddd90e43d4532cc3decc7d3}\label{namespacempc_1_1utilities_a2aba7ace8ddd90e43d4532cc3decc7d3}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!kilograms2pounds@{kilograms2pounds}}
+\index{kilograms2pounds@{kilograms2pounds}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{kilograms2pounds()}{kilograms2pounds()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::kilograms2pounds (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 63 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_a7fca77ca1465be0d44ed1a8e003a4b6e}\label{namespacempc_1_1utilities_a7fca77ca1465be0d44ed1a8e003a4b6e}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!kilometers2miles@{kilometers2miles}}
+\index{kilometers2miles@{kilometers2miles}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{kilometers2miles()}{kilometers2miles()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::kilometers2miles (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 222 of file unitconversion.\+hpp.
 
 \mbox{\Hypertarget{namespacempc_1_1utilities_aee39ac77e4aad3a854879829eed39b37}\label{namespacempc_1_1utilities_aee39ac77e4aad3a854879829eed39b37}} 
 \index{mpc\+::utilities@{mpc\+::utilities}!Kronecker\+Delta@{Kronecker\+Delta}}
@@ -539,6 +869,116 @@ static T mpc\+::utilities\+::\+Magnitude (\begin{DoxyParamCaption}\item[{blitz\+
 
 Definition at line 23 of file magnitude.\+hpp.
 
+\mbox{\Hypertarget{namespacempc_1_1utilities_a6779c38d6af8d9946e53f061feb8d774}\label{namespacempc_1_1utilities_a6779c38d6af8d9946e53f061feb8d774}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!meters2centimeters@{meters2centimeters}}
+\index{meters2centimeters@{meters2centimeters}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{meters2centimeters()}{meters2centimeters()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::meters2centimeters (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 167 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_a7976143deef719413c2ff1447d7fec42}\label{namespacempc_1_1utilities_a7976143deef719413c2ff1447d7fec42}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!meters2feet@{meters2feet}}
+\index{meters2feet@{meters2feet}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{meters2feet()}{meters2feet()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::meters2feet (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 123 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_aa0b241eebaf3058ec563fd6be9c00009}\label{namespacempc_1_1utilities_aa0b241eebaf3058ec563fd6be9c00009}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!meters2inches@{meters2inches}}
+\index{meters2inches@{meters2inches}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{meters2inches()}{meters2inches()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::meters2inches (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 112 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_a33bbcb9c7dbaf0c3a898ece6b9dc3c18}\label{namespacempc_1_1utilities_a33bbcb9c7dbaf0c3a898ece6b9dc3c18}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!meterspersecond2feetpersecond@{meterspersecond2feetpersecond}}
+\index{meterspersecond2feetpersecond@{meterspersecond2feetpersecond}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{meterspersecond2feetpersecond()}{meterspersecond2feetpersecond()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::meterspersecond2feetpersecond (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 246 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_af5e0b246cdb2b38936454bc4406777cc}\label{namespacempc_1_1utilities_af5e0b246cdb2b38936454bc4406777cc}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!meterssquared2centimeterssquared@{meterssquared2centimeterssquared}}
+\index{meterssquared2centimeterssquared@{meterssquared2centimeterssquared}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{meterssquared2centimeterssquared()}{meterssquared2centimeterssquared()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::meterssquared2centimeterssquared (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 304 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_a28fae5a86f93cbc52ae411d49842dd85}\label{namespacempc_1_1utilities_a28fae5a86f93cbc52ae411d49842dd85}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!meterssquared2feetsquared@{meterssquared2feetsquared}}
+\index{meterssquared2feetsquared@{meterssquared2feetsquared}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{meterssquared2feetsquared()}{meterssquared2feetsquared()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::meterssquared2feetsquared (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 315 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_a458eadeb7c7c3bb539d2d1740789b4d3}\label{namespacempc_1_1utilities_a458eadeb7c7c3bb539d2d1740789b4d3}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!miles2kilometers@{miles2kilometers}}
+\index{miles2kilometers@{miles2kilometers}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{miles2kilometers()}{miles2kilometers()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::miles2kilometers (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 233 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_af01ea239316f5eb90284cd5cf1f01919}\label{namespacempc_1_1utilities_af01ea239316f5eb90284cd5cf1f01919}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!milesperfhour2kilometersperhour@{milesperfhour2kilometersperhour}}
+\index{milesperfhour2kilometersperhour@{milesperfhour2kilometersperhour}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{milesperfhour2kilometersperhour()}{milesperfhour2kilometersperhour()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::milesperfhour2kilometersperhour (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 268 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_aeca95aa677140f98a53ae3b5033ea892}\label{namespacempc_1_1utilities_aeca95aa677140f98a53ae3b5033ea892}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!milesperhour2feetpersecond@{milesperhour2feetpersecond}}
+\index{milesperhour2feetpersecond@{milesperhour2feetpersecond}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{milesperhour2feetpersecond()}{milesperhour2feetpersecond()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::milesperhour2feetpersecond (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 290 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_ab14e5cdfd57941629a121328c7971cc3}\label{namespacempc_1_1utilities_ab14e5cdfd57941629a121328c7971cc3}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!milesperhour2meterspersecond@{milesperhour2meterspersecond}}
+\index{milesperhour2meterspersecond@{milesperhour2meterspersecond}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{milesperhour2meterspersecond()}{milesperhour2meterspersecond()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::milesperhour2meterspersecond (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 279 of file unitconversion.\+hpp.
+
 \mbox{\Hypertarget{namespacempc_1_1utilities_acc0a66ea58c515cc13d5a0a79439c639}\label{namespacempc_1_1utilities_acc0a66ea58c515cc13d5a0a79439c639}} 
 \index{mpc\+::utilities@{mpc\+::utilities}!Normal@{Normal}}
 \index{Normal@{Normal}!mpc\+::utilities@{mpc\+::utilities}}
@@ -559,7 +999,29 @@ static void mpc\+::utilities\+::\+Normalize (\begin{DoxyParamCaption}\item[{blit
 
 
 
-Definition at line 40 of file norm.\+hpp.
+Definition at line 41 of file norm.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_acf64151746ffeb74a8a8889d9c4dfd1e}\label{namespacempc_1_1utilities_acf64151746ffeb74a8a8889d9c4dfd1e}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!pounds2grams@{pounds2grams}}
+\index{pounds2grams@{pounds2grams}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{pounds2grams()}{pounds2grams()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::pounds2grams (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 98 of file unitconversion.\+hpp.
+
+\mbox{\Hypertarget{namespacempc_1_1utilities_a2c2a93627483d29fb5ecaa11be521680}\label{namespacempc_1_1utilities_a2c2a93627483d29fb5ecaa11be521680}} 
+\index{mpc\+::utilities@{mpc\+::utilities}!pounds2kilograms@{pounds2kilograms}}
+\index{pounds2kilograms@{pounds2kilograms}!mpc\+::utilities@{mpc\+::utilities}}
+\subsubsection{\texorpdfstring{pounds2kilograms()}{pounds2kilograms()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr T mpc\+::utilities\+::pounds2kilograms (\begin{DoxyParamCaption}\item[{T}]{val }\end{DoxyParamCaption})}
+
+
+
+Definition at line 76 of file unitconversion.\+hpp.
 
 \mbox{\Hypertarget{namespacempc_1_1utilities_ad175f8823052a6c863ffb2e90e2b08ca}\label{namespacempc_1_1utilities_ad175f8823052a6c863ffb2e90e2b08ca}} 
 \index{mpc\+::utilities@{mpc\+::utilities}!Quadratic\+Solver@{Quadratic\+Solver}}

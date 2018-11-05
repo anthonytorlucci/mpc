@@ -31,6 +31,8 @@ var searchData=
   ['phasevelocities',['PhaseVelocities',['../structmpc_1_1mechanics_1_1_green_christoffel.html#a84df39c5961390293bf77ba4dfadac13',1,'mpc::mechanics::GreenChristoffel']]],
   ['pi',['PI',['../namespacempc_1_1utilities.html#a9ebe3319659192350da76891a61820d0',1,'mpc::utilities']]],
   ['poissonsratiotype',['PoissonsRatioType',['../structmpc_1_1rockphysics_1_1_poissons_ratio_type.html',1,'mpc::rockphysics::PoissonsRatioType&lt; T &gt;'],['../structmpc_1_1rockphysics_1_1_poissons_ratio_type.html#adfd93825fc8410288ea9078dfce8bb47',1,'mpc::rockphysics::PoissonsRatioType::PoissonsRatioType()']]],
+  ['pounds2grams',['pounds2grams',['../namespacempc_1_1utilities.html#acf64151746ffeb74a8a8889d9c4dfd1e',1,'mpc::utilities']]],
+  ['pounds2kilograms',['pounds2kilograms',['../namespacempc_1_1utilities.html#a2c2a93627483d29fb5ecaa11be521680',1,'mpc::utilities']]],
   ['printtensorcomponents',['PrintTensorComponents',['../structmpc_1_1utilities_1_1_print_tensor_components.html',1,'mpc::utilities']]],
   ['printtensorcomponents_2ehpp',['printtensorcomponents.hpp',['../printtensorcomponents_8hpp.html',1,'']]],
   ['printtensorcomponents_3c_20t_2c_201_20_3e',['PrintTensorComponents&lt; T, 1 &gt;',['../structmpc_1_1utilities_1_1_print_tensor_components_3_01_t_00_011_01_4.html',1,'mpc::utilities']]],
