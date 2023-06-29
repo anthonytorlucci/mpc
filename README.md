@@ -1,3 +1,5 @@
+# THIS PROJECT HAS BEEN ARCHIVED AND IS NO LONGER ACTIVELY MAINTAINED
+
 # mpc
 mechanical properties of crystals and polycrystalline aggregates
 
